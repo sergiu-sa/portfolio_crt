@@ -1,5 +1,3 @@
-/* /src/style/main.css */
-
 @import url("https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap");
 
 body {
@@ -20,72 +18,71 @@ body {
   background: black;
   z-index: 0;
   overflow: hidden;
+  border-radius: 2rem;
+  box-shadow: 0 0 60px rgba(0, 255, 255, 0.1) inset,
+              0 0 120px rgba(255, 0, 255, 0.1) inset;
+  transform: perspective(800px) rotateX(1deg);
+  animation: flicker 0.12s infinite;
 }
 
-#tv-video {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  object-fit: cover;
-  z-index: 0;
-  opacity: 0;
-  display: none;
-  transition: opacity 1s ease-in-out;
-  filter: grayscale(1) blur(1.5px) contrast(1.4);
-}
-
+#tv-video,
 #tv-image {
-  width: 100vw;
-  height: 100vh;
-  object-fit: cover;
-  filter: grayscale(1) blur(1.5px) contrast(1.4);
   position: absolute;
   top: 0;
   left: 0;
+  width: 100vw;
+  height: 100vh;
+  object-fit: cover;
   z-index: 0;
-  display: none;
   opacity: 0;
+  display: none;
   transition: opacity 1s ease-in-out;
+  filter: grayscale(1) blur(1.5px) contrast(1.4);
 }
 
-#tv-video.visible {
+#tv-video.visible,
+#tv-image.visible {
   display: block;
   opacity: 0.6;
 }
 
-#tv-image.visible {
-  display: block;
-  opacity: 1;
-}
-
-#tv-overlay::before {
-  content: "";
-  position: absolute;
+/* CRT Effects */
+#crt-flicker {
+  position: fixed;
   inset: 0;
+  z-index: 5;
   background: repeating-linear-gradient(
     0deg,
     transparent,
     transparent 1px,
-    rgba(255, 255, 255, 0.03) 2px,
+    rgba(255, 255, 255, 0.015) 2px,
     transparent 3px
   );
-  z-index: 1;
   pointer-events: none;
+  mix-blend-mode: lighten;
+  opacity: 0.3;
+  animation: flickerOverlay 0.1s infinite;
 }
 
-#tv-overlay::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: radial-gradient(circle, transparent, black 90%);
-  mix-blend-mode: overlay;
-  opacity: 0.4;
-  pointer-events: none;
-  z-index: 2;
+@keyframes flicker {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.98;
+  }
 }
 
+@keyframes flickerOverlay {
+  0%, 100% {
+    opacity: 0.25;
+  }
+  50% {
+    opacity: 0.35;
+  }
+}
+
+/* UI Layer */
 #ui-layer {
   position: relative;
   z-index: 10;
@@ -108,23 +105,37 @@ nav {
   gap: 2rem;
 }
 
-nav button {
+nav button,
+.channel-nav button {
   background: none;
   border: none;
-  color: #ccc;
+  color: #b0f0f0;
   font-size: 0.95rem;
   cursor: pointer;
   transition: color 0.2s;
   font-family: inherit;
+  text-shadow:
+  0 0 1px #66ccff,
+  0 0 2px #3399ff,
+  0 0 3px #0066cc;
+
+
+
 }
 
-nav button:hover {
+nav button:hover,
+.channel-nav button:hover {
   color: #fff;
 }
 
 #date-display {
   font-size: 0.85rem;
   color: #aaa;
+  text-shadow:
+  0 0 1px #66ccff,
+  0 0 2px #3399ff,
+  0 0 3px #0066cc;
+
 }
 
 main {
@@ -158,9 +169,13 @@ h1 {
   letter-spacing: 1px;
   margin: 0;
   color: #eeeeee;
-  text-shadow: 0 0 1px #fff, 0 0 2px #0ff, 0 0 2px #f0f, 0 0 2px #0ff;
   text-align: left;
   line-height: 1.1;
+  text-shadow:
+  0 0 1px #66ccff,
+  0 0 2px #3399ff,
+  0 0 3px #0066cc;
+
 }
 
 h2 {
@@ -168,8 +183,12 @@ h2 {
   color: #cccccc;
   letter-spacing: 2px;
   margin: 0;
-  text-shadow: 0 0 1px #fff, 0 0 2px #0ff, 0 0 2px #f0f, 0 0 2px #0ff;
   text-align: left;
+  text-shadow:
+  0 0 1px #66ccff,
+  0 0 2px #3399ff,
+  0 0 3px #0066cc;
+
 }
 
 footer {
@@ -188,22 +207,93 @@ footer {
 .channel-nav button {
   background: #111;
   border: 2px solid #666;
-  color: #ccc;
   padding: 0.5rem 1.25rem;
   font-size: 0.75rem;
-  cursor: pointer;
-  font-family: inherit;
   transition: all 0.2s ease-in-out;
-}
-
-.channel-nav button:hover {
-  color: #eee;
-  border-color: #ccc;
 }
 
 #channel-label {
   font-size: 0.75rem;
-  color: #aaa;
+  color: #fff;
+}
+
+/* Project cards */
+.project-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 2rem;
+  margin-top: 2rem;
+}
+
+.project-card {
+  background: rgba(0, 0, 0, 0.5);
+  border: 2px solid #444;
+  padding: 1rem;
+  text-align: center;
+  color: #eee;
+  text-shadow: 0 0 1px #000;
+  box-shadow: 0 0 6px rgba(255, 255, 255, 0.1);
+}
+
+.project-card img {
+  width: 100%;
+  border: 1px solid #666;
+  margin-bottom: 1rem;
+}
+
+.project-card h3 {
+  font-size: 0.9rem;
+  color: #fff;
+  margin-bottom: 0.5rem;
+  text-shadow:
+  0 0 1px #66ccff,
+  0 0 2px #3399ff,
+  0 0 3px #0066cc;
+
+}
+
+.project-card p {
+  font-size: 0.7rem;
+  color: #ccc;
+  margin-bottom: 1rem;
+  text-shadow:
+  0 0 1px #66ccff,
+  0 0 2px #3399ff,
+  0 0 3px #0066cc;
+
+
+}
+
+.links a {
+  display: inline-block;
+  margin: 0 0.5rem;
+  font-size: 0.7rem;
+  color: #0ff;
+  text-decoration: none;
+  border-bottom: 1px dashed #0ff;
+}
+
+.links a:hover {
+  color: #fff;
+  border-color: #fff;
+}
+
+.back-button {
+  margin-top: 2rem;
+}
+
+.back-button button {
+  font-size: 0.75rem;
+  padding: 0.5rem 1rem;
+  border: 1px solid #666;
+  background: #000;
+  color: #ccc;
+  cursor: pointer;
+}
+
+.back-button button:hover {
+  color: #fff;
+  border-color: #fff;
 }
 
 .hidden {
@@ -212,4 +302,26 @@ footer {
 
 .active {
   display: block;
+}
+
+/* Mobile tweaks */
+@media (max-width: 768px) {
+  main {
+    padding-left: 2rem;
+    padding-top: 25vh;
+  }
+
+  h1 {
+    font-size: 2rem;
+  }
+
+  h2 {
+    font-size: 1.25rem;
+  }
+
+  nav button,
+  .channel-nav button {
+    font-size: 0.75rem;
+    padding: 0.4rem 0.8rem;
+  }
 }

@@ -135,6 +135,10 @@ document.getElementById("next-channel").addEventListener("click", () => {
   setChannel(currentChannel === maxChannels ? 1 : currentChannel + 1);
 });
 
+document.getElementById("back-to-home").addEventListener("click", () => {
+  showSection("intro");
+});
+
 // Init
 updateDate();
 setInterval(updateDate, 60000);

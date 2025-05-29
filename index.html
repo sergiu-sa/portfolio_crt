@@ -10,14 +10,16 @@
     <div id="tv-screen">
       <video id="tv-video" autoplay muted playsinline></video>
       <img id="tv-image" />
+      <div id="tv-overlay"></div>
     </div>
+    
 
     <div id="ui-layer">
       <header>
         <nav>
-          <button data-section="projects">Projects</button>
-          <button data-section="about">About</button>
-          <button data-section="contact">Contact</button>
+          <button data-section="projects">PROJECTS</button>
+          <button data-section="about">ABOUT</button>
+          <button data-section="contact">CONTACT</button>
         </nav>
         <div id="date-display"></div>
       </header>
@@ -29,8 +31,43 @@
         </section>
 
         <section id="projects" class="channel-screen hidden">
-          <!-- Project cards will go here -->
+          <div class="project-grid">
+            <div class="project-card">
+              <img src="/src/assets/projects/square-eyes.png" alt="Square Eyes Screenshot" />
+              <h3>Square Eyes</h3>
+              <p>Accessible film streaming site built with clean HTML and CSS.</p>
+              <div class="links">
+                <a href="https://github.com/..." target="_blank">GitHub</a>
+                <a href="https://yoursite.com/..." target="_blank">Live Site</a>
+              </div>
+            </div>
+        
+            <div class="project-card">
+              <img src="/src/assets/projects/kid-bank.png" alt="Kid Bank Screenshot" />
+              <h3>Kid Bank</h3>
+              <p>Banking app for teens with restricted purchases and barcode scanning.</p>
+              <div class="links">
+                <a href="https://github.com/..." target="_blank">GitHub</a>
+                <a href="https://yoursite.com/..." target="_blank">Live Site</a>
+              </div>
+            </div>
+        
+            <div class="project-card">
+              <img src="/src/assets/projects/ask-better.png" alt="Ask Better Screenshot" />
+              <h3>Ask Better</h3>
+              <p>Prompt-engineering app with mood, complexity, and intent refinements.</p>
+              <div class="links">
+                <a href="https://github.com/..." target="_blank">GitHub</a>
+                <a href="https://yoursite.com/..." target="_blank">Live Site</a>
+              </div>
+            </div>
+          </div>
+        
+          <div class="back-button">
+            <button id="back-to-home">← Back to Home</button>
+          </div>
         </section>
+        
 
         <section id="about" class="channel-screen hidden">
           <!-- About content -->
@@ -49,6 +86,8 @@
         </div>
       </footer>
     </div>
+    <div id="crt-flicker"></div>
+
 
     <script type="module" src="/src/main.js"></script>
   </body>
