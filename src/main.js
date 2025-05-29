@@ -42,28 +42,26 @@ function updateDate() {
 function setChannel(channel) {
   currentChannel = channel;
   channelLabel.textContent = `CH ${String(channel).padStart(2, "0")}`;
+
   stopSlideshow();
   stopWebcam();
+
+  // Reset video element
+  tvVideo.pause();
+  tvVideo.classList.remove("visible");
+  tvVideo.removeAttribute("src");
+  tvVideo.srcObject = null;
 
   if (channel === 1) {
     startSlideshow();
   } else if (channel === 2) {
     startWebcam();
   } else if (channel === 3 || channel === 4) {
-    tvImage.classList.remove("visible");
-    tvVideo.srcObject = null;
-    tvVideo.src = `/src/assets/retro/retro${channel - 2}.mp4`;
-    tvVideo.load();
-    tvVideo.style.display = "block";
-    tvVideo.play();
+    playRetroVideo(channel - 2);
   }
 }
 
 function startSlideshow() {
-  if (!collageImages.length) return;
-
-  tvVideo.style.display = "none";
-  tvVideo.srcObject = null;
   tvImage.classList.add("visible");
   tvImage.src = collageImages[currentImageIndex];
 
@@ -73,7 +71,7 @@ function startSlideshow() {
     setTimeout(() => {
       tvImage.src = collageImages[currentImageIndex];
       tvImage.classList.add("visible");
-    }, 200);
+    }, 150);
   }, 4000);
 }
 
@@ -85,12 +83,11 @@ function stopSlideshow() {
 
 async function startWebcam() {
   try {
-    currentStream = await navigator.mediaDevices.getUserMedia({ video: true });
-    tvVideo.srcObject = currentStream;
-    tvImage.classList.remove("visible");
-    tvVideo.src = "";
-    tvVideo.style.display = "block";
+    const stream = await navigator.mediaDevices.getUserMedia({ video: true });
+    tvVideo.srcObject = stream;
+    tvVideo.classList.add("visible");
     tvVideo.play();
+    currentStream = stream;
   } catch (err) {
     console.error("Webcam error:", err);
   }
@@ -102,7 +99,7 @@ function stopWebcam() {
     currentStream = null;
   }
   tvVideo.srcObject = null;
-  tvVideo.style.display = "none";
+  tvVideo.classList.remove("visible");
 }
 
 function showSection(sectionId) {
@@ -110,6 +107,15 @@ function showSection(sectionId) {
     section.classList.toggle("hidden", section.id !== sectionId);
     section.classList.toggle("active", section.id === sectionId);
   });
+}
+
+function playRetroVideo(videoNumber) {
+  tvImage.classList.remove("visible");
+  tvVideo.srcObject = null;
+
+  tvVideo.src = `/src/assets/retro/retro${videoNumber}.mp4`;
+  tvVideo.classList.add("visible");
+  tvVideo.play().catch((err) => console.error("Video play error:", err));
 }
 
 // Event Listeners

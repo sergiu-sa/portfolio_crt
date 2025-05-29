@@ -22,7 +22,20 @@ body {
   overflow: hidden;
 }
 
-#tv-video,
+#tv-video {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  object-fit: cover;
+  z-index: 0;
+  opacity: 0;
+  display: none;
+  transition: opacity 1s ease-in-out;
+  filter: grayscale(1) blur(1.5px) contrast(1.4);
+}
+
 #tv-image {
   width: 100vw;
   height: 100vh;
@@ -35,6 +48,11 @@ body {
   display: none;
   opacity: 0;
   transition: opacity 1s ease-in-out;
+}
+
+#tv-video.visible {
+  display: block;
+  opacity: 0.6;
 }
 
 #tv-image.visible {
