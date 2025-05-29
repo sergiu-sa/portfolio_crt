@@ -1,13 +1,57 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Vite Appppp</title>
+    <title>Sergiu Sarbu | CRT Portfolio</title>
+    <link rel="stylesheet" href="/src/style/main.css" />
   </head>
   <body>
-    <div id="app"></div>
+    <!-- CRT Screen Background -->
+    <div id="tv-screen">
+      <video id="tv-video" autoplay muted loop playsinline></video>
+      <div id="tv-overlay"></div>
+    </div>
+
+    <!-- Interactive Foreground -->
+    <div id="ui-layer">
+      <header>
+        <nav>
+          <button data-section="projects">PROJECTS</button>
+          <button data-section="about">ABOUT</button>
+          <button data-section="contact">CONTACT</button>
+        </nav>
+        <div id="date-display"></div>
+      </header>
+
+      <main>
+        <section id="intro" class="channel-screen active">
+          <h1>Sergiu Sarbu</h1>
+          <h2>Front-End Developer</h2>
+        </section>
+
+        <section id="projects" class="channel-screen hidden">
+          <!-- Project cards go here -->
+        </section>
+
+        <section id="about" class="channel-screen hidden">
+          <!-- About text goes here -->
+        </section>
+
+        <section id="contact" class="channel-screen hidden">
+          <!-- Contact info goes here -->
+        </section>
+      </main>
+
+      <footer>
+        <div class="channel-nav">
+          <button id="prev-channel">CHANNEL ◀</button>
+          <span id="channel-label">CH 01</span>
+          <button id="next-channel">▶ CHANNEL</button>
+        </div>
+      </footer>
+    </div>
+
     <script type="module" src="/src/main.js"></script>
   </body>
 </html>
