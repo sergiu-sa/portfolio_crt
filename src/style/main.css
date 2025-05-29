@@ -1,13 +1,17 @@
 /* /src/style/main.css */
 
-@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap");
 
 body {
   margin: 0;
-  font-family: 'JetBrains Mono', monospace;
+  font-family: "Press Start 2P", monospace;
   background: black;
-  color: #fff;
+  color: #eee;
   overflow: hidden;
+  text-transform: uppercase;
+  -webkit-font-smoothing: none;
+  font-smooth: never;
+  text-rendering: geometricPrecision;
 }
 
 #tv-screen {
@@ -18,12 +22,24 @@ body {
   overflow: hidden;
 }
 
-#tv-video {
+#tv-video,
+#tv-image {
   width: 100vw;
   height: 100vh;
   object-fit: cover;
-  filter: grayscale(1) blur(2px) contrast(1.2);
-  opacity: 0.7;
+  filter: grayscale(1) blur(1.5px) contrast(1.4);
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 0;
+  display: none;
+  opacity: 0;
+  transition: opacity 1s ease-in-out;
+}
+
+#tv-image.visible {
+  display: block;
+  opacity: 1;
 }
 
 #tv-overlay::before {
@@ -33,49 +49,63 @@ body {
   background: repeating-linear-gradient(
     0deg,
     transparent,
-    transparent 1.5px,
-    rgba(0, 0, 0, 0.4) 1.5px,
-    rgba(0, 0, 0, 0.4) 3px
+    transparent 1px,
+    rgba(255, 255, 255, 0.03) 2px,
+    transparent 3px
   );
-  pointer-events: none;
   z-index: 1;
+  pointer-events: none;
+}
+
+#tv-overlay::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle, transparent, black 90%);
+  mix-blend-mode: overlay;
+  opacity: 0.4;
+  pointer-events: none;
+  z-index: 2;
 }
 
 #ui-layer {
   position: relative;
-  z-index: 2;
-  padding: 2rem;
-  height: 100vh;
+  z-index: 10;
   display: flex;
   flex-direction: column;
+  height: 100vh;
   justify-content: space-between;
+  padding: 2rem;
 }
 
 header {
   display: flex;
   justify-content: space-between;
-  align-items: start;
+  align-items: center;
+  font-size: 0.95rem;
+}
+
+nav {
+  display: flex;
+  gap: 2rem;
 }
 
 nav button {
   background: none;
   border: none;
-  color: #bbb;
-  font-size: 1.25rem;
-  letter-spacing: 2px;
+  color: #ccc;
+  font-size: 0.95rem;
   cursor: pointer;
-  margin-right: 1rem;
-  transition: color 0.2s ease-in-out;
+  transition: color 0.2s;
+  font-family: inherit;
 }
 
-nav button:hover,
-nav button.active {
-  color: white;
+nav button:hover {
+  color: #fff;
 }
 
 #date-display {
-  font-size: 1rem;
-  letter-spacing: 1px;
+  font-size: 0.85rem;
   color: #aaa;
 }
 
@@ -83,26 +113,52 @@ main {
   flex-grow: 1;
   display: flex;
   justify-content: center;
-  align-items: center;
-  text-align: center;
+  align-items: flex-start;
+  text-align: left;
+  flex-direction: column;
+  padding-left: 6rem;
+  padding-top: 35vh;
+  gap: 1rem;
+  width: 100%;
 }
 
 .channel-screen {
   display: none;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: 1.5rem;
+  width: 100%;
 }
 
 .channel-screen.active {
   display: flex;
 }
 
+h1 {
+  font-size: 3rem;
+  letter-spacing: 1px;
+  margin: 0;
+  color: #eeeeee;
+  text-shadow: 0 0 1px #fff, 0 0 2px #0ff, 0 0 2px #f0f, 0 0 2px #0ff;
+  text-align: left;
+  line-height: 1.1;
+}
+
+h2 {
+  font-size: 1.75rem;
+  color: #cccccc;
+  letter-spacing: 2px;
+  margin: 0;
+  text-shadow: 0 0 1px #fff, 0 0 2px #0ff, 0 0 2px #f0f, 0 0 2px #0ff;
+  text-align: left;
+}
+
 footer {
   display: flex;
-  justify-content: center;
+  justify-content: flex-start;
   align-items: center;
-  padding-bottom: 1rem;
+  padding-bottom: 2rem;
 }
 
 .channel-nav {
@@ -112,43 +168,30 @@ footer {
 }
 
 .channel-nav button {
-  background: transparent;
+  background: #111;
   border: 2px solid #666;
   color: #ccc;
   padding: 0.5rem 1.25rem;
-  font-size: 1rem;
-  letter-spacing: 2px;
-  transition: all 0.3s;
+  font-size: 0.75rem;
   cursor: pointer;
+  font-family: inherit;
+  transition: all 0.2s ease-in-out;
 }
 
 .channel-nav button:hover {
-  border-color: #fff;
-  color: #fff;
+  color: #eee;
+  border-color: #ccc;
 }
 
 #channel-label {
-  font-size: 1.2rem;
+  font-size: 0.75rem;
   color: #aaa;
-  letter-spacing: 3px;
 }
 
-h1 {
-  font-size: 3rem;
-  letter-spacing: 6px;
-  margin: 0;
-  color: #fff;
-  text-shadow: 0 0 4px #0f0, 0 0 2px #0f0;
+.hidden {
+  display: none;
 }
 
-h2 {
-  font-size: 1.5rem;
-  color: #ccc;
-  letter-spacing: 4px;
-  margin-top: 1rem;
-  text-shadow: 0 0 2px #0ff;
+.active {
+  display: block;
 }
-
-/* Utility */
-.hidden { display: none; }
-.active { display: block; }

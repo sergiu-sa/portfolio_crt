@@ -3,23 +3,23 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Sergiu Sarbu | CRT Portfolio</title>
+    <title>Sergiu Sarbu | Portfolio</title>
     <link rel="stylesheet" href="/src/style/main.css" />
   </head>
   <body>
-    <!-- CRT Screen Background -->
     <div id="tv-screen">
+      <img id="tv-image" />
       <video id="tv-video" autoplay muted loop playsinline></video>
+
       <div id="tv-overlay"></div>
     </div>
 
-    <!-- Interactive Foreground -->
     <div id="ui-layer">
       <header>
         <nav>
-          <button data-section="projects">PROJECTS</button>
-          <button data-section="about">ABOUT</button>
-          <button data-section="contact">CONTACT</button>
+          <button data-section="projects">Projects</button>
+          <button data-section="about">About</button>
+          <button data-section="contact">Contact</button>
         </nav>
         <div id="date-display"></div>
       </header>
@@ -31,23 +31,23 @@
         </section>
 
         <section id="projects" class="channel-screen hidden">
-          <!-- Project cards go here -->
+          <!-- Project cards will go here -->
         </section>
 
         <section id="about" class="channel-screen hidden">
-          <!-- About text goes here -->
+          <!-- About content -->
         </section>
 
         <section id="contact" class="channel-screen hidden">
-          <!-- Contact info goes here -->
+          <!-- Contact links -->
         </section>
       </main>
 
       <footer>
         <div class="channel-nav">
-          <button id="prev-channel">CHANNEL ◀</button>
+          <button id="prev-channel">Channel ◀</button>
           <span id="channel-label">CH 01</span>
-          <button id="next-channel">▶ CHANNEL</button>
+          <button id="next-channel">▶ Channel</button>
         </div>
       </footer>
     </div>
