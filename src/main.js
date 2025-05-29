@@ -9,7 +9,7 @@ let currentChannel = 1;
 let currentImageIndex = 0;
 let slideshowInterval = null;
 let currentStream = null;
-const maxChannels = 4;
+const maxChannels = 7;
 
 const tvImage = document.getElementById("tv-image");
 const tvVideo = document.getElementById("tv-video");
@@ -56,8 +56,8 @@ function setChannel(channel) {
     startSlideshow();
   } else if (channel === 2) {
     startWebcam();
-  } else if (channel === 3 || channel === 4) {
-    playRetroVideo(channel - 2);
+  } else if (channel >= 3 && channel <= 7) {
+    playRetroVideo(channel - 2); // retro1 to retro6
   }
 }
 
