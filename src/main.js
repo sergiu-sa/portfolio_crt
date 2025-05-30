@@ -9,8 +9,11 @@ let currentChannel = 1;
 let currentImageIndex = 0;
 let slideshowInterval = null;
 let currentStream = null;
-const maxChannels = 7;
+let contactIntroPlayed = false;
 
+
+
+const maxChannels = 7;
 const tvImage = document.getElementById("tv-image");
 const tvVideo = document.getElementById("tv-video");
 const channelLabel = document.getElementById("channel-label");
@@ -144,6 +147,12 @@ function showSection(sectionId) {
   if (sectionId === "contact") {
     triggerTerminalSequence();
   }
+
+  if (sectionId === "contact") {
+    triggerTerminalSequence();
+    startConsoleIntro();
+  }
+  
 }
 
 // Scroll-fade animation for .fade-in elements (About section etc.)
@@ -164,10 +173,12 @@ document.querySelectorAll(".fade-in").forEach((el) => observer.observe(el));
 function triggerTerminalSequence() {
   const lines = document.querySelectorAll("#contact .terminal-line");
   lines.forEach((line, index) => {
-    line.style.transitionDelay = `${index * 150}ms`;
-    line.classList.add("visible");
+    setTimeout(() => {
+      line.classList.add("visible");
+    }, index * 200);
   });
 }
+
 
 // Event Listeners
 navButtons.forEach((btn) => {
@@ -199,6 +210,14 @@ document
     showSection("intro");
   });
 
+  document.getElementById("ping-all").addEventListener("click", () => {
+    alert("🔊 All contact protocols pinged. Awaiting response...");
+  });
+
+  document.getElementById("power-off").addEventListener("click", () => {
+    document.body.classList.toggle("power-off");
+  });
+  
 // About page internal jump buttons
 document.querySelectorAll(".about-nav button").forEach((btn) => {
   btn.addEventListener("click", () => {
@@ -220,6 +239,37 @@ function triggerChannelFlicker() {
     flicker.style.opacity = "0";
   }, 400);
 }
+
+function startConsoleIntro() {
+  if (contactIntroPlayed) return; // prevent repeat
+  contactIntroPlayed = true;
+
+  const text = "Establishing connection with Sergiu...";
+  const intro = document.createElement("div");
+  intro.classList.add("terminal-line", "fade-in");
+  intro.style.opacity = 0;
+  intro.textContent = "";
+
+  const container = document.querySelector("#contact .contact-grid");
+  if (!container) return;
+
+  container.prepend(intro);
+
+  let i = 0;
+  function typeChar() {
+    if (i < text.length) {
+      intro.textContent += text.charAt(i);
+      i++;
+      setTimeout(typeChar, 40);
+    } else {
+      intro.style.opacity = 1;
+      intro.classList.add("visible");
+    }
+  }
+  typeChar();
+}
+
+
 
 // Init
 updateDate();

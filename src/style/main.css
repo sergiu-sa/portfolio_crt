@@ -212,7 +212,11 @@ main {
 #channel-flicker {
   position: fixed;
   inset: 0;
-  background: radial-gradient(circle, rgba(255, 255, 255, 0.04) 0%, transparent 80%);
+  background: radial-gradient(
+    circle,
+    rgba(255, 255, 255, 0.04) 0%,
+    transparent 80%
+  );
   mix-blend-mode: lighten;
   pointer-events: none;
   z-index: 999;
@@ -220,11 +224,19 @@ main {
 }
 
 @keyframes channelGlitch {
-  0% { opacity: 0.2; transform: scale(1.02); }
-  50% { opacity: 0.4; transform: scale(1); }
-  100% { opacity: 0; transform: scale(1.01); }
+  0% {
+    opacity: 0.2;
+    transform: scale(1.02);
+  }
+  50% {
+    opacity: 0.4;
+    transform: scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(1.01);
+  }
 }
-
 
 #intro {
   margin-top: 15vh;
@@ -466,6 +478,56 @@ footer {
   border-color: #fff;
 }
 
+#contact .contact-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 2rem;
+  justify-content: center;
+  margin: 3rem 0;
+}
+
+.contact-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 1.5rem;
+  border: 1px dashed #0ff;
+  border-radius: 10px;
+  background: rgba(0, 0, 0, 0.3);
+  text-align: center;
+  box-shadow: 0 0 12px rgba(0, 255, 255, 0.1);
+  transition: transform 0.2s ease, box-shadow 0.3s ease;
+}
+
+.contact-card:hover {
+  transform: scale(1.03);
+  box-shadow: 0 0 20px #0ff;
+}
+
+.contact-card svg.icon {
+  width: 32px;
+  height: 32px;
+  margin-bottom: 1rem;
+  stroke-width: 2;
+  stroke: #0ff;
+  fill: none;
+}
+
+.contact-card a {
+  font-size: 0.9rem;
+  color: #0ff;
+  text-decoration: none;
+  text-shadow: 0 0 1px #0ff;
+}
+
+.contact-card a:hover {
+  color: #fff;
+  text-shadow: 0 0 5px #0ff;
+}
+
+
+
+
 /* Utility */
 .hidden {
   display: none;
@@ -505,39 +567,6 @@ footer {
   transform: translateY(0) scale(1);
 }
 
-
-
-/* CRT Terminal Contact Section */
-.terminal {
-  font-family: 'JetBrains Mono', monospace;
-  color: #0ff;
-  font-size: 0.95rem;
-  background: rgba(0, 0, 0, 0.3);
-  border: 1px solid #0ff;
-  padding: 2rem;
-  border-radius: 10px;
-  width: 100%;
-  max-width: 700px;
-  margin-top: 2rem;
-  box-shadow: 0 0 6px #0ff44a99;
-  text-shadow: 0 0 2px #0ff;
-}
-
-.terminal-line {
-  margin-bottom: 1.2rem;
-  white-space: pre-wrap;
-  opacity: 0;
-  transform: translateY(20px);
-  transition: opacity 0.5s ease-out, transform 0.5s ease-out;
-}
-
-
-.terminal-line.visible {
-  opacity: 1;
-  transform: translateY(0);
-}
-
-
 .glitch-link {
   color: #0ff;
   text-decoration: none;
@@ -550,6 +579,125 @@ footer {
   color: #fff;
   border-color: #fff;
   text-shadow: 0 0 4px #0ff, 0 0 8px #0ff;
+}
+
+.contact-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 2rem;
+  margin-top: 4rem;
+  width: 100%;
+  max-width: 1000px;
+}
+
+.contact-block {
+  background: rgba(0, 0, 0, 0.5);
+  border: 1px dashed #0ff;
+  padding: 2rem;
+  border-radius: 10px;
+  text-align: center;
+  box-shadow: 0 0 6px rgba(0, 255, 255, 0.2);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.contact-block:hover {
+  transform: scale(1.03);
+  box-shadow: 0 0 12px #0ff;
+}
+
+.contact-block svg {
+  width: 32px;
+  height: 32px;
+  margin-bottom: 1rem;
+  stroke-width: 2;
+}
+
+.contact-block a {
+  color: #0ff;
+  text-decoration: none;
+  font-size: 0.9rem;
+  display: block;
+  text-shadow: 0 0 1px #0ff;
+  transition: color 0.2s ease;
+}
+
+.contact-block a:hover {
+  color: #fff;
+  text-shadow: 0 0 6px #0ff;
+}
+
+.contact-status {
+  font-family: "IBM Plex Mono", monospace;
+  color: #0ff;
+  font-size: 0.9rem;
+  background: rgba(0, 0, 0, 0.3);
+  padding: 1.5rem;
+  margin-top: 3rem;
+  border: 1px dashed #0ff;
+  width: 100%;
+  max-width: 900px;
+  text-shadow: 0 0 3px #0ff;
+  line-height: 1.6;
+  box-shadow: 0 0 10px rgba(0, 255, 255, 0.15);
+}
+
+.icon {
+  width: 1rem;
+  height: 1rem;
+  fill: #0ff;
+  margin-right: 0.75rem;
+  vertical-align: middle;
+  transform: translateY(-1px);
+  opacity: 0.85;
+  transition: opacity 0.2s;
+}
+.terminal-line:hover .icon {
+  opacity: 1;
+}
+
+.easter-egg-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  margin-top: 2rem;
+}
+
+.easter-egg-buttons button {
+  background: black;
+  color: #0ff;
+  border: 1px solid #0ff;
+  padding: 0.5rem 1rem;
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 0.75rem;
+  cursor: pointer;
+  text-shadow: 0 0 2px #0ff;
+  transition: all 0.3s;
+}
+
+.easter-egg-buttons button:hover {
+  background: #0ff;
+  color: black;
+  text-shadow: none;
+}
+
+body.power-off {
+  filter: grayscale(1) brightness(0.1) blur(3px);
+  transition: all 0.5s ease-in-out;
+}
+
+/* Flicker Effect */
+.flicker {
+  animation: glowPulse 3s ease-in-out infinite;
+}
+
+@keyframes glowPulse {
+  0%,
+  100% {
+    filter: drop-shadow(0 0 2px #0ff);
+  }
+  50% {
+    filter: drop-shadow(0 0 6px #0ff);
+  }
 }
 
 /* Mobile Tweaks */
