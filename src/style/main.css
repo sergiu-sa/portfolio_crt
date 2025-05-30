@@ -42,7 +42,6 @@ h2 {
   text-shadow: 0 0 1px #66ccff, 0 0 2px #3399ff, 0 0 3px #0066cc;
 }
 
-
 /* ---------------------------------------------
    Tv Screen Display CRT styling
 ---------------------------------------------- */
@@ -245,14 +244,10 @@ nav button:hover,
 
 /* Main Content +Section Screens*/
 main {
+  position: relative;
   flex-grow: 1;
-  overflow-y: auto;
-  max-height: calc(100vh - 140px);
-  padding: 6rem 2rem 3rem 2rem;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 2rem;
+  overflow: hidden;
+  width: 100%;
 }
 
 main::-webkit-scrollbar {
@@ -264,17 +259,34 @@ main {
 }
 
 .channel-screen {
+  position: absolute;
+  inset: 0;
   display: none;
-  flex-direction: column;
-  align-items: flex-start;
-  justify-content: flex-start;
-  gap: 1.5rem;
+  padding: 6rem 2rem 3rem 2rem;
   width: 100%;
+  height: 100%;
+  overflow-y: auto;
+  overflow-x: hidden;
+  z-index: 1;
+  -ms-overflow-style: none;  
+  scrollbar-width: none;     
+}
+
+.channel-screen::-webkit-scrollbar {
+  display: none;             
 }
 
 .channel-screen.active {
   display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  height: auto; 
+  min-height: 100%;
 }
+
+
+
 
 #intro {
   margin-top: 15vh;
@@ -343,15 +355,16 @@ main {
    About Section
 ---------------------------------------------- */
 #about {
-  font-family: "IBM Plex Mono", monospace;
-  font-size: 1.2rem;
-  font-weight: 400;
-  color: #ccc;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 2rem;
+  width: 100%;
   max-width: 800px;
-  line-height: 1.8;
-  padding-right: 1rem;
-  text-shadow: 0 0 1px #66ccff, 0 0 2px #3399ff;
+  margin: 0 auto;
 }
+
 
 #about h1 {
   font-size: 1.5rem;
@@ -400,33 +413,42 @@ main {
   text-shadow: 0 0 1px #0ff;
 }
 
+#about .ascii-sig {
+  margin-bottom: 3rem;
+}
+
+
 /* ---------------------------------------------
    Contact Section + Terminal Blocks
 ---------------------------------------------- */
-#contact {
+
+
+#contact .terminal-line {
   font-family: "IBM Plex Mono", monospace;
-  font-size: 1.2rem;
-  color: #ccc;
+  background: rgba(0, 0, 0, 0.25);
+  padding: 1rem 1.5rem;
+  margin: 1rem 0 2rem;
+  border: 1px dashed #0ff;
+  color: #0ff;
+  font-size: 0.85rem;
+  text-align: center;
+  text-shadow: 0 0 2px #0ff, 0 0 6px #0ff;
+  box-shadow: 0 0 12px rgba(0, 255, 255, 0.1);
+  width: 100%;
   max-width: 800px;
-  line-height: 1.7;
-  padding-right: 1rem;
-  text-shadow: none;
 }
 
-#contact h1 {
-  font-size: 1.5rem;
-  margin-bottom: 1.5rem;
-  color: #fff;
-  font-family: "Press Start 2P", monospace;
-  text-shadow: 0 0 1px #66ccff, 0 0 2px #3399ff, 0 0 3px #0066cc;
-}
 
 .contact-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-  gap: 2rem;
+  gap: 1.5rem;
+  justify-items: center;
   justify-content: center;
-  margin: 3rem 0;
+  max-width: 900px;
+  margin: 2rem auto;
+  padding: 0 1rem;
+
 }
 
 .contact-card {
@@ -439,12 +461,28 @@ main {
   background: rgba(0, 0, 0, 0.3);
   text-align: center;
   box-shadow: 0 0 12px rgba(0, 255, 255, 0.1);
+  position: relative;
   transition: transform 0.2s ease, box-shadow 0.3s ease;
+  max-width: 240px;
+  width: 100%;
 }
 
 .contact-card:hover {
   transform: scale(1.03);
   box-shadow: 0 0 20px #0ff;
+  animation: glitch 0.3s;
+}
+
+.contact-card:hover::after {
+  content: attr(data-hover);
+  font-size: 0.75rem;
+  color: #0ff;
+  text-shadow: 0 0 4px #0ff;
+  position: absolute;
+  bottom: -1.2rem;
+  opacity: 0.8;
+  font-family: "IBM Plex Mono", monospace;
+  pointer-events: none;
 }
 
 .contact-card svg.icon {
@@ -468,16 +506,8 @@ main {
   text-shadow: 0 0 5px #0ff;
 }
 
-.contact-links a {
-  font-size: 0.95rem;
-  color: #0ff;
-  text-decoration: none;
-  border-bottom: 1px dashed #0ff;
-}
-
-.contact-links a:hover {
-  color: #fff;
-  border-color: #fff;
+.contact-console {
+  margin-bottom: 3rem;
 }
 
 /* Back Button Styling */
@@ -486,6 +516,45 @@ main {
   text-align: center;
 }
 
+.back-button {
+  border: 1px dashed red; /* remove later */
+}
+
+/* Fixed position back button */
+.back-button-fixed {
+  position: fixed;
+  bottom: 6rem; /* keeps it above footer */
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 20;
+}
+
+.back-button-fixed button {
+  font-size: 0.85rem;
+  padding: 0.6rem 1.2rem;
+  border: 2px solid #0ff;
+  background: rgba(0, 0, 0, 0.9);
+  color: #0ff;
+  cursor: pointer;
+  text-shadow: 0 0 2px #0ff;
+  transition: all 0.3s ease;
+  font-family: "IBM Plex Mono", monospace;
+  border-radius: 4px;
+  backdrop-filter: blur(10px);
+}
+
+.back-button-fixed button:hover {
+  color: #000;
+  background: #0ff;
+  text-shadow: none;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 255, 255, 0.4);
+}
+
+
+
+
+
 .back-button button {
   font-size: 0.75rem;
   padding: 0.5rem 1rem;
@@ -493,6 +562,8 @@ main {
   background: #000;
   color: #ccc;
   cursor: pointer;
+  text-shadow: 0 0 1px #0ff;
+  transition: all 0.2s;
 }
 
 .back-button button:hover {
@@ -634,21 +705,64 @@ body.power-off {
   opacity: 1;
 }
 
-.contact-status {
+/* Console Fake Input Prompt */
+.contact-console {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
   font-family: "IBM Plex Mono", monospace;
   color: #0ff;
-  font-size: 0.9rem;
-  background: rgba(0, 0, 0, 0.3);
-  padding: 1.5rem;
   margin-top: 3rem;
-  border: 1px dashed #0ff;
-  width: 100%;
-  max-width: 900px;
-  text-shadow: 0 0 3px #0ff;
-  line-height: 1.6;
-  box-shadow: 0 0 10px rgba(0, 255, 255, 0.15);
+  font-size: 0.9rem;
 }
 
+.contact-console input {
+  background: black;
+  border: none;
+  border-bottom: 1px dashed #0ff;
+  color: #0ff;
+  padding: 0.25rem 0.5rem;
+  font-family: inherit;
+  font-size: 0.9rem;
+  width: 220px;
+  outline: none;
+}
+
+.contact-console input::placeholder {
+  color: #088;
+  opacity: 0.6;
+}
+
+
+
+footer {
+  padding-bottom: 4rem; /* ensures fixed button doesn't collide */
+}
+
+
+
+
+/* Glitch effect */
+@keyframes glitch {
+  0% {
+    transform: translate(0);
+  }
+  20% {
+    transform: translate(-2px, 2px);
+  }
+  40% {
+    transform: translate(2px, -2px);
+  }
+  60% {
+    transform: translate(-1px, 1px);
+  }
+  80% {
+    transform: translate(1px, -1px);
+  }
+  100% {
+    transform: translate(0);
+  }
+}
 
 /* Responsive Styles */
 @media (max-width: 768px) {
@@ -691,5 +805,24 @@ body.power-off {
   .project-card p,
   .links a {
     font-size: 0.65rem;
+  }
+}
+
+@media (max-width: 500px) {
+  .contact-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .contact-card {
+    padding: 1rem;
+  }
+
+  .contact-card a {
+    font-size: 0.8rem;
+  }
+
+  .contact-console {
+    flex-direction: column;
+    align-items: flex-start;
   }
 }

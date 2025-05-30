@@ -154,9 +154,15 @@ function playRetroVideo(videoNumber) {
 
 function showSection(sectionId) {
   sections.forEach((section) => {
-    section.classList.toggle("hidden", section.id !== sectionId);
-    section.classList.toggle("active", section.id === sectionId);
+    section.classList.remove("active");
+    section.style.display = "none";
   });
+
+  const target = document.getElementById(sectionId);
+  if (target) {
+    target.style.display = "flex";
+    target.classList.add("active");
+  }
 
   if (sectionId === "about" && typewriter) {
     typewriter.textContent = "> ";
@@ -169,6 +175,7 @@ function showSection(sectionId) {
     startConsoleIntro();
   }
 }
+
 
 // ---------------------------------------------
 // FADE-IN OBSERVER (SCROLL ANIMATION)
@@ -201,6 +208,21 @@ function triggerTerminalSequence() {
   });
 }
 
+// ---------------------------------------------
+// CHANNEL FLICKER EFFECT
+// ---------------------------------------------
+
+function triggerChannelFlicker() {
+  const flicker = document.getElementById("channel-flicker");
+  flicker.style.animation = "channelGlitch 0.4s ease-out";
+  flicker.style.opacity = "1";
+
+  setTimeout(() => {
+    flicker.style.animation = "none";
+    flicker.style.opacity = "0";
+  }, 400);
+}
+
 function startConsoleIntro() {
   if (contactIntroPlayed) return;
   contactIntroPlayed = true;
@@ -229,21 +251,6 @@ function startConsoleIntro() {
   }
 
   typeChar();
-}
-
-// ---------------------------------------------
-// CHANNEL FLICKER EFFECT
-// ---------------------------------------------
-
-function triggerChannelFlicker() {
-  const flicker = document.getElementById("channel-flicker");
-  flicker.style.animation = "channelGlitch 0.4s ease-out";
-  flicker.style.opacity = "1";
-
-  setTimeout(() => {
-    flicker.style.animation = "none";
-    flicker.style.opacity = "0";
-  }, 400);
 }
 
 // ---------------------------------------------
