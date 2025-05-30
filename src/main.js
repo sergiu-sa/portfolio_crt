@@ -18,6 +18,21 @@ const dateDisplay = document.getElementById("date-display");
 const sections = document.querySelectorAll(".channel-screen");
 const navButtons = document.querySelectorAll("nav button");
 
+// Typewriter setup
+const typeText = "> Developer. Explorer. Problem-solver.";
+let typewriter = document.getElementById("typewriter-line");
+let i = 0;
+
+function typeWriterEffect() {
+  if (!typewriter) return; // avoid errors if not present
+  if (i < typeText.length) {
+    typewriter.textContent += typeText.charAt(i);
+    i++;
+    setTimeout(typeWriterEffect, 50);
+  }
+}
+
+// Clock/date
 function updateDate() {
   const now = new Date();
   const months = [
@@ -39,6 +54,7 @@ function updateDate() {
   } ${now.getDate()}, ${now.getFullYear()}`;
 }
 
+// Channel logic
 function setChannel(channel) {
   currentChannel = channel;
   channelLabel.textContent = `CH ${String(channel).padStart(2, "0")}`;
@@ -46,7 +62,6 @@ function setChannel(channel) {
   stopSlideshow();
   stopWebcam();
 
-  // Reset video element
   tvVideo.pause();
   tvVideo.classList.remove("visible");
   tvVideo.removeAttribute("src");
@@ -57,7 +72,7 @@ function setChannel(channel) {
   } else if (channel === 2) {
     startWebcam();
   } else if (channel >= 3 && channel <= 7) {
-    playRetroVideo(channel - 2); // retro1 to retro6
+    playRetroVideo(channel - 2);
   }
 }
 
@@ -102,13 +117,6 @@ function stopWebcam() {
   tvVideo.classList.remove("visible");
 }
 
-function showSection(sectionId) {
-  sections.forEach((section) => {
-    section.classList.toggle("hidden", section.id !== sectionId);
-    section.classList.toggle("active", section.id === sectionId);
-  });
-}
-
 function playRetroVideo(videoNumber) {
   tvImage.classList.remove("visible");
   tvVideo.srcObject = null;
@@ -118,8 +126,35 @@ function playRetroVideo(videoNumber) {
   tvVideo.play().catch((err) => console.error("Video play error:", err));
 }
 
-// Event Listeners
+function showSection(sectionId) {
+  sections.forEach((section) => {
+    section.classList.toggle("hidden", section.id !== sectionId);
+    section.classList.toggle("active", section.id === sectionId);
+  });
 
+  // Reset and trigger typewriter when "about" is shown
+  if (sectionId === "about" && typewriter) {
+    typewriter.textContent = "> ";
+    i = 0;
+    setTimeout(typeWriterEffect, 300);
+  }
+}
+
+// Scroll-fade animation
+const observer = new IntersectionObserver(
+  (entries) => {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add("visible");
+        observer.unobserve(entry.target);
+      }
+    });
+  },
+  { threshold: 0.1 }
+);
+document.querySelectorAll(".fade-in").forEach((el) => observer.observe(el));
+
+// Event Listeners
 navButtons.forEach((btn) => {
   btn.addEventListener("click", () => {
     const section = btn.getAttribute("data-section");
@@ -138,6 +173,22 @@ document.getElementById("next-channel").addEventListener("click", () => {
 document.getElementById("back-to-home").addEventListener("click", () => {
   showSection("intro");
 });
+
+document.getElementById("back-to-home-about").addEventListener("click", () => {
+  showSection("intro");
+});
+
+// About page internal jump buttons
+document.querySelectorAll(".about-nav button").forEach((btn) => {
+  btn.addEventListener("click", () => {
+    const id = btn.getAttribute("data-jump");
+    const target = document.getElementById(id);
+    if (target) {
+      target.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+  });
+});
+
 
 // Init
 updateDate();

@@ -1,4 +1,10 @@
 @import url("https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap");
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@300;400&display=swap');
+
+
+
 
 body {
   margin: 0;
@@ -132,15 +138,15 @@ nav button:hover,
 
 main {
   flex-grow: 1;
-  padding: 6rem 2rem 3rem 2rem;
   overflow-y: auto;
-  max-height: 100vh;
+  max-height: calc(100vh - 140px); /* Adjust if needed based on header/footer height */
+  padding: 6rem 2rem 3rem 2rem;
   display: flex;
   flex-direction: column;
-  justify-content: flex-start;
   align-items: center;
   gap: 2rem;
 }
+
 
 
 .channel-screen {
@@ -291,6 +297,114 @@ footer {
   display: block;
 }
 
+
+#about {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 1.3rem;
+  font-weight: 400;
+  text-transform: none;
+  color: #ccc;
+  max-width: 800px;
+  line-height: 1.8;
+  padding-right: 1rem;
+  text-shadow: none;
+}
+
+
+
+#about h1 {
+  font-size: 1.5rem;
+  margin-bottom: 1.5rem;
+  color: #fff;
+  font-family: "Press Start 2P", monospace;
+  text-shadow: 0 0 1px #66ccff, 0 0 2px #3399ff, 0 0 3px #0066cc;
+}
+
+#about p {
+  margin-bottom: 2rem;
+  max-width: 60ch;
+}
+
+
+
+.fade-in {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+}
+
+.fade-in.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+main::-webkit-scrollbar {
+  display: none;
+}
+main {
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;     /* Firefox */
+}
+
+#typewriter-line {
+  color: #0ff;
+  font-family: "Press Start 2P", monospace;
+  font-size: 0.9rem;
+  white-space: pre;
+  overflow: hidden;
+  border-right: 2px solid #0ff;
+  width: fit-content;
+  padding-bottom: 1.5rem;
+  animation: blinkCursor 0.8s steps(1) infinite;
+}
+
+/* Internal nav inside About */
+.about-nav {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.about-nav button {
+  font-family: inherit;
+  background: none;
+  border: 1px solid #0ff;
+  color: #0ff;
+  padding: 0.5rem 1rem;
+  font-size: 0.75rem;
+  cursor: pointer;
+  text-shadow: 0 0 2px #0ff;
+}
+
+.about-nav button:hover {
+  background: rgba(0, 255, 255, 0.1);
+}
+
+/* Highlight keywords */
+.highlight {
+  color: #0ff;
+  font-weight: 500;
+  text-shadow: 0 0 1px #0ff;
+}
+
+/* ASCII block */
+.ascii-sig {
+  margin-top: 2rem;
+  font-size: 0.7rem;
+  color: #0ff;
+  text-shadow: 0 0 1px #0ff;
+}
+
+
+@keyframes blinkCursor {
+  0%, 100% { border-color: transparent; }
+  50% { border-color: #0ff; }
+}
+
+
+
+
+
 /* Mobile tweaks */
 @media (max-width: 768px) {
   main {
@@ -338,5 +452,16 @@ footer {
   .project-card p,
   .links a {
     font-size: 0.65rem;
+  }
+}
+
+@media (max-width: 768px) {
+  #about {
+    font-size: 1rem;
+    padding-right: 0;
+  }
+
+  #about h1 {
+    font-size: 1.25rem;
   }
 }
