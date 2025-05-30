@@ -133,15 +133,20 @@ function showSection(sectionId) {
     section.classList.toggle("active", section.id === sectionId);
   });
 
-  // Reset and trigger typewriter when "about" is shown
+  // About: trigger typewriter
   if (sectionId === "about" && typewriter) {
     typewriter.textContent = "> ";
     i = 0;
     setTimeout(typeWriterEffect, 300);
   }
+
+  // Contact: trigger terminal animation
+  if (sectionId === "contact") {
+    triggerTerminalSequence();
+  }
 }
 
-// Scroll-fade animation
+// Scroll-fade animation for .fade-in elements (About section etc.)
 const observer = new IntersectionObserver(
   (entries) => {
     entries.forEach((entry) => {
@@ -153,7 +158,16 @@ const observer = new IntersectionObserver(
   },
   { threshold: 0.1 }
 );
+
 document.querySelectorAll(".fade-in").forEach((el) => observer.observe(el));
+
+function triggerTerminalSequence() {
+  const lines = document.querySelectorAll("#contact .terminal-line");
+  lines.forEach((line, index) => {
+    line.style.transitionDelay = `${index * 150}ms`;
+    line.classList.add("visible");
+  });
+}
 
 // Event Listeners
 navButtons.forEach((btn) => {

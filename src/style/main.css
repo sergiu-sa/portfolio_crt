@@ -22,7 +22,7 @@ body {
   z-index: 0;
   overflow: hidden;
   border-radius: 2rem;
-  bbox-shadow: 0 0 60px rgba(0, 255, 255, 0.1) inset,
+  box-shadow: 0 0 60px rgba(0, 255, 255, 0.1) inset,
     0 0 120px rgba(255, 0, 255, 0.1) inset, 0 0 40px rgba(0, 255, 255, 0.05);
   animation: glow-pulse 4s ease-in-out infinite;
 
@@ -212,31 +212,19 @@ main {
 #channel-flicker {
   position: fixed;
   inset: 0;
-  z-index: 100;
-  background: repeating-linear-gradient(0deg, #000 0px, #111 1px, #000 2px);
-  opacity: 0;
-  pointer-events: none;
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.04) 0%, transparent 80%);
   mix-blend-mode: lighten;
-  animation: none;
+  pointer-events: none;
+  z-index: 999;
+  opacity: 0;
 }
 
 @keyframes channelGlitch {
-  0% {
-    opacity: 0.7;
-  }
-  30% {
-    opacity: 0.9;
-    transform: scale(1.02);
-  }
-  60% {
-    opacity: 0.3;
-    transform: scale(0.98);
-  }
-  100% {
-    opacity: 0;
-    transform: scale(1);
-  }
+  0% { opacity: 0.2; transform: scale(1.02); }
+  50% { opacity: 0.4; transform: scale(1); }
+  100% { opacity: 0; transform: scale(1.01); }
 }
+
 
 #intro {
   margin-top: 15vh;
@@ -538,7 +526,17 @@ footer {
 .terminal-line {
   margin-bottom: 1.2rem;
   white-space: pre-wrap;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.5s ease-out, transform 0.5s ease-out;
 }
+
+
+.terminal-line.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
 
 .glitch-link {
   color: #0ff;
