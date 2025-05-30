@@ -58,6 +58,8 @@ function updateDate() {
 function setChannel(channel) {
   currentChannel = channel;
   channelLabel.textContent = `CH ${String(channel).padStart(2, "0")}`;
+  triggerChannelFlicker();
+
 
   stopSlideshow();
   stopWebcam();
@@ -154,6 +156,7 @@ const observer = new IntersectionObserver(
 );
 document.querySelectorAll(".fade-in").forEach((el) => observer.observe(el));
 
+
 // Event Listeners
 navButtons.forEach((btn) => {
   btn.addEventListener("click", () => {
@@ -188,6 +191,18 @@ document.querySelectorAll(".about-nav button").forEach((btn) => {
     }
   });
 });
+
+
+function triggerChannelFlicker() {
+  const flicker = document.getElementById("channel-flicker");
+  flicker.style.animation = "channelGlitch 0.4s ease-out";
+  flicker.style.opacity = "1";
+
+  setTimeout(() => {
+    flicker.style.animation = "none";
+    flicker.style.opacity = "0";
+  }, 400);
+}
 
 
 // Init

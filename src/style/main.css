@@ -1,23 +1,20 @@
 @import url("https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap");
-@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;600&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@300;400&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@300;400&display=swap");
 
-
-
-
+/* Global Settings */
 body {
   margin: 0;
-  font-family: "Press Start 2P", monospace;
+  font-family: "IBM Plex Mono", monospace;
   background: black;
   color: #eee;
   overflow: hidden;
-  text-transform: uppercase;
-  -webkit-font-smoothing: none;
-  font-smooth: never;
+  text-transform: none;
+  -webkit-font-smoothing: antialiased;
+  font-smooth: always;
   text-rendering: geometricPrecision;
 }
 
+/* TV Screen + Visual Layers */
 #tv-screen {
   position: fixed;
   inset: 0;
@@ -26,7 +23,7 @@ body {
   overflow: hidden;
   border-radius: 2rem;
   box-shadow: 0 0 60px rgba(0, 255, 255, 0.1) inset,
-    0 0 120px rgba(255, 0, 255, 0.1) inset;
+              0 0 120px rgba(255, 0, 255, 0.1) inset;
   transform: perspective(800px) rotateX(1deg);
   animation: flicker 0.12s infinite;
 }
@@ -52,7 +49,16 @@ body {
   opacity: 0.6;
 }
 
-/* CRT Effects */
+#tv-overlay::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle, rgba(0, 0, 0, 0.35) 40%, rgba(0, 0, 0, 0.6) 100%);
+  z-index: 1;
+  pointer-events: none;
+}
+
+/* CRT Flicker Overlay */
 #crt-flicker {
   position: fixed;
   inset: 0;
@@ -71,26 +77,16 @@ body {
 }
 
 @keyframes flicker {
-  0%,
-  100% {
-    opacity: 1;
-  }
-  50% {
-    opacity: 0.98;
-  }
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.98; }
 }
 
 @keyframes flickerOverlay {
-  0%,
-  100% {
-    opacity: 0.25;
-  }
-  50% {
-    opacity: 0.35;
-  }
+  0%, 100% { opacity: 0.25; }
+  50% { opacity: 0.35; }
 }
 
-/* UI Layer */
+/* UI Layer Layout */
 #ui-layer {
   position: relative;
   z-index: 10;
@@ -101,6 +97,7 @@ body {
   padding: 2rem;
 }
 
+/* Header Navigation */
 header {
   display: flex;
   justify-content: space-between;
@@ -136,10 +133,11 @@ nav button:hover,
   text-shadow: 0 0 1px #66ccff, 0 0 2px #3399ff, 0 0 3px #0066cc;
 }
 
+/* Main Layout */
 main {
   flex-grow: 1;
   overflow-y: auto;
-  max-height: calc(100vh - 140px); /* Adjust if needed based on header/footer height */
+  max-height: calc(100vh - 140px);
   padding: 6rem 2rem 3rem 2rem;
   display: flex;
   flex-direction: column;
@@ -147,8 +145,15 @@ main {
   gap: 2rem;
 }
 
+main::-webkit-scrollbar {
+  display: none;
+}
+main {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
 
-
+/* Section Display */
 .channel-screen {
   display: none;
   flex-direction: column;
@@ -162,25 +167,59 @@ main {
   display: flex;
 }
 
+#channel-flicker {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  background: repeating-linear-gradient(
+    0deg,
+    #000 0px,
+    #111 1px,
+    #000 2px
+  );
+  opacity: 0;
+  pointer-events: none;
+  mix-blend-mode: lighten;
+  animation: none;
+}
+
+@keyframes channelGlitch {
+  0% { opacity: 0.7; }
+  30% { opacity: 0.9; transform: scale(1.02); }
+  60% { opacity: 0.3; transform: scale(0.98); }
+  100% { opacity: 0; transform: scale(1); }
+}
+
+
+#intro {
+  margin-top: 15vh;
+  padding-left: 2rem;
+  align-items: flex-start;
+}
+
+/* Typography */
+h1, h2, #typewriter-line {
+  font-family: "Press Start 2P", monospace;
+}
+
 h1 {
-  font-size: 3rem;
+  font-size: clamp(2rem, 5vw, 3rem);
   letter-spacing: 1px;
   margin: 0;
   color: #eeeeee;
-  text-align: left;
   line-height: 1.1;
   text-shadow: 0 0 1px #66ccff, 0 0 2px #3399ff, 0 0 3px #0066cc;
 }
 
 h2 {
-  font-size: 1.75rem;
+  font-size: clamp(1.25rem, 3vw, 1.75rem);
   color: #cccccc;
   letter-spacing: 2px;
   margin: 0;
-  text-align: left;
   text-shadow: 0 0 1px #66ccff, 0 0 2px #3399ff, 0 0 3px #0066cc;
 }
 
+/* Footer */
 footer {
   width: 100%;
   display: flex;
@@ -192,7 +231,6 @@ footer {
   background: rgba(0, 0, 0, 0.3);
   z-index: 5;
 }
-
 
 .channel-nav {
   display: flex;
@@ -213,7 +251,7 @@ footer {
   color: #fff;
 }
 
-/* Project cards */
+/* Projects */
 .project-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
@@ -222,7 +260,6 @@ footer {
   max-width: 1200px;
   margin: 0 auto;
 }
-
 
 .project-card {
   background: rgba(0, 0, 0, 0.7);
@@ -269,48 +306,18 @@ footer {
   border-color: #fff;
 }
 
-.back-button {
-  margin-top: 2rem;
-  text-align: center;
-}
-
-
-.back-button button {
-  font-size: 0.75rem;
-  padding: 0.5rem 1rem;
-  border: 1px solid #666;
-  background: #000;
-  color: #ccc;
-  cursor: pointer;
-}
-
-.back-button button:hover {
-  color: #fff;
-  border-color: #fff;
-}
-
-.hidden {
-  display: none;
-}
-
-.active {
-  display: block;
-}
-
-
+/* About Section */
 #about {
-  font-family: 'IBM Plex Mono', monospace;
-  font-size: 1.3rem;
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 1.2rem;
   font-weight: 400;
   text-transform: none;
   color: #ccc;
   max-width: 800px;
   line-height: 1.8;
   padding-right: 1rem;
-  text-shadow: none;
+  text-shadow: 0 0 1px #66ccff, 0 0 2px #3399ff;
 }
-
-
 
 #about h1 {
   font-size: 1.5rem;
@@ -325,40 +332,7 @@ footer {
   max-width: 60ch;
 }
 
-
-
-.fade-in {
-  opacity: 0;
-  transform: translateY(20px);
-  transition: opacity 0.6s ease-out, transform 0.6s ease-out;
-}
-
-.fade-in.visible {
-  opacity: 1;
-  transform: translateY(0);
-}
-
-main::-webkit-scrollbar {
-  display: none;
-}
-main {
-  -ms-overflow-style: none;  /* IE and Edge */
-  scrollbar-width: none;     /* Firefox */
-}
-
-#typewriter-line {
-  color: #0ff;
-  font-family: "Press Start 2P", monospace;
-  font-size: 0.9rem;
-  white-space: pre;
-  overflow: hidden;
-  border-right: 2px solid #0ff;
-  width: fit-content;
-  padding-bottom: 1.5rem;
-  animation: blinkCursor 0.8s steps(1) infinite;
-}
-
-/* Internal nav inside About */
+/* About Features */
 .about-nav {
   display: flex;
   gap: 1rem;
@@ -380,14 +354,12 @@ main {
   background: rgba(0, 255, 255, 0.1);
 }
 
-/* Highlight keywords */
 .highlight {
   color: #0ff;
   font-weight: 500;
   text-shadow: 0 0 1px #0ff;
 }
 
-/* ASCII block */
 .ascii-sig {
   margin-top: 2rem;
   font-size: 0.7rem;
@@ -395,17 +367,67 @@ main {
   text-shadow: 0 0 1px #0ff;
 }
 
+/* Typewriter */
+#typewriter-line {
+  color: #0ff;
+  font-family: "Press Start 2P", monospace;
+  font-size: 0.9rem;
+  white-space: pre;
+  overflow: hidden;
+  border-right: 2px solid #0ff;
+  width: fit-content;
+  padding-bottom: 1.5rem;
+  animation: blinkCursor 0.8s steps(1) infinite;
+}
 
 @keyframes blinkCursor {
   0%, 100% { border-color: transparent; }
   50% { border-color: #0ff; }
 }
 
+/* Utility */
+.hidden {
+  display: none;
+}
+
+.active {
+  display: block;
+}
+
+.back-button {
+  margin-top: 2rem;
+  text-align: center;
+}
+
+.back-button button {
+  font-size: 0.75rem;
+  padding: 0.5rem 1rem;
+  border: 1px solid #666;
+  background: #000;
+  color: #ccc;
+  cursor: pointer;
+}
+
+.back-button button:hover {
+  color: #fff;
+  border-color: #fff;
+}
+
+.fade-in {
+  opacity: 0;
+  transform: translateY(30px) scale(0.98);
+  transition: 
+    opacity 0.6s ease-out,
+    transform 0.6s ease-out;
+}
+
+.fade-in.visible {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
 
 
-
-
-/* Mobile tweaks */
+/* Mobile Tweaks */
 @media (max-width: 768px) {
   main {
     padding-left: 2rem;
@@ -425,22 +447,16 @@ main {
     font-size: 0.75rem;
     padding: 0.4rem 0.8rem;
   }
-}
 
-#tv-overlay::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: radial-gradient(
-    circle,
-    rgba(0, 0, 0, 0.35) 40%,
-    rgba(0, 0, 0, 0.6) 100%
-  );
-  z-index: 1;
-  pointer-events: none;
-}
+  #about {
+    font-size: 1rem;
+    padding-right: 0;
+  }
 
-@media (max-width: 500px) {
+  #about h1 {
+    font-size: 1.25rem;
+  }
+
   .project-card {
     padding: 0.75rem;
   }
@@ -452,16 +468,5 @@ main {
   .project-card p,
   .links a {
     font-size: 0.65rem;
-  }
-}
-
-@media (max-width: 768px) {
-  #about {
-    font-size: 1rem;
-    padding-right: 0;
-  }
-
-  #about h1 {
-    font-size: 1.25rem;
   }
 }
