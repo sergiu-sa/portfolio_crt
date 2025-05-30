@@ -20,7 +20,7 @@ body {
   overflow: hidden;
   border-radius: 2rem;
   box-shadow: 0 0 60px rgba(0, 255, 255, 0.1) inset,
-              0 0 120px rgba(255, 0, 255, 0.1) inset;
+    0 0 120px rgba(255, 0, 255, 0.1) inset;
   transform: perspective(800px) rotateX(1deg);
   animation: flicker 0.12s infinite;
 }
@@ -65,7 +65,8 @@ body {
 }
 
 @keyframes flicker {
-  0%, 100% {
+  0%,
+  100% {
     opacity: 1;
   }
   50% {
@@ -74,7 +75,8 @@ body {
 }
 
 @keyframes flickerOverlay {
-  0%, 100% {
+  0%,
+  100% {
     opacity: 0.25;
   }
   50% {
@@ -114,13 +116,7 @@ nav button,
   cursor: pointer;
   transition: color 0.2s;
   font-family: inherit;
-  text-shadow:
-  0 0 1px #66ccff,
-  0 0 2px #3399ff,
-  0 0 3px #0066cc;
-
-
-
+  text-shadow: 0 0 1px #66ccff, 0 0 2px #3399ff, 0 0 3px #0066cc;
 }
 
 nav button:hover,
@@ -131,11 +127,7 @@ nav button:hover,
 #date-display {
   font-size: 0.85rem;
   color: #aaa;
-  text-shadow:
-  0 0 1px #66ccff,
-  0 0 2px #3399ff,
-  0 0 3px #0066cc;
-
+  text-shadow: 0 0 1px #66ccff, 0 0 2px #3399ff, 0 0 3px #0066cc;
 }
 
 main {
@@ -171,11 +163,7 @@ h1 {
   color: #eeeeee;
   text-align: left;
   line-height: 1.1;
-  text-shadow:
-  0 0 1px #66ccff,
-  0 0 2px #3399ff,
-  0 0 3px #0066cc;
-
+  text-shadow: 0 0 1px #66ccff, 0 0 2px #3399ff, 0 0 3px #0066cc;
 }
 
 h2 {
@@ -184,11 +172,7 @@ h2 {
   letter-spacing: 2px;
   margin: 0;
   text-align: left;
-  text-shadow:
-  0 0 1px #66ccff,
-  0 0 2px #3399ff,
-  0 0 3px #0066cc;
-
+  text-shadow: 0 0 1px #66ccff, 0 0 2px #3399ff, 0 0 3px #0066cc;
 }
 
 footer {
@@ -226,7 +210,8 @@ footer {
 }
 
 .project-card {
-  background: rgba(0, 0, 0, 0.5);
+  background: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(2px);
   border: 2px solid #444;
   padding: 1rem;
   text-align: center;
@@ -245,23 +230,14 @@ footer {
   font-size: 0.9rem;
   color: #fff;
   margin-bottom: 0.5rem;
-  text-shadow:
-  0 0 1px #66ccff,
-  0 0 2px #3399ff,
-  0 0 3px #0066cc;
-
+  text-shadow: 0 0 1px #66ccff, 0 0 2px #3399ff, 0 0 3px #0066cc;
 }
 
 .project-card p {
   font-size: 0.7rem;
   color: #ccc;
   margin-bottom: 1rem;
-  text-shadow:
-  0 0 1px #66ccff,
-  0 0 2px #3399ff,
-  0 0 3px #0066cc;
-
-
+  text-shadow: 0 0 1px #66ccff, 0 0 2px #3399ff, 0 0 3px #0066cc;
 }
 
 .links a {
@@ -324,4 +300,17 @@ footer {
     font-size: 0.75rem;
     padding: 0.4rem 0.8rem;
   }
+}
+
+#tv-overlay::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    circle,
+    rgba(0, 0, 0, 0.35) 40%,
+    rgba(0, 0, 0, 0.6) 100%
+  );
+  z-index: 1;
+  pointer-events: none;
 }
