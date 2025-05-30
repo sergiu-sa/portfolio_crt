@@ -1,4 +1,6 @@
-// /src/main.js
+// ---------------------------------------------
+// GLOBAL VARIABLES & SETUP
+// ---------------------------------------------
 
 const collageImages = Array.from(
   { length: 16 },
@@ -11,9 +13,8 @@ let slideshowInterval = null;
 let currentStream = null;
 let contactIntroPlayed = false;
 
-
-
 const maxChannels = 7;
+
 const tvImage = document.getElementById("tv-image");
 const tvVideo = document.getElementById("tv-video");
 const channelLabel = document.getElementById("channel-label");
@@ -21,13 +22,16 @@ const dateDisplay = document.getElementById("date-display");
 const sections = document.querySelectorAll(".channel-screen");
 const navButtons = document.querySelectorAll("nav button");
 
-// Typewriter setup
+const typewriter = document.getElementById("typewriter-line");
 const typeText = "> Developer. Explorer. Problem-solver.";
-let typewriter = document.getElementById("typewriter-line");
 let i = 0;
 
+// ---------------------------------------------
+// TYPEWRITER EFFECT
+// ---------------------------------------------
+
 function typeWriterEffect() {
-  if (!typewriter) return; // avoid errors if not present
+  if (!typewriter) return;
   if (i < typeText.length) {
     typewriter.textContent += typeText.charAt(i);
     i++;
@@ -35,7 +39,10 @@ function typeWriterEffect() {
   }
 }
 
-// Clock/date
+// ---------------------------------------------
+// DATE DISPLAY
+// ---------------------------------------------
+
 function updateDate() {
   const now = new Date();
   const months = [
@@ -57,7 +64,10 @@ function updateDate() {
   } ${now.getDate()}, ${now.getFullYear()}`;
 }
 
-// Channel logic
+// ---------------------------------------------
+// CHANNEL HANDLING
+// ---------------------------------------------
+
 function setChannel(channel) {
   currentChannel = channel;
   channelLabel.textContent = `CH ${String(channel).padStart(2, "0")}`;
@@ -71,14 +81,14 @@ function setChannel(channel) {
   tvVideo.removeAttribute("src");
   tvVideo.srcObject = null;
 
-  if (channel === 1) {
-    startSlideshow();
-  } else if (channel === 2) {
-    startWebcam();
-  } else if (channel >= 3 && channel <= 7) {
-    playRetroVideo(channel - 2);
-  }
+  if (channel === 1) startSlideshow();
+  else if (channel === 2) startWebcam();
+  else if (channel >= 3 && channel <= maxChannels) playRetroVideo(channel - 2);
 }
+
+// ---------------------------------------------
+// SLIDESHOW (CH01)
+// ---------------------------------------------
 
 function startSlideshow() {
   tvImage.classList.add("visible");
@@ -99,6 +109,10 @@ function stopSlideshow() {
   slideshowInterval = null;
   tvImage.classList.remove("visible");
 }
+
+// ---------------------------------------------
+// WEBCAM (CH02)
+// ---------------------------------------------
 
 async function startWebcam() {
   try {
@@ -121,6 +135,10 @@ function stopWebcam() {
   tvVideo.classList.remove("visible");
 }
 
+// ---------------------------------------------
+// RETRO VIDEO (CH03–CH07)
+// ---------------------------------------------
+
 function playRetroVideo(videoNumber) {
   tvImage.classList.remove("visible");
   tvVideo.srcObject = null;
@@ -130,32 +148,32 @@ function playRetroVideo(videoNumber) {
   tvVideo.play().catch((err) => console.error("Video play error:", err));
 }
 
+// ---------------------------------------------
+// SECTION SWITCHING
+// ---------------------------------------------
+
 function showSection(sectionId) {
   sections.forEach((section) => {
     section.classList.toggle("hidden", section.id !== sectionId);
     section.classList.toggle("active", section.id === sectionId);
   });
 
-  // About: trigger typewriter
   if (sectionId === "about" && typewriter) {
     typewriter.textContent = "> ";
     i = 0;
     setTimeout(typeWriterEffect, 300);
   }
 
-  // Contact: trigger terminal animation
-  if (sectionId === "contact") {
-    triggerTerminalSequence();
-  }
-
   if (sectionId === "contact") {
     triggerTerminalSequence();
     startConsoleIntro();
   }
-  
 }
 
-// Scroll-fade animation for .fade-in elements (About section etc.)
+// ---------------------------------------------
+// FADE-IN OBSERVER (SCROLL ANIMATION)
+// ---------------------------------------------
+
 const observer = new IntersectionObserver(
   (entries) => {
     entries.forEach((entry) => {
@@ -170,6 +188,10 @@ const observer = new IntersectionObserver(
 
 document.querySelectorAll(".fade-in").forEach((el) => observer.observe(el));
 
+// ---------------------------------------------
+// TERMINAL SEQUENCE (CONTACT SECTION)
+// ---------------------------------------------
+
 function triggerTerminalSequence() {
   const lines = document.querySelectorAll("#contact .terminal-line");
   lines.forEach((line, index) => {
@@ -179,69 +201,8 @@ function triggerTerminalSequence() {
   });
 }
 
-
-// Event Listeners
-navButtons.forEach((btn) => {
-  btn.addEventListener("click", () => {
-    const section = btn.getAttribute("data-section");
-    showSection(section);
-  });
-});
-
-document.getElementById("prev-channel").addEventListener("click", () => {
-  setChannel(currentChannel === 1 ? maxChannels : currentChannel - 1);
-});
-
-document.getElementById("next-channel").addEventListener("click", () => {
-  setChannel(currentChannel === maxChannels ? 1 : currentChannel + 1);
-});
-
-document.getElementById("back-to-home").addEventListener("click", () => {
-  showSection("intro");
-});
-
-document.getElementById("back-to-home-about").addEventListener("click", () => {
-  showSection("intro");
-});
-
-document
-  .getElementById("back-to-home-contact")
-  .addEventListener("click", () => {
-    showSection("intro");
-  });
-
-  document.getElementById("ping-all").addEventListener("click", () => {
-    alert("🔊 All contact protocols pinged. Awaiting response...");
-  });
-
-  document.getElementById("power-off").addEventListener("click", () => {
-    document.body.classList.toggle("power-off");
-  });
-  
-// About page internal jump buttons
-document.querySelectorAll(".about-nav button").forEach((btn) => {
-  btn.addEventListener("click", () => {
-    const id = btn.getAttribute("data-jump");
-    const target = document.getElementById(id);
-    if (target) {
-      target.scrollIntoView({ behavior: "smooth", block: "start" });
-    }
-  });
-});
-
-function triggerChannelFlicker() {
-  const flicker = document.getElementById("channel-flicker");
-  flicker.style.animation = "channelGlitch 0.4s ease-out";
-  flicker.style.opacity = "1";
-
-  setTimeout(() => {
-    flicker.style.animation = "none";
-    flicker.style.opacity = "0";
-  }, 400);
-}
-
 function startConsoleIntro() {
-  if (contactIntroPlayed) return; // prevent repeat
+  if (contactIntroPlayed) return;
   contactIntroPlayed = true;
 
   const text = "Establishing connection with Sergiu...";
@@ -266,12 +227,78 @@ function startConsoleIntro() {
       intro.classList.add("visible");
     }
   }
+
   typeChar();
 }
 
+// ---------------------------------------------
+// CHANNEL FLICKER EFFECT
+// ---------------------------------------------
 
+function triggerChannelFlicker() {
+  const flicker = document.getElementById("channel-flicker");
+  flicker.style.animation = "channelGlitch 0.4s ease-out";
+  flicker.style.opacity = "1";
 
-// Init
+  setTimeout(() => {
+    flicker.style.animation = "none";
+    flicker.style.opacity = "0";
+  }, 400);
+}
+
+// ---------------------------------------------
+// EVENT LISTENERS
+// ---------------------------------------------
+
+navButtons.forEach((btn) => {
+  btn.addEventListener("click", () => {
+    const section = btn.getAttribute("data-section");
+    showSection(section);
+  });
+});
+
+document.getElementById("prev-channel").addEventListener("click", () => {
+  setChannel(currentChannel === 1 ? maxChannels : currentChannel - 1);
+});
+
+document.getElementById("next-channel").addEventListener("click", () => {
+  setChannel(currentChannel === maxChannels ? 1 : currentChannel + 1);
+});
+
+document.getElementById("back-to-home").addEventListener("click", () => {
+  showSection("intro");
+});
+document.getElementById("back-to-home-about").addEventListener("click", () => {
+  showSection("intro");
+});
+document
+  .getElementById("back-to-home-contact")
+  .addEventListener("click", () => {
+    showSection("intro");
+  });
+
+document.getElementById("ping-all").addEventListener("click", () => {
+  alert("🔊 All contact protocols pinged. Awaiting response...");
+});
+
+document.getElementById("power-off").addEventListener("click", () => {
+  document.body.classList.toggle("power-off");
+});
+
+document.querySelectorAll(".about-nav button").forEach((btn) => {
+  btn.addEventListener("click", () => {
+    const id = btn.getAttribute("data-jump");
+    const target = document.getElementById(id);
+    if (target) {
+      target.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+  });
+});
+
+// ---------------------------------------------
+// INIT
+// ---------------------------------------------
+
 updateDate();
 setInterval(updateDate, 60000);
 setChannel(1);

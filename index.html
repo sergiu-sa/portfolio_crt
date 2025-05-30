@@ -7,12 +7,14 @@
     <link rel="stylesheet" href="/src/style/main.css" />
   </head>
   <body>
+    <!-- CRT Screen & Video/Image Background -->
     <div id="tv-screen">
       <video id="tv-video" autoplay muted playsinline></video>
       <img id="tv-image" />
       <div id="tv-overlay"></div>
     </div>
 
+    <!-- UI Overlay -->
     <div id="ui-layer">
       <header>
         <nav>
@@ -22,15 +24,15 @@
         </nav>
         <div id="date-display"></div>
       </header>
-
       <main>
+        <!-- INTRO -->
         <section id="intro" class="channel-screen active">
           <h1>Sergiu Sarbu</h1>
           <h2>Front-End Developer</h2>
         </section>
-
         <section id="projects" class="channel-screen hidden">
           <div class="project-grid">
+            <!-- Square Eyes -->
             <div class="project-card">
               <img
                 src="/src/assets/projects/square-eyes.png"
@@ -52,6 +54,7 @@
               </div>
             </div>
 
+            <!-- Kid Bank -->
             <div class="project-card">
               <img
                 src="/src/assets/projects/kid-bank.png"
@@ -68,6 +71,7 @@
               </div>
             </div>
 
+            <!-- Ask Better -->
             <div class="project-card">
               <img
                 src="/src/assets/projects/ask-better.png"
@@ -89,7 +93,6 @@
             <button id="back-to-home">← Back to Home</button>
           </div>
         </section>
-
         <section id="about" class="channel-screen hidden">
           <div class="about-nav fade-in">
             <button data-jump="about-intro">Intro</button>
@@ -130,44 +133,64 @@
 
           <div class="ascii-sig fade-in">
             <pre>
-             ________              __                 
-            / ____/ /___  __  ____/ /__  ____ ______   
-           / /   / / __ \/ / / / __  / _ \/ __ `/ ___/   
-          / /___/ / /_/ / /_/ / /_/ /  __/ /_/ (__  )    
-          \____/_/\____/\__,_/\__,_/\___/\__,_/____/     
-            </pre>
+                   ________              __                 
+                  / ____/ /___  __  ____/ /__  ____ ______   
+                 / /   / / __ \\/ / / / __  / _ \\/ __ \`/ ___/   
+                / /___/ / /_/ / /_/ / /_/ /  __/ /_/ (__  )    
+                \\____/_/\\____/\\__,_/\\__,_/\\___/\\__,_/____/     
+                  </pre
+            >
           </div>
 
           <div class="back-button">
             <button id="back-to-home-about">← Back to Home</button>
           </div>
         </section>
-
         <section id="contact" class="channel-screen hidden">
           <div class="contact-grid">
             <div class="contact-card" data-hover="📡 Pinging...">
-              <svg class="icon" viewBox="0 0 24 24"><path d="M20 4H4v16h16V4zM5 5h14v14H5V5z"/></svg>
+              <svg class="icon" viewBox="0 0 24 24">
+                <path d="M20 4H4v16h16V4zM5 5h14v14H5V5z" />
+              </svg>
               <a href="mailto:hello@sergiusarbu.dev">Email</a>
             </div>
             <div class="contact-card" data-hover="🐙 Git initiated...">
-              <svg class="icon" viewBox="0 0 24 24"><path d="M12 2a10 10 0 00-3.5 19.4c.55.1.75-.25.75-.53v-1.9c-3.06.67-3.7-1.48-3.7-1.48a2.9 2.9 0 00-1.2-1.6c-1-.7.08-.7.08-.7a2.3 2.3 0 011.7 1.1c1 .1 1.6-.8 1.6-.8.8-1.4.3-2.3.1-2.6a2.3 2.3 0 01.6-1.7c2.3-.3 4.7 1.2 4.7 4.8 0 .8-.3 1.6-.6 2.3-.3.6-.2 1 .5.8A10 10 0 0012 2z"/></svg>
+              <svg class="icon" viewBox="0 0 24 24">
+                <path d="M12 2a10 10 0 00-3.5 19.4..." />
+              </svg>
               <a href="https://github.com/sergiu-sa" target="_blank">GitHub</a>
             </div>
             <div class="contact-card" data-hover="🔗 Professional handshake...">
-              <svg class="icon" viewBox="0 0 24 24"><path d="M10 13a5 5 0 015-5h3V7h-3a7 7 0 00-7 7v3h2v-3zM14 11a5 5 0 00-5 5v3h3v-3a2 2 0 012-2h3v-3h-3z"/></svg>
-              <a href="https://linkedin.com/in/YOUR-ID" target="_blank">LinkedIn</a>
+              <svg class="icon" viewBox="0 0 24 24">
+                <path d="M10 13a5 5 0 015-5h3V7h-3..." />
+              </svg>
+              <a href="https://linkedin.com/in/YOUR-ID" target="_blank"
+                >LinkedIn</a
+              >
             </div>
             <div class="contact-card" data-hover="🎮 Joining the dev chat...">
-              <svg class="icon" viewBox="0 0 24 24"><path d="M12 3C7.03 3 3 6.58 3 11c0 1.74.81 3.33 2.09 4.59L4 21l4.42-1.47c1.01.28 2.09.47 3.58.47 4.97 0 9-3.58 9-8s-4.03-8-9-8z"/></svg>
-              <a href="https://discord.com/users/YOUR-ID" target="_blank">Discord</a>
+              <svg class="icon" viewBox="0 0 24 24">
+                <path d="M12 3C7.03 3 3 6.58 3 11..." />
+              </svg>
+              <a href="https://discord.com/users/YOUR-ID" target="_blank"
+                >Discord</a
+              >
             </div>
             <div class="contact-card" data-hover="📸 Caught on camera...">
-              <svg class="icon" viewBox="0 0 24 24"><path d="M21 5H17.83L15.42 2H8.58L6.17 5H3a1 1 0 00-1 1v14c0 .55.45 1 1 1h18a1 1 0 001-1V6a1 1 0 00-1-1zM12 17a4 4 0 110-8 4 4 0 010 8z"/></svg>
-              <a href="https://instagram.com/YOUR-ID" target="_blank">Instagram</a>
+              <svg class="icon" viewBox="0 0 24 24">
+                <path d="M21 5H17.83L15.42 2H8.58..." />
+              </svg>
+              <a href="https://instagram.com/YOUR-ID" target="_blank"
+                >Instagram</a
+              >
             </div>
             <div class="contact-card" data-hover="📡 Broadcasting hot takes...">
-              <svg class="icon" viewBox="0 0 24 24"><path d="M23 3H1v18h22V3zM12 17a5 5 0 100-10 5 5 0 000 10z"/></svg>
-              <a href="https://twitter.com/YOUR-ID" target="_blank">Twitter/X</a>
+              <svg class="icon" viewBox="0 0 24 24">
+                <path d="M23 3H1v18h22V3zM12 17a5..." />
+              </svg>
+              <a href="https://twitter.com/YOUR-ID" target="_blank"
+                >Twitter/X</a
+              >
             </div>
           </div>
 
@@ -175,18 +198,11 @@
             <button id="ping-all">Ping All</button>
             <button id="power-off">Power Off CRT</button>
           </div>
-          
 
           <div class="back-button">
             <button id="back-to-home-contact">← Back to Home</button>
           </div>
         </section>
-        
-        
-        
-        
-        
-        
       </main>
 
       <footer>
@@ -197,6 +213,7 @@
         </div>
       </footer>
     </div>
+
     <div id="crt-flicker"></div>
     <div id="channel-flicker"></div>
 
