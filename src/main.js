@@ -60,7 +60,6 @@ function setChannel(channel) {
   channelLabel.textContent = `CH ${String(channel).padStart(2, "0")}`;
   triggerChannelFlicker();
 
-
   stopSlideshow();
   stopWebcam();
 
@@ -156,7 +155,6 @@ const observer = new IntersectionObserver(
 );
 document.querySelectorAll(".fade-in").forEach((el) => observer.observe(el));
 
-
 // Event Listeners
 navButtons.forEach((btn) => {
   btn.addEventListener("click", () => {
@@ -181,6 +179,12 @@ document.getElementById("back-to-home-about").addEventListener("click", () => {
   showSection("intro");
 });
 
+document
+  .getElementById("back-to-home-contact")
+  .addEventListener("click", () => {
+    showSection("intro");
+  });
+
 // About page internal jump buttons
 document.querySelectorAll(".about-nav button").forEach((btn) => {
   btn.addEventListener("click", () => {
@@ -192,7 +196,6 @@ document.querySelectorAll(".about-nav button").forEach((btn) => {
   });
 });
 
-
 function triggerChannelFlicker() {
   const flicker = document.getElementById("channel-flicker");
   flicker.style.animation = "channelGlitch 0.4s ease-out";
@@ -203,7 +206,6 @@ function triggerChannelFlicker() {
     flicker.style.opacity = "0";
   }, 400);
 }
-
 
 // Init
 updateDate();
