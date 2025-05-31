@@ -173,7 +173,9 @@ function showSection(sectionId) {
   if (sectionId === "contact") {
     triggerTerminalSequence();
     startConsoleIntro();
+    refreshFadeInObserver(); // 👈 add this
   }
+  
 }
 
 // ---------------------------------------------
@@ -193,6 +195,13 @@ const observer = new IntersectionObserver(
 );
 
 document.querySelectorAll(".fade-in").forEach((el) => observer.observe(el));
+
+function refreshFadeInObserver() {
+  document.querySelectorAll(".fade-in").forEach((el) => {
+    observer.observe(el);
+  });
+}
+
 
 // ---------------------------------------------
 // TERMINAL SEQUENCE (CONTACT SECTION)
@@ -232,10 +241,9 @@ function startConsoleIntro() {
   intro.style.opacity = 0;
   intro.textContent = "";
 
-  const container = document.querySelector("#contact .contact-grid");
-  if (!container) return;
+  const container = document.querySelector("#contact");
+  container.insertBefore(intro, container.querySelector(".contact-grid"));
 
-  container.prepend(intro);
 
   let i = 0;
   function typeChar() {
