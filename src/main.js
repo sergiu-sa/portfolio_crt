@@ -299,15 +299,7 @@ document.getElementById("power-off").addEventListener("click", () => {
   document.body.classList.toggle("power-off");
 });
 
-document.querySelectorAll(".about-nav button").forEach((btn) => {
-  btn.addEventListener("click", () => {
-    const id = btn.getAttribute("data-jump");
-    const target = document.getElementById(id);
-    if (target) {
-      target.scrollIntoView({ behavior: "smooth", block: "start" });
-    }
-  });
-});
+
 
 // ---------------------------------------------
 // CONTACT TERMINAL: Handle command input

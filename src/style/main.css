@@ -292,6 +292,14 @@ main {
   align-items: flex-start;
 }
 
+#intro h1 {
+  margin-bottom: 2rem; /* or 1.5rem for more breathing room */
+}
+
+#intro h2 {
+  margin-top: 0; /* just in case there's default spacing */
+}
+
 /* ---------------------------------------------
    Projects Section
 ---------------------------------------------- */
@@ -363,38 +371,27 @@ main {
   margin: 0 auto;
 }
 
+.about-wrapper {
+  max-width: 700px;
+  margin: 2rem auto;
+  text-align: left;
+  line-height: 1.7;
+  padding: 0 1rem;
+}
+
 #about h1 {
-  font-size: 1.5rem;
-  margin-bottom: 1.5rem;
-  color: #fff;
-  font-family: "Press Start 2P", monospace;
-  text-shadow: 0 0 1px #66ccff, 0 0 2px #3399ff, 0 0 3px #0066cc;
+  font-size: 2rem;
+  margin-bottom: 2rem;
+  text-align: left;
+  color: #0ff;
+  text-shadow: 0 0 2px #0ff;
 }
 
 #about p {
   margin-bottom: 2rem;
-  max-width: 60ch;
-}
-
-.about-nav {
-  display: flex;
-  gap: 1rem;
-  margin-bottom: 2rem;
-}
-
-.about-nav button {
-  font-family: inherit;
-  background: none;
-  border: 1px solid #0ff;
-  color: #0ff;
-  padding: 0.5rem 1rem;
-  font-size: 0.75rem;
-  cursor: pointer;
-  text-shadow: 0 0 2px #0ff;
-}
-
-.about-nav button:hover {
-  background: rgba(0, 255, 255, 0.1);
+  font-size: 1rem;
+  color: #ccc;
+  text-shadow: 0 0 1px #0ff;
 }
 
 .highlight {
@@ -552,6 +549,7 @@ main {
   width: fit-content;
   padding-bottom: 1.5rem;
   animation: blinkCursor 0.8s steps(1) infinite;
+  margin-top: 3rem;
 }
 
 @keyframes blinkCursor {
@@ -593,6 +591,7 @@ footer {
   bottom: 0;
   background: rgba(0, 0, 0, 0.3);
   z-index: 5;
+  padding-bottom: 1rem;
 }
 
 .channel-nav {
@@ -702,10 +701,6 @@ body.power-off {
   opacity: 0.6;
 }
 
-footer {
-  padding-bottom: 4rem; /* ensures fixed button doesn't collide */
-}
-
 /* Glitch effect */
 @keyframes glitch {
   0% {
@@ -808,5 +803,39 @@ footer {
   .terminal-line {
     font-size: 0.8rem;
     padding: 0.75rem 1rem;
+  }
+}
+
+@media (max-width: 600px) {
+  .about-wrapper {
+    padding: 0 1rem;
+    font-size: 0.95rem;
+    margin-top: 2rem;
+  }
+
+  #about h1 {
+    font-size: 1.5rem;
+    text-align: left;
+  }
+
+  #typewriter-line {
+    font-size: 0.8rem;
+    margin-top: 2rem;
+  }
+
+  .ascii-sig {
+    font-size: 0.6rem;
+    margin-top: 2rem;
+  }
+}
+
+@media (max-width: 600px) {
+  .about-wrapper {
+    padding: 0 1.25rem; /* wider on small screens */
+  }
+
+  #about {
+    padding-left: 0;
+    padding-right: 0;
   }
 }
