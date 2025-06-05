@@ -40,6 +40,32 @@ function typeWriterEffect() {
 }
 
 // ---------------------------------------------
+// DECRYPTED EFFECT
+// ---------------------------------------------
+import { decryptedText } from "./js/decryptedText.js";
+
+
+window.addEventListener("DOMContentLoaded", () => {
+  decryptedText({
+    elementId: "about-text",
+    text: `I’m a front-end developer, creative explorer, and occasional chaos mechanic with a mind wired for problem-solving.
+
+My work usually begins with a feeling. Sometimes it’s curiosity, other times it’s tension or instinct. I build through trial and error, letting the process guide the result rather than forcing it into place.
+
+Creating something new, even if it’s strange or unfinished, is where I feel most at home. If it feels honest or unexpectedly useful, I know I’m moving in the right direction.
+
+Lately I’ve been exploring how people interact with AI, how digital tools can support mental clarity, and how retro aesthetics can inspire modern expression.
+
+This portfolio is one of those experiments.`,
+    speed: 15,
+    revealDirection: "start",
+  });
+});
+
+
+
+
+// ---------------------------------------------
 // DATE DISPLAY
 // ---------------------------------------------
 

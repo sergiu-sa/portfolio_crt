@@ -701,6 +701,29 @@ body.power-off {
   opacity: 0.6;
 }
 
+
+/* Decrypted Text - About */
+
+.revealed-char {
+  color: #fefefe;
+  text-shadow: 0 0 3px #fefefe, 0 0 5px #00ffcc;
+}
+
+.encrypted-char {
+  color: #0ff9;
+  text-shadow: 0 0 2px #0ff, 0 0 4px #0ff;
+}
+
+.crt-text {
+  font-family: 'JetBrains Mono', monospace;
+  text-shadow:
+    0 0 2px #0ff,
+    0 0 4px #0ff;
+}
+
+
+
+
 /* Glitch effect */
 @keyframes glitch {
   0% {
