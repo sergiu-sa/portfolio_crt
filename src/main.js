@@ -44,26 +44,22 @@ function typeWriterEffect() {
 // ---------------------------------------------
 import { decryptedText } from "./js/decryptedText.js";
 
-
 window.addEventListener("DOMContentLoaded", () => {
   decryptedText({
     elementId: "about-text",
-    text: `I’m a front-end developer, creative explorer, and occasional chaos mechanic with a mind wired for problem-solving.
+    text: `I'm a front-end developer, creative explorer, and occasional chaos mechanic with a mind wired for problem-solving.
 
-My work usually begins with a feeling. Sometimes it’s curiosity, other times it’s tension or instinct. I build through trial and error, letting the process guide the result rather than forcing it into place.
+My work usually begins with a feeling. Sometimes it's curiosity, other times it's tension or instinct. I build through trial and error, letting the process guide the result rather than forcing it into place.
 
-Creating something new, even if it’s strange or unfinished, is where I feel most at home. If it feels honest or unexpectedly useful, I know I’m moving in the right direction.
+Creating something new, even if it's strange or unfinished, is where I feel most at home. If it feels honest or unexpectedly useful, I know I'm moving in the right direction.
 
-Lately I’ve been exploring how people interact with AI, how digital tools can support mental clarity, and how retro aesthetics can inspire modern expression.
+Lately I've been exploring how people interact with AI, how digital tools can support mental clarity, and how retro aesthetics can inspire modern expression.
 
 This portfolio is one of those experiments.`,
     speed: 15,
     revealDirection: "start",
   });
 });
-
-
-
 
 // ---------------------------------------------
 // DATE DISPLAY
@@ -188,20 +184,33 @@ function showSection(sectionId) {
   if (target) {
     target.style.display = "flex";
     target.classList.add("active");
+
+    // Initialize galleries when projects section is shown
+    if (sectionId === "projects") {
+      initProjectGalleries();
+    }
   }
 
-  if (sectionId === "about" && typewriter) {
+  if (sectionId === "about") {
     typewriter.textContent = "> ";
     i = 0;
     setTimeout(typeWriterEffect, 300);
+    // Clear previous text before re-triggering animation
+    document.getElementById("about-text").innerHTML = "";
+    // Re-trigger decrypted text effect for the About section
+    decryptedText({
+      elementId: "about-text",
+      text: `I'm a front-end developer, creative explorer, and occasional chaos mechanic with a mind wired for problem-solving.\n\nMy work usually begins with a feeling. Sometimes it's curiosity, other times it's tension or instinct. I build through trial and error, letting the process guide the result rather than forcing it into place.\n\nCreating something new, even if it's strange or unfinished, is where I feel most at home. If it feels honest or unexpectedly useful, I know I'm moving in the right direction.\n\nLately I've been exploring how people interact with AI, how digital tools can support mental clarity, and how retro aesthetics can inspire modern expression. This portfolio is one of those experiments.`, // Ensure the text is correctly formatted for multi-line display
+      speed: 15,
+      revealDirection: "start",
+    });
   }
 
   if (sectionId === "contact") {
     triggerTerminalSequence();
     startConsoleIntro();
-    refreshFadeInObserver(); // 👈 add this
+    refreshFadeInObserver();
   }
-  
 }
 
 // ---------------------------------------------
@@ -227,7 +236,6 @@ function refreshFadeInObserver() {
     observer.observe(el);
   });
 }
-
 
 // ---------------------------------------------
 // TERMINAL SEQUENCE (CONTACT SECTION)
@@ -269,7 +277,6 @@ function startConsoleIntro() {
 
   const container = document.querySelector("#contact");
   container.insertBefore(intro, container.querySelector(".contact-grid"));
-
 
   let i = 0;
   function typeChar() {
@@ -318,14 +325,12 @@ document
   });
 
 document.getElementById("ping-all").addEventListener("click", () => {
-  alert("🔊 All contact protocols pinged. Awaiting response...");
+  alert("[SYSTEM] All contact protocols pinged. Awaiting response...");
 });
 
 document.getElementById("power-off").addEventListener("click", () => {
   document.body.classList.toggle("power-off");
 });
-
-
 
 // ---------------------------------------------
 // CONTACT TERMINAL: Handle command input
@@ -347,36 +352,36 @@ function handleContactCommand(cmd) {
   switch (cmd) {
     case "/email":
       window.location.href = "mailto:hello@sergiusarbu.dev";
-      printResponse("📨 Opening email client...");
+      printResponse("[MAIL] Opening email client...");
       return;
 
     case "/github":
       window.open("https://github.com/sergiu-sa", "_blank");
-      printResponse("🔗 Opening GitHub...");
+      printResponse("[GIT] Opening GitHub...");
       return;
 
     case "/linkedin":
       window.open("https://linkedin.com/in/YOUR-ID", "_blank");
-      printResponse("🔗 Opening LinkedIn...");
+      printResponse("[NETWORK] Opening LinkedIn...");
       return;
 
     case "/instagram":
       window.open("https://instagram.com/YOUR-ID", "_blank");
-      printResponse("📸 Opening Instagram...");
+      printResponse("[CAMERA] Opening Instagram...");
       return;
 
     case "/discord":
       window.open("https://discord.com/users/YOUR-ID", "_blank");
-      printResponse("🎮 Opening Discord...");
+      printResponse("[CHAT] Opening Discord...");
       return;
 
     case "/poweroff":
       document.body.classList.toggle("power-off");
-      printResponse("🛑 CRT power toggled.");
+      printResponse("[POWER] CRT power toggled.");
       return;
 
     case "/ping":
-      printResponse("📡 Contact signal sent successfully!");
+      printResponse("[SIGNAL] Contact signal sent successfully!");
       return;
 
     case "/clear":
@@ -384,7 +389,7 @@ function handleContactCommand(cmd) {
       return;
 
     case "/help":
-      printResponse(`📖 Available commands:
+      printResponse(`[HELP] Available commands:
   /email
   /github
   /linkedin
@@ -396,7 +401,7 @@ function handleContactCommand(cmd) {
       return;
 
     default:
-      printResponse("❌ Unknown command. Try /help");
+      printResponse("[ERROR] Unknown command. Try /help");
   }
 }
 
@@ -456,10 +461,10 @@ document.addEventListener("DOMContentLoaded", () => {
         break;
       case "/poweroff":
         document.body.classList.toggle("power-off");
-        printResponse("🛑 CRT power toggled.");
+        printResponse("[POWER] CRT power toggled.");
         break;
       case "/ping":
-        printResponse("📡 Contact signal sent successfully!");
+        printResponse("[SIGNAL] Contact signal sent successfully!");
         break;
       case "/clear":
         clearOutput();
@@ -470,10 +475,203 @@ document.addEventListener("DOMContentLoaded", () => {
         );
         break;
       default:
-        printResponse("❌ Unknown command. Try /help");
+        printResponse("[ERROR] Unknown command. Try /help");
     }
   }
 });
+
+// ---------------------------------------------
+// PROJECT GALLERY FUNCTIONALITY
+// ---------------------------------------------
+
+function initProjectGalleries() {
+  const galleries = document.querySelectorAll(".project-gallery");
+  const fullscreenView = document.querySelector(".fullscreen-view");
+  const fullscreenImage = document.querySelector(".fullscreen-image");
+  const fullscreenNav = document.querySelector(".fullscreen-nav");
+  const closeFullscreen = document.querySelector(".close-fullscreen");
+  const prevButton = document.querySelector(".fullscreen-arrow.prev");
+  const nextButton = document.querySelector(".fullscreen-arrow.next");
+  let currentGallery = null;
+
+  galleries.forEach((gallery) => {
+    const images = gallery.querySelectorAll("img");
+    const dots = gallery.querySelectorAll(".gallery-dot");
+    let currentIndex = 0;
+    let touchStartX = 0;
+    let touchEndX = 0;
+
+    // Add click handlers to dots
+    dots.forEach((dot, index) => {
+      dot.addEventListener("click", () => {
+        showImage(index);
+      });
+    });
+
+    // Add click handler to gallery for fullscreen
+    gallery.addEventListener("click", () => {
+      openFullscreen(gallery);
+    });
+
+    // Add keyboard navigation
+    gallery.addEventListener("keydown", (e) => {
+      if (e.key === "ArrowLeft") {
+        showImage((currentIndex - 1 + images.length) % images.length);
+      } else if (e.key === "ArrowRight") {
+        showImage((currentIndex + 1) % images.length);
+      }
+    });
+
+    // Add touch support for mobile
+    gallery.addEventListener("touchstart", (e) => {
+      touchStartX = e.changedTouches[0].screenX;
+    });
+
+    gallery.addEventListener("touchend", (e) => {
+      touchEndX = e.changedTouches[0].screenX;
+      handleSwipe();
+    });
+
+    function handleSwipe() {
+      const swipeThreshold = 50;
+      const diff = touchStartX - touchEndX;
+
+      if (Math.abs(diff) > swipeThreshold) {
+        if (diff > 0) {
+          // Swipe left
+          showImage((currentIndex + 1) % images.length);
+        } else {
+          // Swipe right
+          showImage((currentIndex - 1 + images.length) % images.length);
+        }
+      }
+    }
+
+    function showImage(index) {
+      // Remove active class from current image and dot
+      images[currentIndex].classList.remove("active");
+      dots[currentIndex].classList.remove("active");
+
+      // Update current index
+      currentIndex = index;
+
+      // Add active class to new image and dot
+      images[currentIndex].classList.add("active");
+      dots[currentIndex].classList.add("active");
+
+      // Update fullscreen if active
+      if (currentGallery === gallery) {
+        updateFullscreen();
+      }
+    }
+
+    // Auto-advance gallery if there are multiple images
+    if (images.length > 1) {
+      setInterval(() => {
+        if (currentGallery !== gallery) {
+          showImage((currentIndex + 1) % images.length);
+        }
+      }, 5000); // Change image every 5 seconds
+    }
+  });
+
+  // Fullscreen functionality
+  function openFullscreen(gallery) {
+    currentGallery = gallery;
+    fullscreenView.classList.add("active");
+    updateFullscreen();
+    document.body.style.overflow = "hidden";
+  }
+
+  function closeFullscreenView() {
+    fullscreenView.classList.remove("active");
+    currentGallery = null;
+    document.body.style.overflow = "";
+  }
+
+  function updateFullscreen() {
+    if (!currentGallery) return;
+
+    const activeImage = currentGallery.querySelector("img.active");
+    const images = currentGallery.querySelectorAll("img");
+    const dots = currentGallery.querySelectorAll(".gallery-dot");
+
+    fullscreenImage.src = activeImage.src;
+    fullscreenImage.alt = activeImage.alt;
+
+    // Update fullscreen navigation dots
+    fullscreenNav.innerHTML = "";
+    images.forEach((_, index) => {
+      const dot = document.createElement("div");
+      dot.className = `fullscreen-dot ${
+        index === Array.from(images).indexOf(activeImage) ? "active" : ""
+      }`;
+      dot.addEventListener("click", () => {
+        const galleryDots = currentGallery.querySelectorAll(".gallery-dot");
+        galleryDots[index].click();
+      });
+      fullscreenNav.appendChild(dot);
+    });
+
+    // Show/hide navigation arrows based on number of images
+    if (images.length > 1) {
+      prevButton.style.display = "flex";
+      nextButton.style.display = "flex";
+    } else {
+      prevButton.style.display = "none";
+      nextButton.style.display = "none";
+    }
+  }
+
+  // Navigation arrow click handlers
+  prevButton.addEventListener("click", () => {
+    if (!currentGallery) return;
+    const images = currentGallery.querySelectorAll("img");
+    const currentIndex = Array.from(images).findIndex((img) =>
+      img.classList.contains("active")
+    );
+    const newIndex = (currentIndex - 1 + images.length) % images.length;
+    currentGallery.querySelectorAll(".gallery-dot")[newIndex].click();
+  });
+
+  nextButton.addEventListener("click", () => {
+    if (!currentGallery) return;
+    const images = currentGallery.querySelectorAll("img");
+    const currentIndex = Array.from(images).findIndex((img) =>
+      img.classList.contains("active")
+    );
+    const newIndex = (currentIndex + 1) % images.length;
+    currentGallery.querySelectorAll(".gallery-dot")[newIndex].click();
+  });
+
+  // Close fullscreen view
+  closeFullscreen.addEventListener("click", closeFullscreenView);
+  fullscreenView.addEventListener("click", (e) => {
+    if (e.target === fullscreenView) {
+      closeFullscreenView();
+    }
+  });
+
+  // Keyboard navigation in fullscreen
+  document.addEventListener("keydown", (e) => {
+    if (!currentGallery) return;
+
+    const images = currentGallery.querySelectorAll("img");
+    const currentIndex = Array.from(images).findIndex((img) =>
+      img.classList.contains("active")
+    );
+
+    if (e.key === "Escape") {
+      closeFullscreenView();
+    } else if (e.key === "ArrowLeft") {
+      const newIndex = (currentIndex - 1 + images.length) % images.length;
+      currentGallery.querySelectorAll(".gallery-dot")[newIndex].click();
+    } else if (e.key === "ArrowRight") {
+      const newIndex = (currentIndex + 1) % images.length;
+      currentGallery.querySelectorAll(".gallery-dot")[newIndex].click();
+    }
+  });
+}
 
 // ---------------------------------------------
 // INIT
