@@ -1,8 +1,3 @@
----
-
-### ✅ Final `README.md` (for `portfolio_crt` repo)
-
-````markdown
 # Sergiu Sarbu — Developer Portfolio (CRT Edition)
 
 This is my personal portfolio site built as part of the Noroff Front-End Development 1 curriculum. It showcases three core projects from my first year and is presented through a custom visual interface inspired by retro **CRT** (Cathode Ray Tube) displays — the analog screens used in old televisions and monitors.
