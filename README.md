@@ -67,28 +67,24 @@ Live Site: [https://askbetter.vercel.app](https://askbetter.vercel.app)
 1. Clone the repository:
 ```bash
 git clone https://github.com/sergiu-sa/portfolio_crt.git
-````
+```
 
 2. Navigate to the project folder:
-
 ```bash
 cd portfolio_crt
 ```
 
 3. Install dependencies:
-
 ```bash
 npm install
 ```
 
 4. Start the development server:
-
 ```bash
 npm run dev
 ```
 
 5. Open the local server in your browser:
-
 ```
 http://localhost:5173
 ```
@@ -119,8 +115,8 @@ The project is fully functional and deployed. Some channel videos and image medi
 
 ## Author
 
-**Sergiu Sarbu**
-Front-End Development student at Noroff School of Technology and Digital Media
+**Sergiu Sarbu**  
+Front-End Development student at Noroff School of Technology and Digital Media  
 Focused on creative interfaces, user-centered development, and visual coding aesthetics
 
 GitHub: [https://github.com/sergiu-sa](https://github.com/sergiu-sa)
@@ -130,3 +126,36 @@ GitHub: [https://github.com/sergiu-sa](https://github.com/sergiu-sa)
 ## License
 
 This project is open source and available under the [MIT License](LICENSE).
+
+
+---
+
+## Projects Showcased
+
+| Project       | Description                                                                 | GitHub Repository                                              | Live Site                                        |
+|---------------|-----------------------------------------------------------------------------|----------------------------------------------------------------|--------------------------------------------------|
+| Square Eyes   | Responsive film discovery site with clean HTML and modular CSS              | [square-eyes](https://github.com/sergiu-sa/square-eyes)        | [square-eyes-vite.netlify.app](https://square-eyes-vite.netlify.app) |
+| Kid Bank      | Fintech prototype for teens with barcode scanning and age-check logic       | [kid-bank](https://github.com/03-renate/kid-bank)              | [kidbank.netlify.app](https://kidbank.netlify.app) |
+| AskBetter     | AI prompt design tool using emotion-driven inputs and retro UI              | [askbetter](https://github.com/sergiu-sa/askbetter)            | [askbetter.vercel.app](https://askbetter.vercel.app) |
+
+---
+
+## Screenshots
+
+> Screenshots below show desktop and mobile views for the portfolio and projects.
+
+### Portfolio (CRT Interface)
+![CRT Desktop](./screenshots/portfolio-desktop.jpg)
+![CRT Mobile](./screenshots/portfolio-mobile.jpg)
+
+### Square Eyes
+![Square Eyes Desktop](src/assets/projects/square_eyes/new_home01.png)
+![Square Eyes Mobile](./screenshots/square-eyes-mobile.jpg)
+
+### Kid Bank
+![Kid Bank Desktop](src/assets/projects/kid_bank/kid_bank01.png)
+![Kid Bank Mobile](./screenshots/kid-bank-mobile.jpg)
+
+### AskBetter
+![AskBetter Desktop](./screenshots/askbetter-desktop.jpg)
+![AskBetter Mobile](./screenshots/askbetter-mobile.jpg)
