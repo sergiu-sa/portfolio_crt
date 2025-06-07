@@ -329,15 +329,14 @@ main::-webkit-scrollbar {
 }
 
 .project-card {
-  background: rgba(0, 0, 0, 0.8);
+  background: rgba(0, 0, 0, 0.5);
   backdrop-filter: blur(3px);
-  border: 1px solid rgba(0, 255, 204, 0.05);
+  border: 1px solid rgba(0, 255, 255, 0.2);
   padding: 1.75rem;
   text-align: center;
   color: #eee;
   text-shadow: 0 0 1px #000;
-  box-shadow: 0 0 2px rgba(0, 255, 204, 0.03),
-    0 0 3px rgba(0, 255, 204, 0.01) inset;
+  box-shadow: 0 0 20px rgba(0, 255, 255, 0.1);
   display: flex;
   flex-direction: column;
   height: 100%;
@@ -347,13 +346,13 @@ main::-webkit-scrollbar {
   max-width: 350px;
   box-sizing: border-box;
   transition: all 0.3s ease;
+  border-radius: 8px;
 }
 
 .project-card:hover {
   transform: translateY(-5px) scale(1.02);
-  box-shadow: 0 0 5px rgba(0, 255, 204, 0.1),
-    0 0 8px rgba(0, 255, 204, 0.03) inset;
-  background: rgba(0, 0, 0, 0.9);
+  box-shadow: 0 0 25px rgba(0, 255, 255, 0.3);
+  background: rgba(0, 0, 0, 0.6);
 }
 
 .project-gallery {
@@ -534,8 +533,42 @@ main::-webkit-scrollbar {
   border-radius: 4px;
 }
 
+.tech-stack-chips {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.8rem;
+  margin-top: 2.5rem;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.chip {
+  display: inline-block;
+  padding: 0.5rem 1rem;
+  border: 1px solid var(--accent-color);
+  border-radius: 5px;
+  background: rgba(0, 0, 0, 0.6);
+  color: var(--accent-color-light);
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 0.9rem;
+  text-shadow: 0 0 3px var(--accent-color);
+  box-shadow: 0 0 8px rgba(0, 255, 255, 0.3);
+  transition: all 0.3s ease;
+  cursor: default;
+}
+
+.chip:hover {
+  background: rgba(0, 255, 204, 0.2);
+  box-shadow: 0 0 15px var(--accent-color);
+  transform: translateY(-2px) scale(1.02);
+}
+
 .ascii-signature {
-  font-family: monospace;
+  font-family: "Consolas", "Menlo", "Monaco", "Lucida Console",
+    "Liberation Mono", "DejaVu Sans Mono", "Bitstream Vera Sans Mono",
+    "Courier New", monospace;
   white-space: pre;
   color: var(--accent-color);
   text-align: center;
@@ -546,6 +579,21 @@ main::-webkit-scrollbar {
   opacity: 0.9;
   max-width: 100%;
   overflow-x: auto;
+  display: block;
+  font-size: 0.7rem;
+  letter-spacing: 0;
+  tab-size: 2;
+  -moz-tab-size: 2;
+  -o-tab-size: 2;
+}
+
+.ascii-signature pre {
+  margin: 0;
+  padding: 0;
+  line-height: 1;
+  letter-spacing: 0;
+  word-spacing: 0;
+  font-size: 0.7rem;
 }
 
 #about .ascii-signature {
@@ -588,7 +636,7 @@ main::-webkit-scrollbar {
 
 .contact-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  grid-template-columns: repeat(3, 1fr);
   gap: 3rem;
   justify-items: center;
   justify-content: center;
@@ -599,16 +647,30 @@ main::-webkit-scrollbar {
   box-sizing: border-box;
 }
 
+@media (max-width: 992px) {
+  .contact-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 550px) {
+  .contact-grid {
+    grid-template-columns: 1fr;
+    padding: 0 1rem;
+    gap: 2rem;
+  }
+}
+
 .contact-card {
   display: flex;
   flex-direction: column;
   align-items: center;
   padding: 1.5rem;
-  border: 1px dashed #fefefe;
-  border-radius: 10px;
+  border: 1px solid rgba(0, 255, 255, 0.2);
+  border-radius: 8px;
   background: rgba(0, 0, 0, 0.5);
   text-align: center;
-  box-shadow: 0 0 10px rgba(0, 255, 255, 0.3);
+  box-shadow: 0 0 20px rgba(0, 255, 255, 0.1);
   position: relative;
   transition: transform 0.2s ease, box-shadow 0.3s ease;
   max-width: 280px;
@@ -619,8 +681,9 @@ main::-webkit-scrollbar {
 
 .contact-card:hover {
   transform: scale(1.05);
-  box-shadow: 0 0 25px #00ffcc;
+  box-shadow: 0 0 25px rgba(0, 255, 255, 0.3);
   animation: none;
+  background: rgba(0, 0, 0, 0.6);
 }
 
 .contact-card:hover::after {

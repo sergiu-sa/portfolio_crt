@@ -59,6 +59,132 @@ This portfolio is one of those experiments.`,
     speed: 15,
     revealDirection: "start",
   });
+
+  const contactInput = document.querySelector(
+    "#contact .contact-console input"
+  );
+  const output = document.querySelector("#contact .terminal-output");
+
+  let commandHistory = [];
+  let historyIndex = -1;
+
+  if (contactInput) {
+    contactInput.addEventListener("keydown", (e) => {
+      if (e.key === "Enter") {
+        const command = contactInput.value.trim();
+        if (command) {
+          printCommand(command);
+          handleContactCommand(command.toLowerCase());
+          commandHistory.push(command);
+          historyIndex = commandHistory.length; // Reset history index to the end
+        }
+        contactInput.value = "";
+      } else if (e.key === "ArrowUp") {
+        e.preventDefault(); // Prevent cursor from moving to the beginning
+        if (historyIndex > 0) {
+          historyIndex--;
+          contactInput.value = commandHistory[historyIndex];
+        }
+      } else if (e.key === "ArrowDown") {
+        e.preventDefault(); // Prevent cursor from moving to the end
+        if (historyIndex < commandHistory.length - 1) {
+          historyIndex++;
+          contactInput.value = commandHistory[historyIndex];
+        } else if (historyIndex === commandHistory.length - 1) {
+          historyIndex++;
+          contactInput.value = ""; // Clear input if at the end of history
+        }
+      }
+    });
+  }
+
+  function printCommand(cmd) {
+    if (!output) return;
+    const line = document.createElement("div");
+    line.classList.add("terminal-line");
+    line.textContent = `> ${cmd}`;
+    output.appendChild(line);
+  }
+
+  function printResponse(msg) {
+    if (!output) return;
+    const line = document.createElement("div");
+    line.classList.add("terminal-line");
+    output.appendChild(line);
+
+    let i = 0;
+    const speed = 20; // typing speed in milliseconds
+
+    function typeChar() {
+      if (i < msg.length) {
+        line.textContent += msg.charAt(i);
+        i++;
+        setTimeout(typeChar, speed);
+      }
+    }
+    typeChar();
+  }
+
+  function clearOutput() {
+    if (output) output.innerHTML = "";
+  }
+
+  function handleContactCommand(cmd) {
+    switch (cmd) {
+      case "/email":
+        window.location.href = "mailto:hello@sergiusarbu.dev";
+        printResponse("[MAIL] Opening email client...");
+        return;
+
+      case "/github":
+        window.open("https://github.com/sergiu-sa", "_blank");
+        printResponse("[GIT] Opening GitHub...");
+        return;
+
+      case "/linkedin":
+        window.open("https://linkedin.com/in/YOUR-ID", "_blank");
+        printResponse("[NETWORK] Opening LinkedIn...");
+        return;
+
+      case "/instagram":
+        window.open("https://instagram.com/YOUR-ID", "_blank");
+        printResponse("[CAMERA] Opening Instagram...");
+        return;
+
+      case "/discord":
+        window.open("https://discord.com/users/YOUR-ID", "_blank");
+        printResponse("[CHAT] Opening Discord...");
+        return;
+
+      case "/poweroff":
+        document.body.classList.toggle("power-off");
+        printResponse("[POWER] CRT power toggled.");
+        return;
+
+      case "/ping":
+        printResponse("[SIGNAL] Contact signal sent successfully!");
+        return;
+
+      case "/clear":
+        clearOutput();
+        return;
+
+      case "/help":
+        printResponse(`[HELP] Available commands:
+  /email
+  /github
+  /linkedin
+  /instagram
+  /discord
+  /ping
+  /poweroff
+  /clear`);
+        return;
+
+      default:
+        printResponse("[ERROR] Unknown command. Try /help");
+    }
+  }
 });
 
 // ---------------------------------------------
@@ -263,27 +389,10 @@ function startConsoleIntro() {
   contactIntroPlayed = true;
 
   const text = "Establishing connection with Sergiu...";
-  const intro = document.createElement("div");
-  intro.classList.add("terminal-line", "fade-in");
-  intro.style.opacity = 0;
-  intro.textContent = "";
+  printResponse(text);
 
-  const container = document.querySelector("#contact");
-  container.insertBefore(intro, container.querySelector(".contact-grid"));
-
-  let i = 0;
-  function typeChar() {
-    if (i < text.length) {
-      intro.textContent += text.charAt(i);
-      i++;
-      setTimeout(typeChar, 40);
-    } else {
-      intro.style.opacity = 1;
-      intro.classList.add("visible");
-    }
-  }
-
-  typeChar();
+  // You can add more intro lines here if needed
+  // setTimeout(() => printResponse("[STATUS] Online."), text.length * 20 + 500);
 }
 
 // ---------------------------------------------
@@ -315,154 +424,6 @@ document.getElementById("ping-all").addEventListener("click", () => {
 
 document.getElementById("power-off").addEventListener("click", () => {
   document.body.classList.toggle("power-off");
-});
-
-// ---------------------------------------------
-// CONTACT TERMINAL: Handle command input
-// ---------------------------------------------
-
-const contactInput = document.querySelector("#contact .contact-console input");
-
-if (contactInput) {
-  contactInput.addEventListener("keydown", (e) => {
-    if (e.key === "Enter") {
-      const command = contactInput.value.trim().toLowerCase();
-      handleContactCommand(command);
-      contactInput.value = "";
-    }
-  });
-}
-
-function handleContactCommand(cmd) {
-  switch (cmd) {
-    case "/email":
-      window.location.href = "mailto:hello@sergiusarbu.dev";
-      printResponse("[MAIL] Opening email client...");
-      return;
-
-    case "/github":
-      window.open("https://github.com/sergiu-sa", "_blank");
-      printResponse("[GIT] Opening GitHub...");
-      return;
-
-    case "/linkedin":
-      window.open("https://linkedin.com/in/YOUR-ID", "_blank");
-      printResponse("[NETWORK] Opening LinkedIn...");
-      return;
-
-    case "/instagram":
-      window.open("https://instagram.com/YOUR-ID", "_blank");
-      printResponse("[CAMERA] Opening Instagram...");
-      return;
-
-    case "/discord":
-      window.open("https://discord.com/users/YOUR-ID", "_blank");
-      printResponse("[CHAT] Opening Discord...");
-      return;
-
-    case "/poweroff":
-      document.body.classList.toggle("power-off");
-      printResponse("[POWER] CRT power toggled.");
-      return;
-
-    case "/ping":
-      printResponse("[SIGNAL] Contact signal sent successfully!");
-      return;
-
-    case "/clear":
-      clearOutput();
-      return;
-
-    case "/help":
-      printResponse(`[HELP] Available commands:
-  /email
-  /github
-  /linkedin
-  /instagram
-  /discord
-  /ping
-  /poweroff
-  /clear`);
-      return;
-
-    default:
-      printResponse("[ERROR] Unknown command. Try /help");
-  }
-}
-
-document.addEventListener("DOMContentLoaded", () => {
-  const contactInput = document.querySelector(
-    "#contact .contact-console input"
-  );
-  const output = document.querySelector("#contact .terminal-output");
-
-  if (contactInput) {
-    contactInput.addEventListener("keydown", (e) => {
-      if (e.key === "Enter") {
-        const command = contactInput.value.trim().toLowerCase();
-        printCommand(command);
-        handleContactCommand(command);
-        contactInput.value = "";
-      }
-    });
-  }
-
-  function printCommand(cmd) {
-    if (!output) return;
-    const line = document.createElement("div");
-    line.classList.add("terminal-line");
-    line.textContent = `> ${cmd}`;
-    output.appendChild(line);
-  }
-
-  function printResponse(msg) {
-    if (!output) return;
-    const line = document.createElement("div");
-    line.classList.add("terminal-line");
-    line.textContent = msg;
-    output.appendChild(line);
-  }
-
-  function clearOutput() {
-    if (output) output.innerHTML = "";
-  }
-
-  function handleContactCommand(cmd) {
-    switch (cmd) {
-      case "/email":
-        window.location.href = "mailto:hello@sergiusarbu.dev";
-        break;
-      case "/github":
-        window.open("https://github.com/sergiu-sa", "_blank");
-        break;
-      case "/linkedin":
-        window.open("https://linkedin.com/in/YOUR-ID", "_blank");
-        break;
-      case "/instagram":
-        window.open("https://instagram.com/YOUR-ID", "_blank");
-        break;
-      case "/discord":
-        window.open("https://discord.com/users/YOUR-ID", "_blank");
-        break;
-      case "/poweroff":
-        document.body.classList.toggle("power-off");
-        printResponse("[POWER] CRT power toggled.");
-        break;
-      case "/ping":
-        printResponse("[SIGNAL] Contact signal sent successfully!");
-        break;
-      case "/clear":
-        clearOutput();
-        break;
-      case "/help":
-        printResponse(
-          "Available commands:\n/email\n/github\n/linkedin\n/instagram\n/discord\n/ping\n/poweroff\n/clear"
-        );
-        break;
-      default:
-        printResponse("[ERROR] Unknown command. Try /help");
-    }
-  }
 });
 
 // ---------------------------------------------
