@@ -22,7 +22,12 @@
           <button data-section="about">/ABOUT</button>
           <button data-section="contact">/CONTACT</button>
         </nav>
-        <div id="date-display"></div>
+        <div class="header-right">
+          <div id="date-display">
+            <button class="home-link" id="home-link">HOME</button>/
+            <span id="current-date"></span>
+          </div>
+        </div>
       </header>
       <main>
         <!-- INTRO -->
@@ -139,10 +144,6 @@
             ></button>
             <button class="close-fullscreen">Close</button>
           </div>
-
-          <div class="back-button">
-            <button id="back-to-home">← Home</button>
-          </div>
         </section>
 
         <section id="about" class="channel-screen">
@@ -159,10 +160,6 @@
               ███████║███████╗██║ ██║╚██████╔╝██║╚██████╔╝ ╚══════╝╚══════╝╚═╝
               ╚═╝ ╚═════╝ ╚═╝ ╚═════╝
             </div>
-          </div>
-
-          <div class="back-button">
-            <button id="back-to-home-about">← Home</button>
           </div>
         </section>
 
@@ -203,7 +200,7 @@
             </div>
             <div
               class="contact-card fade-in"
-              data-hover="[NETWORK] Establishing professional connection..."
+              data-hover="[SOCIAL] Accessing network feeds..."
             >
               <svg
                 class="icon"
@@ -212,10 +209,9 @@
                 stroke="currentColor"
               >
                 <path
-                  d="M16 8a6 6 0 0 1 6 6v7h-4v-6a2 2 0 0 0-4 0v6h-4v-7a6 6 0 0 1 6-6z"
+                  d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6z"
                 />
-                <rect x="2" y="9" width="4" height="12" />
-                <circle cx="4" cy="4" r="2" />
+                <circle cx="12" cy="7" r="4" />
               </svg>
 
               <a href="https://linkedin.com/in/YOUR-ID" target="_blank"
@@ -224,7 +220,26 @@
             </div>
             <div
               class="contact-card fade-in"
-              data-hover="[CHAT] Joining developer network..."
+              data-hover="[MEDIA] Browsing visual stream..."
+            >
+              <svg
+                class="icon"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+              >
+                <rect x="2" y="2" width="20" height="20" rx="5" ry="5" />
+                <path d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37z" />
+                <line x1="17.5" y1="6.5" x2="17.51" y2="6.5" />
+              </svg>
+
+              <a href="https://instagram.com/YOUR-ID" target="_blank"
+                >Instagram</a
+              >
+            </div>
+            <div
+              class="contact-card fade-in"
+              data-hover="[PROTOCOL] Pinging Discord server..."
             >
               <svg
                 class="icon"
@@ -233,33 +248,15 @@
                 stroke="currentColor"
               >
                 <path
-                  d="M4 4c5.333-1.333 10.667-1.333 16 0l-1 5c-2.667-1-5.333-1-8 0l-1-5z"
+                  d="M10 13a5 5 0 007.54.54l3-3a5 5 0 00-7.07-7.07l-3 3a5 5 0 00-1.14 1.94"
                 />
-                <circle cx="9" cy="12" r="1" />
-                <circle cx="15" cy="12" r="1" />
+                <path
+                  d="M14 11a5 5 0 00-7.54-.54l-3 3a5 5 0 007.07 7.07l3-3a5 5 0 001.14-1.94"
+                />
               </svg>
 
               <a href="https://discord.com/users/YOUR-ID" target="_blank"
                 >Discord</a
-              >
-            </div>
-            <div
-              class="contact-card fade-in"
-              data-hover="[CAMERA] Capturing visual feed..."
-            >
-              <svg
-                class="icon"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-              >
-                <rect x="2" y="2" width="20" height="20" rx="5" />
-                <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" />
-                <line x1="17.5" y1="6.5" x2="17.5" y2="6.5" />
-              </svg>
-
-              <a href="https://instagram.com/YOUR-ID" target="_blank"
-                >Instagram</a
               >
             </div>
             <div
@@ -298,10 +295,6 @@
             />
 
             <div class="terminal-output"></div>
-          </div>
-
-          <div class="back-button">
-            <button id="back-to-home-contact">← Home</button>
           </div>
         </section>
       </main>

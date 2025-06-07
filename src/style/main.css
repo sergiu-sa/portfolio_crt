@@ -205,6 +205,12 @@ header {
   font-size: 0.95rem;
 }
 
+.header-right {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
 nav {
   display: flex;
   gap: 1rem;
@@ -214,7 +220,7 @@ nav button,
 .channel-nav button {
   background: none;
   border: none;
-  color: #b0f0f0;
+  color: #aaa;
   font-size: 0.95rem;
   cursor: pointer;
   transition: color 0.2s;
@@ -231,6 +237,25 @@ nav button:hover,
   font-size: 0.85rem;
   color: #aaa;
   text-shadow: 0 0 1px #66ccff, 0 0 2px #3399ff, 0 0 3px #0066cc;
+  display: flex;
+  align-items: center;
+}
+
+.home-link {
+  background: none;
+  border: none;
+  color: #aaa;
+  font-size: 0.95rem;
+  cursor: pointer;
+  font-family: inherit;
+  text-shadow: 0 0 1px #66ccff, 0 0 2px #3399ff, 0 0 3px #0066cc;
+  padding: 0;
+  margin-right: 0.25rem;
+  transition: color 0.2s;
+}
+
+.home-link:hover {
+  color: #fff;
 }
 
 /* Main Content +Section Screens */
@@ -252,7 +277,7 @@ main {
 .channel-screen {
   position: absolute;
   inset: 0;
-  display: none;
+  display: none !important;
   padding: 6rem 2rem 3rem 2rem;
   width: 100%;
   min-height: 100%;
@@ -269,7 +294,7 @@ main {
 }
 
 .channel-screen.active {
-  display: flex;
+  display: flex !important;
   flex-direction: column;
   align-items: center;
   justify-content: flex-start;
@@ -939,6 +964,14 @@ body.power-off {
   .channel-nav button {
     font-size: 0.9rem;
     padding: 0.5rem 2rem;
+  }
+
+  .home-link {
+    font-size: 0.9rem;
+  }
+
+  .header-right {
+    gap: 0.75rem;
   }
 }
 

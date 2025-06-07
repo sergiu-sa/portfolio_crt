@@ -81,7 +81,7 @@ function updateDate() {
     "NOV",
     "DEC",
   ];
-  dateDisplay.textContent = `${
+  document.getElementById("current-date").textContent = `${
     months[now.getMonth()]
   } ${now.getDate()}, ${now.getFullYear()}`;
 }
@@ -174,39 +174,32 @@ function playRetroVideo(videoNumber) {
 // SECTION SWITCHING
 // ---------------------------------------------
 
-function showSection(sectionId) {
-  sections.forEach((section) => {
-    section.classList.remove("active");
-    section.style.display = "none";
+function showSection(section) {
+  sections.forEach((s) => {
+    s.classList.remove("active");
+    s.style.display = "none";
   });
 
-  const target = document.getElementById(sectionId);
+  const target = document.getElementById(section);
   if (target) {
     target.style.display = "flex";
     target.classList.add("active");
-
-    // Initialize galleries when projects section is shown
-    if (sectionId === "projects") {
-      initProjectGalleries();
-    }
   }
 
-  if (sectionId === "about") {
+  if (section === "about") {
     typewriter.textContent = "> ";
     i = 0;
     setTimeout(typeWriterEffect, 300);
-    // Clear previous text before re-triggering animation
     document.getElementById("about-text").innerHTML = "";
-    // Re-trigger decrypted text effect for the About section
     decryptedText({
       elementId: "about-text",
-      text: `I'm a front-end developer, creative explorer, and occasional chaos mechanic with a mind wired for problem-solving.\n\nMy work usually begins with a feeling. Sometimes it's curiosity, other times it's tension or instinct. I build through trial and error, letting the process guide the result rather than forcing it into place.\n\nCreating something new, even if it's strange or unfinished, is where I feel most at home. If it feels honest or unexpectedly useful, I know I'm moving in the right direction.\n\nLately I've been exploring how people interact with AI, how digital tools can support mental clarity, and how retro aesthetics can inspire modern expression. This portfolio is one of those experiments.`, // Ensure the text is correctly formatted for multi-line display
+      text: `I'm a front-end developer, creative explorer, and occasional chaos mechanic with a mind wired for problem-solving.\n\nMy work usually begins with a feeling. Sometimes it's curiosity, other times it's tension or instinct. I build through trial and error, letting the process guide the result rather than forcing it into place.\n\nCreating something new, even if it's strange or unfinished, is where I feel most at home. If it feels honest or unexpectedly useful, I know I'm moving in the right direction.\n\nLately I've been exploring how people interact with AI, how digital tools can support mental clarity, and how retro aesthetics can inspire modern expression. This portfolio is one of those experiments.`,
       speed: 15,
       revealDirection: "start",
     });
   }
 
-  if (sectionId === "contact") {
+  if (section === "contact") {
     triggerTerminalSequence();
     startConsoleIntro();
     refreshFadeInObserver();
@@ -312,17 +305,9 @@ document.getElementById("next-channel").addEventListener("click", () => {
   setChannel(currentChannel === maxChannels ? 1 : currentChannel + 1);
 });
 
-document.getElementById("back-to-home").addEventListener("click", () => {
+document.getElementById("home-link").addEventListener("click", () => {
   showSection("intro");
 });
-document.getElementById("back-to-home-about").addEventListener("click", () => {
-  showSection("intro");
-});
-document
-  .getElementById("back-to-home-contact")
-  .addEventListener("click", () => {
-    showSection("intro");
-  });
 
 document.getElementById("ping-all").addEventListener("click", () => {
   alert("[SYSTEM] All contact protocols pinged. Awaiting response...");
