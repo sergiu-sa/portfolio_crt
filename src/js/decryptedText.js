@@ -1,7 +1,7 @@
 export function decryptedText({
   elementId,
   text,
-  speed = 40,
+  speed = 15,
   characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()_+",
   revealDirection = "start",
 }) {

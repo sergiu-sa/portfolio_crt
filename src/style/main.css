@@ -2,12 +2,16 @@
 @import url("https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@300;400&display=swap");
 
 /* GLOBAL SETTINGS */
+html,
 body {
+  height: 100%;
+  min-height: 100%;
   margin: 0;
   font-family: "IBM Plex Mono", monospace;
   background: black;
   color: #eee;
-  overflow: hidden;
+  overflow-x: hidden;
+  overflow-y: auto;
   -webkit-font-smoothing: antialiased;
   font-smooth: always;
   text-rendering: geometricPrecision;
@@ -21,20 +25,20 @@ h2,
 }
 
 h1 {
-  font-size: clamp(2rem, 5vw, 3rem);
+  font-size: clamp(2.5rem, 6vw, 4rem);
   letter-spacing: 1px;
   margin: 0;
-  color: #eeeeee;
+  color: #fefefe;
   line-height: 1.1;
-  text-shadow: 0 0 1px #66ccff, 0 0 2px #3399ff, 0 0 3px #0066cc;
+  text-shadow: 0 0 2px #fefefe, 0 0 4px #00ffcc;
 }
 
 h2 {
-  font-size: clamp(1.25rem, 3vw, 1.75rem);
-  color: #cccccc;
+  font-size: clamp(1.1rem, 2.5vw, 1.5rem);
+  color: #fefefe;
   letter-spacing: 2px;
   margin: 0;
-  text-shadow: 0 0 1px #66ccff, 0 0 2px #3399ff, 0 0 3px #0066cc;
+  text-shadow: 0 0 2px #fefefe, 0 0 4px #00ffcc;
 }
 
 /* Tv Screen Display CRT styling */
@@ -189,13 +193,19 @@ h2 {
 
 /* UI Layer + Header Nav */
 #ui-layer {
-  position: relative;
+  position: absolute;
+  inset: 0;
   z-index: 10;
   display: flex;
   flex-direction: column;
-  height: 100vh;
+  height: 100%;
   justify-content: space-between;
-  padding: 2rem;
+  padding: 0;
+  overflow: hidden;
+}
+
+#ui-layer::-webkit-scrollbar {
+  display: none;
 }
 
 header {
@@ -262,35 +272,25 @@ nav button:hover,
 main {
   position: relative;
   flex-grow: 1;
-  overflow: hidden;
   width: 100%;
+  overflow-y: auto;
+  overflow-x: hidden;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+  padding-top: 5rem;
+  padding-bottom: 7rem;
 }
 
 main::-webkit-scrollbar {
   display: none;
 }
-main {
-  -ms-overflow-style: none;
-  scrollbar-width: none;
-}
 
 .channel-screen {
-  position: absolute;
-  inset: 0;
   display: none !important;
-  padding: 6rem 2rem 3rem 2rem;
+  padding: 0;
   width: 100%;
-  min-height: 100%;
   height: auto;
-  overflow-y: auto;
-  overflow-x: hidden;
   z-index: 1;
-  -ms-overflow-style: none;
-  scrollbar-width: none;
-}
-
-.channel-screen::-webkit-scrollbar {
-  display: none;
 }
 
 .channel-screen.active {
@@ -303,7 +303,7 @@ main {
 }
 
 #intro {
-  margin-top: 15vh;
+  margin-top: 25vh;
   padding-left: 2rem;
   align-items: flex-start;
 }
@@ -324,27 +324,36 @@ main {
   width: 100%;
   max-width: 1400px;
   margin: 0 auto;
-  padding: 1rem;
+  padding: 0;
   justify-items: center;
 }
 
 .project-card {
-  background: rgba(0, 0, 0, 0.7);
-  backdrop-filter: blur(2px);
-  border: 2px solid #444;
-  padding: 1.5rem;
+  background: rgba(0, 0, 0, 0.8);
+  backdrop-filter: blur(3px);
+  border: 1px solid rgba(0, 255, 204, 0.05);
+  padding: 1.75rem;
   text-align: center;
   color: #eee;
   text-shadow: 0 0 1px #000;
-  box-shadow: 0 0 6px rgba(255, 255, 255, 0.1);
+  box-shadow: 0 0 2px rgba(0, 255, 204, 0.03),
+    0 0 3px rgba(0, 255, 204, 0.01) inset;
   display: flex;
   flex-direction: column;
   height: 100%;
   min-height: 450px;
   position: relative;
   width: 100%;
-  max-width: 400px;
+  max-width: 350px;
   box-sizing: border-box;
+  transition: all 0.3s ease;
+}
+
+.project-card:hover {
+  transform: translateY(-5px) scale(1.02);
+  box-shadow: 0 0 5px rgba(0, 255, 204, 0.1),
+    0 0 8px rgba(0, 255, 204, 0.03) inset;
+  background: rgba(0, 0, 0, 0.9);
 }
 
 .project-gallery {
@@ -353,10 +362,11 @@ main {
   height: 200px;
   margin-bottom: 0.5rem;
   overflow: hidden;
-  border: 1px solid #666;
-  background: rgba(0, 0, 0, 0.3);
+  border: 2px solid #00ffcc;
+  background: rgba(0, 0, 0, 0.5);
   cursor: pointer;
   box-sizing: border-box;
+  box-shadow: 0 0 10px rgba(0, 255, 204, 0.1);
 }
 
 .project-gallery img {
@@ -370,11 +380,13 @@ main {
   transition: opacity 0.5s ease-in-out;
   transform: scale(1.02);
   display: block;
+  filter: grayscale(0.8) blur(0.5px) contrast(1.2);
 }
 
 .project-gallery img.active {
   opacity: 1;
-  transform: scale(1);
+  transform: scale(1.05);
+  filter: brightness(1.1) contrast(1.1);
 }
 
 .gallery-nav {
@@ -394,6 +406,7 @@ main {
   border-radius: 0;
   backdrop-filter: none;
   border: none;
+  box-shadow: none;
 }
 
 .gallery-dot {
@@ -409,29 +422,29 @@ main {
 }
 
 .gallery-dot:hover {
-  background: rgba(0, 255, 255, 0.5);
-  transform: scale(1.1);
+  background: rgba(0, 255, 204, 0.5);
+  transform: scale(1.2);
 }
 
 .gallery-dot.active {
-  background: #0ff;
-  box-shadow: 0 0 8px #0ff;
-  transform: scale(1.1);
+  background: #00ffcc;
+  box-shadow: 0 0 10px #00ffcc;
+  transform: scale(1.2);
 }
 
 .project-card h3 {
   font-size: 1.1rem;
-  color: #fff;
+  color: #fefefe;
   margin-top: 0;
   margin-bottom: 1rem;
-  text-shadow: 0 0 1px #66ccff, 0 0 2px #3399ff, 0 0 3px #0066cc;
+  text-shadow: 0 0 2px #fefefe, 0 0 4px #00ffcc;
 }
 
 .project-card p {
   font-size: 0.85rem;
-  color: #ccc;
+  color: #e0e0e0;
   margin-bottom: 1.5rem;
-  text-shadow: 0 0 1px #66ccff, 0 0 2px #3399ff, 0 0 3px #0066cc;
+  text-shadow: 0 0 1px #e0e0e0, 0 0 3px #00cc99;
   flex-grow: 1;
 }
 
@@ -443,16 +456,17 @@ main {
   display: inline-block;
   margin: 0 0.5rem;
   font-size: 0.8rem;
-  color: #0ff;
+  color: #fefefe;
   text-decoration: none;
-  border-bottom: 1px dashed #0ff;
+  border-bottom: 1px dashed #fefefe;
   transition: all 0.3s ease;
 }
 
 .links a:hover {
-  color: #fff;
-  border-color: #fff;
-  text-shadow: 0 0 5px #0ff;
+  color: #00ffcc;
+  background: rgba(0, 255, 204, 0.2);
+  border-color: #00ffcc;
+  text-shadow: 0 0 8px #00ffcc, 0 0 12px #00ffcc;
 }
 
 /* About Section */
@@ -486,8 +500,8 @@ main {
   font-size: 2.2rem;
   margin-bottom: 2.5rem;
   text-align: center;
-  color: #0ff;
-  text-shadow: 0 0 2px #0ff;
+  color: #fefefe;
+  text-shadow: 0 0 2px #fefefe, 0 0 4px #00ffcc;
   position: relative;
   padding-bottom: 1rem;
 }
@@ -554,10 +568,10 @@ main {
   padding: 0.3rem 0;
   margin: 0;
   border: none;
-  color: #0ff;
+  color: #fefefe;
   font-size: 0.85rem;
   text-align: left;
-  text-shadow: 0 0 1px #0ff;
+  text-shadow: 0 0 2px #fefefe, 0 0 4px #00ffcc;
   box-shadow: none;
   width: 100%;
   max-width: 800px;
@@ -566,10 +580,10 @@ main {
 
 .terminal-output .terminal-line {
   font-family: "IBM Plex Mono", monospace;
-  color: #0ff;
+  color: #fefefe;
   font-size: 0.85rem;
   margin-top: 0;
-  text-shadow: 0 0 1px #0ff;
+  text-shadow: 0 0 2px #fefefe, 0 0 4px #00ffcc;
 }
 
 .contact-grid {
@@ -590,11 +604,11 @@ main {
   flex-direction: column;
   align-items: center;
   padding: 1.5rem;
-  border: 1px dashed #0ff;
+  border: 1px dashed #fefefe;
   border-radius: 10px;
   background: rgba(0, 0, 0, 0.5);
   text-align: center;
-  box-shadow: 0 0 10px rgba(0, 255, 255, 0.1);
+  box-shadow: 0 0 10px rgba(0, 255, 255, 0.3);
   position: relative;
   transition: transform 0.2s ease, box-shadow 0.3s ease;
   max-width: 280px;
@@ -605,15 +619,15 @@ main {
 
 .contact-card:hover {
   transform: scale(1.05);
-  box-shadow: 0 0 25px #0ff;
+  box-shadow: 0 0 25px #00ffcc;
   animation: none;
 }
 
 .contact-card:hover::after {
   content: attr(data-hover);
   font-size: 0.75rem;
-  color: #0ff;
-  text-shadow: 0 0 4px #0ff;
+  color: #fefefe;
+  text-shadow: 0 0 4px #00ffcc;
   position: absolute;
   bottom: -2rem;
   left: 50%;
@@ -634,21 +648,21 @@ main {
   height: 36px;
   margin-bottom: 1.2rem;
   stroke-width: 2;
-  stroke: #0ff;
+  stroke: #fefefe;
   fill: none;
 }
 
 .contact-card a {
   font-size: 1rem;
-  color: #0ff;
+  color: #fefefe;
   text-decoration: none;
-  text-shadow: 0 0 1px #0ff;
+  text-shadow: 0 0 2px #fefefe, 0 0 4px #00ffcc;
   transition: color 0.3s ease;
 }
 
 .contact-card a:hover {
   color: #fff;
-  text-shadow: 0 0 5px #0ff;
+  text-shadow: 0 0 5px #00ffcc;
 }
 
 .contact-console {
@@ -726,17 +740,17 @@ main {
 }
 
 #typewriter-line {
-  color: #0ff;
+  color: #fefefe;
   font-family: "Press Start 2P", monospace;
   font-size: 1rem;
   white-space: pre;
   overflow: hidden;
-  border-right: 2px solid #0ff;
+  border-right: 2px solid #fefefe;
   width: fit-content;
   padding-bottom: 1.5rem;
   animation: blinkCursor 0.8s steps(1) infinite;
   margin-top: 2rem;
-  text-shadow: 0 0 2px #0ff;
+  text-shadow: 0 0 2px #fefefe, 0 0 4px #00ffcc;
 }
 
 @keyframes blinkCursor {
@@ -745,7 +759,7 @@ main {
     border-color: transparent;
   }
   50% {
-    border-color: #0ff;
+    border-color: #fefefe;
   }
 }
 
@@ -863,20 +877,20 @@ footer::after {
 
 .easter-egg-buttons button {
   background: black;
-  color: #0ff;
-  border: 1px solid #0ff;
+  color: #fefefe;
+  border: 1px solid #fefefe;
   padding: 0.5rem 1rem;
   font-family: "IBM Plex Mono", monospace;
   font-size: 0.75rem;
   cursor: pointer;
-  text-shadow: 0 0 2px #0ff;
+  text-shadow: 0 0 2px #fefefe, 0 0 4px #00ffcc;
   transition: all 0.3s;
 }
 
 .easter-egg-buttons button:hover {
-  background: #0ff;
-  color: black;
-  text-shadow: none;
+  background: #00ffcc;
+  color: #fefefe;
+  text-shadow: 0 0 5px #fefefe;
 }
 
 body.power-off {
@@ -919,13 +933,13 @@ body.power-off {
 }
 
 .encrypted-char {
-  color: #0ff9;
-  text-shadow: 0 0 2px #0ff, 0 0 4px #0ff;
+  color: #fefefe;
+  text-shadow: 0 0 3px #fefefe, 0 0 5px #00ffcc;
 }
 
 .crt-text {
-  font-family: "JetBrains Mono", monospace;
-  text-shadow: 0 0 2px #0ff, 0 0 4px #0ff;
+  color: #fefefe;
+  text-shadow: 0 0 3px #fefefe, 0 0 5px #00ffcc;
 }
 
 @keyframes glitch {
@@ -973,6 +987,14 @@ body.power-off {
   .header-right {
     gap: 0.75rem;
   }
+
+  .project-card {
+    max-width: 280px;
+  }
+
+  #ui-layer {
+    padding: 1.5rem;
+  }
 }
 
 @media (max-width: 550px) {
@@ -1011,6 +1033,14 @@ body.power-off {
   .terminal-line {
     font-size: 0.8rem;
     padding: 0.75rem 1rem;
+  }
+
+  .project-card {
+    max-width: 90%;
+  }
+
+  #ui-layer {
+    padding: 1rem;
   }
 }
 
@@ -1073,10 +1103,11 @@ body.power-off {
   width: auto;
   height: auto;
   object-fit: contain;
-  border: 1px solid rgba(0, 255, 255, 0.3);
-  box-shadow: 0 0 20px rgba(0, 255, 255, 0.2);
+  border: 2px solid #00ffcc;
+  box-shadow: 0 0 25px rgba(0, 255, 204, 0.4);
   user-select: none;
   margin: auto;
+  filter: grayscale(0.8) blur(0.5px) contrast(1.2);
 }
 
 .fullscreen-nav {
@@ -1098,28 +1129,30 @@ body.power-off {
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
-  width: 40px;
-  height: 40px;
-  background: rgba(0, 0, 0, 0.7);
-  border: 1px solid rgba(0, 255, 255, 0.3);
-  color: #0ff;
+  width: 45px;
+  height: 45px;
+  background: rgba(0, 0, 0, 0.8);
+  border: 2px solid #00ffcc;
+  color: #00ffcc;
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 1.2rem;
+  font-size: 1.5rem;
   transition: all 0.3s ease;
   z-index: 10000;
   border-radius: 50%;
-  backdrop-filter: blur(4px);
-  opacity: 0.8;
+  backdrop-filter: blur(5px);
+  opacity: 0.9;
+  box-shadow: 0 0 15px rgba(0, 255, 204, 0.3);
 }
 
 .fullscreen-arrow:hover {
-  background: rgba(0, 255, 255, 0.1);
-  border-color: #0ff;
-  transform: translateY(-50%) scale(1.1);
+  background: rgba(0, 255, 204, 0.2);
+  border-color: #00ffcc;
+  transform: translateY(-50%) scale(1.15);
   opacity: 1;
+  box-shadow: 0 0 30px rgba(0, 255, 204, 0.6);
 }
 
 .fullscreen-arrow.prev {
@@ -1151,20 +1184,60 @@ body.power-off {
 
 .close-fullscreen {
   position: absolute;
-  top: 1rem;
-  right: 1rem;
-  background: rgba(0, 0, 0, 0.7);
-  border: 1px solid rgba(0, 255, 255, 0.3);
-  color: #0ff;
-  padding: 0.5rem 1rem;
+  top: 1.5rem;
+  right: 1.5rem;
+  background: rgba(0, 0, 0, 0.8);
+  border: 2px solid #00ffcc;
+  color: #00ffcc;
+  padding: 0.75rem 1.25rem;
   cursor: pointer;
-  border-radius: 4px;
+  border-radius: 6px;
   font-family: inherit;
   transition: all 0.3s ease;
   z-index: 10000;
+  text-shadow: 0 0 5px #00ffcc;
 }
 
 .close-fullscreen:hover {
-  background: rgba(0, 255, 255, 0.1);
-  border-color: #0ff;
+  background: rgba(0, 255, 204, 0.2);
+  border-color: #00ffcc;
+  color: #fff;
+  text-shadow: 0 0 10px #00ffcc;
+}
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+  .project-grid {
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1.5rem;
+    padding: 0;
+  }
+  .project-card {
+    max-width: calc(50% - 0.75rem);
+  }
+}
+
+@media (max-width: 480px) {
+  .project-grid {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+    padding: 0;
+  }
+  .project-card {
+    max-width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+  }
+}
+
+@media (max-width: 768px) {
+  .channel-screen {
+    padding: 4rem 1.5rem 4rem 1.5rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .channel-screen {
+    padding: 2rem 1rem 3rem 1rem;
+  }
 }
