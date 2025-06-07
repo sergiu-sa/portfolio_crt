@@ -1,9 +1,7 @@
 @import url("https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@300;400&display=swap");
 
-/* ---------------------------------------------
-   GLOBAL SETTINGS
----------------------------------------------- */
+/* GLOBAL SETTINGS */
 body {
   margin: 0;
   font-family: "IBM Plex Mono", monospace;
@@ -15,10 +13,7 @@ body {
   text-rendering: geometricPrecision;
 }
 
-/* ---------------------------------------------
-   TYPOGRAPHY / HEADINGS
----------------------------------------------- */
-
+/* TYPOGRAPHY / HEADINGS */
 h1,
 h2,
 #typewriter-line {
@@ -42,9 +37,7 @@ h2 {
   text-shadow: 0 0 1px #66ccff, 0 0 2px #3399ff, 0 0 3px #0066cc;
 }
 
-/* ---------------------------------------------
-   Tv Screen Display CRT styling
----------------------------------------------- */
+/* Tv Screen Display CRT styling */
 #tv-screen {
   position: fixed;
   inset: 0;
@@ -75,7 +68,6 @@ h2 {
   z-index: 2;
 }
 
-/* CRT Video/Image + Overlay*/
 #tv-video,
 #tv-image {
   position: absolute;
@@ -110,7 +102,6 @@ h2 {
   pointer-events: none;
 }
 
-/*CRT Fliker + Channel Glich Effect*/
 #crt-flicker {
   position: fixed;
   inset: 0;
@@ -196,7 +187,7 @@ h2 {
   }
 }
 
-/*UI Layer + Header Nav*/
+/* UI Layer + Header Nav */
 #ui-layer {
   position: relative;
   z-index: 10;
@@ -242,7 +233,7 @@ nav button:hover,
   text-shadow: 0 0 1px #66ccff, 0 0 2px #3399ff, 0 0 3px #0066cc;
 }
 
-/* Main Content +Section Screens*/
+/* Main Content +Section Screens */
 main {
   position: relative;
   flex-grow: 1;
@@ -293,16 +284,14 @@ main {
 }
 
 #intro h1 {
-  margin-bottom: 2rem; /* or 1.5rem for more breathing room */
+  margin-bottom: 2rem;
 }
 
 #intro h2 {
-  margin-top: 0; /* just in case there's default spacing */
+  margin-top: 0;
 }
 
-/* ---------------------------------------------
-   Projects Section
----------------------------------------------- */
+/* Projects Section */
 .project-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
@@ -328,21 +317,21 @@ main {
   height: 100%;
   min-height: 450px;
   position: relative;
-  width: 100%; /* Allow cards to take full width in grid column */
+  width: 100%;
   max-width: 400px;
-  box-sizing: border-box; /* Include padding and border in the element's total width and height */
+  box-sizing: border-box;
 }
 
 .project-gallery {
   position: relative;
   width: 100%;
   height: 200px;
-  margin-bottom: 0.5rem; /* Space below image */
+  margin-bottom: 0.5rem;
   overflow: hidden;
   border: 1px solid #666;
   background: rgba(0, 0, 0, 0.3);
   cursor: pointer;
-  box-sizing: border-box; /* Ensure padding/border are included */
+  box-sizing: border-box;
 }
 
 .project-gallery img {
@@ -355,7 +344,7 @@ main {
   opacity: 0;
   transition: opacity 0.5s ease-in-out;
   transform: scale(1.02);
-  display: block; /* Ensure image is displayed */
+  display: block;
 }
 
 .project-gallery img.active {
@@ -364,19 +353,18 @@ main {
 }
 
 .gallery-nav {
-  /* Positioned in normal flow below .project-gallery */
   position: relative;
   bottom: auto;
   left: auto;
   transform: none;
-  display: flex; /* Ensure display is flex to show dots */
-  justify-content: center; /* Center the dots */
-  align-items: center; /* Center dots vertically */
+  display: flex;
+  justify-content: center;
+  align-items: center;
   gap: 0.75rem;
-  z-index: 2; /* Ensure dots are above other content */
-  padding: 0.5rem 0; /* Add some vertical padding */
-  margin-top: 0; /* No margin at the top, rely on .project-gallery margin-bottom */
-  margin-bottom: 0.8rem; /* Space between dots and title */
+  z-index: 2;
+  padding: 0.5rem 0;
+  margin-top: 0;
+  margin-bottom: 0.8rem;
   background: none;
   border-radius: 0;
   backdrop-filter: none;
@@ -387,21 +375,21 @@ main {
   width: 10px;
   height: 10px;
   border-radius: 50%;
-  background: rgba(255, 255, 255, 0.3); /* Default dot color */
+  background: rgba(255, 255, 255, 0.3);
   cursor: pointer;
   transition: all 0.3s ease;
   border: 1px solid rgba(255, 255, 255, 0.1);
-  flex-shrink: 0; /* Prevent dots from shrinking */
-  display: block; /* Ensure dot is displayed */
+  flex-shrink: 0;
+  display: block;
 }
 
 .gallery-dot:hover {
-  background: rgba(0, 255, 255, 0.5); /* Hover color */
+  background: rgba(0, 255, 255, 0.5);
   transform: scale(1.1);
 }
 
 .gallery-dot.active {
-  background: #0ff; /* Active dot color */
+  background: #0ff;
   box-shadow: 0 0 8px #0ff;
   transform: scale(1.1);
 }
@@ -409,7 +397,7 @@ main {
 .project-card h3 {
   font-size: 1.1rem;
   color: #fff;
-  margin-top: 0; /* Remove default top margin */
+  margin-top: 0;
   margin-bottom: 1rem;
   text-shadow: 0 0 1px #66ccff, 0 0 2px #3399ff, 0 0 3px #0066cc;
 }
@@ -442,9 +430,7 @@ main {
   text-shadow: 0 0 5px #0ff;
 }
 
-/* ---------------------------------------------
-   About Section
----------------------------------------------- */
+/* About Section */
 #about {
   display: flex;
   flex-direction: column;
@@ -527,53 +513,49 @@ main {
   margin-bottom: 3rem;
 }
 
-/* ---------------------------------------------
-   Contact Section + Terminal Blocks
----------------------------------------------- */
+/* Contact Section + Terminal Blocks */
 #contact {
-  display: flex; /* Use flexbox for centering and layout */
-  flex-direction: column; /* Stack children vertically */
-  align-items: center; /* Center content horizontally */
-  padding: 2rem 1rem 8rem 1rem; /* Adjusted padding for responsiveness */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 2rem 1rem 8rem 1rem;
   width: 100%;
   box-sizing: border-box;
 }
 
 .terminal-line {
   font-family: "IBM Plex Mono", monospace;
-  background: none; /* Remove background */
-  padding: 0.3rem 0; /* Reduced padding */
-  margin: 0; /* Remove default margin */
-  border: none; /* Remove border */
+  background: none;
+  padding: 0.3rem 0;
+  margin: 0;
+  border: none;
   color: #0ff;
   font-size: 0.85rem;
-  text-align: left; /* Align text to the left */
-  text-shadow: 0 0 1px #0ff; /* Lighter text shadow */
-  box-shadow: none; /* Remove box shadow */
+  text-align: left;
+  text-shadow: 0 0 1px #0ff;
+  box-shadow: none;
   width: 100%;
   max-width: 800px;
-  /* margin-left: auto; Removed */
-  /* margin-right: auto; Removed */
-  word-break: break-word; /* Prevent long lines from overflowing */
+  word-break: break-word;
 }
 
 .terminal-output .terminal-line {
   font-family: "IBM Plex Mono", monospace;
   color: #0ff;
   font-size: 0.85rem;
-  margin-top: 0; /* Ensure no extra margin */
+  margin-top: 0;
   text-shadow: 0 0 1px #0ff;
 }
 
 .contact-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-  gap: 3rem; /* Reduced gap */
-  justify-items: center; /* Center grid items */
-  justify-content: center; /* Center the grid itself */
-  max-width: 1200px; /* Adjusted max-width */
-  width: 100%; /* Ensure grid takes full width */
-  margin: 3rem auto 4rem auto; /* Adjusted margins */
+  gap: 3rem;
+  justify-items: center;
+  justify-content: center;
+  max-width: 1200px;
+  width: 100%;
+  margin: 3rem auto 4rem auto;
   padding: 0;
   box-sizing: border-box;
 }
@@ -623,16 +605,16 @@ main {
 }
 
 .contact-card svg.icon {
-  width: 36px; /* Slightly larger icons */
-  height: 36px; /* Slightly larger icons */
-  margin-bottom: 1.2rem; /* Increased margin */
+  width: 36px;
+  height: 36px;
+  margin-bottom: 1.2rem;
   stroke-width: 2;
   stroke: #0ff;
   fill: none;
 }
 
 .contact-card a {
-  font-size: 1rem; /* Slightly larger font size */
+  font-size: 1rem;
   color: #0ff;
   text-decoration: none;
   text-shadow: 0 0 1px #0ff;
@@ -646,14 +628,14 @@ main {
 
 .contact-console {
   width: 100%;
-  max-width: 800px; /* Align with terminal-line max-width */
-  margin: 2rem auto 3rem auto; /* Centered and adjusted margins */
-  padding: 1.5rem; /* Internal padding */
-  background: rgba(0, 0, 0, 0.7); /* Darker background */
-  border: 2px solid #0ff; /* CRT border */
+  max-width: 800px;
+  margin: 2rem auto 3rem auto;
+  padding: 1.5rem;
+  background: rgba(0, 0, 0, 0.7);
+  border: 2px solid #0ff;
   box-shadow: 0 0 15px rgba(0, 255, 255, 0.3);
-  display: flex; /* Use flexbox for prompt and input alignment */
-  flex-wrap: wrap; /* Allow wrapping on small screens */
+  display: flex;
+  flex-wrap: wrap;
   align-items: center;
 }
 
@@ -662,37 +644,36 @@ main {
   color: #0ff;
   font-size: 0.85rem;
   text-shadow: 0 0 1px #0ff;
-  margin-right: 0.5rem; /* Space between prompt and input */
-  flex-shrink: 0; /* Prevent prompt from shrinking */
+  margin-right: 0.5rem;
+  flex-shrink: 0;
 }
 
 .contact-console input[type="text"] {
-  flex-grow: 1; /* Allow input to take remaining space */
+  flex-grow: 1;
   background: none;
   border: none;
-  color: #0ff; /* Input text color */
+  color: #0ff;
   font-family: "IBM Plex Mono", monospace;
   font-size: 0.85rem;
   text-shadow: 0 0 1px #0ff;
-  outline: none; /* Remove default outline */
-  padding: 0; /* Remove default padding */
-  margin: 0; /* Remove default margin */
-  min-width: 50px; /* Ensure input is not too small */
+  outline: none;
+  padding: 0;
+  margin: 0;
+  min-width: 50px;
 }
 
 .contact-console input[type="text"]::placeholder {
-  color: rgba(0, 255, 255, 0.5); /* Placeholder color */
+  color: rgba(0, 255, 255, 0.5);
   text-shadow: none;
 }
 
 .terminal-output {
-  width: 100%; /* Take full width below input */
-  margin-top: 1rem; /* Space above output */
-  padding-top: 1rem; /* Internal padding */
-  border-top: 1px dashed rgba(0, 255, 255, 0.3); /* Separator line */
+  width: 100%;
+  margin-top: 1rem;
+  padding-top: 1rem;
+  border-top: 1px dashed rgba(0, 255, 255, 0.3);
 }
 
-/* Back Button Styling */
 .back-button {
   margin-top: 3rem;
   margin-bottom: 4rem;
@@ -700,28 +681,25 @@ main {
 }
 
 .back-button button {
-  /* Inheriting styles similar to .close-fullscreen */
   background: rgba(0, 0, 0, 0.7);
   border: 1px solid rgba(0, 255, 255, 0.3);
-  color: #0ff; /* CRT cyan color */
+  color: #0ff;
   padding: 0.5rem 1rem;
   cursor: pointer;
   border-radius: 4px;
   font-family: inherit;
-  font-size: 0.95rem; /* Adjusted font size */
+  font-size: 0.95rem;
   transition: all 0.3s ease;
-  text-shadow: 0 0 2px #0ff; /* CRT text shadow */
+  text-shadow: 0 0 2px #0ff;
 }
 
 .back-button button:hover {
-  /* Hover effect similar to .close-fullscreen */
   background: rgba(0, 255, 255, 0.1);
-  border-color: #0ff; /* Highlight border */
-  color: #fff; /* Brighter text on hover */
-  text-shadow: 0 0 8px #fff; /* Stronger glow on hover */
+  border-color: #0ff;
+  color: #fff;
+  text-shadow: 0 0 8px #fff;
 }
 
-/* TYpewriter Effect + Utility + folder */
 #typewriter-line {
   color: #0ff;
   font-family: "Press Start 2P", monospace;
@@ -770,26 +748,80 @@ footer {
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 1rem 0;
-  position: sticky;
-  bottom: 0;
-  background: rgba(0, 0, 0, 0.3);
-  z-index: 5;
-  padding-bottom: 1rem;
+  padding: 0.8rem 2.5rem;
+  z-index: 10;
+  background: linear-gradient(180deg, #282828 0%, #181818 100%);
+  border-radius: 8px;
+  box-shadow: inset 0 2px 6px rgba(0, 0, 0, 0.8), 0 6px 20px rgba(0, 0, 0, 0.7);
+  border: 1px solid #444;
+  position: fixed;
+  bottom: 1.5rem;
+  left: 50%;
+  transform: translateX(-50%);
+  overflow: hidden;
+  margin: 0 auto;
+  max-width: 650px;
+}
+
+footer::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 40%;
+  background: linear-gradient(rgba(255, 255, 255, 0.05), transparent);
+  border-radius: 8px 8px 0 0;
+}
+
+footer::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="2" height="2"><rect width="1" height="1" fill="rgba(0,0,0,0.08)" x="0" y="0" /><rect width="1" height="1" fill="rgba(255,255,255,0.04)" x="1" y="1" /></svg>');
+  opacity: 0.9;
+  pointer-events: none;
 }
 
 .channel-nav {
   display: flex;
-  align-items: center;
-  gap: 1rem;
+  gap: 2.5rem;
 }
 
 .channel-nav button {
-  background: #111;
-  border: 2px solid #666;
-  padding: 0.5rem 1.25rem;
-  font-size: 0.75rem;
-  transition: all 0.2s ease-in-out;
+  background: linear-gradient(180deg, #303540 0%, #101520 100%);
+  border-radius: 6px;
+  padding: 0.6rem 2.8rem;
+  box-shadow: inset 0 3px 6px rgba(0, 0, 0, 1), 0 4px 10px rgba(0, 0, 0, 0.7);
+  border: 1px solid #555;
+  position: relative;
+  overflow: hidden;
+  color: #c0c0c0;
+  font-weight: bold;
+  letter-spacing: 0.8px;
+  text-shadow: 0 0 1px #88e0ff, 0 0 2px #55aaff, 0 0 3px #2288cc;
+}
+
+.channel-nav button::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 50%;
+  background: linear-gradient(rgba(255, 255, 255, 0.15), transparent);
+  border-radius: 6px 6px 0 0;
+}
+
+.channel-nav button:hover {
+  background: linear-gradient(180deg, #404550 0%, #202530 100%);
+  color: #ffffff;
+}
+
+.channel-nav button:active {
+  transform: translateY(2px);
+  box-shadow: inset 0 1px 4px rgba(0, 0, 0, 1), 0 1px 4px rgba(0, 0, 0, 0.95);
+  background: linear-gradient(180deg, #202530 0%, #404550 100%);
 }
 
 #channel-label {
@@ -797,7 +829,6 @@ footer {
   color: #fff;
 }
 
-/*Easter Egg Button + Glich + Power-Off*/
 .easter-egg-buttons {
   display: flex;
   justify-content: center;
@@ -857,8 +888,6 @@ body.power-off {
   opacity: 1;
 }
 
-/* Decrypted Text - About */
-
 .revealed-char {
   color: #fefefe;
   text-shadow: 0 0 3px #fefefe, 0 0 5px #00ffcc;
@@ -874,7 +903,6 @@ body.power-off {
   text-shadow: 0 0 2px #0ff, 0 0 4px #0ff;
 }
 
-/* Glitch effect */
 @keyframes glitch {
   0% {
     transform: translate(0);
@@ -897,300 +925,20 @@ body.power-off {
 }
 
 /* Responsive Styles */
-@media (max-width: 768px) {
-  main {
-    padding-left: 2rem;
-    padding-top: 25vh;
+@media (max-width: 700px) {
+  footer {
+    max-width: 90%;
+    padding: 0.6rem 1.8rem;
+    bottom: 1.2rem;
   }
 
-  h1 {
-    font-size: 2rem;
+  .channel-nav {
+    gap: 1.8rem;
   }
 
-  h2 {
-    font-size: 1.25rem;
-  }
-
-  nav button,
   .channel-nav button {
-    font-size: 0.75rem;
-    padding: 0.4rem 0.8rem;
-  }
-
-  #about {
-    padding: 2rem 1rem;
-  }
-
-  .about-wrapper {
-    padding: 1.5rem;
-    margin: 2rem auto;
-  }
-
-  #about h1 {
-    font-size: 1.8rem;
-    margin-bottom: 2rem;
-  }
-
-  #about p {
-    font-size: 1rem;
-  }
-
-  .ascii-signature {
-    font-size: 0.6rem;
-    margin: 1.5rem auto;
-  }
-
-  .project-grid {
-    grid-template-columns: 1fr;
-    gap: 2rem; /* Vertical gap between cards */
-    padding: 0 1rem; /* Horizontal padding for the grid container */
-    width: 100%;
-    box-sizing: border-box;
-  }
-
-  .project-card {
-    min-height: 400px;
-    padding: 1rem; /* Internal padding within the card */
-    width: 100%; /* Card takes full width of its grid column */
-    max-width: 400px; /* Keep a reasonable max-width */
-    margin: 0 auto; /* Center card in the grid column */
-    box-sizing: border-box;
-  }
-
-  .project-gallery {
-    height: 250px;
-    margin-bottom: 0.6rem; /* Space below image before dots */
-  }
-
-  .gallery-nav {
-    padding: 0; /* No padding needed as dots are centered */
-    margin-top: 0.6rem; /* Space between image and dots */
-    margin-bottom: 1rem; /* Space between dots and title */
-  }
-
-  .gallery-dot {
-    width: 10px;
-    height: 10px;
-  }
-
-  .fullscreen-image {
-    max-height: 80vh;
-  }
-
-  .fullscreen-nav {
-    bottom: 2rem; /* Adjusted for smaller screens */
-    padding: 0.5rem 1rem;
-  }
-
-  .fullscreen-dot {
-    width: 10px;
-    height: 10px;
-  }
-
-  .fullscreen-arrow {
-    width: 35px; /* Adjusted for smaller screens */
-    height: 35px; /* Adjusted for smaller screens */
-    left: 0.5rem; /* Adjusted for smaller screens */
-    right: 0.5rem; /* Adjusted for smaller screens */
-  }
-
-  .fullscreen-arrow::before {
-    width: 8px; /* Adjusted arrow icon size */
-    height: 8px; /* Adjusted arrow icon size */
-  }
-
-  .close-fullscreen {
-    top: 0.5rem;
-    right: 0.5rem; /* Adjusted right position */
-    padding: 0.4rem 0.8rem;
     font-size: 0.9rem;
-  }
-
-  #contact {
-    padding: 2rem 0.5rem 6rem 0.5rem; /* Adjusted padding for smaller screens */
-  }
-
-  .contact-grid {
-    grid-template-columns: repeat(
-      auto-fit,
-      minmax(200px, 1fr)
-    ); /* Adjusted minmax */
-    gap: 2rem; /* Reduced gap */
-    margin: 2rem auto 3rem auto;
-  }
-
-  .contact-card {
-    padding: 1rem; /* Reduced padding */
-    max-width: 240px; /* Adjusted max-width */
-  }
-
-  .contact-card svg.icon {
-    width: 30px; /* Adjusted icon size */
-    height: 30px; /* Adjusted icon size */
-    margin-bottom: 1rem;
-  }
-
-  .contact-card a {
-    font-size: 0.9rem; /* Adjusted font size */
-  }
-
-  .contact-card:hover::after {
-    bottom: -1rem; /* Adjusted position */
-  }
-
-  .contact-console {
-    padding: 1rem; /* Reduced padding */
-    margin: 1.5rem auto 2rem auto;
-  }
-
-  .contact-console .prompt,
-  .contact-console input[type="text"] {
-    font-size: 0.8rem; /* Adjusted font size */
-  }
-
-  .terminal-output {
-    margin-top: 0.8rem; /* Adjusted margin */
-    padding-top: 0.8rem; /* Adjusted padding */
-  }
-
-  .terminal-output .terminal-line {
-    font-size: 0.8rem; /* Adjusted font size */
-  }
-
-  .back-button {
-    margin-top: 2rem;
-    margin-bottom: 3rem;
-  }
-}
-
-@media (max-width: 480px) {
-  .project-grid {
-    grid-template-columns: 1fr;
-    gap: 1.5rem; /* Vertical gap */
-    padding: 0 0.75rem; /* Horizontal padding for the grid container */
-    box-sizing: border-box;
-  }
-
-  .project-card {
-    padding: 0.75rem; /* Internal padding */
-    min-height: 350px;
-    width: 100%; /* Card takes full width of its grid column */
-    margin: 0 auto; /* Center card */
-    box-sizing: border-box;
-  }
-
-  .project-gallery {
-    position: relative;
-    width: 100%; /* Gallery takes full width of card padding */
-    height: 200px;
-    margin-bottom: 0.4rem; /* Space below image before dots */
-    overflow: hidden;
-    border: 1px solid #666;
-    background: rgba(0, 0, 0, 0.3);
-    cursor: pointer;
-  }
-
-  .gallery-nav {
-    /* Positioning relative to its normal flow position */
-    position: relative;
-    display: flex; /* Ensure display is flex */
-    justify-content: center;
-    gap: 0.6rem;
-    z-index: 2;
-    padding: 0; /* No padding needed */
-    margin-top: 0.4rem; /* Space between image and dots */
-    margin-bottom: 0.8rem; /* Space between dots and title */
-  }
-
-  .gallery-dot {
-    width: 8px;
-    height: 8px;
-    border-radius: 50%;
-    background: rgba(255, 255, 255, 0.3);
-    cursor: pointer;
-    transition: all 0.3s ease;
-    border: 1px solid rgba(255, 255, 255, 0.1);
-  }
-
-  .fullscreen-image {
-    max-height: 70vh;
-  }
-
-  .fullscreen-nav {
-    bottom: 2rem; /* Adjusted for smaller screens */
-    padding: 0.4rem 0.8rem;
-  }
-
-  .fullscreen-dot {
-    width: 8px;
-    height: 8px;
-  }
-
-  .fullscreen-arrow {
-    width: 30px; /* Adjusted for very small screens */
-    height: 30px; /* Adjusted for very small screens */
-    left: 0.25rem; /* Adjusted for very small screens */
-    right: 0.25rem; /* Adjusted for very small screens */
-  }
-
-  .fullscreen-arrow::before {
-    width: 6px; /* Adjusted arrow icon size */
-    height: 6px; /* Adjusted arrow icon size */
-  }
-
-  .close-fullscreen {
-    top: 0.5rem;
-    right: 0.5rem; /* Adjusted right position */
-    padding: 0.4rem 0.8rem;
-    font-size: 0.9rem;
-  }
-
-  #contact {
-    padding: 1.5rem 0.5rem 4rem 0.5rem; /* Further adjusted padding */
-  }
-
-  .contact-grid {
-    grid-template-columns: 1fr; /* Stack cards on very small screens */
-    gap: 1.5rem;
-    margin: 1.5rem auto 2rem auto;
-  }
-
-  .contact-card {
-    padding: 0.8rem; /* Further reduced padding */
-    max-width: 100%; /* Allow card to take full width */
-  }
-
-  .contact-card svg.icon {
-    width: 28px; /* Further adjusted icon size */
-    height: 28px; /* Further adjusted icon size */
-    margin-bottom: 0.8rem;
-  }
-
-  .contact-card a {
-    font-size: 0.85rem; /* Further adjusted font size */
-  }
-
-  .contact-card:hover::after {
-    bottom: -0.8rem; /* Further adjusted position */
-  }
-
-  .contact-console {
-    padding: 0.8rem; /* Further reduced padding */
-    margin: 1rem auto 1.5rem auto;
-  }
-
-  .contact-console .prompt,
-  .contact-console input[type="text"] {
-    font-size: 0.75rem; /* Further adjusted font size */
-  }
-
-  .terminal-output {
-    margin-top: 0.6rem;
-    padding-top: 0.6rem;
-  }
-
-  .terminal-output .terminal-line {
-    font-size: 0.75rem;
+    padding: 0.5rem 2rem;
   }
 }
 
@@ -1258,7 +1006,7 @@ body.power-off {
 
 @media (max-width: 600px) {
   .about-wrapper {
-    padding: 0 1.25rem; /* wider on small screens */
+    padding: 0 1.25rem;
   }
 
   #about {
@@ -1267,7 +1015,6 @@ body.power-off {
   }
 }
 
-/* Full-screen image view */
 .fullscreen-view {
   position: fixed;
   top: 0;
@@ -1275,38 +1022,38 @@ body.power-off {
   width: 100%;
   height: 100%;
   background: rgba(0, 0, 0, 0.98);
-  z-index: 9999; /* Ensure it's on top of everything */
-  display: none; /* Hidden by default */
+  z-index: 9999;
+  display: none;
   justify-content: center;
   align-items: center;
-  padding: 0; /* Remove padding, use margin on image */
+  padding: 0;
   backdrop-filter: blur(10px);
 }
 
 .fullscreen-view.active {
-  display: flex; /* Show when active */
+  display: flex;
 }
 
 .fullscreen-image {
   max-width: 100%;
-  max-height: 100%; /* Allow image to take more height */
-  width: auto; /* Let width adjust based on height */
-  height: auto; /* Let height adjust based on max-height/width */
+  max-height: 100%;
+  width: auto;
+  height: auto;
   object-fit: contain;
   border: 1px solid rgba(0, 255, 255, 0.3);
   box-shadow: 0 0 20px rgba(0, 255, 255, 0.2);
   user-select: none;
-  margin: auto; /* Center image within flex container */
+  margin: auto;
 }
 
 .fullscreen-nav {
   position: absolute;
-  bottom: 2rem; /* Reduced distance from bottom */
+  bottom: 2rem;
   left: 50%;
   transform: translateX(-50%);
-  display: flex; /* Ensure display is flex */
+  display: flex;
   gap: 1rem;
-  z-index: 10000; /* Ensure nav is above overlay background */
+  z-index: 10000;
   padding: 0.75rem 1.5rem;
   background: rgba(0, 0, 0, 0.8);
   border-radius: 30px;
@@ -1314,33 +1061,32 @@ body.power-off {
   border: 1px solid rgba(0, 255, 255, 0.2);
 }
 
-/* Navigation arrows */
 .fullscreen-arrow {
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
-  width: 40px; /* Reduced arrow size */
-  height: 40px; /* Reduced arrow size */
+  width: 40px;
+  height: 40px;
   background: rgba(0, 0, 0, 0.7);
   border: 1px solid rgba(0, 255, 255, 0.3);
   color: #0ff;
   cursor: pointer;
-  display: flex; /* Ensure display is flex */
+  display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 1.2rem; /* Reduced icon size */
+  font-size: 1.2rem;
   transition: all 0.3s ease;
   z-index: 10000;
   border-radius: 50%;
   backdrop-filter: blur(4px);
-  opacity: 0.8; /* Slightly transparent by default */
+  opacity: 0.8;
 }
 
 .fullscreen-arrow:hover {
   background: rgba(0, 255, 255, 0.1);
   border-color: #0ff;
   transform: translateY(-50%) scale(1.1);
-  opacity: 1; /* Full opacity on hover */
+  opacity: 1;
 }
 
 .fullscreen-arrow.prev {
@@ -1353,27 +1099,27 @@ body.power-off {
 
 .fullscreen-arrow::before {
   content: "";
-  width: 10px; /* Reduced arrow icon size */
-  height: 10px; /* Reduced arrow icon size */
+  width: 10px;
+  height: 10px;
   border-top: 2px solid currentColor;
   border-right: 2px solid currentColor;
-  display: block; /* Ensure pseudo-element is displayed */
+  display: block;
 }
 
 .fullscreen-arrow.prev::before {
   transform: rotate(-135deg);
-  margin-left: 2px; /* Adjusted margin */
+  margin-left: 2px;
 }
 
 .fullscreen-arrow.next::before {
   transform: rotate(45deg);
-  margin-right: 2px; /* Adjusted margin */
+  margin-right: 2px;
 }
 
 .close-fullscreen {
   position: absolute;
   top: 1rem;
-  right: 1rem; /* Adjusted right position */
+  right: 1rem;
   background: rgba(0, 0, 0, 0.7);
   border: 1px solid rgba(0, 255, 255, 0.3);
   color: #0ff;
