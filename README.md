@@ -19,7 +19,7 @@ The goal of this portfolio is to:
 
 ## What Is CRT?
 
-CRT stands for **Cathode Ray Tube**, a technology once used in old televisions and monitors. It emits an electron beam across phosphorescent pixels to generate images. The visual language of CRT — horizontal scanlines, static interference, flickering edges — has become iconic and is used here to evoke a retro-futuristic atmosphere.
+CRT stands for **Cathode Ray Tube**, a technology once used in old televisions and monitors, and is used here to evoke a retro-futuristic atmosphere.
 
 ---
 
@@ -55,7 +55,7 @@ Live Site: [https://sergiu-sa.github.io/pro-school-react/](https://sergiu-sa.git
 ### 2. Kid Bank
 
 A prototype banking interface for teens with product scanning logic and age-check.  
-GitHub: [https://github.com/sergiu-sa/kid_bank_.git](https://github.com/sergiu-sa/kid_bank_.git)  
+GitHub: [https://github.com/sergiu-sa/kid*bank*.git](https://github.com/sergiu-sa/kid_bank_.git)  
 Live Site: [https://k1dbank.netlify.app](https://k1dbank.netlify.app)
 
 ### 3. AskBetter
@@ -119,7 +119,7 @@ portfolio_crt/
 
 ## Status
 
-The project is fully functional and deployed. Some channel videos and image media are excluded from the public repo for file size reasons but are referenced in the code. Webcam functionality is supported in modern browsers only and requires permission.
+The project is fully functional and deployed. Webcam functionality is supported in modern browsers only and requires permission.
 
 ---
 
@@ -140,17 +140,17 @@ This project is open source and available under the [MIT License](LICENSE).
 
 ## Projects Showcased
 
-| Project     | Description                                                           | GitHub Repository                                       | Live Site                                                            |
-| ----------- | --------------------------------------------------------------------- | ------------------------------------------------------- | -------------------------------------------------------------------- |
+| Project     | Description                                                           | GitHub Repository                                                | Live Site                                                                     |
+| ----------- | --------------------------------------------------------------------- | ---------------------------------------------------------------- | ----------------------------------------------------------------------------- |
 | Square Eyes | Responsive film discovery site with clean HTML and modular CSS        | [square-eyes](https://github.com/sergiu-sa/pro-school-react.git) | [square-eyes-vite.netlify.app](https://sergiu-sa.github.io/pro-school-react/) |
-| Kid Bank    | Fintech prototype for teens with barcode scanning and age-check logic | [kid-bank](https://github.com/sergiu-sa/kid_bank_.git)       | [kidbank.netlify.app](https://k1dbank.netlify.app)                   |
-| AskBetter   | AI prompt design tool using emotion-driven inputs and retro UI        | [askbetter](https://github.com/sergiu-sa/askbetter)     | [askbetter.vercel.app](https://askbetter.netlify.app)                 |
+| Kid Bank    | Fintech prototype for teens with barcode scanning and age-check logic | [kid-bank](https://github.com/sergiu-sa/kid_bank_.git)           | [kidbank.netlify.app](https://k1dbank.netlify.app)                            |
+| AskBetter   | AI prompt design tool using emotion-driven inputs and retro UI        | [askbetter](https://github.com/sergiu-sa/askbetter)              | [askbetter.vercel.app](https://askbetter.netlify.app)                         |
 
 ---
 
 ## Screenshots
 
-> Screenshots below show desktop and mobile views for the portfolio and projects.
+> Screenshots below show desktop views for the portfolio and projects.
 
 ### Portfolio (CRT Interface)
 
