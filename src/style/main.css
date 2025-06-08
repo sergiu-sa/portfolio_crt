@@ -17,7 +17,7 @@ body {
   text-rendering: geometricPrecision;
 }
 
-/* TYPOGRAPHY / HEADINGS */
+/* TYPOGRAPHY */
 h1,
 h2,
 #typewriter-line {
@@ -462,7 +462,7 @@ main::-webkit-scrollbar {
   transform: scale(1.2);
 }
 
-/* Add a subtle glow effect to the active dot */
+
 .gallery-dot.active::after {
   content: "";
   position: absolute;
@@ -488,7 +488,7 @@ main::-webkit-scrollbar {
   }
 }
 
-/* Add a subtle line between dots when there are many */
+
 .gallery-nav::before {
   content: "";
   position: absolute;

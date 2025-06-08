@@ -400,9 +400,6 @@ function startConsoleIntro() {
 
   const text = "Establishing connection with Sergiu...";
   printResponse(text);
-
-  // You can add more intro lines here if needed
-  // setTimeout(() => printResponse("[STATUS] Online."), text.length * 20 + 500);
 }
 
 // ---------------------------------------------
@@ -436,7 +433,6 @@ document.getElementById("power-off").addEventListener("click", () => {
   document.body.classList.toggle("power-off");
 });
 
-// Add ESC key functionality to toggle power-off mode
 document.addEventListener("keydown", (e) => {
   if (e.key === "Escape" && document.body.classList.contains("power-off")) {
     document.body.classList.remove("power-off");
@@ -459,7 +455,7 @@ function initProjectGalleries() {
 
   galleries.forEach((gallery) => {
     const images = gallery.querySelectorAll("img");
-    // Get the parent .project-card, then find the .gallery-nav within it
+
     const galleryNav = gallery.parentElement
       ? gallery.parentElement.querySelector(".gallery-nav")
       : null;
@@ -505,40 +501,33 @@ function initProjectGalleries() {
 
       if (Math.abs(diff) > swipeThreshold) {
         if (diff > 0) {
-          // Swipe left
           showImage((currentIndex + 1) % images.length);
         } else {
-          // Swipe right
           showImage((currentIndex - 1 + images.length) % images.length);
         }
       }
     }
 
     function showImage(index) {
-      // Remove active class from current image and dot
       images[currentIndex].classList.remove("active");
       dots[currentIndex].classList.remove("active");
 
-      // Update current index
       currentIndex = index;
 
-      // Add active class to new image and dot
       images[currentIndex].classList.add("active");
       dots[currentIndex].classList.add("active");
 
-      // Update fullscreen if active
       if (currentGallery === gallery) {
         updateFullscreen();
       }
     }
 
-    // Auto-advance gallery if there are multiple images
     if (images.length > 1) {
       setInterval(() => {
         if (currentGallery !== gallery) {
           showImage((currentIndex + 1) % images.length);
         }
-      }, 5000); // Change image every 5 seconds
+      }, 5000);
     }
   });
 
@@ -578,7 +567,6 @@ function initProjectGalleries() {
         index === Array.from(images).indexOf(activeImage) ? "active" : ""
       }`;
       dot.addEventListener("click", () => {
-        // Trigger the click on the corresponding dot in the original gallery
         if (dots[index]) {
           dots[index].click();
         }
@@ -586,7 +574,6 @@ function initProjectGalleries() {
       fullscreenNav.appendChild(dot);
     });
 
-    // Show/hide navigation arrows based on number of images
     if (images.length > 1) {
       prevButton.style.display = "flex";
       nextButton.style.display = "flex";
@@ -600,7 +587,7 @@ function initProjectGalleries() {
   prevButton.addEventListener("click", () => {
     if (!currentGallery) return;
     const images = currentGallery.querySelectorAll("img");
-    // Get the parent .project-card, then find the .gallery-nav within it
+
     const galleryNav = currentGallery.parentElement
       ? currentGallery.parentElement.querySelector(".gallery-nav")
       : null;
@@ -617,7 +604,7 @@ function initProjectGalleries() {
   nextButton.addEventListener("click", () => {
     if (!currentGallery) return;
     const images = currentGallery.querySelectorAll("img");
-    // Get the parent .project-card, then find the .gallery-nav within it
+
     const galleryNav = currentGallery.parentElement
       ? currentGallery.parentElement.querySelector(".gallery-nav")
       : null;
@@ -631,7 +618,6 @@ function initProjectGalleries() {
     }
   });
 
-  // Close fullscreen view
   closeFullscreen.addEventListener("click", closeFullscreenView);
   fullscreenView.addEventListener("click", (e) => {
     if (e.target === fullscreenView) {
@@ -639,12 +625,11 @@ function initProjectGalleries() {
     }
   });
 
-  // Keyboard navigation in fullscreen
   document.addEventListener("keydown", (e) => {
     if (!currentGallery) return;
 
     const images = currentGallery.querySelectorAll("img");
-    // Get the parent .project-card, then find the .gallery-nav within it
+
     const galleryNav = currentGallery.parentElement
       ? currentGallery.parentElement.querySelector(".gallery-nav")
       : null;
