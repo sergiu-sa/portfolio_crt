@@ -139,17 +139,17 @@ window.addEventListener("DOMContentLoaded", () => {
         return;
 
       case "/linkedin":
-        window.open("https://linkedin.com/in/YOUR-ID", "_blank");
+        window.open("https://linkedin.com/in/sergiu-sarbu", "_blank");
         printResponse("[NETWORK] Opening LinkedIn...");
         return;
 
       case "/instagram":
-        window.open("https://instagram.com/YOUR-ID", "_blank");
+        window.open("https://instagram.com/sergiu.sarbu", "_blank");
         printResponse("[CAMERA] Opening Instagram...");
         return;
 
       case "/discord":
-        window.open("https://discord.com/users/YOUR-ID", "_blank");
+        window.open("https://discord.com/users/sergiu.sarbu", "_blank");
         printResponse("[CHAT] Opening Discord...");
         return;
 
