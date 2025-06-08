@@ -49,20 +49,20 @@ Each project card includes a short description, GitHub repo link, and a live sit
 ### 1. Square Eyes
 
 A responsive film discovery website with semantic HTML and modular CSS.  
-GitHub: [https://github.com/sergiu-sa/square-eyes](https://github.com/sergiu-sa/square-eyes)  
-Live Site: [https://square-eyes-vite.netlify.app](https://square-eyes-vite.netlify.app)
+GitHub: [https://github.com/sergiu-sa/pro-school-react.git](https://github.com/sergiu-sa/pro-school-react.git)  
+Live Site: [https://sergiu-sa.github.io/pro-school-react/](https://sergiu-sa.github.io/pro-school-react/)
 
 ### 2. Kid Bank
 
 A prototype banking interface for teens with product scanning logic and age-check.  
-GitHub: [https://github.com/03-renate/kid-bank](https://github.com/03-renate/kid-bank)  
-Live Site: [https://kidbank.netlify.app](https://kidbank.netlify.app)
+GitHub: [https://github.com/sergiu-sa/kid_bank_.git](https://github.com/sergiu-sa/kid_bank_.git)  
+Live Site: [https://k1dbank.netlify.app](https://k1dbank.netlify.app)
 
 ### 3. AskBetter
 
 A tool that helps users shape better AI prompts using emotion, intent, and visual input.  
 GitHub: [https://github.com/sergiu-sa/askbetter](https://github.com/sergiu-sa/askbetter)  
-Live Site: [https://askbetter.vercel.app](https://askbetter.vercel.app)
+Live Site: [https://askbetter.netlify.app](https://askbetter.netlify.app)
 
 ---
 
@@ -70,34 +70,32 @@ Live Site: [https://askbetter.vercel.app](https://askbetter.vercel.app)
 
 1.Clone the repository:
 
-```
-
-bash
+```bash
 git clone https://github.com/sergiu-sa/portfolio_crt.git
 
 ```
 
-2. Navigate to the project folder:
+2.Navigate to the project folder:
 
 ```bash
 cd portfolio_crt
 ```
 
-3. Install dependencies:
+3.Install dependencies:
 
 ```bash
 npm install
 ```
 
-4. Start the development server:
+4.Start the development server:
 
 ```bash
 npm run dev
 ```
 
-5. Open the local server in your browser:
+5.Open the local server in your browser:
 
-```
+```bash
 http://localhost:5173
 ```
 
@@ -105,7 +103,7 @@ http://localhost:5173
 
 ## Folder Structure
 
-```
+```bash
 portfolio_crt/
 ├── index.html
 ├── /src
@@ -128,8 +126,7 @@ The project is fully functional and deployed. Some channel videos and image medi
 ## Author
 
 **Sergiu Sarbu**  
-Front-End Development student at Noroff School of Technology and Digital Media  
-Focused on creative interfaces, user-centered development, and visual coding aesthetics
+Front-End Development student at Noroff School of Technology and Digital Media
 
 GitHub: [https://github.com/sergiu-sa](https://github.com/sergiu-sa)
 
@@ -145,9 +142,9 @@ This project is open source and available under the [MIT License](LICENSE).
 
 | Project     | Description                                                           | GitHub Repository                                       | Live Site                                                            |
 | ----------- | --------------------------------------------------------------------- | ------------------------------------------------------- | -------------------------------------------------------------------- |
-| Square Eyes | Responsive film discovery site with clean HTML and modular CSS        | [square-eyes](https://github.com/sergiu-sa/square-eyes) | [square-eyes-vite.netlify.app](https://square-eyes-vite.netlify.app) |
-| Kid Bank    | Fintech prototype for teens with barcode scanning and age-check logic | [kid-bank](https://github.com/03-renate/kid-bank)       | [kidbank.netlify.app](https://kidbank.netlify.app)                   |
-| AskBetter   | AI prompt design tool using emotion-driven inputs and retro UI        | [askbetter](https://github.com/sergiu-sa/askbetter)     | [askbetter.vercel.app](https://askbetter.vercel.app)                 |
+| Square Eyes | Responsive film discovery site with clean HTML and modular CSS        | [square-eyes](https://github.com/sergiu-sa/pro-school-react.git) | [square-eyes-vite.netlify.app](https://sergiu-sa.github.io/pro-school-react/) |
+| Kid Bank    | Fintech prototype for teens with barcode scanning and age-check logic | [kid-bank](https://github.com/sergiu-sa/kid_bank_.git)       | [kidbank.netlify.app](https://k1dbank.netlify.app)                   |
+| AskBetter   | AI prompt design tool using emotion-driven inputs and retro UI        | [askbetter](https://github.com/sergiu-sa/askbetter)     | [askbetter.vercel.app](https://askbetter.netlify.app)                 |
 
 ---
 
@@ -157,10 +154,6 @@ This project is open source and available under the [MIT License](LICENSE).
 
 ### Portfolio (CRT Interface)
 
-![CRT Desktop](src/assets/projects/ask_better_readme/08.png)
-![CRT Desktop](src/assets/projects/ask_better_readme/07.png)
-![CRT Desktop](src/assets/projects/ask_better_readme/06.png)
-![CRT Desktop](src/assets/projects/ask_better_readme/05.png)
 ![CRT Desktop](src/assets/projects/ask_better_readme/04.png)
 ![CRT Desktop](src/assets/projects/ask_better_readme/03.png)
 ![CRT Desktop](src/assets/projects/ask_better_readme/02.png)
