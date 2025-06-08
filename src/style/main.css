@@ -213,6 +213,7 @@ header {
   justify-content: space-between;
   align-items: center;
   font-size: 0.95rem;
+  padding: 0.6rem 1rem;
 }
 
 .header-right {
@@ -462,7 +463,6 @@ main::-webkit-scrollbar {
   transform: scale(1.2);
 }
 
-
 .gallery-dot.active::after {
   content: "";
   position: absolute;
@@ -487,7 +487,6 @@ main::-webkit-scrollbar {
     opacity: 0.5;
   }
 }
-
 
 .gallery-nav::before {
   content: "";
