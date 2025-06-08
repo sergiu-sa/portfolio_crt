@@ -90,7 +90,7 @@ h2 {
 #tv-video.visible,
 #tv-image.visible {
   display: block;
-  opacity: 0.6;
+  opacity: 1;
 }
 
 #tv-overlay::before {
@@ -286,15 +286,22 @@ main::-webkit-scrollbar {
 }
 
 .channel-screen {
-  display: none !important;
   padding: 0;
   width: 100%;
   height: auto;
   z-index: 1;
+  overflow-x: hidden;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition: opacity 0.5s ease-in-out, visibility 0.5s;
 }
 
 .channel-screen.active {
-  display: flex !important;
+  display: flex;
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
   flex-direction: column;
   align-items: center;
   justify-content: flex-start;
@@ -1170,7 +1177,7 @@ body.power-off {
   box-shadow: 0 0 25px rgba(0, 255, 204, 0.4);
   user-select: none;
   margin: auto;
-  filter: grayscale(0.8) blur(0.5px) contrast(1.2);
+  /* filter: grayscale(0.8) blur(0.5px) contrast(1.2); */
 }
 
 .fullscreen-nav {

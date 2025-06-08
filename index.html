@@ -12,6 +12,7 @@
       <video id="tv-video" autoplay muted playsinline></video>
       <img id="tv-image" />
       <div id="tv-overlay"></div>
+      <div id="channel-flicker"></div>
     </div>
 
     <!-- UI Overlay -->
@@ -113,69 +114,71 @@
                 <img
                   src="/src/assets/projects/ask_better/corporate_pro_01.png"
                   alt="Ask Better Screenshot"
-                  class="active"
                 />
                 <img
                   src="/src/assets/projects/ask_better/coffe_basic_02.png"
                   alt="Ask Better Screenshot"
-                  class="active"
                 />
                 <img
                   src="/src/assets/projects/ask_better/coffe_pro_02.png"
                   alt="Ask Better Screenshot"
-                  class="active"
                 />
                 <img
                   src="/src/assets/projects/ask_better/coffe_pro_03.png"
                   alt="Ask Better Screenshot"
-                  class="active"
                 />
                 <img
                   src="/src/assets/projects/ask_better/forest_basic_01.png"
                   alt="Ask Better Screenshot"
-                  class="active"
-                /><img
-                src="/src/assets/projects/ask_better/forest_pro_02.png"
-                alt="Ask Better Screenshot"
-                class="active"
-              />
-              <img
+                />
+                <img
+                  src="/src/assets/projects/ask_better/forest_pro_02.png"
+                  alt="Ask Better Screenshot"
+                />
+                <img
                   src="/src/assets/projects/ask_better/golden_basic_01.png"
                   alt="Ask Better Screenshot"
-                  class="active"
                 />
                 <img
                   src="/src/assets/projects/ask_better/golden_pro_01.png"
                   alt="Ask Better Screenshot"
-                  class="active"
                 />
                 <img
                   src="/src/assets/projects/ask_better/golden_pro_03.png"
                   alt="Ask Better Screenshot"
-                  class="active"
                 />
                 <img
                   src="/src/assets/projects/ask_better/deep_basic_01.png"
                   alt="Ask Better Screenshot"
-                  class="active"
                 />
                 <img
                   src="/src/assets/projects/ask_better/deep_pro_01.png"
                   alt="Ask Better Screenshot"
-                  class="active"
                 />
                 <img
                   src="/src/assets/projects/ask_better/zen_basic01.png"
                   alt="Ask Better Screenshot"
-                  class="active"
                 />
                 <img
                   src="/src/assets/projects/ask_better/zen_pro_01.png"
                   alt="Ask Better Screenshot"
-                  class="active"
                 />
+              </div>
               <div class="gallery-nav">
                 <div class="gallery-dot active"></div>
+                <div class="gallery-dot"></div>
+                <div class="gallery-dot"></div>
+                <div class="gallery-dot"></div>
+                <div class="gallery-dot"></div>
+                <div class="gallery-dot"></div>
+                <div class="gallery-dot"></div>
+                <div class="gallery-dot"></div>
+                <div class="gallery-dot"></div>
+                <div class="gallery-dot"></div>
+                <div class="gallery-dot"></div>
+                <div class="gallery-dot"></div>
+                <div class="gallery-dot"></div>
+                <div class="gallery-dot"></div>
               </div>
               <h3>Ask Better</h3>
               <p>
@@ -183,8 +186,12 @@
                 refinements.
               </p>
               <div class="links">
-                <a href="https://github.com/..." target="_blank">GitHub</a>
-                <a href="https://yoursite.com/..." target="_blank">Live Site</a>
+                <a href="https://github.com/sergiu-sa/askbetter" target="_blank"
+                  >GitHub</a
+                >
+                <a href="https://askbetter.vercel.app" target="_blank"
+                  >Live Site</a
+                >
               </div>
             </div>
           </div>
@@ -210,7 +217,7 @@
         </section>
 
         <section id="about" class="channel-screen">
-          <div id="typewriter-line" class="crt-text">&gt;</div>
+          <div id="typewriter-line" class="crt-text">></div>
 
           <div class="about-wrapper">
             <h1>About Me</h1>
@@ -353,31 +360,30 @@
           </div>
 
           <div class="contact-console">
-            <span class="prompt">&gt;</span>
+            <span class="prompt">></span>
             <input
-              id="command-input"
-              name="command"
               type="text"
-              placeholder="Enter command..."
+              id="contact-input"
+              class="crt-text"
+              placeholder="Type /help"
             />
-
-            <div class="terminal-output"></div>
           </div>
+          <div class="terminal-output"></div>
         </section>
       </main>
 
       <footer>
         <div class="channel-nav">
-          <button id="prev-channel">Channel ◀</button>
+          <button id="channel-prev">
+            <span class="arrow left"></span> Channel
+          </button>
           <span id="channel-label">CH 01</span>
-          <button id="next-channel">▶ Channel</button>
+          <button id="channel-next">
+            Channel <span class="arrow right"></span>
+          </button>
         </div>
       </footer>
     </div>
-
-    <div id="crt-flicker"></div>
-    <div id="channel-flicker"></div>
-
     <script type="module" src="/src/main.js"></script>
   </body>
 </html>

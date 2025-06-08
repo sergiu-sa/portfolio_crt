@@ -185,32 +185,39 @@ This portfolio is one of those experiments.`,
         printResponse("[ERROR] Unknown command. Try /help");
     }
   }
+
+  // ---------------------------------------------
+  // DATE DISPLAY
+  // ---------------------------------------------
+  function updateDate() {
+    const now = new Date();
+    const months = [
+      "JAN",
+      "FEB",
+      "MAR",
+      "APR",
+      "MAY",
+      "JUN",
+      "JUL",
+      "AUG",
+      "SEP",
+      "OCT",
+      "NOV",
+      "DEC",
+    ];
+    document.getElementById("current-date").textContent = `${
+      months[now.getMonth()]
+    } ${now.getDate()}, ${now.getFullYear()}`;
+  }
+
+  updateDate();
+  setInterval(updateDate, 60000);
+  setChannel(1);
+  showSection("intro");
 });
 
-// ---------------------------------------------
-// DATE DISPLAY
-// ---------------------------------------------
-
-function updateDate() {
-  const now = new Date();
-  const months = [
-    "JAN",
-    "FEB",
-    "MAR",
-    "APR",
-    "MAY",
-    "JUN",
-    "JUL",
-    "AUG",
-    "SEP",
-    "OCT",
-    "NOV",
-    "DEC",
-  ];
-  document.getElementById("current-date").textContent = `${
-    months[now.getMonth()]
-  } ${now.getDate()}, ${now.getFullYear()}`;
-}
+// Initialize project galleries when the DOM is fully loaded
+initProjectGalleries();
 
 // ---------------------------------------------
 // CHANNEL HANDLING
@@ -292,6 +299,7 @@ function playRetroVideo(videoNumber) {
   tvVideo.srcObject = null;
 
   tvVideo.src = `/src/assets/retro/retro${videoNumber}.mp4`;
+  tvVideo.loop = true;
   tvVideo.classList.add("visible");
   tvVideo.play().catch((err) => console.error("Video play error:", err));
 }
@@ -406,11 +414,11 @@ navButtons.forEach((btn) => {
   });
 });
 
-document.getElementById("prev-channel").addEventListener("click", () => {
+document.getElementById("channel-prev").addEventListener("click", () => {
   setChannel(currentChannel === 1 ? maxChannels : currentChannel - 1);
 });
 
-document.getElementById("next-channel").addEventListener("click", () => {
+document.getElementById("channel-next").addEventListener("click", () => {
   setChannel(currentChannel === maxChannels ? 1 : currentChannel + 1);
 });
 
@@ -442,7 +450,11 @@ function initProjectGalleries() {
 
   galleries.forEach((gallery) => {
     const images = gallery.querySelectorAll("img");
-    const dots = gallery.querySelectorAll(".gallery-dot");
+    // Get the parent .project-card, then find the .gallery-nav within it
+    const galleryNav = gallery.parentElement
+      ? gallery.parentElement.querySelector(".gallery-nav")
+      : null;
+    const dots = galleryNav ? galleryNav.querySelectorAll(".gallery-dot") : [];
     let currentIndex = 0;
     let touchStartX = 0;
     let touchEndX = 0;
@@ -540,7 +552,11 @@ function initProjectGalleries() {
 
     const activeImage = currentGallery.querySelector("img.active");
     const images = currentGallery.querySelectorAll("img");
-    const dots = currentGallery.querySelectorAll(".gallery-dot");
+    // Get the parent .project-card, then find the .gallery-nav within it
+    const galleryNav = currentGallery.parentElement
+      ? currentGallery.parentElement.querySelector(".gallery-nav")
+      : null;
+    const dots = galleryNav ? galleryNav.querySelectorAll(".gallery-dot") : [];
 
     fullscreenImage.src = activeImage.src;
     fullscreenImage.alt = activeImage.alt;
@@ -553,8 +569,10 @@ function initProjectGalleries() {
         index === Array.from(images).indexOf(activeImage) ? "active" : ""
       }`;
       dot.addEventListener("click", () => {
-        const galleryDots = currentGallery.querySelectorAll(".gallery-dot");
-        galleryDots[index].click();
+        // Trigger the click on the corresponding dot in the original gallery
+        if (dots[index]) {
+          dots[index].click();
+        }
       });
       fullscreenNav.appendChild(dot);
     });
@@ -573,21 +591,35 @@ function initProjectGalleries() {
   prevButton.addEventListener("click", () => {
     if (!currentGallery) return;
     const images = currentGallery.querySelectorAll("img");
+    // Get the parent .project-card, then find the .gallery-nav within it
+    const galleryNav = currentGallery.parentElement
+      ? currentGallery.parentElement.querySelector(".gallery-nav")
+      : null;
+    const dots = galleryNav ? galleryNav.querySelectorAll(".gallery-dot") : [];
     const currentIndex = Array.from(images).findIndex((img) =>
       img.classList.contains("active")
     );
     const newIndex = (currentIndex - 1 + images.length) % images.length;
-    currentGallery.querySelectorAll(".gallery-dot")[newIndex].click();
+    if (dots[newIndex]) {
+      dots[newIndex].click();
+    }
   });
 
   nextButton.addEventListener("click", () => {
     if (!currentGallery) return;
     const images = currentGallery.querySelectorAll("img");
+    // Get the parent .project-card, then find the .gallery-nav within it
+    const galleryNav = currentGallery.parentElement
+      ? currentGallery.parentElement.querySelector(".gallery-nav")
+      : null;
+    const dots = galleryNav ? galleryNav.querySelectorAll(".gallery-dot") : [];
     const currentIndex = Array.from(images).findIndex((img) =>
       img.classList.contains("active")
     );
     const newIndex = (currentIndex + 1) % images.length;
-    currentGallery.querySelectorAll(".gallery-dot")[newIndex].click();
+    if (dots[newIndex]) {
+      dots[newIndex].click();
+    }
   });
 
   // Close fullscreen view
@@ -603,6 +635,11 @@ function initProjectGalleries() {
     if (!currentGallery) return;
 
     const images = currentGallery.querySelectorAll("img");
+    // Get the parent .project-card, then find the .gallery-nav within it
+    const galleryNav = currentGallery.parentElement
+      ? currentGallery.parentElement.querySelector(".gallery-nav")
+      : null;
+    const dots = galleryNav ? galleryNav.querySelectorAll(".gallery-dot") : [];
     const currentIndex = Array.from(images).findIndex((img) =>
       img.classList.contains("active")
     );
@@ -611,19 +648,14 @@ function initProjectGalleries() {
       closeFullscreenView();
     } else if (e.key === "ArrowLeft") {
       const newIndex = (currentIndex - 1 + images.length) % images.length;
-      currentGallery.querySelectorAll(".gallery-dot")[newIndex].click();
+      if (dots[newIndex]) {
+        dots[newIndex].click();
+      }
     } else if (e.key === "ArrowRight") {
       const newIndex = (currentIndex + 1) % images.length;
-      currentGallery.querySelectorAll(".gallery-dot")[newIndex].click();
+      if (dots[newIndex]) {
+        dots[newIndex].click();
+      }
     }
   });
 }
-
-// ---------------------------------------------
-// INIT
-// ---------------------------------------------
-
-updateDate();
-setInterval(updateDate, 60000);
-setChannel(1);
-showSection("intro");
