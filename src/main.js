@@ -4,7 +4,7 @@
 
 const collageImages = Array.from(
   { length: 16 },
-  (_, i) => `/src/assets/collage/face${String(i + 1).padStart(2, "0")}.jpg`
+  (_, i) => `/assets/collage/face${String(i + 1).padStart(2, "0")}.jpg`
 );
 
 let currentChannel = 1;
