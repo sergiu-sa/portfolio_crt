@@ -47,15 +47,12 @@ import { decryptedText } from "./js/decryptedText.js";
 window.addEventListener("DOMContentLoaded", () => {
   decryptedText({
     elementId: "about-text",
-    text: `I'm a front-end developer, creative explorer, and occasional chaos mechanic with a mind wired for problem-solving.
-
-My work usually begins with a feeling. Sometimes it's curiosity, other times it's tension or instinct. I build through trial and error, letting the process guide the result rather than forcing it into place.
-
-Creating something new, even if it's strange or unfinished, is where I feel most at home. If it feels honest or unexpectedly useful, I know I'm moving in the right direction.
-
-Lately I've been exploring how people interact with AI, how digital tools can support mental clarity, and how retro aesthetics can inspire modern expression.
-
-This portfolio is one of those experiments.`,
+    text: [
+      `I'm a front-end developer, creative explorer, and occasional chaos mechanic with a mind wired for problem-solving.`,
+      `My work usually begins with a feeling. Sometimes it's curiosity, other times it's tension or instinct. I build through trial and error, letting the process guide the result rather than forcing it into place.`,
+      `Creating something new, even if it's strange or unfinished, is where I feel most at home. If it feels honest or unexpectedly useful, I know I'm moving in the right direction.`,
+      `Lately I've been exploring how people interact with AI, how digital tools can support mental clarity, and how retro aesthetics can inspire modern expression. This portfolio is one of those experiments.`,
+    ],
     speed: 15,
     revealDirection: "start",
   });
@@ -76,23 +73,23 @@ This portfolio is one of those experiments.`,
           printCommand(command);
           handleContactCommand(command.toLowerCase());
           commandHistory.push(command);
-          historyIndex = commandHistory.length; // Reset history index to the end
+          historyIndex = commandHistory.length;
         }
         contactInput.value = "";
       } else if (e.key === "ArrowUp") {
-        e.preventDefault(); // Prevent cursor from moving to the beginning
+        e.preventDefault();
         if (historyIndex > 0) {
           historyIndex--;
           contactInput.value = commandHistory[historyIndex];
         }
       } else if (e.key === "ArrowDown") {
-        e.preventDefault(); // Prevent cursor from moving to the end
+        e.preventDefault();
         if (historyIndex < commandHistory.length - 1) {
           historyIndex++;
           contactInput.value = commandHistory[historyIndex];
         } else if (historyIndex === commandHistory.length - 1) {
           historyIndex++;
-          contactInput.value = ""; // Clear input if at the end of history
+          contactInput.value = "";
         }
       }
     });
@@ -327,7 +324,12 @@ function showSection(section) {
     document.getElementById("about-text").innerHTML = "";
     decryptedText({
       elementId: "about-text",
-      text: `I'm a front-end developer, creative explorer, and occasional chaos mechanic with a mind wired for problem-solving.\n\nMy work usually begins with a feeling. Sometimes it's curiosity, other times it's tension or instinct. I build through trial and error, letting the process guide the result rather than forcing it into place.\n\nCreating something new, even if it's strange or unfinished, is where I feel most at home. If it feels honest or unexpectedly useful, I know I'm moving in the right direction.\n\nLately I've been exploring how people interact with AI, how digital tools can support mental clarity, and how retro aesthetics can inspire modern expression. This portfolio is one of those experiments.`,
+      text: [
+        `I'm a front-end developer, creative explorer, and occasional chaos mechanic with a mind wired for problem-solving.`,
+        `My work usually begins with a feeling. Sometimes it's curiosity, other times it's tension or instinct. I build through trial and error, letting the process guide the result rather than forcing it into place.`,
+        `Creating something new, even if it's strange or unfinished, is where I feel most at home. If it feels honest or unexpectedly useful, I know I'm moving in the right direction.`,
+        `Lately I've been exploring how people interact with AI, how digital tools can support mental clarity, and how retro aesthetics can inspire modern expression. This portfolio is one of those experiments.`,
+      ],
       speed: 15,
       revealDirection: "start",
     });
@@ -432,6 +434,13 @@ document.getElementById("ping-all").addEventListener("click", () => {
 
 document.getElementById("power-off").addEventListener("click", () => {
   document.body.classList.toggle("power-off");
+});
+
+// Add ESC key functionality to toggle power-off mode
+document.addEventListener("keydown", (e) => {
+  if (e.key === "Escape" && document.body.classList.contains("power-off")) {
+    document.body.classList.remove("power-off");
+  }
 });
 
 // ---------------------------------------------

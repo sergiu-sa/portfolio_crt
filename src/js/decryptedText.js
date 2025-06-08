@@ -1,6 +1,6 @@
 export function decryptedText({
   elementId,
-  text,
+  text: textChunks,
   speed = 15,
   characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()_+",
   revealDirection = "start",
@@ -8,6 +8,30 @@ export function decryptedText({
   const el = document.getElementById(elementId);
   if (!el) return;
 
+  el.innerHTML = "";
+
+  textChunks.forEach((paragraphText) => {
+    const p = document.createElement("p");
+    p.classList.add("crt-text", "decrypted-text");
+    el.appendChild(p);
+
+    _animateSingleDecryptedText({
+      element: p,
+      text: paragraphText,
+      speed,
+      characters,
+      revealDirection,
+    });
+  });
+}
+
+function _animateSingleDecryptedText({
+  element,
+  text,
+  speed,
+  characters,
+  revealDirection,
+}) {
   const originalText = text;
   let revealed = new Set();
   let interval;
@@ -39,7 +63,7 @@ export function decryptedText({
       return characters[Math.floor(Math.random() * characters.length)];
     });
 
-    el.innerHTML = scrambled
+    element.innerHTML = scrambled
       .map((char, i) => {
         const spanClass = revealed.has(i) ? "revealed-char" : "encrypted-char";
         return `<span class="${spanClass}">${char}</span>`;
@@ -53,6 +77,10 @@ export function decryptedText({
       return;
     }
     const nextIndex = getNextIndex();
+    if (nextIndex === undefined) {
+      clearInterval(interval);
+      return;
+    }
     revealed.add(nextIndex);
     scramble();
     iterations++;

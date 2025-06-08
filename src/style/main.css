@@ -1,6 +1,7 @@
 @import url("https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@300;400&display=swap");
 
+
 /* GLOBAL SETTINGS */
 html,
 body {
@@ -336,24 +337,36 @@ main::-webkit-scrollbar {
 }
 
 .project-card {
+  overflow: hidden;
   background: rgba(0, 0, 0, 0.5);
-  backdrop-filter: blur(3px);
   border: 1px solid rgba(0, 255, 255, 0.2);
-  padding: 1.75rem;
-  text-align: center;
-  color: #eee;
-  text-shadow: 0 0 1px #000;
-  box-shadow: 0 0 20px rgba(0, 255, 255, 0.1);
-  display: flex;
-  flex-direction: column;
-  height: 100%;
-  min-height: 450px;
-  position: relative;
-  width: 100%;
-  max-width: 350px;
-  box-sizing: border-box;
-  transition: all 0.3s ease;
   border-radius: 8px;
+  padding: 1.5rem;
+  margin: 1rem;
+  max-width: 320px;
+  width: 100%;
+  box-sizing: border-box;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  position: relative;
+  backface-visibility: hidden;
+}
+
+.project-card img {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+  margin-bottom: 1rem;
+  border-radius: 8px;
+  transition: transform 0.3s ease;
+  display: block;
+  position: relative;
+  z-index: 1;
+  box-shadow: none;
+  backface-visibility: hidden;
+}
+
+.project-card:hover img {
+  transform: scale(1.05);
 }
 
 .project-card:hover {
@@ -373,6 +386,7 @@ main::-webkit-scrollbar {
   cursor: pointer;
   box-sizing: border-box;
   box-shadow: 0 0 10px rgba(0, 255, 204, 0.1);
+  border-radius: 8px;
 }
 
 .project-gallery img {
@@ -387,6 +401,7 @@ main::-webkit-scrollbar {
   transform: scale(1.02);
   display: block;
   filter: grayscale(0.8) blur(0.5px) contrast(1.2);
+  border-radius: 8px;
 }
 
 .project-gallery img.active {
@@ -490,7 +505,7 @@ main::-webkit-scrollbar {
 }
 
 .about-wrapper {
-  max-width: 700px;
+  max-width: 650px;
   margin: 3rem auto;
   text-align: left;
   line-height: 1.8;
@@ -524,11 +539,17 @@ main::-webkit-scrollbar {
 }
 
 #about p {
-  margin-bottom: 2rem;
-  font-size: 1.1rem;
-  color: #ccc;
-  text-shadow: 0 0 1px #0ff;
-  letter-spacing: 0.5px;
+  margin-bottom: 1.8rem;
+  font-size: 1.15rem;
+  color: #fefefe;
+  text-shadow: none;
+  letter-spacing: 0;
+  line-height: 1.9;
+  font-family: "IBM Plex Mono", monospace;
+}
+
+#about p:last-of-type {
+  margin-bottom: 0;
 }
 
 .highlight {
@@ -541,35 +562,41 @@ main::-webkit-scrollbar {
 }
 
 .tech-stack-chips {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 0.8rem;
-  margin-top: 2.5rem;
-  max-width: 600px;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1.5rem;
+  margin-top: 4.5rem;
+  max-width: 800px;
   margin-left: auto;
   margin-right: auto;
+  justify-items: center;
+  padding: 0 1rem;
 }
 
 .chip {
-  display: inline-block;
-  padding: 0.5rem 1rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0.9rem 1.6rem;
   border: 1px solid var(--accent-color);
   border-radius: 5px;
   background: rgba(0, 0, 0, 0.6);
   color: var(--accent-color-light);
   font-family: "IBM Plex Mono", monospace;
-  font-size: 0.9rem;
-  text-shadow: 0 0 3px var(--accent-color);
-  box-shadow: 0 0 8px rgba(0, 255, 255, 0.3);
+  font-size: 0.95rem;
+  text-shadow: 0 0 2px var(--accent-color);
+  box-shadow: 0 0 15px rgba(0, 255, 255, 0.3);
   transition: all 0.3s ease;
   cursor: default;
+  width: 100%;
+  max-width: 160px;
+  box-sizing: border-box;
 }
 
 .chip:hover {
-  background: rgba(0, 255, 204, 0.2);
-  box-shadow: 0 0 15px var(--accent-color);
-  transform: translateY(-2px) scale(1.02);
+  background: rgba(0, 255, 204, 0.3);
+  box-shadow: 0 0 25px var(--accent-color);
+  transform: translateY(-4px) scale(1.05);
 }
 
 .ascii-signature {
@@ -740,19 +767,27 @@ main::-webkit-scrollbar {
   max-width: 800px;
   margin: 2rem auto 3rem auto;
   padding: 1.5rem;
-  background: rgba(0, 0, 0, 0.7);
-  border: 2px solid #0ff;
-  box-shadow: 0 0 15px rgba(0, 255, 255, 0.3);
+  background: rgba(0, 0, 0, 0.5);
+  border: 1px solid rgba(0, 255, 255, 0.2);
+  border-radius: 8px;
+  box-shadow: 0 0 20px rgba(0, 255, 255, 0.1);
   display: flex;
   flex-wrap: wrap;
   align-items: center;
+  transition: transform 0.2s ease, box-shadow 0.3s ease;
+}
+
+.contact-console:hover {
+  transform: scale(1.02);
+  box-shadow: 0 0 25px rgba(0, 255, 255, 0.3);
+  background: rgba(0, 0, 0, 0.6);
 }
 
 .contact-console .prompt {
   font-family: "IBM Plex Mono", monospace;
-  color: #0ff;
+  color: #fefefe;
   font-size: 0.85rem;
-  text-shadow: 0 0 1px #0ff;
+  text-shadow: 0 0 2px #fefefe, 0 0 4px #00ffcc;
   margin-right: 0.5rem;
   flex-shrink: 0;
 }
@@ -761,10 +796,10 @@ main::-webkit-scrollbar {
   flex-grow: 1;
   background: none;
   border: none;
-  color: #0ff;
+  color: #fefefe;
   font-family: "IBM Plex Mono", monospace;
   font-size: 0.85rem;
-  text-shadow: 0 0 1px #0ff;
+  text-shadow: 0 0 2px #fefefe, 0 0 4px #00ffcc;
   outline: none;
   padding: 0;
   margin: 0;
@@ -772,7 +807,7 @@ main::-webkit-scrollbar {
 }
 
 .contact-console input[type="text"]::placeholder {
-  color: rgba(0, 255, 255, 0.5);
+  color: rgba(255, 255, 255, 0.5);
   text-shadow: none;
 }
 
@@ -941,31 +976,86 @@ footer::after {
 .easter-egg-buttons {
   display: flex;
   justify-content: center;
-  gap: 1rem;
+  gap: 1.5rem;
   margin-top: 2rem;
 }
 
 .easter-egg-buttons button {
-  background: black;
+  background: rgba(0, 0, 0, 0.5);
   color: #fefefe;
-  border: 1px solid #fefefe;
-  padding: 0.5rem 1rem;
+  border: 1px solid rgba(0, 255, 255, 0.2);
+  border-radius: 8px;
+  padding: 1rem 2rem;
   font-family: "IBM Plex Mono", monospace;
-  font-size: 0.75rem;
+  font-size: 0.85rem;
   cursor: pointer;
   text-shadow: 0 0 2px #fefefe, 0 0 4px #00ffcc;
-  transition: all 0.3s;
+  transition: all 0.3s ease;
+  box-shadow: 0 0 20px rgba(0, 255, 255, 0.1);
+  position: relative;
 }
 
 .easter-egg-buttons button:hover {
-  background: #00ffcc;
-  color: #fefefe;
-  text-shadow: 0 0 5px #fefefe;
+  transform: scale(1.05);
+  box-shadow: 0 0 25px rgba(0, 255, 255, 0.3);
+  background: rgba(0, 0, 0, 0.6);
+  border-color: rgba(0, 255, 255, 0.4);
+}
+
+.easter-egg-buttons button:active {
+  transform: scale(0.98);
+  box-shadow: 0 0 15px rgba(0, 255, 255, 0.2);
+}
+
+@media (max-width: 550px) {
+  .easter-egg-buttons {
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .easter-egg-buttons button {
+    width: 100%;
+    padding: 0.8rem 1.5rem;
+  }
 }
 
 body.power-off {
   filter: grayscale(1) brightness(0.1) blur(3px);
   transition: all 0.5s ease-in-out;
+}
+
+body.power-off .easter-egg-buttons {
+  filter: none;
+  position: relative;
+  z-index: 1000;
+}
+
+body.power-off .easter-egg-buttons button {
+  filter: none;
+  opacity: 1;
+  visibility: visible;
+}
+
+body.power-off .easter-egg-buttons button:not(#power-off) {
+  opacity: 0.3;
+  pointer-events: none;
+}
+
+body.power-off #power-off {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.5);
+  box-shadow: 0 0 30px rgba(255, 255, 255, 0.3);
+  color: #fff;
+  text-shadow: 0 0 5px #fff;
+  filter: none !important;
+  transform: scale(1.1);
+}
+
+body.power-off #power-off:hover {
+  background: rgba(255, 255, 255, 0.2);
+  border-color: rgba(255, 255, 255, 0.7);
+  box-shadow: 0 0 40px rgba(255, 255, 255, 0.4);
+  transform: scale(1.15);
 }
 
 .glitch-link {
@@ -1177,7 +1267,7 @@ body.power-off {
   box-shadow: 0 0 25px rgba(0, 255, 204, 0.4);
   user-select: none;
   margin: auto;
-  /* filter: grayscale(0.8) blur(0.5px) contrast(1.2); */
+  border-radius: 8px;
 }
 
 .fullscreen-nav {
@@ -1309,5 +1399,22 @@ body.power-off {
 @media (max-width: 480px) {
   .channel-screen {
     padding: 2rem 1rem 3rem 1rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .tech-stack-chips {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.2rem;
+  }
+}
+
+@media (max-width: 550px) {
+  .tech-stack-chips {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+  }
+  .chip {
+    max-width: none;
   }
 }
