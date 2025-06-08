@@ -9,6 +9,7 @@ Rather than a traditional layout, this portfolio uses a fullscreen "TV screen" b
 ## Project Purpose
 
 The goal of this portfolio is to:
+
 - Present three development projects using a clear, visual card layout
 - Reflect my personality and problem-solving style
 - Experiment with alternative user interfaces and creative theming
@@ -45,17 +46,20 @@ CRT stands for **Cathode Ray Tube**, a technology once used in old televisions a
 
 Each project card includes a short description, GitHub repo link, and a live site preview.
 
-### 1. Square Eyes  
+### 1. Square Eyes
+
 A responsive film discovery website with semantic HTML and modular CSS.  
 GitHub: [https://github.com/sergiu-sa/square-eyes](https://github.com/sergiu-sa/square-eyes)  
 Live Site: [https://square-eyes-vite.netlify.app](https://square-eyes-vite.netlify.app)
 
-### 2. Kid Bank  
+### 2. Kid Bank
+
 A prototype banking interface for teens with product scanning logic and age-check.  
 GitHub: [https://github.com/03-renate/kid-bank](https://github.com/03-renate/kid-bank)  
 Live Site: [https://kidbank.netlify.app](https://kidbank.netlify.app)
 
-### 3. AskBetter  
+### 3. AskBetter
+
 A tool that helps users shape better AI prompts using emotion, intent, and visual input.  
 GitHub: [https://github.com/sergiu-sa/askbetter](https://github.com/sergiu-sa/askbetter)  
 Live Site: [https://askbetter.vercel.app](https://askbetter.vercel.app)
@@ -64,27 +68,35 @@ Live Site: [https://askbetter.vercel.app](https://askbetter.vercel.app)
 
 ## How to Run Locally
 
-1. Clone the repository:
-```bash
+1.Clone the repository:
+
+```
+
+bash
 git clone https://github.com/sergiu-sa/portfolio_crt.git
+
 ```
 
 2. Navigate to the project folder:
+
 ```bash
 cd portfolio_crt
 ```
 
 3. Install dependencies:
+
 ```bash
 npm install
 ```
 
 4. Start the development server:
+
 ```bash
 npm run dev
 ```
 
 5. Open the local server in your browser:
+
 ```
 http://localhost:5173
 ```
@@ -127,16 +139,15 @@ GitHub: [https://github.com/sergiu-sa](https://github.com/sergiu-sa)
 
 This project is open source and available under the [MIT License](LICENSE).
 
-
 ---
 
 ## Projects Showcased
 
-| Project       | Description                                                                 | GitHub Repository                                              | Live Site                                        |
-|---------------|-----------------------------------------------------------------------------|----------------------------------------------------------------|--------------------------------------------------|
-| Square Eyes   | Responsive film discovery site with clean HTML and modular CSS              | [square-eyes](https://github.com/sergiu-sa/square-eyes)        | [square-eyes-vite.netlify.app](https://square-eyes-vite.netlify.app) |
-| Kid Bank      | Fintech prototype for teens with barcode scanning and age-check logic       | [kid-bank](https://github.com/03-renate/kid-bank)              | [kidbank.netlify.app](https://kidbank.netlify.app) |
-| AskBetter     | AI prompt design tool using emotion-driven inputs and retro UI              | [askbetter](https://github.com/sergiu-sa/askbetter)            | [askbetter.vercel.app](https://askbetter.vercel.app) |
+| Project     | Description                                                           | GitHub Repository                                       | Live Site                                                            |
+| ----------- | --------------------------------------------------------------------- | ------------------------------------------------------- | -------------------------------------------------------------------- |
+| Square Eyes | Responsive film discovery site with clean HTML and modular CSS        | [square-eyes](https://github.com/sergiu-sa/square-eyes) | [square-eyes-vite.netlify.app](https://square-eyes-vite.netlify.app) |
+| Kid Bank    | Fintech prototype for teens with barcode scanning and age-check logic | [kid-bank](https://github.com/03-renate/kid-bank)       | [kidbank.netlify.app](https://kidbank.netlify.app)                   |
+| AskBetter   | AI prompt design tool using emotion-driven inputs and retro UI        | [askbetter](https://github.com/sergiu-sa/askbetter)     | [askbetter.vercel.app](https://askbetter.vercel.app)                 |
 
 ---
 
@@ -145,17 +156,29 @@ This project is open source and available under the [MIT License](LICENSE).
 > Screenshots below show desktop and mobile views for the portfolio and projects.
 
 ### Portfolio (CRT Interface)
-![CRT Desktop](./screenshots/portfolio-desktop.jpg)
-![CRT Mobile](./screenshots/portfolio-mobile.jpg)
+
+![CRT Desktop](src/assets/projects/ask_better_readme/08.png)
+![CRT Desktop](src/assets/projects/ask_better_readme/07.png)
+![CRT Desktop](src/assets/projects/ask_better_readme/06.png)
+![CRT Desktop](src/assets/projects/ask_better_readme/05.png)
+![CRT Desktop](src/assets/projects/ask_better_readme/04.png)
+![CRT Desktop](src/assets/projects/ask_better_readme/03.png)
+![CRT Desktop](src/assets/projects/ask_better_readme/02.png)
+![CRT Desktop](src/assets/projects/ask_better_readme/01.png)
+![CRT Desktop](src/assets/projects/ask_better_readme/about.png)
+![CRT Desktop](src/assets/projects/ask_better_readme/decent.png)
 
 ### Square Eyes
+
 ![Square Eyes Desktop](src/assets/projects/square_eyes/new_home01.png)
-![Square Eyes Mobile](./screenshots/square-eyes-mobile.jpg)
+![Square Eyes Desktop](src/assets/projects/square_eyes/new_home02.png)
 
 ### Kid Bank
+
 ![Kid Bank Desktop](src/assets/projects/kid_bank/kid_bank01.png)
-![Kid Bank Mobile](./screenshots/kid-bank-mobile.jpg)
+![Kid Bank Desktop](src/assets/projects/kid_bank/kid_bank02.png)
 
 ### AskBetter
-![AskBetter Desktop](./screenshots/askbetter-desktop.jpg)
-![AskBetter Mobile](./screenshots/askbetter-mobile.jpg)
+
+![AskBetter Basic](src/assets/projects/ask_better/corporate_basic_01.png)
+![AskBetter Pro](src/assets/projects/ask_better/corporate_pro_01.png)
