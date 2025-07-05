@@ -2,6 +2,7 @@
 // GLOBAL VARIABLES & SETUP
 // ---------------------------------------------
 
+// Fixed path to point to public folder
 const collageImages = Array.from(
   { length: 16 },
   (_, i) => `/assets/collage/face${String(i + 1).padStart(2, "0")}.jpg`
@@ -117,7 +118,7 @@ window.addEventListener("DOMContentLoaded", () => {
   function handleContactCommand(cmd) {
     switch (cmd) {
       case "/email":
-        window.location.href = "mailto:hello@sergiusarbu.dev";
+        window.location.href = "mailto:sergiudsarbu@gmail.com";
         printResponse("[MAIL] Opening email client...");
         return;
 
@@ -127,17 +128,20 @@ window.addEventListener("DOMContentLoaded", () => {
         return;
 
       case "/linkedin":
-        window.open("https://linkedin.com/in/sergiu-sarbu", "_blank");
+        window.open(
+          "https://www.linkedin.com/in/sergiu-sarbu-39154226a",
+          "_blank"
+        );
         printResponse("[NETWORK] Opening LinkedIn...");
         return;
 
       case "/instagram":
-        window.open("https://instagram.com/sergiu.sarbu", "_blank");
+        window.open("https://www.instagram.com/sergiu_sarbu_/", "_blank");
         printResponse("[CAMERA] Opening Instagram...");
         return;
 
       case "/discord":
-        window.open("https://discord.com/users/sergiu.sarbu", "_blank");
+        window.open("https://discord.com/users/1275872993859342348", "_blank");
         printResponse("[CHAT] Opening Discord...");
         return;
 
@@ -283,7 +287,8 @@ function playRetroVideo(videoNumber) {
   tvImage.classList.remove("visible");
   tvVideo.srcObject = null;
 
-  tvVideo.src = `/src/assets/retro/retro${videoNumber}.mp4`;
+  // Updated path to point to public folder
+  tvVideo.src = `/assets/retro/retro${videoNumber}.mp4`;
   tvVideo.loop = true;
   tvVideo.classList.add("visible");
   tvVideo.play().catch((err) => console.error("Video play error:", err));

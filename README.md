@@ -105,14 +105,16 @@ http://localhost:5173
 
 ```bash
 portfolio_crt/
-├── index.html
-├── /src
-│   ├── /js/            → Main JavaScript logic (channel control, nav, animations)
-│   ├── /css/           → CRT styling, layout, effects
-│   ├── /assets/        → Background videos, face collage, icons
-│   └── /pages/         → About, Contact, Projects content sections
-├── vite.config.js
-└── README.md
+├── public/
+│   └── assets/
+│       ├── collage/          (move from src/assets/collage/)
+│       ├── projects/         (move from src/assets/projects/)
+│       └── retro/           (move from src/assets/retro/)
+├── src/
+│   ├── style/
+│   ├── js/
+│   └── main.js
+└── index.html
 ```
 
 ---
