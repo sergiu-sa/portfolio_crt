@@ -13,6 +13,7 @@ let currentImageIndex = 0;
 let slideshowInterval = null;
 let currentStream = null;
 let contactIntroPlayed = false;
+let galleryIntervals = [];
 
 const maxChannels = 7;
 
@@ -299,6 +300,10 @@ function playRetroVideo(videoNumber) {
 // ---------------------------------------------
 
 function showSection(section) {
+  // Clear all gallery intervals when switching sections
+  galleryIntervals.forEach(interval => clearInterval(interval));
+  galleryIntervals = [];
+
   sections.forEach((s) => {
     s.classList.remove("active");
     s.style.display = "none";
@@ -516,11 +521,12 @@ function initProjectGalleries() {
     }
 
     if (images.length > 1) {
-      setInterval(() => {
+      const intervalId = setInterval(() => {
         if (currentGallery !== gallery) {
           showImage((currentIndex + 1) % images.length);
         }
       }, 5000);
+      galleryIntervals.push(intervalId);
     }
   });
 
@@ -576,40 +582,34 @@ function initProjectGalleries() {
     }
   }
 
+  // Helper function to navigate gallery
+  function navigateGallery(direction) {
+    if (!currentGallery) return;
+
+    const images = currentGallery.querySelectorAll("img");
+    const galleryNav = currentGallery.parentElement
+      ? currentGallery.parentElement.querySelector(".gallery-nav")
+      : null;
+    const dots = galleryNav ? galleryNav.querySelectorAll(".gallery-dot") : [];
+    const currentIndex = Array.from(images).findIndex((img) =>
+      img.classList.contains("active")
+    );
+
+    let newIndex;
+    if (direction === "prev") {
+      newIndex = (currentIndex - 1 + images.length) % images.length;
+    } else if (direction === "next") {
+      newIndex = (currentIndex + 1) % images.length;
+    }
+
+    if (dots[newIndex]) {
+      dots[newIndex].click();
+    }
+  }
+
   // Navigation arrow click handlers
-  prevButton.addEventListener("click", () => {
-    if (!currentGallery) return;
-    const images = currentGallery.querySelectorAll("img");
-
-    const galleryNav = currentGallery.parentElement
-      ? currentGallery.parentElement.querySelector(".gallery-nav")
-      : null;
-    const dots = galleryNav ? galleryNav.querySelectorAll(".gallery-dot") : [];
-    const currentIndex = Array.from(images).findIndex((img) =>
-      img.classList.contains("active")
-    );
-    const newIndex = (currentIndex - 1 + images.length) % images.length;
-    if (dots[newIndex]) {
-      dots[newIndex].click();
-    }
-  });
-
-  nextButton.addEventListener("click", () => {
-    if (!currentGallery) return;
-    const images = currentGallery.querySelectorAll("img");
-
-    const galleryNav = currentGallery.parentElement
-      ? currentGallery.parentElement.querySelector(".gallery-nav")
-      : null;
-    const dots = galleryNav ? galleryNav.querySelectorAll(".gallery-dot") : [];
-    const currentIndex = Array.from(images).findIndex((img) =>
-      img.classList.contains("active")
-    );
-    const newIndex = (currentIndex + 1) % images.length;
-    if (dots[newIndex]) {
-      dots[newIndex].click();
-    }
-  });
+  prevButton.addEventListener("click", () => navigateGallery("prev"));
+  nextButton.addEventListener("click", () => navigateGallery("next"));
 
   closeFullscreen.addEventListener("click", closeFullscreenView);
   fullscreenView.addEventListener("click", (e) => {
@@ -621,28 +621,12 @@ function initProjectGalleries() {
   document.addEventListener("keydown", (e) => {
     if (!currentGallery) return;
 
-    const images = currentGallery.querySelectorAll("img");
-
-    const galleryNav = currentGallery.parentElement
-      ? currentGallery.parentElement.querySelector(".gallery-nav")
-      : null;
-    const dots = galleryNav ? galleryNav.querySelectorAll(".gallery-dot") : [];
-    const currentIndex = Array.from(images).findIndex((img) =>
-      img.classList.contains("active")
-    );
-
     if (e.key === "Escape") {
       closeFullscreenView();
     } else if (e.key === "ArrowLeft") {
-      const newIndex = (currentIndex - 1 + images.length) % images.length;
-      if (dots[newIndex]) {
-        dots[newIndex].click();
-      }
+      navigateGallery("prev");
     } else if (e.key === "ArrowRight") {
-      const newIndex = (currentIndex + 1) % images.length;
-      if (dots[newIndex]) {
-        dots[newIndex].click();
-      }
+      navigateGallery("next");
     }
   });
 }

@@ -10,8 +10,5 @@
   },
   "devDependencies": {
     "vite": "^6.3.5"
-  },
-  "dependencies": {
-    "framer-motion": "^12.16.0"
   }
 }

@@ -1,6 +1,13 @@
 @import url("https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@300;400&display=swap");
 
+/* CSS CUSTOM PROPERTIES */
+:root {
+  --accent-color: #00ffcc;
+  --accent-color-light: #fefefe;
+  --crt-glow: 0 0 2px #fefefe, 0 0 4px #00ffcc;
+}
+
 /* GLOBAL SETTINGS */
 html,
 body {
