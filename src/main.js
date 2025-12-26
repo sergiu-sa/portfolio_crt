@@ -215,7 +215,12 @@ initProjectGalleries();
 
 function setChannel(channel) {
   currentChannel = channel;
-  channelLabel.textContent = `CH ${String(channel).padStart(2, "0")}`;
+  const channelText = `CH ${String(channel).padStart(2, "0")}`;
+  channelLabel.textContent = channelText;
+
+  // Show OSD channel indicator
+  showOSD(channelText);
+
   triggerChannelFlicker();
 
   stopSlideshow();
@@ -260,14 +265,26 @@ function stopSlideshow() {
 // ---------------------------------------------
 
 async function startWebcam() {
+  const loadingIndicator = document.getElementById("loading-indicator");
+
   try {
+    // Show loading indicator
+    if (loadingIndicator) loadingIndicator.classList.add("active");
+
     const stream = await navigator.mediaDevices.getUserMedia({ video: true });
     tvVideo.srcObject = stream;
     tvVideo.classList.add("visible");
     tvVideo.play();
     currentStream = stream;
+
+    // Hide loading indicator
+    if (loadingIndicator) loadingIndicator.classList.remove("active");
   } catch (err) {
     console.error("Webcam error:", err);
+
+    // Hide loading and show error feedback
+    if (loadingIndicator) loadingIndicator.classList.remove("active");
+    showOSD("CAMERA ERROR");
   }
 }
 
@@ -378,7 +395,7 @@ function triggerTerminalSequence() {
 }
 
 // ---------------------------------------------
-// CHANNEL FLICKER EFFECT
+// CHANNEL FLICKER EFFECT & OSD
 // ---------------------------------------------
 
 function triggerChannelFlicker() {
@@ -390,6 +407,26 @@ function triggerChannelFlicker() {
     flicker.style.animation = "none";
     flicker.style.opacity = "0";
   }, 400);
+}
+
+function showOSD(text) {
+  const osd = document.getElementById("channel-indicator");
+  const osdText = document.getElementById("osd-channel");
+
+  if (!osd || !osdText) return;
+
+  osdText.textContent = text;
+  osd.classList.remove("show");
+
+  // Force reflow to restart animation
+  void osd.offsetWidth;
+
+  osd.classList.add("show");
+
+  // Remove class after animation completes
+  setTimeout(() => {
+    osd.classList.remove("show");
+  }, 2000);
 }
 
 function startConsoleIntro() {
@@ -436,6 +473,37 @@ document.addEventListener("keydown", (e) => {
     document.body.classList.remove("power-off");
   }
 });
+
+// Keyboard shortcuts modal
+const keyboardHintBtn = document.getElementById("keyboard-hint");
+const shortcutsModal = document.getElementById("shortcuts-modal");
+const modalClose = document.querySelector(".modal-close");
+
+if (keyboardHintBtn) {
+  keyboardHintBtn.addEventListener("click", () => {
+    shortcutsModal.classList.add("active");
+  });
+}
+
+if (modalClose) {
+  modalClose.addEventListener("click", () => {
+    shortcutsModal.classList.remove("active");
+  });
+}
+
+if (shortcutsModal) {
+  shortcutsModal.addEventListener("click", (e) => {
+    if (e.target === shortcutsModal) {
+      shortcutsModal.classList.remove("active");
+    }
+  });
+
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape" && shortcutsModal.classList.contains("active")) {
+      shortcutsModal.classList.remove("active");
+    }
+  });
+}
 
 // ---------------------------------------------
 // PROJECT GALLERY FUNCTIONALITY

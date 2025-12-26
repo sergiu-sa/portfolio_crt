@@ -10,9 +10,22 @@
     <!-- CRT Screen & Video/Image Background -->
     <div id="tv-screen">
       <video id="tv-video" autoplay muted playsinline></video>
-      <img id="tv-image" />
+      <img id="tv-image" alt="Background slideshow image" />
       <div id="tv-overlay"></div>
       <div id="channel-flicker"></div>
+
+      <!-- On-screen channel indicator -->
+      <div id="channel-indicator" class="osd-indicator">
+        <span id="osd-channel">CH 01</span>
+      </div>
+
+      <!-- Loading indicator -->
+      <div id="loading-indicator" class="loading-spinner">
+        <div class="spinner-content">
+          <div class="spinner"></div>
+          <p class="loading-text">LOADING...</p>
+        </div>
+      </div>
     </div>
 
     <!-- UI Overlay -->
@@ -28,8 +41,31 @@
             <button class="home-link" id="home-link">HOME</button>/
             <span id="current-date"></span>
           </div>
+          <button id="keyboard-hint" class="keyboard-hint-btn" title="Keyboard Shortcuts">?</button>
         </div>
       </header>
+
+      <!-- Keyboard shortcuts modal -->
+      <div id="shortcuts-modal" class="modal">
+        <div class="modal-content">
+          <button class="modal-close">&times;</button>
+          <h2>KEYBOARD SHORTCUTS</h2>
+          <div class="shortcuts-grid">
+            <div class="shortcut-item">
+              <kbd>←</kbd> <kbd>→</kbd>
+              <span>Navigate Gallery</span>
+            </div>
+            <div class="shortcut-item">
+              <kbd>ESC</kbd>
+              <span>Close Fullscreen / Exit Power Off</span>
+            </div>
+            <div class="shortcut-item">
+              <kbd>↑</kbd> <kbd>↓</kbd>
+              <span>Command History (Contact Terminal)</span>
+            </div>
+          </div>
+        </div>
+      </div>
       <main>
         <!-- INTRO -->
         <section id="intro" class="channel-screen active">
