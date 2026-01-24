@@ -18,6 +18,213 @@ let galleryIntervals = [];
 const maxChannels = 7;
 
 // ---------------------------------------------
+// CRT SOUND SYSTEM
+// ---------------------------------------------
+let audioContext = null;
+let soundEnabled = localStorage.getItem('crtSoundEnabled') !== 'false';
+let hasPlayedStartupSound = sessionStorage.getItem('crtStartupPlayed') === 'true';
+
+function initAudioContext() {
+  if (!audioContext) {
+    audioContext = new (window.AudioContext || window.webkitAudioContext)();
+  }
+  if (audioContext.state === 'suspended') {
+    audioContext.resume();
+  }
+  return audioContext;
+}
+
+function playCRTTurnOn() {
+  if (!soundEnabled) return;
+  const ctx = initAudioContext();
+
+  // 1. Initial "click" - relay sound
+  const clickOsc = ctx.createOscillator();
+  const clickGain = ctx.createGain();
+  clickOsc.type = 'square';
+  clickOsc.frequency.setValueAtTime(150, ctx.currentTime);
+  clickGain.gain.setValueAtTime(0.3, ctx.currentTime);
+  clickGain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.05);
+  clickOsc.connect(clickGain);
+  clickGain.connect(ctx.destination);
+  clickOsc.start(ctx.currentTime);
+  clickOsc.stop(ctx.currentTime + 0.05);
+
+  // 2. Low frequency "thump" - degaussing coil
+  setTimeout(() => {
+    const thumpOsc = ctx.createOscillator();
+    const thumpGain = ctx.createGain();
+    thumpOsc.type = 'sine';
+    thumpOsc.frequency.setValueAtTime(80, ctx.currentTime);
+    thumpOsc.frequency.exponentialRampToValueAtTime(25, ctx.currentTime + 0.5);
+    thumpGain.gain.setValueAtTime(0.35, ctx.currentTime);
+    thumpGain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.6);
+    thumpOsc.connect(thumpGain);
+    thumpGain.connect(ctx.destination);
+    thumpOsc.start(ctx.currentTime);
+    thumpOsc.stop(ctx.currentTime + 0.6);
+  }, 50);
+
+  // 3. High frequency whine - CRT warming up
+  setTimeout(() => {
+    const whineOsc = ctx.createOscillator();
+    const whineGain = ctx.createGain();
+    whineOsc.type = 'sine';
+    whineOsc.frequency.setValueAtTime(15700, ctx.currentTime);
+    whineGain.gain.setValueAtTime(0.02, ctx.currentTime);
+    whineGain.gain.linearRampToValueAtTime(0.04, ctx.currentTime + 0.3);
+    whineGain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 1.2);
+    whineOsc.connect(whineGain);
+    whineGain.connect(ctx.destination);
+    whineOsc.start(ctx.currentTime);
+    whineOsc.stop(ctx.currentTime + 1.2);
+  }, 100);
+
+  // 4. Static burst as screen comes on
+  setTimeout(() => playStaticBurst(0.4, 0.15), 200);
+}
+
+function playStaticBurst(duration = 0.2, volume = 0.12) {
+  if (!soundEnabled) return;
+  const ctx = initAudioContext();
+
+  // Create white noise buffer
+  const bufferSize = Math.floor(ctx.sampleRate * duration);
+  const noiseBuffer = ctx.createBuffer(1, bufferSize, ctx.sampleRate);
+  const output = noiseBuffer.getChannelData(0);
+
+  for (let i = 0; i < bufferSize; i++) {
+    output[i] = Math.random() * 2 - 1;
+  }
+
+  const whiteNoise = ctx.createBufferSource();
+  whiteNoise.buffer = noiseBuffer;
+
+  // Bandpass filter for TV-like static
+  const filter = ctx.createBiquadFilter();
+  filter.type = 'bandpass';
+  filter.frequency.value = 2500;
+  filter.Q.value = 0.7;
+
+  // Gain envelope - fade in slightly, then fade out
+  const gainNode = ctx.createGain();
+  gainNode.gain.setValueAtTime(0.01, ctx.currentTime);
+  gainNode.gain.linearRampToValueAtTime(volume, ctx.currentTime + 0.02);
+  gainNode.gain.setValueAtTime(volume, ctx.currentTime + duration * 0.7);
+  gainNode.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + duration);
+
+  whiteNoise.connect(filter);
+  filter.connect(gainNode);
+  gainNode.connect(ctx.destination);
+
+  whiteNoise.start(ctx.currentTime);
+  whiteNoise.stop(ctx.currentTime + duration);
+}
+
+function playChannelChange() {
+  if (!soundEnabled) return;
+  // Longer static for channel changes
+  playStaticBurst(0.25, 0.1);
+}
+
+function playTeletextBeep() {
+  if (!soundEnabled) return;
+  const ctx = initAudioContext();
+
+  // Classic teletext/ceefax beep sound
+  const osc = ctx.createOscillator();
+  const gain = ctx.createGain();
+
+  osc.type = 'square';
+  osc.frequency.setValueAtTime(1000, ctx.currentTime);
+
+  gain.gain.setValueAtTime(0.08, ctx.currentTime);
+  gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.08);
+
+  osc.connect(gain);
+  gain.connect(ctx.destination);
+
+  osc.start(ctx.currentTime);
+  osc.stop(ctx.currentTime + 0.08);
+}
+
+function playNavigationClick() {
+  if (!soundEnabled) return;
+  const ctx = initAudioContext();
+
+  // Subtle mechanical click
+  const osc = ctx.createOscillator();
+  const gain = ctx.createGain();
+
+  osc.type = 'triangle';
+  osc.frequency.setValueAtTime(800, ctx.currentTime);
+  osc.frequency.exponentialRampToValueAtTime(200, ctx.currentTime + 0.03);
+
+  gain.gain.setValueAtTime(0.1, ctx.currentTime);
+  gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.04);
+
+  osc.connect(gain);
+  gain.connect(ctx.destination);
+
+  osc.start(ctx.currentTime);
+  osc.stop(ctx.currentTime + 0.04);
+}
+
+function toggleSound() {
+  soundEnabled = !soundEnabled;
+  localStorage.setItem('crtSoundEnabled', soundEnabled);
+  updateSoundButton();
+
+  if (soundEnabled) {
+    playStaticBurst(0.1, 0.08);
+  }
+}
+
+function updateSoundButton() {
+  const btn = document.getElementById('sound-toggle');
+  if (!btn) return;
+
+  const soundOn = btn.querySelector('.sound-on');
+  const soundOff = btn.querySelector('.sound-off');
+
+  if (soundEnabled) {
+    btn.classList.remove('muted');
+    btn.title = 'Mute CRT Sounds';
+    if (soundOn) soundOn.style.display = 'block';
+    if (soundOff) soundOff.style.display = 'none';
+  } else {
+    btn.classList.add('muted');
+    btn.title = 'Unmute CRT Sounds';
+    if (soundOn) soundOn.style.display = 'none';
+    if (soundOff) soundOff.style.display = 'block';
+  }
+}
+
+function initSoundSystem() {
+  const soundToggle = document.getElementById('sound-toggle');
+  if (soundToggle) {
+    soundToggle.addEventListener('click', toggleSound);
+  }
+  updateSoundButton();
+
+  // Play startup sound on first visit (requires user interaction)
+  if (!hasPlayedStartupSound && soundEnabled) {
+    const playStartup = () => {
+      if (!hasPlayedStartupSound) {
+        hasPlayedStartupSound = true;
+        sessionStorage.setItem('crtStartupPlayed', 'true');
+        playCRTTurnOn();
+      }
+      document.removeEventListener('click', playStartup);
+      document.removeEventListener('keydown', playStartup);
+    };
+
+    document.addEventListener('click', playStartup, { once: true });
+    document.addEventListener('keydown', playStartup, { once: true });
+  }
+}
+
+// ---------------------------------------------
 // PROJECT CHANNEL SYSTEM DATA
 // ---------------------------------------------
 const projectsData = [
@@ -261,6 +468,7 @@ window.addEventListener("DOMContentLoaded", () => {
   dateInterval = setInterval(updateDate, 60000);
   setChannel(1);
   showSection("intro");
+  initSoundSystem();
 });
 
 
@@ -277,6 +485,7 @@ function setChannel(channel) {
   showOSD(channelText);
 
   triggerChannelFlicker();
+  playChannelChange();
 
   stopSlideshow();
   stopWebcam();
@@ -513,6 +722,7 @@ function startConsoleIntro() {
 navButtons.forEach((btn) => {
   btn.addEventListener("click", () => {
     const section = btn.getAttribute("data-section");
+    playNavigationClick();
     showSection(section);
   });
 });
@@ -751,6 +961,7 @@ function showTeletextProject(index) {
 
   // Trigger channel flicker effect
   triggerChannelFlicker();
+  playTeletextBeep();
 
   // Show OSD with page number
   const pageNum = 101 + index;

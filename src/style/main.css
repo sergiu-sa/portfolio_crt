@@ -420,9 +420,9 @@ nav button:hover,
 }
 
 .keyboard-hint-btn {
-  background: rgba(0, 255, 204, 0.1);
-  border: 1px solid var(--accent-color);
-  color: var(--accent-color);
+  background: none;
+  border: 1px solid rgba(102, 204, 255, 0.4);
+  color: #aaa;
   width: 28px;
   height: 28px;
   border-radius: 50%;
@@ -430,15 +430,57 @@ nav button:hover,
   font-weight: bold;
   cursor: pointer;
   font-family: inherit;
-  text-shadow: 0 0 5px var(--accent-color);
+  text-shadow:
+    0 0 1px #66ccff,
+    0 0 2px #3399ff,
+    0 0 3px #0066cc;
   transition: all var(--transition-smooth);
   margin-left: 1rem;
 }
 
 .keyboard-hint-btn:hover {
-  background: rgba(0, 255, 204, 0.3);
-  box-shadow: 0 0 15px rgba(0, 255, 204, 0.5);
+  color: #fff;
+  border-color: rgba(102, 204, 255, 0.8);
+  box-shadow: 0 0 10px rgba(102, 204, 255, 0.4);
   transform: scale(1.1);
+}
+
+/* Sound Toggle Button */
+.sound-toggle-btn {
+  background: none;
+  border: 1px solid rgba(102, 204, 255, 0.4);
+  color: #aaa;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all var(--transition-smooth);
+  margin-left: 0.5rem;
+}
+
+.sound-toggle-btn svg {
+  width: 16px;
+  height: 16px;
+  filter: drop-shadow(0 0 2px #3399ff);
+}
+
+.sound-toggle-btn:hover {
+  color: #fff;
+  border-color: rgba(102, 204, 255, 0.8);
+  box-shadow: 0 0 10px rgba(102, 204, 255, 0.4);
+  transform: scale(1.1);
+}
+
+.sound-toggle-btn.muted {
+  border-color: rgba(255, 100, 100, 0.4);
+  color: rgba(255, 100, 100, 0.7);
+}
+
+.sound-toggle-btn.muted svg {
+  filter: drop-shadow(0 0 2px rgba(255, 100, 100, 0.5));
 }
 
 /* Modal Styles */
