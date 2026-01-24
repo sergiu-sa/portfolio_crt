@@ -17,16 +17,73 @@ let galleryIntervals = [];
 
 const maxChannels = 7;
 
+// ---------------------------------------------
+// PROJECT CHANNEL SYSTEM DATA
+// ---------------------------------------------
+const projectsData = [
+  {
+    id: 'square-eyes',
+    name: 'Square Eyes',
+    tech: 'HTML / CSS',
+    description: 'Accessible film streaming site built with clean HTML and CSS.',
+    github: 'https://github.com/sergiu-sa/pro-school-react.git',
+    live: 'https://sergiu-sa.github.io/pro-school-react/',
+    images: ['/assets/projects/square_eyes/new_home02.png']
+  },
+  {
+    id: 'kid-bank',
+    name: 'Kid Bank',
+    tech: 'JavaScript / API',
+    description: 'Banking app for teens with restricted purchases and barcode scanning.',
+    github: 'https://github.com/sergiu-sa/kid_bank_.git',
+    live: 'https://k1dbank.netlify.app',
+    images: [
+      '/assets/projects/kid_bank/kid_bank01.png',
+      '/assets/projects/kid_bank/kid_bank02.png'
+    ]
+  },
+  {
+    id: 'ask-better',
+    name: 'Ask Better',
+    tech: 'AI / UX',
+    description: 'Prompt-engineering app with mood, complexity, and intent refinements.',
+    github: 'https://github.com/sergiu-sa/askbetter.git',
+    live: 'https://askbetter.netlify.app',
+    images: [
+      '/assets/projects/ask_better/corporate_basic_01.png',
+      '/assets/projects/ask_better/corporate_pro_01.png',
+      '/assets/projects/ask_better/coffe_basic_02.png',
+      '/assets/projects/ask_better/coffe_pro_02.png',
+      '/assets/projects/ask_better/coffe_pro_03.png',
+      '/assets/projects/ask_better/forest_basic_01.png',
+      '/assets/projects/ask_better/forest_pro_02.png',
+      '/assets/projects/ask_better/golden_basic_01.png',
+      '/assets/projects/ask_better/golden_pro_01.png',
+      '/assets/projects/ask_better/golden_pro_03.png',
+      '/assets/projects/ask_better/deep_basic_01.png',
+      '/assets/projects/ask_better/deep_pro_01.png',
+      '/assets/projects/ask_better/zen_basic01.png',
+      '/assets/projects/ask_better/zen_pro_01.png'
+    ]
+  }
+];
+
+let currentProjectIndex = 0;
+let currentProjectImageIndex = 0;
+let projectSlideshowInterval = null;
+let projectChannelInitialized = false;
+let dateInterval = null;
+let teletextKeyboardHandler = null;
+
 const tvImage = document.getElementById("tv-image");
 const tvVideo = document.getElementById("tv-video");
 const channelLabel = document.getElementById("channel-label");
-const dateDisplay = document.getElementById("date-display");
 const sections = document.querySelectorAll(".channel-screen");
 const navButtons = document.querySelectorAll("nav button");
 
 const typewriter = document.getElementById("typewriter-line");
 const typeText = "> Developer. Explorer. Problem-solver.";
-let i = 0;
+let typewriterIndex = 0;
 
 // ---------------------------------------------
 // TYPEWRITER EFFECT
@@ -34,9 +91,9 @@ let i = 0;
 
 function typeWriterEffect() {
   if (!typewriter) return;
-  if (i < typeText.length) {
-    typewriter.textContent += typeText.charAt(i);
-    i++;
+  if (typewriterIndex < typeText.length) {
+    typewriter.textContent += typeText.charAt(typewriterIndex);
+    typewriterIndex++;
     setTimeout(typeWriterEffect, 50);
   }
 }
@@ -113,7 +170,7 @@ window.addEventListener("DOMContentLoaded", () => {
   }
 
   function clearOutput() {
-    if (output) output.innerHTML = "";
+    if (output) output.textContent = "";
   }
 
   function handleContactCommand(cmd) {
@@ -201,13 +258,11 @@ window.addEventListener("DOMContentLoaded", () => {
   }
 
   updateDate();
-  setInterval(updateDate, 60000);
+  dateInterval = setInterval(updateDate, 60000);
   setChannel(1);
   showSection("intro");
 });
 
-// Initialize project galleries when the DOM is fully loaded
-initProjectGalleries();
 
 // ---------------------------------------------
 // CHANNEL HANDLING
@@ -321,6 +376,16 @@ function showSection(section) {
   galleryIntervals.forEach(interval => clearInterval(interval));
   galleryIntervals = [];
 
+  // Stop project slideshow when leaving projects section
+  stopProjectSlideshow();
+
+  // Clean up teletext keyboard handler when leaving projects
+  if (teletextKeyboardHandler) {
+    document.removeEventListener('keydown', teletextKeyboardHandler);
+    teletextKeyboardHandler = null;
+    projectChannelInitialized = false;
+  }
+
   sections.forEach((s) => {
     s.classList.remove("active");
     s.style.display = "none";
@@ -334,9 +399,9 @@ function showSection(section) {
 
   if (section === "about") {
     typewriter.textContent = "> ";
-    i = 0;
+    typewriterIndex = 0;
     setTimeout(typeWriterEffect, 300);
-    document.getElementById("about-text").innerHTML = "";
+    document.getElementById("about-text").textContent = "";
     decryptedText({
       elementId: "about-text",
       text: [
@@ -354,6 +419,10 @@ function showSection(section) {
     triggerTerminalSequence();
     startConsoleIntro();
     refreshFadeInObserver();
+  }
+
+  if (section === "projects") {
+    initProjectChannelSystem();
   }
 }
 
@@ -506,195 +575,241 @@ if (shortcutsModal) {
 }
 
 // ---------------------------------------------
-// PROJECT GALLERY FUNCTIONALITY
+// TELETEXT PROJECT SYSTEM
 // ---------------------------------------------
 
-function initProjectGalleries() {
-  const galleries = document.querySelectorAll(".project-gallery");
-  const fullscreenView = document.querySelector(".fullscreen-view");
-  const fullscreenImage = document.querySelector(".fullscreen-image");
-  const fullscreenNav = document.querySelector(".fullscreen-nav");
-  const closeFullscreen = document.querySelector(".close-fullscreen");
-  const prevButton = document.querySelector(".fullscreen-arrow.prev");
-  const nextButton = document.querySelector(".fullscreen-arrow.next");
-  let currentGallery = null;
+let lightboxOpen = false;
 
-  galleries.forEach((gallery) => {
-    const images = gallery.querySelectorAll("img");
+function initProjectChannelSystem() {
+  if (projectChannelInitialized) return;
+  projectChannelInitialized = true;
 
-    const galleryNav = gallery.parentElement
-      ? gallery.parentElement.querySelector(".gallery-nav")
-      : null;
-    const dots = galleryNav ? galleryNav.querySelectorAll(".gallery-dot") : [];
-    let currentIndex = 0;
+  // Show first project
+  showTeletextProject(0);
+
+  // Keyboard navigation for Teletext - store reference for cleanup
+  teletextKeyboardHandler = handleTeletextKeyboard;
+  document.addEventListener('keydown', teletextKeyboardHandler);
+
+  // Touch swipe support for mobile
+  const teletextContainer = document.querySelector('.teletext-container');
+  if (teletextContainer) {
     let touchStartX = 0;
-    let touchEndX = 0;
 
-    // Add click handlers to dots
-    dots.forEach((dot, index) => {
-      dot.addEventListener("click", () => {
-        showImage(index);
-      });
-    });
-
-    // Add click handler to gallery for fullscreen
-    gallery.addEventListener("click", () => {
-      openFullscreen(gallery);
-    });
-
-    // Add keyboard navigation
-    gallery.addEventListener("keydown", (e) => {
-      if (e.key === "ArrowLeft") {
-        showImage((currentIndex - 1 + images.length) % images.length);
-      } else if (e.key === "ArrowRight") {
-        showImage((currentIndex + 1) % images.length);
-      }
-    });
-
-    // Add touch support for mobile
-    gallery.addEventListener("touchstart", (e) => {
+    teletextContainer.addEventListener('touchstart', (e) => {
       touchStartX = e.changedTouches[0].screenX;
     });
 
-    gallery.addEventListener("touchend", (e) => {
-      touchEndX = e.changedTouches[0].screenX;
-      handleSwipe();
-    });
+    teletextContainer.addEventListener('touchend', (e) => {
+      const touchEndX = e.changedTouches[0].screenX;
+      const diffX = touchStartX - touchEndX;
+      const threshold = 50;
 
-    function handleSwipe() {
-      const swipeThreshold = 50;
-      const diff = touchStartX - touchEndX;
-
-      if (Math.abs(diff) > swipeThreshold) {
-        if (diff > 0) {
-          showImage((currentIndex + 1) % images.length);
+      if (Math.abs(diffX) > threshold) {
+        if (diffX > 0) {
+          // Swipe left - next project
+          navigateTeletextProject('next');
         } else {
-          showImage((currentIndex - 1 + images.length) % images.length);
+          // Swipe right - previous project
+          navigateTeletextProject('prev');
         }
       }
-    }
-
-    function showImage(index) {
-      images[currentIndex].classList.remove("active");
-      dots[currentIndex].classList.remove("active");
-
-      currentIndex = index;
-
-      images[currentIndex].classList.add("active");
-      dots[currentIndex].classList.add("active");
-
-      if (currentGallery === gallery) {
-        updateFullscreen();
-      }
-    }
-
-    if (images.length > 1) {
-      const intervalId = setInterval(() => {
-        if (currentGallery !== gallery) {
-          showImage((currentIndex + 1) % images.length);
-        }
-      }, 5000);
-      galleryIntervals.push(intervalId);
-    }
-  });
-
-  // Fullscreen functionality
-  function openFullscreen(gallery) {
-    currentGallery = gallery;
-    fullscreenView.classList.add("active");
-    updateFullscreen();
-    document.body.style.overflow = "hidden";
-  }
-
-  function closeFullscreenView() {
-    fullscreenView.classList.remove("active");
-    currentGallery = null;
-    document.body.style.overflow = "";
-  }
-
-  function updateFullscreen() {
-    if (!currentGallery) return;
-
-    const activeImage = currentGallery.querySelector("img.active");
-    const images = currentGallery.querySelectorAll("img");
-    // Get the parent .project-card, then find the .gallery-nav within it
-    const galleryNav = currentGallery.parentElement
-      ? currentGallery.parentElement.querySelector(".gallery-nav")
-      : null;
-    const dots = galleryNav ? galleryNav.querySelectorAll(".gallery-dot") : [];
-
-    fullscreenImage.src = activeImage.src;
-    fullscreenImage.alt = activeImage.alt;
-
-    // Update fullscreen navigation dots
-    fullscreenNav.innerHTML = "";
-    images.forEach((_, index) => {
-      const dot = document.createElement("div");
-      dot.className = `fullscreen-dot ${
-        index === Array.from(images).indexOf(activeImage) ? "active" : ""
-      }`;
-      dot.addEventListener("click", () => {
-        if (dots[index]) {
-          dots[index].click();
-        }
-      });
-      fullscreenNav.appendChild(dot);
     });
-
-    if (images.length > 1) {
-      prevButton.style.display = "flex";
-      nextButton.style.display = "flex";
-    } else {
-      prevButton.style.display = "none";
-      nextButton.style.display = "none";
-    }
   }
 
-  // Helper function to navigate gallery
-  function navigateGallery(direction) {
-    if (!currentGallery) return;
-
-    const images = currentGallery.querySelectorAll("img");
-    const galleryNav = currentGallery.parentElement
-      ? currentGallery.parentElement.querySelector(".gallery-nav")
-      : null;
-    const dots = galleryNav ? galleryNav.querySelectorAll(".gallery-dot") : [];
-    const currentIndex = Array.from(images).findIndex((img) =>
-      img.classList.contains("active")
-    );
-
-    let newIndex;
-    if (direction === "prev") {
-      newIndex = (currentIndex - 1 + images.length) % images.length;
-    } else if (direction === "next") {
-      newIndex = (currentIndex + 1) % images.length;
-    }
-
-    if (dots[newIndex]) {
-      dots[newIndex].click();
-    }
+  // Click on preview image to open lightbox
+  const previewFrame = document.querySelector('.teletext-preview-frame');
+  if (previewFrame) {
+    previewFrame.addEventListener('click', openLightbox);
   }
 
-  // Navigation arrow click handlers
-  prevButton.addEventListener("click", () => navigateGallery("prev"));
-  nextButton.addEventListener("click", () => navigateGallery("next"));
+  // Lightbox controls
+  const lightboxClose = document.getElementById('lightbox-close');
+  const lightboxPrev = document.getElementById('lightbox-prev');
+  const lightboxNext = document.getElementById('lightbox-next');
+  const lightbox = document.getElementById('teletext-lightbox');
 
-  closeFullscreen.addEventListener("click", closeFullscreenView);
-  fullscreenView.addEventListener("click", (e) => {
-    if (e.target === fullscreenView) {
-      closeFullscreenView();
-    }
-  });
+  if (lightboxClose) lightboxClose.addEventListener('click', closeLightbox);
+  if (lightboxPrev) lightboxPrev.addEventListener('click', () => navigateLightbox('prev'));
+  if (lightboxNext) lightboxNext.addEventListener('click', () => navigateLightbox('next'));
 
-  document.addEventListener("keydown", (e) => {
-    if (!currentGallery) return;
+  // Close lightbox when clicking outside the image
+  if (lightbox) {
+    lightbox.addEventListener('click', (e) => {
+      if (e.target === lightbox) closeLightbox();
+    });
+  }
 
-    if (e.key === "Escape") {
-      closeFullscreenView();
-    } else if (e.key === "ArrowLeft") {
-      navigateGallery("prev");
-    } else if (e.key === "ArrowRight") {
-      navigateGallery("next");
-    }
-  });
+  // Teletext navigation buttons
+  const teletextPrev = document.getElementById('teletext-prev');
+  const teletextNext = document.getElementById('teletext-next');
+
+  if (teletextPrev) {
+    teletextPrev.addEventListener('click', () => navigateTeletextProject('prev'));
+  }
+  if (teletextNext) {
+    teletextNext.addEventListener('click', () => navigateTeletextProject('next'));
+  }
+
+  // Start image auto-cycle for projects with multiple images
+  startTeletextImageCycle();
 }
+
+function handleTeletextKeyboard(e) {
+  const projectsSection = document.getElementById('projects');
+  if (!projectsSection || !projectsSection.classList.contains('active')) return;
+
+  // If lightbox is open, handle lightbox navigation
+  if (lightboxOpen) {
+    if (e.key === 'Escape') {
+      e.preventDefault();
+      closeLightbox();
+    } else if (e.key === 'ArrowLeft') {
+      e.preventDefault();
+      navigateLightbox('prev');
+    } else if (e.key === 'ArrowRight') {
+      e.preventDefault();
+      navigateLightbox('next');
+    }
+    return;
+  }
+
+  // Normal teletext navigation
+  if (e.key === 'ArrowLeft') {
+    e.preventDefault();
+    navigateTeletextProject('prev');
+  } else if (e.key === 'ArrowRight') {
+    e.preventDefault();
+    navigateTeletextProject('next');
+  }
+}
+
+function openLightbox() {
+  const project = projectsData[currentProjectIndex];
+  const lightbox = document.getElementById('teletext-lightbox');
+  const lightboxImg = document.getElementById('lightbox-img');
+  const lightboxCurrent = document.getElementById('lightbox-current');
+  const lightboxTotal = document.getElementById('lightbox-total');
+
+  if (!lightbox || !lightboxImg) return;
+
+  // Pause auto-cycle while lightbox is open
+  stopProjectSlideshow();
+
+  lightboxImg.src = project.images[currentProjectImageIndex];
+  if (lightboxCurrent) lightboxCurrent.textContent = currentProjectImageIndex + 1;
+  if (lightboxTotal) lightboxTotal.textContent = project.images.length;
+
+  lightbox.classList.add('active');
+  lightboxOpen = true;
+}
+
+function closeLightbox() {
+  const lightbox = document.getElementById('teletext-lightbox');
+  if (lightbox) {
+    lightbox.classList.remove('active');
+    lightboxOpen = false;
+    // Resume auto-cycle
+    startTeletextImageCycle();
+  }
+}
+
+function navigateLightbox(direction) {
+  const project = projectsData[currentProjectIndex];
+  const lightboxImg = document.getElementById('lightbox-img');
+  const lightboxCurrent = document.getElementById('lightbox-current');
+
+  if (direction === 'next') {
+    currentProjectImageIndex = (currentProjectImageIndex + 1) % project.images.length;
+  } else {
+    currentProjectImageIndex = (currentProjectImageIndex - 1 + project.images.length) % project.images.length;
+  }
+
+  if (lightboxImg) lightboxImg.src = project.images[currentProjectImageIndex];
+  if (lightboxCurrent) lightboxCurrent.textContent = currentProjectImageIndex + 1;
+
+  // Also update the preview thumbnail
+  const previewImg = document.getElementById('teletext-preview-img');
+  const imgCurrentEl = document.getElementById('teletext-img-current');
+  if (previewImg) previewImg.src = project.images[currentProjectImageIndex];
+  if (imgCurrentEl) imgCurrentEl.textContent = currentProjectImageIndex + 1;
+}
+
+function navigateTeletextProject(direction) {
+  if (direction === 'next') {
+    currentProjectIndex = (currentProjectIndex + 1) % projectsData.length;
+  } else {
+    currentProjectIndex = (currentProjectIndex - 1 + projectsData.length) % projectsData.length;
+  }
+  showTeletextProject(currentProjectIndex);
+}
+
+function showTeletextProject(index) {
+  const project = projectsData[index];
+  currentProjectIndex = index;
+  currentProjectImageIndex = 0;
+
+  // Trigger channel flicker effect
+  triggerChannelFlicker();
+
+  // Show OSD with page number
+  const pageNum = 101 + index;
+  showOSD(`P.${pageNum}`);
+
+  // Update Teletext elements
+  const pageNumEl = document.getElementById('teletext-page-num');
+  const titleEl = document.getElementById('teletext-project-title');
+  const previewImg = document.getElementById('teletext-preview-img');
+  const imgCurrentEl = document.getElementById('teletext-img-current');
+  const imgTotalEl = document.getElementById('teletext-img-total');
+  const techEl = document.getElementById('teletext-tech');
+  const descEl = document.getElementById('teletext-desc');
+  const codeLink = document.getElementById('teletext-link-code');
+  const liveLink = document.getElementById('teletext-link-live');
+
+  if (pageNumEl) pageNumEl.textContent = pageNum;
+  if (titleEl) titleEl.textContent = project.name.toUpperCase();
+  if (previewImg) previewImg.src = project.images[0];
+  if (imgCurrentEl) imgCurrentEl.textContent = '1';
+  if (imgTotalEl) imgTotalEl.textContent = project.images.length;
+  if (techEl) {
+    techEl.textContent = '';
+    const label = document.createElement('span');
+    label.className = 'teletext-label';
+    label.textContent = 'TECH:';
+    techEl.appendChild(label);
+    techEl.appendChild(document.createTextNode(' ' + project.tech));
+  }
+  if (descEl) descEl.textContent = project.description;
+  if (codeLink) codeLink.href = project.github;
+  if (liveLink) liveLink.href = project.live;
+
+  // Restart image cycle
+  startTeletextImageCycle();
+}
+
+function startTeletextImageCycle() {
+  // Stop any existing slideshow
+  stopProjectSlideshow();
+
+  const project = projectsData[currentProjectIndex];
+  if (project.images.length <= 1) return;
+
+  projectSlideshowInterval = setInterval(() => {
+    currentProjectImageIndex = (currentProjectImageIndex + 1) % project.images.length;
+
+    const previewImg = document.getElementById('teletext-preview-img');
+    const imgCurrentEl = document.getElementById('teletext-img-current');
+
+    if (previewImg) previewImg.src = project.images[currentProjectImageIndex];
+    if (imgCurrentEl) imgCurrentEl.textContent = currentProjectImageIndex + 1;
+  }, 4000);
+}
+
+function stopProjectSlideshow() {
+  if (projectSlideshowInterval) {
+    clearInterval(projectSlideshowInterval);
+    projectSlideshowInterval = null;
+  }
+}
+
