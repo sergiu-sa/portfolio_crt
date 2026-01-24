@@ -1,5 +1,5 @@
-@import url("https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap");
-@import url("https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@300;400&display=swap");
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@300;400&display=swap');
 
 /* CSS CUSTOM PROPERTIES */
 :root {
@@ -17,7 +17,7 @@ body {
   height: 100%;
   min-height: 100%;
   margin: 0;
-  font-family: "IBM Plex Mono", monospace;
+  font-family: 'IBM Plex Mono', monospace;
   background: black;
   color: #eee;
   overflow-x: hidden;
@@ -31,7 +31,7 @@ body {
 h1,
 h2,
 #typewriter-line {
-  font-family: "Press Start 2P", monospace;
+  font-family: 'Press Start 2P', monospace;
 }
 
 h1 {
@@ -40,7 +40,9 @@ h1 {
   margin: 0;
   color: #fefefe;
   line-height: 1.1;
-  text-shadow: 0 0 2px #fefefe, 0 0 4px #00ffcc;
+  text-shadow:
+    0 0 2px #fefefe,
+    0 0 4px #00ffcc;
 }
 
 h2 {
@@ -48,7 +50,9 @@ h2 {
   color: #fefefe;
   letter-spacing: 2px;
   margin: 0;
-  text-shadow: 0 0 2px #fefefe, 0 0 4px #00ffcc;
+  text-shadow:
+    0 0 2px #fefefe,
+    0 0 4px #00ffcc;
 }
 
 /* Tv Screen Display CRT styling */
@@ -64,14 +68,14 @@ h2 {
     0 0 60px rgba(0, 255, 255, 0.1) inset,
     0 0 120px rgba(255, 0, 255, 0.1) inset,
     0 0 40px rgba(0, 255, 255, 0.05),
-    /* TV bezel shadow */
-    0 0 0 12px var(--tv-bezel-color),
+    /* TV bezel shadow */ 0 0 0 12px var(--tv-bezel-color),
     0 0 0 15px #0a0a0a,
     0 0 20px 15px rgba(0, 0, 0, 0.8),
-    /* Outer glow for CRT effect */
-    0 0 80px rgba(0, 255, 255, 0.15);
+    /* Outer glow for CRT effect */ 0 0 80px rgba(0, 255, 255, 0.15);
   transform: perspective(800px) rotateX(1deg);
-  animation: glow-pulse 4s ease-in-out infinite, flicker 0.12s infinite;
+  animation:
+    glow-pulse 4s ease-in-out infinite,
+    flicker 0.12s infinite;
 }
 
 /* TV bezel reflection effect */
@@ -93,7 +97,7 @@ h2 {
 }
 
 #tv-screen::after {
-  content: "";
+  content: '';
   position: absolute;
   inset: 0;
   background: repeating-linear-gradient(
@@ -131,7 +135,7 @@ h2 {
 }
 
 #tv-overlay::before {
-  content: "";
+  content: '';
   position: absolute;
   inset: 0;
   background: radial-gradient(
@@ -187,8 +191,9 @@ h2 {
   font-size: 1.2rem;
   color: var(--accent-color);
   text-shadow: 0 0 10px var(--accent-color);
-  box-shadow: 0 0 20px rgba(0, 255, 204, 0.4),
-              inset 0 0 10px rgba(0, 255, 204, 0.1);
+  box-shadow:
+    0 0 20px rgba(0, 255, 204, 0.4),
+    inset 0 0 10px rgba(0, 255, 204, 0.1);
   opacity: 0;
   transform: translateY(-20px);
   transition: all 0.3s ease;
@@ -203,9 +208,16 @@ h2 {
 }
 
 @keyframes osd-pulse {
-  0% { opacity: 1; }
-  70% { opacity: 1; }
-  100% { opacity: 0; transform: translateY(-10px); }
+  0% {
+    opacity: 1;
+  }
+  70% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
 }
 
 /* Loading Spinner */
@@ -241,7 +253,9 @@ h2 {
 }
 
 @keyframes spin {
-  to { transform: rotate(360deg); }
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 .loading-text {
@@ -254,8 +268,13 @@ h2 {
 }
 
 @keyframes pulse-text {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0.5; }
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
 }
 
 @keyframes flicker {
@@ -357,7 +376,10 @@ nav button,
   cursor: pointer;
   transition: color 0.2s;
   font-family: inherit;
-  text-shadow: 0 0 1px #66ccff, 0 0 2px #3399ff, 0 0 3px #0066cc;
+  text-shadow:
+    0 0 1px #66ccff,
+    0 0 2px #3399ff,
+    0 0 3px #0066cc;
 }
 
 nav button:hover,
@@ -367,8 +389,12 @@ nav button:hover,
 
 #date-display {
   font-size: 0.85rem;
+  gap: 1.2rem;
   color: #aaa;
-  text-shadow: 0 0 1px #66ccff, 0 0 2px #3399ff, 0 0 3px #0066cc;
+  text-shadow:
+    0 0 1px #66ccff,
+    0 0 2px #3399ff,
+    0 0 3px #0066cc;
   display: flex;
   align-items: center;
 }
@@ -380,7 +406,10 @@ nav button:hover,
   font-size: 0.95rem;
   cursor: pointer;
   font-family: inherit;
-  text-shadow: 0 0 1px #66ccff, 0 0 2px #3399ff, 0 0 3px #0066cc;
+  text-shadow:
+    0 0 1px #66ccff,
+    0 0 2px #3399ff,
+    0 0 3px #0066cc;
   padding: 0;
   margin-right: 0.25rem;
   transition: color 0.2s;
@@ -432,7 +461,11 @@ nav button:hover,
 }
 
 .modal-content {
-  background: linear-gradient(145deg, rgba(0, 0, 0, 0.95), rgba(10, 10, 10, 0.9));
+  background: linear-gradient(
+    145deg,
+    rgba(0, 0, 0, 0.95),
+    rgba(10, 10, 10, 0.9)
+  );
   border: 2px solid var(--accent-color);
   border-radius: 12px;
   padding: 2.5rem;
@@ -510,8 +543,9 @@ nav button:hover,
   font-size: 0.9rem;
   color: var(--accent-color);
   text-shadow: 0 0 5px var(--accent-color);
-  box-shadow: 0 2px 0 rgba(0, 255, 204, 0.3),
-              inset 0 0 5px rgba(0, 255, 204, 0.1);
+  box-shadow:
+    0 2px 0 rgba(0, 255, 204, 0.3),
+    inset 0 0 5px rgba(0, 255, 204, 0.1);
   min-width: 35px;
   text-align: center;
 }
@@ -548,7 +582,9 @@ main::-webkit-scrollbar {
   opacity: 0;
   visibility: hidden;
   pointer-events: none;
-  transition: opacity 0.5s ease-in-out, visibility 0.5s;
+  transition:
+    opacity 0.5s ease-in-out,
+    visibility 0.5s;
 }
 
 .channel-screen.active {
@@ -584,8 +620,15 @@ main::-webkit-scrollbar {
 }
 
 @keyframes intro-glow {
-  0%, 100% { opacity: 0.3; transform: scale(1); }
-  50% { opacity: 0.6; transform: scale(1.2); }
+  0%,
+  100% {
+    opacity: 0.3;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.6;
+    transform: scale(1.2);
+  }
 }
 
 #intro h1 {
@@ -613,357 +656,441 @@ main::-webkit-scrollbar {
   }
 }
 
-/* Projects Section */
-.project-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 2.5rem;
-  width: 100%;
-  max-width: 1400px;
-  margin: 0 auto;
-  padding: 0;
-  justify-items: center;
-}
+/* ========================================
+   TELETEXT-STYLE PROJECTS
+   ======================================== */
 
-.project-card {
+/* Teletext Container - Semi-transparent overlay on TV */
+.teletext-container {
+  position: relative;
+  width: calc(100% - 2rem);
+  max-width: 900px;
+  height: 520px;
+  margin: 0.5rem auto;
+  padding: 0;
+  background: rgba(0, 0, 0, 0.95);
+  border: none;
+  box-shadow: 0 0 30px rgba(0, 0, 0, 0.8);
+  font-family: 'IBM Plex Mono', 'Courier New', monospace;
+  box-sizing: border-box;
   display: flex;
   flex-direction: column;
   overflow: hidden;
-  background: linear-gradient(145deg, rgba(10, 10, 10, 0.95), rgba(0, 0, 0, 0.85));
-  border: 2px solid rgba(0, 255, 255, 0.2);
-  border-radius: 16px;
-  padding: 0;
-  margin: 1rem;
-  max-width: 340px;
-  width: 100%;
-  box-sizing: border-box;
-  transition: all var(--transition-smooth);
-  position: relative;
-  backface-visibility: hidden;
-  backdrop-filter: blur(15px);
-  box-shadow:
-    0 4px 20px rgba(0, 0, 0, 0.5),
-    inset 0 1px 0 rgba(255, 255, 255, 0.05);
 }
 
-/* Animated border glow on hover */
-.project-card::before {
+/* Teletext color bar - styled to match portfolio palette */
+.teletext-container::before {
   content: '';
-  position: absolute;
-  inset: -2px;
-  background: linear-gradient(
-    45deg,
-    transparent,
-    var(--accent-color),
-    transparent
-  );
-  border-radius: 16px;
-  opacity: 0;
-  transition: opacity var(--transition-smooth);
-  z-index: -1;
-  animation: border-rotate 3s linear infinite;
-}
-
-@keyframes border-rotate {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
-}
-
-.project-card:hover::before {
-  opacity: 0.4;
-}
-
-/* Card header section */
-.project-card-header {
-  padding: 1.5rem 1.5rem 0;
-  background: linear-gradient(to bottom, rgba(0, 255, 204, 0.05), transparent);
-}
-
-/* Card body section */
-.project-card-body {
-  padding: 1rem 1.5rem;
-  flex-grow: 1;
-  display: flex;
-  flex-direction: column;
-}
-
-/* Card footer section */
-.project-card-footer {
-  padding: 0 1.5rem 1.5rem;
-  margin-top: auto;
-}
-
-.project-card img {
-  width: 100%;
-  height: 200px;
-  object-fit: cover;
-  margin-bottom: 1rem;
-  border-radius: 8px;
-  transition: transform 0.3s ease;
-  display: block;
-  position: relative;
-  z-index: 1;
-  box-shadow: none;
-  backface-visibility: hidden;
-}
-
-.project-card:hover img {
-  transform: scale(1.05);
-}
-
-.project-card:hover {
-  transform: translateY(-5px) scale(1.02);
-  box-shadow: 0 0 25px rgba(0, 255, 255, 0.3);
-  background: rgba(0, 0, 0, 0.6);
-}
-
-.project-gallery {
-  position: relative;
-  width: 100%;
-  height: 200px;
-  margin-bottom: 0.5rem;
-  overflow: hidden;
-  border: 2px solid #00ffcc;
-  background: rgba(0, 0, 0, 0.5);
-  cursor: pointer;
-  box-sizing: border-box;
-  box-shadow: 0 0 10px rgba(0, 255, 204, 0.1);
-  border-radius: 8px;
-}
-
-.project-gallery img {
   position: absolute;
   top: 0;
   left: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  opacity: 0;
-  transition: opacity 0.5s ease-in-out;
-  transform: scale(1.02);
-  display: block;
-  filter: grayscale(0.8) blur(0.5px) contrast(1.2);
-  border-radius: 8px;
-}
-
-.project-gallery img.active {
-  opacity: 1;
-  transform: scale(1.05);
-  filter: brightness(1.1) contrast(1.1);
-}
-
-.gallery-nav {
-  position: relative;
-  bottom: auto;
-  left: auto;
-  transform: none;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 0.5rem;
-  z-index: 2;
-  padding: 0.5rem 0;
-  margin-top: 0;
-  margin-bottom: 0.8rem;
-  background: none;
-  border-radius: 0;
-  backdrop-filter: none;
-  border: none;
-  box-shadow: none;
-  max-width: 100%;
-  overflow-x: auto;
-  scrollbar-width: none;
-  -ms-overflow-style: none;
-  flex-wrap: wrap;
-}
-
-.gallery-nav::-webkit-scrollbar {
-  display: none;
-}
-
-.gallery-dot {
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  background: rgba(255, 255, 255, 0.2);
-  cursor: pointer;
-  transition: all 0.3s ease;
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  flex-shrink: 0;
-  display: block;
-  position: relative;
-}
-
-.gallery-dot:hover {
-  background: rgba(0, 255, 204, 0.5);
-  transform: scale(1.2);
-}
-
-.gallery-dot.active {
-  background: #00ffcc;
-  box-shadow: 0 0 10px #00ffcc;
-  transform: scale(1.2);
-}
-
-.gallery-dot.active::after {
-  content: "";
-  position: absolute;
-  inset: -2px;
-  border-radius: 50%;
-  background: rgba(0, 255, 204, 0.2);
-  z-index: -1;
-  animation: pulse 2s infinite;
-}
-
-@keyframes pulse {
-  0% {
-    transform: scale(1);
-    opacity: 0.5;
-  }
-  50% {
-    transform: scale(1.5);
-    opacity: 0;
-  }
-  100% {
-    transform: scale(1);
-    opacity: 0.5;
-  }
-}
-
-.gallery-nav::before {
-  content: "";
-  position: absolute;
-  top: 50%;
-  left: 0;
   right: 0;
-  height: 1px;
+  height: 4px;
   background: linear-gradient(
     90deg,
-    transparent 0%,
-    rgba(0, 255, 204, 0.1) 20%,
-    rgba(0, 255, 204, 0.1) 80%,
-    transparent 100%
+    rgb(255, 100, 100) 0%,
+    rgb(255, 100, 100) 25%,
+    rgb(255, 200, 100) 25%,
+    rgb(255, 200, 100) 50%,
+    rgb(100, 255, 150) 50%,
+    rgb(100, 255, 150) 75%,
+    rgb(100, 150, 255) 75%,
+    rgb(100, 150, 255) 100%
   );
-  transform: translateY(-50%);
-  z-index: -1;
+  z-index: 20;
+}
+
+/* Scanline effect */
+.teletext-container::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 2px,
+    rgba(0, 0, 0, 0.1) 2px,
+    rgba(0, 0, 0, 0.1) 4px
+  );
   pointer-events: none;
+  z-index: 10;
 }
 
-/* Responsive adjustments */
-@media (max-width: 768px) {
-  .gallery-nav {
-    gap: 0.4rem;
-  }
-
-  .gallery-dot {
-    width: 6px;
-    height: 6px;
-  }
-}
-
-@media (max-width: 480px) {
-  .gallery-nav {
-    gap: 0.3rem;
-  }
-
-  .gallery-dot {
-    width: 5px;
-    height: 5px;
-  }
-}
-
-.project-card h3 {
-  font-size: 1.3rem;
-  font-weight: 600;
-  color: var(--accent-color);
-  margin: 0 0 0.5rem 0;
-  text-shadow: 0 0 8px var(--accent-color);
-  letter-spacing: 0.5px;
-  font-family: 'Press Start 2P', monospace;
-  font-size: 0.95rem;
-  line-height: 1.4;
-}
-
-.project-card p {
+/* Teletext Header */
+.teletext-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.6rem 1rem;
+  padding-top: 0.8rem;
+  background: #000;
+  color: #fff;
+  font-weight: bold;
   font-size: 0.9rem;
-  color: #d0d0d0;
-  line-height: 1.6;
-  margin: 0;
-  text-shadow: none;
-  flex-grow: 1;
+  letter-spacing: 1px;
+  flex-shrink: 0;
 }
 
-/* Project tech badge/tag */
-.project-tech {
-  display: inline-block;
-  font-size: 0.7rem;
-  color: var(--accent-color);
-  background: rgba(0, 255, 204, 0.1);
-  border: 1px solid rgba(0, 255, 204, 0.3);
-  padding: 0.25rem 0.6rem;
-  border-radius: 4px;
-  margin-top: 0.75rem;
+.teletext-service {
   text-transform: uppercase;
+  background: rgb(100, 150, 255);
+  color: #000;
+  padding: 0.15rem 0.5rem;
+  font-size: 0.8rem;
+}
+
+.teletext-page {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 0.75rem;
+  background: rgb(100, 255, 150);
+  color: #000;
+  padding: 0.15rem 0.5rem;
+}
+
+/* Teletext subheader - index line */
+.teletext-subheader {
+  display: flex;
+  justify-content: space-between;
+  padding: 0.3rem 1rem;
+  background: #000;
+  font-size: 0.7rem;
+  color: rgb(255, 200, 100);
+  flex-shrink: 0;
+}
+
+.teletext-index {
+  color: rgb(100, 150, 255);
+}
+
+/* Teletext Content */
+.teletext-content {
+  padding: 1rem 1.5rem;
+  flex: 1;
+  overflow-y: auto;
+  background: #000;
+}
+
+/* Project Title Row */
+.teletext-title-row {
+  text-align: center;
+  margin-bottom: 1rem;
+  padding: 0.5rem;
+  background: rgb(100, 150, 255);
+}
+
+.teletext-title {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 0.9rem;
+  color: #000;
   letter-spacing: 1px;
 }
 
-.links {
-  display: flex;
-  gap: 0.75rem;
-  margin-top: 1.25rem;
+/* Two Column Layout */
+.teletext-columns {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+  align-items: start;
 }
 
-.links a {
-  flex: 1;
+/* Preview Column */
+.teletext-preview {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+
+.teletext-preview-frame {
+  border: 3px solid rgb(255, 100, 100);
+  background: #000;
+  padding: 2px;
+  height: 240px;
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 0.5rem;
-  padding: 0.65rem 1rem;
-  font-size: 0.75rem;
-  font-weight: 600;
-  color: var(--accent-color);
-  text-decoration: none;
-  background: rgba(0, 255, 204, 0.08);
-  border: 1px solid rgba(0, 255, 204, 0.3);
-  border-radius: 6px;
-  transition: all var(--transition-smooth);
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-  position: relative;
   overflow: hidden;
+  cursor: pointer;
+  transition: border-color 0.2s ease;
 }
 
-.links a::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: -100%;
+.teletext-preview-frame:hover {
+  border-color: #fff;
+}
+
+.teletext-preview-frame img {
   width: 100%;
   height: 100%;
-  background: linear-gradient(
-    90deg,
-    transparent,
-    rgba(0, 255, 204, 0.2),
-    transparent
-  );
-  transition: left 0.5s ease;
+  object-fit: cover;
+  display: block;
 }
 
-.links a:hover::before {
-  left: 100%;
+.teletext-preview-nav {
+  text-align: center;
+  font-size: 0.7rem;
+  color: rgb(100, 150, 255);
+  padding: 0.2rem;
 }
 
-.links a:hover {
+.teletext-img-counter {
+  background: #000;
+  padding: 0.1rem 0.4rem;
+}
+
+.teletext-click-hint {
+  display: block;
+  font-size: 0.6rem;
+  color: rgb(100, 255, 150);
+  margin-top: 0.15rem;
+}
+
+/* Info Column */
+.teletext-info {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.teletext-tech {
+  font-size: 0.8rem;
+  color: rgb(100, 150, 255);
+}
+
+.teletext-label {
+  color: rgb(255, 200, 100);
+  font-weight: bold;
+}
+
+.teletext-desc {
+  font-size: 0.8rem;
   color: #fff;
-  background: rgba(0, 255, 204, 0.15);
-  border-color: var(--accent-color);
-  box-shadow: 0 0 15px rgba(0, 255, 204, 0.4);
-  transform: translateY(-2px);
+  line-height: 1.5;
+  padding: 0.5rem 0;
 }
 
-.links a:active {
-  transform: translateY(0);
+/* Teletext Links */
+.teletext-links {
+  display: flex;
+  gap: 1rem;
+  margin-top: 0.6rem;
+}
+
+.teletext-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  color: rgb(100, 255, 150);
+  text-decoration: none;
+  font-size: 0.8rem;
+  padding: 0.3rem 0;
+  background: none;
+  border: none;
+  transition: color 0.15s ease;
+}
+
+.teletext-link:hover {
+  color: #fff;
+}
+
+.teletext-link-key {
+  color: rgb(255, 100, 100);
+  font-weight: bold;
+}
+
+/* Teletext Footer */
+.teletext-footer {
+  padding: 0.6rem 1.5rem;
+  background: #000;
+  flex-shrink: 0;
+  border-top: 2px solid rgb(100, 150, 255);
+}
+
+.teletext-nav-controls {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.teletext-nav-btn {
+  background: rgb(100, 150, 255);
+  border: none;
+  color: #000;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.75rem;
+  padding: 0.4rem 0.8rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+}
+
+.teletext-nav-btn:hover {
+  background: rgb(100, 255, 150);
+  color: #000;
+}
+
+.teletext-nav-btn .key-arrow {
+  font-size: 0.9rem;
+  color: inherit;
+}
+
+.teletext-pages {
+  color: rgb(100, 255, 150);
+  font-size: 0.75rem;
+}
+
+/* Teletext Lightbox */
+.teletext-lightbox {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  background: rgba(0, 0, 0, 0.95);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+  opacity: 0;
+  visibility: hidden;
+  transition:
+    opacity 0.3s ease,
+    visibility 0.3s ease;
+}
+
+.teletext-lightbox.active {
+  opacity: 1;
+  visibility: visible;
+}
+
+.teletext-lightbox-content {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  max-width: 90vw;
+  max-height: 80vh;
+}
+
+.teletext-lightbox-content img {
+  display: block;
+  max-width: 100%;
+  max-height: 70vh;
+  object-fit: contain;
+  border: 3px solid rgb(255, 100, 100);
+}
+
+.teletext-lightbox-close {
+  position: fixed;
+  top: 1.5rem;
+  right: 1.5rem;
+  background: rgb(100, 150, 255);
+  border: none;
+  color: #000;
+  font-size: 0.85rem;
+  padding: 0.4rem 0.8rem;
+  cursor: pointer;
+  font-family: 'IBM Plex Mono', monospace;
+  transition: all 0.2s ease;
+  z-index: 1001;
+}
+
+.teletext-lightbox-close:hover {
+  background: rgb(100, 255, 150);
+  color: #000;
+}
+
+.teletext-lightbox-nav {
+  display: flex;
+  gap: 1.5rem;
+  align-items: center;
+  margin-top: 1rem;
+}
+
+.teletext-lightbox-nav button {
+  background: rgb(100, 150, 255);
+  border: none;
+  color: #000;
+  font-size: 0.85rem;
+  padding: 0.4rem 0.8rem;
+  cursor: pointer;
+  font-family: 'IBM Plex Mono', monospace;
+  transition: all 0.2s ease;
+}
+
+.teletext-lightbox-nav button:hover {
+  background: rgb(100, 255, 150);
+  color: #000;
+}
+
+.teletext-lightbox-counter {
+  color: rgb(255, 200, 100);
+  font-size: 0.9rem;
+  font-family: 'IBM Plex Mono', monospace;
+}
+
+/* Responsive Teletext */
+@media (max-width: 650px) {
+  .teletext-container {
+    width: calc(100% - 1rem);
+    margin: 0.5rem auto;
+    height: auto;
+    min-height: 400px;
+  }
+
+  .teletext-columns {
+    grid-template-columns: 1fr;
+    gap: 0.6rem;
+  }
+
+  .teletext-preview-frame {
+    height: 200px;
+    max-width: 280px;
+    margin: 0 auto;
+  }
+
+  .teletext-title {
+    font-size: 0.7rem;
+    letter-spacing: 1px;
+  }
+
+  .teletext-lightbox-close {
+    top: 1rem;
+    right: 1rem;
+    font-size: 0.8rem;
+    padding: 0.4rem 0.8rem;
+  }
+
+  .teletext-header {
+    font-size: 0.75rem;
+    padding: 0.4rem 0.6rem;
+  }
+
+  .teletext-service,
+  .teletext-page {
+    font-size: 0.65rem;
+  }
+
+  .teletext-subheader {
+    font-size: 0.6rem;
+    padding: 0.2rem 0.6rem;
+  }
+
+  .teletext-content {
+    padding: 0.5rem 0.6rem;
+  }
+
+  .teletext-desc {
+    font-size: 0.7rem;
+  }
+
+  .teletext-nav-hint {
+    font-size: 0.65rem;
+  }
+
+  .teletext-preview-frame {
+    max-width: 280px;
+    margin: 0 auto;
+  }
 }
 
 /* About Section */
@@ -995,7 +1122,11 @@ main::-webkit-scrollbar {
   margin-bottom: 3rem;
   position: relative;
   padding: 2rem;
-  background: linear-gradient(145deg, rgba(0, 255, 204, 0.05), rgba(0, 0, 0, 0.3));
+  background: linear-gradient(
+    145deg,
+    rgba(0, 255, 204, 0.05),
+    rgba(0, 0, 0, 0.3)
+  );
   border: 2px solid rgba(0, 255, 255, 0.3);
   border-radius: 12px;
   backdrop-filter: blur(10px);
@@ -1021,7 +1152,9 @@ main::-webkit-scrollbar {
   margin-bottom: 1rem;
   text-align: center;
   color: #fefefe;
-  text-shadow: 0 0 2px #fefefe, 0 0 8px var(--accent-color);
+  text-shadow:
+    0 0 2px #fefefe,
+    0 0 8px var(--accent-color);
   position: relative;
   letter-spacing: 0.1em;
 }
@@ -1035,7 +1168,7 @@ main::-webkit-scrollbar {
   border: 1px solid var(--accent-color);
   border-radius: 20px;
   font-size: 0.85rem;
-  font-family: "IBM Plex Mono", monospace;
+  font-family: 'IBM Plex Mono', monospace;
   color: var(--accent-color);
   text-shadow: 0 0 5px var(--accent-color);
   margin-top: 0.5rem;
@@ -1051,7 +1184,8 @@ main::-webkit-scrollbar {
 }
 
 @keyframes pulse-dot {
-  0%, 100% {
+  0%,
+  100% {
     opacity: 1;
     transform: scale(1);
   }
@@ -1069,7 +1203,11 @@ main::-webkit-scrollbar {
 
 .bio-section {
   padding: 2.5rem;
-  background: linear-gradient(145deg, rgba(10, 10, 10, 0.95), rgba(0, 0, 0, 0.85));
+  background: linear-gradient(
+    145deg,
+    rgba(10, 10, 10, 0.95),
+    rgba(0, 0, 0, 0.85)
+  );
   border: 2px solid rgba(0, 255, 255, 0.2);
   border-radius: 12px;
   backdrop-filter: blur(15px);
@@ -1084,7 +1222,12 @@ main::-webkit-scrollbar {
   left: 0;
   right: 0;
   height: 3px;
-  background: linear-gradient(90deg, transparent, var(--accent-color), transparent);
+  background: linear-gradient(
+    90deg,
+    transparent,
+    var(--accent-color),
+    transparent
+  );
   border-radius: 12px 12px 0 0;
 }
 
@@ -1095,7 +1238,7 @@ main::-webkit-scrollbar {
   text-shadow: none;
   letter-spacing: 0.02em;
   line-height: 1.9;
-  font-family: "IBM Plex Mono", monospace;
+  font-family: 'IBM Plex Mono', monospace;
 }
 
 #about p:last-of-type {
@@ -1113,7 +1256,11 @@ main::-webkit-scrollbar {
 
 .skills-section {
   padding: 2.5rem;
-  background: linear-gradient(145deg, rgba(10, 10, 10, 0.95), rgba(0, 0, 0, 0.85));
+  background: linear-gradient(
+    145deg,
+    rgba(10, 10, 10, 0.95),
+    rgba(0, 0, 0, 0.85)
+  );
   border: 2px solid rgba(0, 255, 255, 0.2);
   border-radius: 12px;
   backdrop-filter: blur(15px);
@@ -1127,7 +1274,7 @@ main::-webkit-scrollbar {
   color: #fefefe;
   text-shadow: 0 0 5px var(--accent-color);
   margin-bottom: 2.5rem;
-  font-family: "IBM Plex Mono", monospace;
+  font-family: 'IBM Plex Mono', monospace;
   letter-spacing: 0.15em;
   position: relative;
 }
@@ -1139,7 +1286,8 @@ main::-webkit-scrollbar {
 }
 
 @keyframes bracket-pulse {
-  0%, 100% {
+  0%,
+  100% {
     opacity: 1;
   }
   50% {
@@ -1166,7 +1314,7 @@ main::-webkit-scrollbar {
   border-radius: 10px;
   background: linear-gradient(145deg, rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.6));
   color: var(--accent-color-light);
-  font-family: "IBM Plex Mono", monospace;
+  font-family: 'IBM Plex Mono', monospace;
   font-size: 0.85rem;
   text-shadow: 0 0 3px var(--accent-color);
   box-shadow: 0 0 15px rgba(0, 255, 255, 0.2);
@@ -1181,7 +1329,12 @@ main::-webkit-scrollbar {
   content: '';
   position: absolute;
   inset: 0;
-  background: linear-gradient(135deg, rgba(0, 255, 204, 0.15) 0%, transparent 50%, rgba(0, 255, 204, 0.05) 100%);
+  background: linear-gradient(
+    135deg,
+    rgba(0, 255, 204, 0.15) 0%,
+    transparent 50%,
+    rgba(0, 255, 204, 0.05) 100%
+  );
   border-radius: 10px;
   opacity: 0;
   transition: opacity var(--transition-smooth);
@@ -1219,46 +1372,46 @@ main::-webkit-scrollbar {
   transform: translateY(-2px);
 }
 
-.chip[data-category="frontend"] {
+.chip[data-category='frontend'] {
   border-color: rgba(255, 100, 100, 0.4);
 }
 
-.chip[data-category="frontend"]:hover {
+.chip[data-category='frontend']:hover {
   border-color: rgba(255, 100, 100, 0.8);
   box-shadow: 0 8px 30px rgba(255, 100, 100, 0.4);
 }
 
-.chip[data-category="framework"] {
+.chip[data-category='framework'] {
   border-color: rgba(100, 150, 255, 0.4);
 }
 
-.chip[data-category="framework"]:hover {
+.chip[data-category='framework']:hover {
   border-color: rgba(100, 150, 255, 0.8);
   box-shadow: 0 8px 30px rgba(100, 150, 255, 0.4);
 }
 
-.chip[data-category="backend"] {
+.chip[data-category='backend'] {
   border-color: rgba(100, 255, 150, 0.4);
 }
 
-.chip[data-category="backend"]:hover {
+.chip[data-category='backend']:hover {
   border-color: rgba(100, 255, 150, 0.8);
   box-shadow: 0 8px 30px rgba(100, 255, 150, 0.4);
 }
 
-.chip[data-category="tools"] {
+.chip[data-category='tools'] {
   border-color: rgba(255, 200, 100, 0.4);
 }
 
-.chip[data-category="tools"]:hover {
+.chip[data-category='tools']:hover {
   border-color: rgba(255, 200, 100, 0.8);
   box-shadow: 0 8px 30px rgba(255, 200, 100, 0.4);
 }
 
 .ascii-signature {
-  font-family: "Consolas", "Menlo", "Monaco", "Lucida Console",
-    "Liberation Mono", "DejaVu Sans Mono", "Bitstream Vera Sans Mono",
-    "Courier New", monospace;
+  font-family:
+    'Consolas', 'Menlo', 'Monaco', 'Lucida Console', 'Liberation Mono',
+    'DejaVu Sans Mono', 'Bitstream Vera Sans Mono', 'Courier New', monospace;
   white-space: pre;
   color: var(--accent-color);
   text-align: center;
@@ -1301,7 +1454,7 @@ main::-webkit-scrollbar {
 }
 
 .terminal-line {
-  font-family: "IBM Plex Mono", monospace;
+  font-family: 'IBM Plex Mono', monospace;
   background: none;
   padding: 0.3rem 0;
   margin: 0;
@@ -1309,7 +1462,9 @@ main::-webkit-scrollbar {
   color: #fefefe;
   font-size: 0.85rem;
   text-align: left;
-  text-shadow: 0 0 2px #fefefe, 0 0 4px #00ffcc;
+  text-shadow:
+    0 0 2px #fefefe,
+    0 0 4px #00ffcc;
   box-shadow: none;
   width: 100%;
   max-width: 800px;
@@ -1317,11 +1472,13 @@ main::-webkit-scrollbar {
 }
 
 .terminal-output .terminal-line {
-  font-family: "IBM Plex Mono", monospace;
+  font-family: 'IBM Plex Mono', monospace;
   color: #fefefe;
   font-size: 0.85rem;
   margin-top: 0;
-  text-shadow: 0 0 2px #fefefe, 0 0 4px #00ffcc;
+  text-shadow:
+    0 0 2px #fefefe,
+    0 0 4px #00ffcc;
 }
 
 .contact-grid {
@@ -1362,7 +1519,9 @@ main::-webkit-scrollbar {
   text-align: center;
   box-shadow: 0 0 20px rgba(0, 255, 255, 0.1);
   position: relative;
-  transition: transform 0.2s ease, box-shadow 0.3s ease;
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.3s ease;
   max-width: 280px;
   width: 100%;
   box-sizing: border-box;
@@ -1384,7 +1543,9 @@ main::-webkit-scrollbar {
   font-size: 1rem;
   color: #fefefe;
   text-decoration: none;
-  text-shadow: 0 0 2px #fefefe, 0 0 4px #00ffcc;
+  text-shadow:
+    0 0 2px #fefefe,
+    0 0 4px #00ffcc;
   transition: color 0.3s ease;
   margin-top: 1.2rem;
 }
@@ -1416,7 +1577,7 @@ main::-webkit-scrollbar {
   border-radius: 4px;
   border: 1px solid rgba(0, 255, 255, 0.3);
   opacity: 0.9;
-  font-family: "IBM Plex Mono", monospace;
+  font-family: 'IBM Plex Mono', monospace;
   pointer-events: none;
   z-index: 10;
 }
@@ -1447,7 +1608,9 @@ main::-webkit-scrollbar {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  transition: transform 0.2s ease, box-shadow 0.3s ease;
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.3s ease;
 }
 
 .contact-console:hover {
@@ -1457,29 +1620,33 @@ main::-webkit-scrollbar {
 }
 
 .contact-console .prompt {
-  font-family: "IBM Plex Mono", monospace;
+  font-family: 'IBM Plex Mono', monospace;
   color: #fefefe;
   font-size: 0.85rem;
-  text-shadow: 0 0 2px #fefefe, 0 0 4px #00ffcc;
+  text-shadow:
+    0 0 2px #fefefe,
+    0 0 4px #00ffcc;
   margin-right: 0.5rem;
   flex-shrink: 0;
 }
 
-.contact-console input[type="text"] {
+.contact-console input[type='text'] {
   flex-grow: 1;
   background: none;
   border: none;
   color: #fefefe;
-  font-family: "IBM Plex Mono", monospace;
+  font-family: 'IBM Plex Mono', monospace;
   font-size: 0.85rem;
-  text-shadow: 0 0 2px #fefefe, 0 0 4px #00ffcc;
+  text-shadow:
+    0 0 2px #fefefe,
+    0 0 4px #00ffcc;
   outline: none;
   padding: 0;
   margin: 0;
   min-width: 50px;
 }
 
-.contact-console input[type="text"]::placeholder {
+.contact-console input[type='text']::placeholder {
   color: rgba(255, 255, 255, 0.5);
   text-shadow: none;
 }
@@ -1519,7 +1686,7 @@ main::-webkit-scrollbar {
 
 #typewriter-line {
   color: #fefefe;
-  font-family: "Press Start 2P", monospace;
+  font-family: 'Press Start 2P', monospace;
   font-size: 1rem;
   white-space: pre;
   overflow: hidden;
@@ -1528,7 +1695,9 @@ main::-webkit-scrollbar {
   padding-bottom: 1.5rem;
   animation: blinkCursor 0.8s steps(1) infinite;
   margin-top: 2rem;
-  text-shadow: 0 0 2px #fefefe, 0 0 4px #00ffcc;
+  text-shadow:
+    0 0 2px #fefefe,
+    0 0 4px #00ffcc;
 }
 
 @keyframes blinkCursor {
@@ -1541,10 +1710,6 @@ main::-webkit-scrollbar {
   }
 }
 
-.hidden {
-  display: none;
-}
-
 .active {
   display: block;
 }
@@ -1552,7 +1717,9 @@ main::-webkit-scrollbar {
 .fade-in {
   opacity: 0;
   transform: translateY(30px) scale(0.98);
-  transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+  transition:
+    opacity 0.6s ease-out,
+    transform 0.6s ease-out;
 }
 
 .fade-in.visible {
@@ -1569,7 +1736,9 @@ footer {
   z-index: 10;
   background: linear-gradient(180deg, #282828 0%, #181818 100%);
   border-radius: 8px;
-  box-shadow: inset 0 2px 6px rgba(0, 0, 0, 0.8), 0 6px 20px rgba(0, 0, 0, 0.7);
+  box-shadow:
+    inset 0 2px 6px rgba(0, 0, 0, 0.8),
+    0 6px 20px rgba(0, 0, 0, 0.7);
   border: 1px solid #444;
   position: fixed;
   bottom: 1.5rem;
@@ -1581,7 +1750,7 @@ footer {
 }
 
 footer::before {
-  content: "";
+  content: '';
   position: absolute;
   top: 0;
   left: 0;
@@ -1592,7 +1761,7 @@ footer::before {
 }
 
 footer::after {
-  content: "";
+  content: '';
   position: absolute;
   inset: 0;
   background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="2" height="2"><rect width="1" height="1" fill="rgba(0,0,0,0.08)" x="0" y="0" /><rect width="1" height="1" fill="rgba(255,255,255,0.04)" x="1" y="1" /></svg>');
@@ -1609,18 +1778,23 @@ footer::after {
   background: linear-gradient(180deg, #303540 0%, #101520 100%);
   border-radius: 6px;
   padding: 0.6rem 2.8rem;
-  box-shadow: inset 0 3px 6px rgba(0, 0, 0, 1), 0 4px 10px rgba(0, 0, 0, 0.7);
+  box-shadow:
+    inset 0 3px 6px rgba(0, 0, 0, 1),
+    0 4px 10px rgba(0, 0, 0, 0.7);
   border: 1px solid #555;
   position: relative;
   overflow: hidden;
   color: #c0c0c0;
   font-weight: bold;
   letter-spacing: 0.8px;
-  text-shadow: 0 0 1px #88e0ff, 0 0 2px #55aaff, 0 0 3px #2288cc;
+  text-shadow:
+    0 0 1px #88e0ff,
+    0 0 2px #55aaff,
+    0 0 3px #2288cc;
 }
 
 .channel-nav button::before {
-  content: "";
+  content: '';
   position: absolute;
   top: 0;
   left: 0;
@@ -1637,7 +1811,9 @@ footer::after {
 
 .channel-nav button:active {
   transform: translateY(2px);
-  box-shadow: inset 0 1px 4px rgba(0, 0, 0, 1), 0 1px 4px rgba(0, 0, 0, 0.95);
+  box-shadow:
+    inset 0 1px 4px rgba(0, 0, 0, 1),
+    0 1px 4px rgba(0, 0, 0, 0.95);
   background: linear-gradient(180deg, #202530 0%, #404550 100%);
 }
 
@@ -1659,10 +1835,12 @@ footer::after {
   border: 1px solid rgba(0, 255, 255, 0.2);
   border-radius: 8px;
   padding: 1rem 2rem;
-  font-family: "IBM Plex Mono", monospace;
+  font-family: 'IBM Plex Mono', monospace;
   font-size: 0.85rem;
   cursor: pointer;
-  text-shadow: 0 0 2px #fefefe, 0 0 4px #00ffcc;
+  text-shadow:
+    0 0 2px #fefefe,
+    0 0 4px #00ffcc;
   transition: all 0.3s ease;
   box-shadow: 0 0 20px rgba(0, 255, 255, 0.1);
   position: relative;
@@ -1742,7 +1920,9 @@ body.power-off #power-off:hover {
 .glitch-link:hover {
   color: #fff;
   border-color: #fff;
-  text-shadow: 0 0 4px #0ff, 0 0 8px #0ff;
+  text-shadow:
+    0 0 4px #0ff,
+    0 0 8px #0ff;
 }
 
 .icon {
@@ -1762,38 +1942,23 @@ body.power-off #power-off:hover {
 
 .revealed-char {
   color: #fefefe;
-  text-shadow: 0 0 3px #fefefe, 0 0 5px #00ffcc;
+  text-shadow:
+    0 0 3px #fefefe,
+    0 0 5px #00ffcc;
 }
 
 .encrypted-char {
   color: #fefefe;
-  text-shadow: 0 0 3px #fefefe, 0 0 5px #00ffcc;
+  text-shadow:
+    0 0 3px #fefefe,
+    0 0 5px #00ffcc;
 }
 
 .crt-text {
   color: #fefefe;
-  text-shadow: 0 0 3px #fefefe, 0 0 5px #00ffcc;
-}
-
-@keyframes glitch {
-  0% {
-    transform: translate(0);
-  }
-  20% {
-    transform: translate(-2px, 2px);
-  }
-  40% {
-    transform: translate(2px, -2px);
-  }
-  60% {
-    transform: translate(-1px, 1px);
-  }
-  80% {
-    transform: translate(1px, -1px);
-  }
-  100% {
-    transform: translate(0);
-  }
+  text-shadow:
+    0 0 3px #fefefe,
+    0 0 5px #00ffcc;
 }
 
 /* Responsive Styles */
@@ -1819,10 +1984,6 @@ body.power-off #power-off:hover {
 
   .header-right {
     gap: 0.75rem;
-  }
-
-  .project-card {
-    max-width: 280px;
   }
 
   #ui-layer {
@@ -1866,10 +2027,6 @@ body.power-off #power-off:hover {
   .terminal-line {
     font-size: 0.8rem;
     padding: 0.75rem 1rem;
-  }
-
-  .project-card {
-    max-width: 90%;
   }
 
   #ui-layer {
@@ -2004,7 +2161,7 @@ body.power-off #power-off:hover {
 }
 
 .fullscreen-arrow::before {
-  content: "";
+  content: '';
   width: 10px;
   height: 10px;
   border-top: 2px solid currentColor;
@@ -2043,43 +2200,6 @@ body.power-off #power-off:hover {
   border-color: #00ffcc;
   color: #fff;
   text-shadow: 0 0 10px #00ffcc;
-}
-
-/* Responsive Styles */
-@media (max-width: 768px) {
-  .project-grid {
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 1.5rem;
-    padding: 0;
-  }
-  .project-card {
-    max-width: calc(50% - 0.75rem);
-  }
-}
-
-@media (max-width: 480px) {
-  .project-grid {
-    grid-template-columns: 1fr;
-    gap: 1rem;
-    padding: 0;
-  }
-  .project-card {
-    max-width: 100%;
-    margin-left: auto;
-    margin-right: auto;
-  }
-}
-
-@media (max-width: 768px) {
-  .channel-screen {
-    padding: 4rem 1.5rem 4rem 1.5rem;
-  }
-}
-
-@media (max-width: 480px) {
-  .channel-screen {
-    padding: 2rem 1rem 3rem 1rem;
-  }
 }
 
 @media (max-width: 768px) {
