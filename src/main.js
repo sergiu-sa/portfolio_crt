@@ -1,8 +1,4 @@
-// ---------------------------------------------
 // GLOBAL VARIABLES & SETUP
-// ---------------------------------------------
-
-// Fixed path to point to public folder
 const collageImages = Array.from(
   { length: 16 },
   (_, i) => `/assets/collage/face${String(i + 1).padStart(2, "0")}.jpg`
@@ -15,11 +11,14 @@ let currentStream = null;
 let contactIntroPlayed = false;
 let galleryIntervals = [];
 
-const maxChannels = 7;
+const maxChannels = 8;
 
-// ---------------------------------------------
+// YouTube Retro TV
+const YOUTUBE_VIDEO_ID = 'lNYcviXK4rg';
+let ytPlayer = null;
+let ytApiReady = false;
+
 // CRT SOUND SYSTEM
-// ---------------------------------------------
 let audioContext = null;
 let soundEnabled = localStorage.getItem('crtSoundEnabled') !== 'false';
 let hasPlayedStartupSound = sessionStorage.getItem('crtStartupPlayed') === 'true';
@@ -38,7 +37,6 @@ function playCRTTurnOn() {
   if (!soundEnabled) return;
   const ctx = initAudioContext();
 
-  // 1. Initial "click" - relay sound
   const clickOsc = ctx.createOscillator();
   const clickGain = ctx.createGain();
   clickOsc.type = 'square';
@@ -50,7 +48,6 @@ function playCRTTurnOn() {
   clickOsc.start(ctx.currentTime);
   clickOsc.stop(ctx.currentTime + 0.05);
 
-  // 2. Low frequency "thump" - degaussing coil
   setTimeout(() => {
     const thumpOsc = ctx.createOscillator();
     const thumpGain = ctx.createGain();
@@ -65,7 +62,6 @@ function playCRTTurnOn() {
     thumpOsc.stop(ctx.currentTime + 0.6);
   }, 50);
 
-  // 3. High frequency whine - CRT warming up
   setTimeout(() => {
     const whineOsc = ctx.createOscillator();
     const whineGain = ctx.createGain();
@@ -80,7 +76,6 @@ function playCRTTurnOn() {
     whineOsc.stop(ctx.currentTime + 1.2);
   }, 100);
 
-  // 4. Static burst as screen comes on
   setTimeout(() => playStaticBurst(0.4, 0.15), 200);
 }
 
@@ -88,7 +83,6 @@ function playStaticBurst(duration = 0.2, volume = 0.12) {
   if (!soundEnabled) return;
   const ctx = initAudioContext();
 
-  // Create white noise buffer
   const bufferSize = Math.floor(ctx.sampleRate * duration);
   const noiseBuffer = ctx.createBuffer(1, bufferSize, ctx.sampleRate);
   const output = noiseBuffer.getChannelData(0);
@@ -100,13 +94,11 @@ function playStaticBurst(duration = 0.2, volume = 0.12) {
   const whiteNoise = ctx.createBufferSource();
   whiteNoise.buffer = noiseBuffer;
 
-  // Bandpass filter for TV-like static
   const filter = ctx.createBiquadFilter();
   filter.type = 'bandpass';
   filter.frequency.value = 2500;
   filter.Q.value = 0.7;
 
-  // Gain envelope - fade in slightly, then fade out
   const gainNode = ctx.createGain();
   gainNode.gain.setValueAtTime(0.01, ctx.currentTime);
   gainNode.gain.linearRampToValueAtTime(volume, ctx.currentTime + 0.02);
@@ -123,15 +115,12 @@ function playStaticBurst(duration = 0.2, volume = 0.12) {
 
 function playChannelChange() {
   if (!soundEnabled) return;
-  // Longer static for channel changes
   playStaticBurst(0.25, 0.1);
 }
 
 function playTeletextBeep() {
   if (!soundEnabled) return;
   const ctx = initAudioContext();
-
-  // Classic teletext/ceefax beep sound
   const osc = ctx.createOscillator();
   const gain = ctx.createGain();
 
@@ -151,8 +140,6 @@ function playTeletextBeep() {
 function playNavigationClick() {
   if (!soundEnabled) return;
   const ctx = initAudioContext();
-
-  // Subtle mechanical click
   const osc = ctx.createOscillator();
   const gain = ctx.createGain();
 
@@ -177,6 +164,14 @@ function toggleSound() {
 
   if (soundEnabled) {
     playStaticBurst(0.1, 0.08);
+  }
+
+  if (ytPlayer && typeof ytPlayer.mute === 'function') {
+    if (soundEnabled) {
+      ytPlayer.unMute();
+    } else {
+      ytPlayer.mute();
+    }
   }
 }
 
@@ -207,7 +202,7 @@ function initSoundSystem() {
   }
   updateSoundButton();
 
-  // Play startup sound on first visit (requires user interaction)
+  // Play startup sound on first visit 
   if (!hasPlayedStartupSound && soundEnabled) {
     const playStartup = () => {
       if (!hasPlayedStartupSound) {
@@ -224,9 +219,126 @@ function initSoundSystem() {
   }
 }
 
-// ---------------------------------------------
-// PROJECT CHANNEL SYSTEM DATA
-// ---------------------------------------------
+// VHS CAMCORDER EFFECT
+function showVHSOverlay() {
+  const vhsOverlay = document.getElementById('vhs-overlay');
+  if (vhsOverlay) {
+    vhsOverlay.classList.add('active');
+  }
+
+  // Add VHS effect class to video
+  if (tvVideo) {
+    tvVideo.classList.add('vhs-effect');
+  }
+}
+
+function hideVHSOverlay() {
+  const vhsOverlay = document.getElementById('vhs-overlay');
+  if (vhsOverlay) {
+    vhsOverlay.classList.remove('active');
+  }
+
+  // Remove VHS effect class from video
+  if (tvVideo) {
+    tvVideo.classList.remove('vhs-effect');
+  }
+}
+
+// YOUTUBE CHANNEL (CH03)
+function loadYouTubeAPI() {
+  if (ytApiReady) return Promise.resolve();
+
+  return new Promise((resolve) => {
+    // Check if API is already loaded
+    if (window.YT && window.YT.Player) {
+      ytApiReady = true;
+      resolve();
+      return;
+    }
+
+    // Create callback for when API is ready
+    window.onYouTubeIframeAPIReady = () => {
+      ytApiReady = true;
+      resolve();
+    };
+
+    // Load the API script
+    const tag = document.createElement('script');
+    tag.src = 'https://www.youtube.com/iframe_api';
+    const firstScriptTag = document.getElementsByTagName('script')[0];
+    firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+  });
+}
+
+async function startYouTubeChannel() {
+  const container = document.getElementById('youtube-container');
+  if (!container) return;
+
+  try {
+    // Load YouTube API if not already loaded
+    await loadYouTubeAPI();
+
+    // Create player if it doesn't exist
+    if (!ytPlayer) {
+      ytPlayer = new YT.Player('youtube-container', {
+        videoId: YOUTUBE_VIDEO_ID,
+        playerVars: {
+          autoplay: 1,
+          mute: soundEnabled ? 0 : 1,
+          loop: 1,
+          playlist: YOUTUBE_VIDEO_ID,
+          controls: 0,
+          showinfo: 0,
+          rel: 0,
+          modestbranding: 1,
+          playsinline: 1
+        },
+        events: {
+          onReady: (event) => {
+            // Apply mute state when player is ready
+            if (!soundEnabled) {
+              event.target.mute();
+            }
+            event.target.playVideo();
+            // Make the player visible after it's ready
+            const playerElement = document.getElementById('youtube-container');
+            if (playerElement) {
+              playerElement.classList.add('visible');
+            }
+          },
+          onError: (event) => {
+            console.warn('YouTube player error:', event.data);
+            showOSD('VIDEO ERROR');
+          }
+        }
+      });
+    } else {
+      // Player already exists, just make it visible
+      const playerElement = document.getElementById('youtube-container');
+      if (playerElement) {
+        playerElement.classList.add('visible');
+      }
+    }
+  } catch (err) {
+    console.warn('YouTube channel error:', err);
+    showOSD('VIDEO ERROR');
+  }
+}
+
+function stopYouTubeChannel() {
+  const container = document.getElementById('youtube-container');
+  if (!container) return;
+
+  // Destroy the player to fully stop playback
+  if (ytPlayer && ytPlayer.destroy) {
+    ytPlayer.destroy();
+    ytPlayer = null;
+  }
+
+  container.classList.remove('visible');
+}
+
+// PROJECT DATA
 const projectsData = [
   {
     id: 'square-eyes',
@@ -291,11 +403,29 @@ const navButtons = document.querySelectorAll("nav button");
 const typewriter = document.getElementById("typewriter-line");
 const typeText = "> Developer. Explorer. Problem-solver.";
 let typewriterIndex = 0;
+let terminalOutput = null;
 
-// ---------------------------------------------
+// TERMINAL OUTPUT
+function printResponse(msg) {
+  if (!terminalOutput) return;
+  const line = document.createElement("div");
+  line.classList.add("terminal-line");
+  terminalOutput.appendChild(line);
+
+  let i = 0;
+  const speed = 20;
+
+  function typeChar() {
+    if (i < msg.length) {
+      line.textContent += msg.charAt(i);
+      i++;
+      setTimeout(typeChar, speed);
+    }
+  }
+  typeChar();
+}
+
 // TYPEWRITER EFFECT
-// ---------------------------------------------
-
 function typeWriterEffect() {
   if (!typewriter) return;
   if (typewriterIndex < typeText.length) {
@@ -305,16 +435,13 @@ function typeWriterEffect() {
   }
 }
 
-// ---------------------------------------------
-// DECRYPTED EFFECT
-// ---------------------------------------------
 import { decryptedText } from "./js/decryptedText.js";
 
 window.addEventListener("DOMContentLoaded", () => {
   const contactInput = document.querySelector(
     "#contact .contact-console input"
   );
-  const output = document.querySelector("#contact .terminal-output");
+  terminalOutput = document.querySelector("#contact .terminal-output");
 
   let commandHistory = [];
   let historyIndex = -1;
@@ -350,34 +477,15 @@ window.addEventListener("DOMContentLoaded", () => {
   }
 
   function printCommand(cmd) {
-    if (!output) return;
+    if (!terminalOutput) return;
     const line = document.createElement("div");
     line.classList.add("terminal-line");
     line.textContent = `> ${cmd}`;
-    output.appendChild(line);
-  }
-
-  function printResponse(msg) {
-    if (!output) return;
-    const line = document.createElement("div");
-    line.classList.add("terminal-line");
-    output.appendChild(line);
-
-    let i = 0;
-    const speed = 20; // typing speed in milliseconds
-
-    function typeChar() {
-      if (i < msg.length) {
-        line.textContent += msg.charAt(i);
-        i++;
-        setTimeout(typeChar, speed);
-      }
-    }
-    typeChar();
+    terminalOutput.appendChild(line);
   }
 
   function clearOutput() {
-    if (output) output.textContent = "";
+    if (terminalOutput) terminalOutput.textContent = "";
   }
 
   function handleContactCommand(cmd) {
@@ -440,9 +548,6 @@ window.addEventListener("DOMContentLoaded", () => {
     }
   }
 
-  // ---------------------------------------------
-  // DATE DISPLAY
-  // ---------------------------------------------
   function updateDate() {
     const now = new Date();
     const months = [
@@ -471,11 +576,7 @@ window.addEventListener("DOMContentLoaded", () => {
   initSoundSystem();
 });
 
-
-// ---------------------------------------------
 // CHANNEL HANDLING
-// ---------------------------------------------
-
 function setChannel(channel) {
   currentChannel = channel;
   const channelText = `CH ${String(channel).padStart(2, "0")}`;
@@ -487,23 +588,28 @@ function setChannel(channel) {
   triggerChannelFlicker();
   playChannelChange();
 
+  // Stop all channel types
   stopSlideshow();
   stopWebcam();
+  stopYouTubeChannel();
 
   tvVideo.pause();
   tvVideo.classList.remove("visible");
   tvVideo.removeAttribute("src");
   tvVideo.srcObject = null;
 
+  // Channel routing:
+  // CH01: Photo slideshow
+  // CH02: Webcam with VHS B&W effect
+  // CH03: YouTube retro TV (B&W)
+  // CH04-08: Retro videos 1-5
   if (channel === 1) startSlideshow();
-  else if (channel === 2) startWebcam();
-  else if (channel >= 3 && channel <= maxChannels) playRetroVideo(channel - 2);
+  else if (channel === 2) startWebcam().catch(() => {});
+  else if (channel === 3) startYouTubeChannel().catch(() => {});
+  else if (channel >= 4 && channel <= maxChannels) playRetroVideo(channel - 3);
 }
 
-// ---------------------------------------------
 // SLIDESHOW (CH01)
-// ---------------------------------------------
-
 function startSlideshow() {
   tvImage.classList.add("visible");
   tvImage.src = collageImages[currentImageIndex];
@@ -524,10 +630,7 @@ function stopSlideshow() {
   tvImage.classList.remove("visible");
 }
 
-// ---------------------------------------------
 // WEBCAM (CH02)
-// ---------------------------------------------
-
 async function startWebcam() {
   const loadingIndicator = document.getElementById("loading-indicator");
 
@@ -543,6 +646,9 @@ async function startWebcam() {
 
     // Hide loading indicator
     if (loadingIndicator) loadingIndicator.classList.remove("active");
+
+    // Show VHS overlay effect
+    showVHSOverlay();
   } catch (err) {
     console.error("Webcam error:", err);
 
@@ -559,27 +665,22 @@ function stopWebcam() {
   }
   tvVideo.srcObject = null;
   tvVideo.classList.remove("visible");
+
+  // Hide VHS overlay effect
+  hideVHSOverlay();
 }
 
-// ---------------------------------------------
-// RETRO VIDEO (CH03–CH07)
-// ---------------------------------------------
-
+// RETRO VIDEO (CH04-CH08)
 function playRetroVideo(videoNumber) {
   tvImage.classList.remove("visible");
   tvVideo.srcObject = null;
-
-  // Updated path to point to public folder
   tvVideo.src = `/assets/retro/retro${videoNumber}.mp4`;
   tvVideo.loop = true;
   tvVideo.classList.add("visible");
   tvVideo.play().catch((err) => console.error("Video play error:", err));
 }
 
-// ---------------------------------------------
 // SECTION SWITCHING
-// ---------------------------------------------
-
 function showSection(section) {
   // Clear all gallery intervals when switching sections
   galleryIntervals.forEach(interval => clearInterval(interval));
@@ -635,10 +736,7 @@ function showSection(section) {
   }
 }
 
-// ---------------------------------------------
-// FADE-IN OBSERVER (SCROLL ANIMATION)
-// ---------------------------------------------
-
+// FADE-IN OBSERVER
 const observer = new IntersectionObserver(
   (entries) => {
     entries.forEach((entry) => {
@@ -659,10 +757,7 @@ function refreshFadeInObserver() {
   });
 }
 
-// ---------------------------------------------
-// TERMINAL SEQUENCE (CONTACT SECTION)
-// ---------------------------------------------
-
+// TERMINAL SEQUENCE
 function triggerTerminalSequence() {
   const lines = document.querySelectorAll("#contact .terminal-line");
   lines.forEach((line, index) => {
@@ -672,10 +767,7 @@ function triggerTerminalSequence() {
   });
 }
 
-// ---------------------------------------------
-// CHANNEL FLICKER EFFECT & OSD
-// ---------------------------------------------
-
+// CHANNEL FLICKER & OSD
 function triggerChannelFlicker() {
   const flicker = document.getElementById("channel-flicker");
   flicker.style.animation = "channelGlitch 0.4s ease-out";
@@ -715,10 +807,7 @@ function startConsoleIntro() {
   printResponse(text);
 }
 
-// ---------------------------------------------
 // EVENT LISTENERS
-// ---------------------------------------------
-
 navButtons.forEach((btn) => {
   btn.addEventListener("click", () => {
     const section = btn.getAttribute("data-section");
@@ -784,10 +873,7 @@ if (shortcutsModal) {
   });
 }
 
-// ---------------------------------------------
 // TELETEXT PROJECT SYSTEM
-// ---------------------------------------------
-
 let lightboxOpen = false;
 
 function initProjectChannelSystem() {
