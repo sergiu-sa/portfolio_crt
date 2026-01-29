@@ -1,0 +1,493 @@
+/* TV Screen Display CRT styling */
+#tv-screen {
+  position: fixed;
+  inset: 1.5rem;
+  background: black;
+  z-index: 0;
+  overflow: hidden;
+  border-radius: var(--crt-border-radius);
+  box-shadow:
+    /* Inner glow */
+    0 0 60px rgba(0, 255, 255, 0.1) inset,
+    0 0 120px rgba(255, 0, 255, 0.1) inset,
+    0 0 40px rgba(0, 255, 255, 0.05),
+    /* TV bezel shadow */ 0 0 0 12px var(--tv-bezel-color),
+    0 0 0 15px #0a0a0a,
+    0 0 20px 15px rgba(0, 0, 0, 0.8),
+    /* Outer glow for CRT effect */ 0 0 80px rgba(0, 255, 255, 0.15);
+  transform: perspective(800px) rotateX(1deg);
+  animation:
+    glow-pulse 4s ease-in-out infinite,
+    flicker 0.12s infinite;
+}
+
+/* TV bezel reflection effect */
+#tv-screen::before {
+  content: '';
+  position: absolute;
+  top: -5px;
+  left: 10%;
+  right: 10%;
+  height: 30%;
+  background: linear-gradient(
+    to bottom,
+    rgba(255, 255, 255, 0.05) 0%,
+    transparent 100%
+  );
+  border-radius: var(--crt-border-radius) var(--crt-border-radius) 50% 50%;
+  pointer-events: none;
+  z-index: 3;
+}
+
+#tv-screen::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(
+    0deg,
+    rgba(0, 255, 255, 0.03),
+    rgba(0, 255, 255, 0.03) 1px,
+    transparent 2px
+  );
+  mix-blend-mode: color-dodge;
+  opacity: 0.2;
+  animation: ripple 3s infinite linear;
+  pointer-events: none;
+  z-index: 2;
+}
+
+/* TV Video and Image */
+#tv-video,
+#tv-image {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  object-fit: cover;
+  z-index: 0;
+  opacity: 0;
+  display: none;
+  transition: opacity 1s ease-in-out;
+  filter: grayscale(1) blur(1.5px) contrast(1.4);
+}
+
+#tv-video.visible,
+#tv-image.visible {
+  display: block;
+  opacity: 1;
+}
+
+/* YouTube Retro TV Embed */
+#youtube-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+  opacity: 0;
+  display: none;
+  pointer-events: none;
+  filter: grayscale(1) contrast(1.1) brightness(1.05);
+}
+
+#youtube-container.visible {
+  display: block;
+  opacity: 1;
+  pointer-events: auto;
+}
+
+#youtube-container iframe {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border: none;
+}
+
+/* TV Overlay */
+#tv-overlay::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    circle,
+    rgba(0, 0, 0, 0.35) 40%,
+    rgba(0, 0, 0, 0.6) 100%
+  );
+  z-index: 1;
+  pointer-events: none;
+}
+
+/* CRT Flicker */
+#crt-flicker {
+  position: fixed;
+  inset: 0;
+  z-index: 5;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 1px,
+    rgba(255, 255, 255, 0.015) 2px,
+    transparent 3px
+  );
+  pointer-events: none;
+  mix-blend-mode: lighten;
+  opacity: 0.3;
+  animation: flickerOverlay 0.1s infinite;
+}
+
+/* Channel Flicker */
+#channel-flicker {
+  position: fixed;
+  inset: 0;
+  background: radial-gradient(
+    circle,
+    rgba(255, 255, 255, 0.04) 0%,
+    transparent 80%
+  );
+  mix-blend-mode: lighten;
+  pointer-events: none;
+  z-index: 999;
+  opacity: 0;
+}
+
+/* On-Screen Display (OSD) Channel Indicator */
+.osd-indicator {
+  position: absolute;
+  top: 2rem;
+  right: 2rem;
+  background: rgba(0, 0, 0, 0.85);
+  border: 2px solid var(--accent-color);
+  border-radius: 4px;
+  padding: 0.75rem 1.5rem;
+  font-family: 'Press Start 2P', monospace;
+  font-size: 1.2rem;
+  color: var(--accent-color);
+  text-shadow: 0 0 10px var(--accent-color);
+  box-shadow:
+    0 0 20px rgba(0, 255, 204, 0.4),
+    inset 0 0 10px rgba(0, 255, 204, 0.1);
+  opacity: 0;
+  transform: translateY(-20px);
+  transition: all 0.3s ease;
+  pointer-events: none;
+  z-index: 1000;
+}
+
+.osd-indicator.show {
+  opacity: 1;
+  transform: translateY(0);
+  animation: osd-pulse 2s ease-out forwards;
+}
+
+@keyframes osd-pulse {
+  0% {
+    opacity: 1;
+  }
+  70% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+}
+
+/* Loading Spinner */
+.loading-spinner {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.loading-spinner.active {
+  display: flex;
+}
+
+.spinner-content {
+  text-align: center;
+}
+
+.spinner {
+  width: 60px;
+  height: 60px;
+  border: 4px solid rgba(0, 255, 204, 0.2);
+  border-top-color: var(--accent-color);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin: 0 auto 1.5rem;
+  box-shadow: 0 0 20px rgba(0, 255, 204, 0.3);
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.loading-text {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 0.9rem;
+  color: var(--accent-color);
+  text-shadow: 0 0 10px var(--accent-color);
+  letter-spacing: 3px;
+  animation: pulse-text 1.5s ease-in-out infinite;
+}
+
+@keyframes pulse-text {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
+/* CRT Animations */
+@keyframes flicker {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.98;
+  }
+}
+
+@keyframes flickerOverlay {
+  0%,
+  100% {
+    opacity: 0.25;
+  }
+  50% {
+    opacity: 0.35;
+  }
+}
+
+@keyframes channelGlitch {
+  0% {
+    opacity: 0.2;
+    transform: scale(1.02);
+  }
+  50% {
+    opacity: 0.4;
+    transform: scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(1.01);
+  }
+}
+
+@keyframes ripple {
+  0% {
+    transform: translateY(0);
+  }
+  100% {
+    transform: translateY(-3px);
+  }
+}
+
+@keyframes glow-pulse {
+  0%,
+  100% {
+    box-shadow: 0 0 40px rgba(0, 255, 255, 0.05);
+  }
+  50% {
+    box-shadow: 0 0 80px rgba(0, 255, 255, 0.2);
+  }
+}
+
+/* ========================================
+   VHS CAMCORDER EFFECT (Channel 2)
+   ======================================== */
+
+.vhs-overlay {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 5;
+  opacity: 0;
+  visibility: hidden;
+  transition:
+    opacity 0.3s ease,
+    visibility 0.3s ease;
+}
+
+.vhs-overlay.active {
+  opacity: 1;
+  visibility: visible;
+}
+
+/* VHS Scanlines - more pronounced than CRT */
+.vhs-scanlines {
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 2px,
+    rgba(0, 0, 0, 0.3) 2px,
+    rgba(0, 0, 0, 0.3) 4px
+  );
+  pointer-events: none;
+  z-index: 10;
+}
+
+/* VHS Static Noise */
+.vhs-noise {
+  position: absolute;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+  opacity: 0.08;
+  mix-blend-mode: overlay;
+  animation: vhs-noise-anim 0.2s steps(10) infinite;
+  z-index: 11;
+}
+
+@keyframes vhs-noise-anim {
+  0%,
+  100% {
+    transform: translate(0, 0);
+  }
+  10% {
+    transform: translate(-1%, -1%);
+  }
+  20% {
+    transform: translate(1%, 1%);
+  }
+  30% {
+    transform: translate(-1%, 1%);
+  }
+  40% {
+    transform: translate(1%, -1%);
+  }
+  50% {
+    transform: translate(-1%, 0);
+  }
+  60% {
+    transform: translate(1%, 0);
+  }
+  70% {
+    transform: translate(0, 1%);
+  }
+  80% {
+    transform: translate(0, -1%);
+  }
+  90% {
+    transform: translate(1%, 1%);
+  }
+}
+
+/* VHS Tracking Distortion Lines */
+.vhs-tracking {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    0deg,
+    transparent 0%,
+    transparent 95%,
+    rgba(255, 255, 255, 0.1) 95%,
+    rgba(255, 255, 255, 0.15) 96%,
+    transparent 96%,
+    transparent 100%
+  );
+  background-size: 100% 300px;
+  animation: vhs-tracking-anim 8s linear infinite;
+  z-index: 12;
+  opacity: 0.6;
+}
+
+@keyframes vhs-tracking-anim {
+  0% {
+    background-position: 0 0;
+  }
+  100% {
+    background-position: 0 -600px;
+  }
+}
+
+/* VHS Black & White Effect - applied to video */
+#tv-video.vhs-effect {
+  filter: grayscale(1) contrast(1.2) brightness(1.05) blur(0.3px);
+  animation: vhs-bw-shift 0.1s steps(2) infinite;
+}
+
+@keyframes vhs-bw-shift {
+  0% {
+    filter: grayscale(1) contrast(1.2) brightness(1.05) blur(0.3px);
+    transform: translate(0, 0);
+  }
+  50% {
+    filter: grayscale(1) contrast(1.25) brightness(1.02) blur(0.4px);
+    transform: translate(0.5px, 0);
+  }
+}
+
+/* VHS Head Switch Noise */
+.vhs-overlay::before {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 8px;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.3) 10%,
+    transparent 20%,
+    rgba(255, 255, 255, 0.2) 40%,
+    transparent 50%,
+    rgba(255, 255, 255, 0.4) 70%,
+    transparent 80%,
+    rgba(255, 255, 255, 0.2) 90%,
+    transparent 100%
+  );
+  animation: vhs-head-switch 0.3s steps(3) infinite;
+  z-index: 15;
+}
+
+@keyframes vhs-head-switch {
+  0% {
+    transform: translateX(0);
+  }
+  33% {
+    transform: translateX(10%);
+  }
+  66% {
+    transform: translateX(-5%);
+  }
+  100% {
+    transform: translateX(0);
+  }
+}
+
+/* VHS Color Fringing Overlay */
+.vhs-overlay::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    90deg,
+    rgba(255, 0, 0, 0.03) 0%,
+    transparent 33%,
+    rgba(0, 255, 0, 0.02) 33%,
+    transparent 66%,
+    rgba(0, 0, 255, 0.03) 66%,
+    transparent 100%
+  );
+  mix-blend-mode: screen;
+  pointer-events: none;
+  z-index: 13;
+}

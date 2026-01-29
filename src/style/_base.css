@@ -1,0 +1,162 @@
+/* Global Settings */
+html,
+body {
+  height: 100%;
+  min-height: 100%;
+  margin: 0;
+  font-family: 'IBM Plex Mono', monospace;
+  background: black;
+  color: #eee;
+  overflow-x: hidden;
+  overflow-y: auto;
+  -webkit-font-smoothing: antialiased;
+  font-smooth: always;
+  text-rendering: geometricPrecision;
+}
+
+/* Typography */
+h1,
+h2,
+#typewriter-line {
+  font-family: 'Press Start 2P', monospace;
+}
+
+h1 {
+  font-size: clamp(2.5rem, 6vw, 4rem);
+  letter-spacing: 1px;
+  margin: 0;
+  color: #fefefe;
+  line-height: 1.1;
+  text-shadow:
+    0 0 2px #fefefe,
+    0 0 4px #00ffcc;
+}
+
+h2 {
+  font-size: clamp(1.1rem, 2.5vw, 1.5rem);
+  color: #fefefe;
+  letter-spacing: 2px;
+  margin: 0;
+  text-shadow:
+    0 0 2px #fefefe,
+    0 0 4px #00ffcc;
+}
+
+/* Utility Classes */
+.active {
+  display: block;
+}
+
+.fade-in {
+  opacity: 0;
+  transform: translateY(30px) scale(0.98);
+  transition:
+    opacity 0.6s ease-out,
+    transform 0.6s ease-out;
+}
+
+.fade-in.visible {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+
+/* Text Effects */
+.revealed-char {
+  color: #fefefe;
+  text-shadow:
+    0 0 3px #fefefe,
+    0 0 5px #00ffcc;
+}
+
+.encrypted-char {
+  color: #fefefe;
+  text-shadow:
+    0 0 3px #fefefe,
+    0 0 5px #00ffcc;
+}
+
+.crt-text {
+  color: #fefefe;
+  text-shadow:
+    0 0 3px #fefefe,
+    0 0 5px #00ffcc;
+}
+
+/* Links */
+.glitch-link {
+  color: #0ff;
+  text-decoration: none;
+  border-bottom: 1px dashed #0ff;
+  transition: all 0.2s;
+  position: relative;
+}
+
+.glitch-link:hover {
+  color: #fff;
+  border-color: #fff;
+  text-shadow:
+    0 0 4px #0ff,
+    0 0 8px #0ff;
+}
+
+/* Icons */
+.icon {
+  width: 1rem;
+  height: 1rem;
+  fill: #0ff;
+  margin-right: 0.75rem;
+  vertical-align: middle;
+  transform: translateY(-1px);
+  opacity: 0.85;
+  transition: opacity 0.2s;
+}
+
+/* Highlight */
+.highlight {
+  color: var(--accent-color);
+  font-weight: 500;
+  text-shadow: 0 0 5px var(--accent-color);
+  padding: 0.2rem 0.4rem;
+  background: rgba(0, 255, 255, 0.15);
+  border-radius: 4px;
+}
+
+/* Power Off State */
+body.power-off {
+  filter: grayscale(1) brightness(0.1) blur(3px);
+  transition: all 0.5s ease-in-out;
+}
+
+body.power-off .easter-egg-buttons {
+  filter: none;
+  position: relative;
+  z-index: 1000;
+}
+
+body.power-off .easter-egg-buttons button {
+  filter: none;
+  opacity: 1;
+  visibility: visible;
+}
+
+body.power-off .easter-egg-buttons button:not(#power-off) {
+  opacity: 0.3;
+  pointer-events: none;
+}
+
+body.power-off #power-off {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.5);
+  box-shadow: 0 0 30px rgba(255, 255, 255, 0.3);
+  color: #fff;
+  text-shadow: 0 0 5px #fff;
+  filter: none !important;
+  transform: scale(1.1);
+}
+
+body.power-off #power-off:hover {
+  background: rgba(255, 255, 255, 0.2);
+  border-color: rgba(255, 255, 255, 0.7);
+  box-shadow: 0 0 40px rgba(255, 255, 255, 0.4);
+  transform: scale(1.15);
+}
