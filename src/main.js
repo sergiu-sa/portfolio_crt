@@ -157,6 +157,44 @@ function playNavigationClick() {
   osc.stop(ctx.currentTime + 0.04);
 }
 
+function playTypingSound() {
+  if (!soundEnabled) return;
+  const ctx = initAudioContext();
+
+  // Create a short, mechanical keyboard click sound
+  const osc = ctx.createOscillator();
+  const osc2 = ctx.createOscillator();
+  const gain = ctx.createGain();
+  const filter = ctx.createBiquadFilter();
+
+  // Main click tone
+  osc.type = 'square';
+  osc.frequency.setValueAtTime(1800 + Math.random() * 400, ctx.currentTime);
+  osc.frequency.exponentialRampToValueAtTime(400, ctx.currentTime + 0.02);
+
+  // Secondary noise for texture
+  osc2.type = 'sawtooth';
+  osc2.frequency.setValueAtTime(3000, ctx.currentTime);
+
+  // High-pass filter for that clicky feel
+  filter.type = 'highpass';
+  filter.frequency.value = 800;
+
+  // Quick attack and decay envelope
+  gain.gain.setValueAtTime(0.06, ctx.currentTime);
+  gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.025);
+
+  osc.connect(filter);
+  osc2.connect(filter);
+  filter.connect(gain);
+  gain.connect(ctx.destination);
+
+  osc.start(ctx.currentTime);
+  osc2.start(ctx.currentTime);
+  osc.stop(ctx.currentTime + 0.025);
+  osc2.stop(ctx.currentTime + 0.025);
+}
+
 function toggleSound() {
   soundEnabled = !soundEnabled;
   localStorage.setItem('crtSoundEnabled', soundEnabled);
@@ -473,6 +511,11 @@ window.addEventListener("DOMContentLoaded", () => {
           contactInput.value = "";
         }
       }
+    });
+
+    // Play typing sound on each keystroke
+    contactInput.addEventListener("input", () => {
+      playTypingSound();
     });
   }
 
