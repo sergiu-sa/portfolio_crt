@@ -134,25 +134,35 @@ function handleCommand(cmd) {
 }
 
 /**
+ * Submit command from input field
+ * @param {HTMLInputElement} inputElement - The input element
+ */
+function submitCommand(inputElement) {
+  const command = inputElement.value.trim();
+  if (command) {
+    printCommand(command);
+    handleCommand(command.toLowerCase());
+    commandHistory.push(command);
+    historyIndex = commandHistory.length;
+  }
+  inputElement.value = '';
+  inputElement.focus();
+}
+
+/**
  * Initialize the terminal system
  */
 export function initTerminal() {
   const contactInput = document.querySelector('#contact .contact-console input');
+  const submitBtn = document.querySelector('#console-submit');
   terminalOutput = document.querySelector('#contact .terminal-output');
 
   if (!contactInput) return;
 
-  // Command input handler
+  // Command input handler (keyboard)
   contactInput.addEventListener('keydown', (e) => {
     if (e.key === 'Enter') {
-      const command = contactInput.value.trim();
-      if (command) {
-        printCommand(command);
-        handleCommand(command.toLowerCase());
-        commandHistory.push(command);
-        historyIndex = commandHistory.length;
-      }
-      contactInput.value = '';
+      submitCommand(contactInput);
     } else if (e.key === 'ArrowUp') {
       e.preventDefault();
       if (historyIndex > 0) {
@@ -170,6 +180,13 @@ export function initTerminal() {
       }
     }
   });
+
+  // Submit button handler (touch/click)
+  if (submitBtn) {
+    submitBtn.addEventListener('click', () => {
+      submitCommand(contactInput);
+    });
+  }
 
   // Typing sound on input
   contactInput.addEventListener('input', () => {

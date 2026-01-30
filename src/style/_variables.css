@@ -18,4 +18,14 @@
   --teletext-yellow: rgb(255, 200, 100);
   --teletext-green: rgb(100, 255, 150);
   --teletext-blue: rgb(100, 150, 255);
+
+  /* Spacing */
+  --spacing-xs: 0.5rem;
+  --spacing-sm: 1rem;
+  --spacing-md: 1.5rem;
+  --spacing-lg: 2rem;
+  --spacing-xl: 3rem;
+
+  /* Touch targets (minimum 44px for accessibility) */
+  --touch-target-min: 44px;
 }

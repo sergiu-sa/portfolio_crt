@@ -339,17 +339,21 @@
 
 .teletext-lightbox-close {
   position: fixed;
-  top: 1.5rem;
-  right: 1.5rem;
+  top: 4.5rem;
+  right: 1rem;
   background: var(--teletext-blue);
-  border: none;
+  border: 2px solid #000;
   color: #000;
   font-size: 0.85rem;
-  padding: 0.4rem 0.8rem;
+  padding: 0.6rem 1rem;
   cursor: pointer;
   font-family: "IBM Plex Mono", monospace;
   transition: all 0.2s ease;
   z-index: 1001;
+  min-height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .teletext-lightbox-close:hover {

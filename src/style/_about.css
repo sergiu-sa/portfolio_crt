@@ -1,8 +1,3 @@
-/**
- * About Section Styles
- * Bio, skills, and tech stack display
- */
-
 /* About Section */
 #about {
   display: flex;
@@ -341,12 +336,14 @@
   overflow: hidden;
   border-right: 2px solid #fefefe;
   width: fit-content;
+  max-width: 100%;
   padding-bottom: 1.5rem;
   animation: blinkCursor 0.8s steps(1) infinite;
   margin-top: 2rem;
   text-shadow:
     0 0 2px #fefefe,
     0 0 4px #00ffcc;
+  box-sizing: border-box;
 }
 
 @keyframes blinkCursor {
