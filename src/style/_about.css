@@ -32,18 +32,14 @@
   margin-bottom: 3rem;
   position: relative;
   padding: 2rem;
-  background: linear-gradient(
-    145deg,
-    rgba(0, 255, 204, 0.05),
-    rgba(0, 0, 0, 0.3)
-  );
+  background: linear-gradient(145deg, rgba(0, 255, 204, 0.05), rgba(0, 0, 0, 0.3));
   border: 2px solid rgba(0, 255, 255, 0.3);
   border-radius: 12px;
   backdrop-filter: blur(10px);
 }
 
 .about-header::before {
-  content: '';
+  content: "";
   position: absolute;
   inset: 0;
   background: linear-gradient(145deg, rgba(0, 255, 204, 0.1), transparent);
@@ -79,7 +75,7 @@
   border: 1px solid var(--accent-color);
   border-radius: 20px;
   font-size: 0.85rem;
-  font-family: 'IBM Plex Mono', monospace;
+  font-family: "IBM Plex Mono", monospace;
   color: var(--accent-color);
   text-shadow: 0 0 5px var(--accent-color);
   margin-top: 0.5rem;
@@ -125,18 +121,13 @@
 }
 
 .bio-section::before {
-  content: '';
+  content: "";
   position: absolute;
   top: 0;
   left: 0;
   right: 0;
   height: 3px;
-  background: linear-gradient(
-    90deg,
-    transparent,
-    var(--accent-color),
-    transparent
-  );
+  background: linear-gradient(90deg, transparent, var(--accent-color), transparent);
   border-radius: 12px 12px 0 0;
 }
 
@@ -147,7 +138,7 @@
   text-shadow: none;
   letter-spacing: 0.02em;
   line-height: 1.9;
-  font-family: 'IBM Plex Mono', monospace;
+  font-family: "IBM Plex Mono", monospace;
 }
 
 #about p:last-of-type {
@@ -170,7 +161,7 @@
   color: #fefefe;
   text-shadow: 0 0 5px var(--accent-color);
   margin-bottom: 2.5rem;
-  font-family: 'IBM Plex Mono', monospace;
+  font-family: "IBM Plex Mono", monospace;
   letter-spacing: 0.15em;
   position: relative;
 }
@@ -211,7 +202,7 @@
   border-radius: 10px;
   background: linear-gradient(145deg, rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.6));
   color: var(--accent-color-light);
-  font-family: 'IBM Plex Mono', monospace;
+  font-family: "IBM Plex Mono", monospace;
   font-size: 0.85rem;
   text-shadow: 0 0 3px var(--accent-color);
   box-shadow: 0 0 15px rgba(0, 255, 255, 0.2);
@@ -223,7 +214,7 @@
 }
 
 .chip::before {
-  content: '';
+  content: "";
   position: absolute;
   inset: 0;
   background: linear-gradient(
@@ -270,38 +261,38 @@
 }
 
 /* Chip Category Colors */
-.chip[data-category='frontend'] {
+.chip[data-category="frontend"] {
   border-color: rgba(255, 100, 100, 0.4);
 }
 
-.chip[data-category='frontend']:hover {
+.chip[data-category="frontend"]:hover {
   border-color: rgba(255, 100, 100, 0.8);
   box-shadow: 0 8px 30px rgba(255, 100, 100, 0.4);
 }
 
-.chip[data-category='framework'] {
+.chip[data-category="framework"] {
   border-color: rgba(100, 150, 255, 0.4);
 }
 
-.chip[data-category='framework']:hover {
+.chip[data-category="framework"]:hover {
   border-color: rgba(100, 150, 255, 0.8);
   box-shadow: 0 8px 30px rgba(100, 150, 255, 0.4);
 }
 
-.chip[data-category='backend'] {
+.chip[data-category="backend"] {
   border-color: rgba(100, 255, 150, 0.4);
 }
 
-.chip[data-category='backend']:hover {
+.chip[data-category="backend"]:hover {
   border-color: rgba(100, 255, 150, 0.8);
   box-shadow: 0 8px 30px rgba(100, 255, 150, 0.4);
 }
 
-.chip[data-category='tools'] {
+.chip[data-category="tools"] {
   border-color: rgba(255, 200, 100, 0.4);
 }
 
-.chip[data-category='tools']:hover {
+.chip[data-category="tools"]:hover {
   border-color: rgba(255, 200, 100, 0.8);
   box-shadow: 0 8px 30px rgba(255, 200, 100, 0.4);
 }
@@ -309,8 +300,8 @@
 /* ASCII Signature */
 .ascii-signature {
   font-family:
-    'Consolas', 'Menlo', 'Monaco', 'Lucida Console', 'Liberation Mono',
-    'DejaVu Sans Mono', 'Bitstream Vera Sans Mono', 'Courier New', monospace;
+    "Consolas", "Menlo", "Monaco", "Lucida Console", "Liberation Mono", "DejaVu Sans Mono",
+    "Bitstream Vera Sans Mono", "Courier New", monospace;
   white-space: pre;
   color: var(--accent-color);
   text-align: center;
@@ -344,7 +335,7 @@
 /* Typewriter Line */
 #typewriter-line {
   color: #fefefe;
-  font-family: 'Press Start 2P', monospace;
+  font-family: "Press Start 2P", monospace;
   font-size: 1rem;
   white-space: pre;
   overflow: hidden;

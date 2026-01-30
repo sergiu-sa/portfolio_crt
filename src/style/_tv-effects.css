@@ -23,24 +23,20 @@
 
 /* TV bezel reflection effect */
 #tv-screen::before {
-  content: '';
+  content: "";
   position: absolute;
   top: -5px;
   left: 10%;
   right: 10%;
   height: 30%;
-  background: linear-gradient(
-    to bottom,
-    rgba(255, 255, 255, 0.05) 0%,
-    transparent 100%
-  );
+  background: linear-gradient(to bottom, rgba(255, 255, 255, 0.05) 0%, transparent 100%);
   border-radius: var(--crt-border-radius) var(--crt-border-radius) 50% 50%;
   pointer-events: none;
   z-index: 3;
 }
 
 #tv-screen::after {
-  content: '';
+  content: "";
   position: absolute;
   inset: 0;
   background: repeating-linear-gradient(
@@ -109,14 +105,10 @@
 
 /* TV Overlay */
 #tv-overlay::before {
-  content: '';
+  content: "";
   position: absolute;
   inset: 0;
-  background: radial-gradient(
-    circle,
-    rgba(0, 0, 0, 0.35) 40%,
-    rgba(0, 0, 0, 0.6) 100%
-  );
+  background: radial-gradient(circle, rgba(0, 0, 0, 0.35) 40%, rgba(0, 0, 0, 0.6) 100%);
   z-index: 1;
   pointer-events: none;
 }
@@ -143,11 +135,7 @@
 #channel-flicker {
   position: fixed;
   inset: 0;
-  background: radial-gradient(
-    circle,
-    rgba(255, 255, 255, 0.04) 0%,
-    transparent 80%
-  );
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.04) 0%, transparent 80%);
   mix-blend-mode: lighten;
   pointer-events: none;
   z-index: 999;
@@ -163,7 +151,7 @@
   border: 2px solid var(--accent-color);
   border-radius: 4px;
   padding: 0.75rem 1.5rem;
-  font-family: 'Press Start 2P', monospace;
+  font-family: "Press Start 2P", monospace;
   font-size: 1.2rem;
   color: var(--accent-color);
   text-shadow: 0 0 10px var(--accent-color);
@@ -235,7 +223,7 @@
 }
 
 .loading-text {
-  font-family: 'Press Start 2P', monospace;
+  font-family: "Press Start 2P", monospace;
   font-size: 0.9rem;
   color: var(--accent-color);
   text-shadow: 0 0 10px var(--accent-color);
@@ -436,7 +424,7 @@
 
 /* VHS Head Switch Noise */
 .vhs-overlay::before {
-  content: '';
+  content: "";
   position: absolute;
   bottom: 0;
   left: 0;
@@ -475,7 +463,7 @@
 
 /* VHS Color Fringing Overlay */
 .vhs-overlay::after {
-  content: '';
+  content: "";
   position: absolute;
   inset: 0;
   background: linear-gradient(

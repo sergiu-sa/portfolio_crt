@@ -3,14 +3,14 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 2rem 1rem 8rem 1rem;
+  padding: 2rem 1rem 8rem;
   width: 100%;
   box-sizing: border-box;
 }
 
 /* Terminal Line */
 .terminal-line {
-  font-family: 'IBM Plex Mono', monospace;
+  font-family: "IBM Plex Mono", monospace;
   background: none;
   padding: 0.3rem 0;
   margin: 0;
@@ -24,11 +24,11 @@
   box-shadow: none;
   width: 100%;
   max-width: 800px;
-  word-break: break-word;
+  overflow-wrap: break-word;
 }
 
 .terminal-output .terminal-line {
-  font-family: 'IBM Plex Mono', monospace;
+  font-family: "IBM Plex Mono", monospace;
   color: #fefefe;
   font-size: 0.85rem;
   margin-top: 0;
@@ -50,7 +50,7 @@
   justify-content: center;
   max-width: 1200px;
   width: 100%;
-  margin: 3rem auto 4rem auto;
+  margin: 3rem auto 4rem;
   padding: 0;
   box-sizing: border-box;
 }
@@ -188,7 +188,7 @@
   border-radius: 4px;
   border: 1px solid rgba(255, 200, 100, 0.4);
   opacity: 0.9;
-  font-family: 'IBM Plex Mono', monospace;
+  font-family: "IBM Plex Mono", monospace;
   pointer-events: none;
   z-index: 10;
 }
@@ -210,7 +210,7 @@
 .contact-console {
   width: 100%;
   max-width: 800px;
-  margin: 2rem auto 3rem auto;
+  margin: 2rem auto 3rem;
   padding: 1.5rem;
   background: linear-gradient(145deg, rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.6));
   border: 2px solid rgba(255, 200, 100, 0.4);
@@ -229,7 +229,7 @@
 }
 
 .contact-console .prompt {
-  font-family: 'IBM Plex Mono', monospace;
+  font-family: "IBM Plex Mono", monospace;
   color: #fefefe;
   font-size: 0.85rem;
   text-shadow:
@@ -239,12 +239,12 @@
   flex-shrink: 0;
 }
 
-.contact-console input[type='text'] {
+.contact-console input[type="text"] {
   flex-grow: 1;
   background: none;
   border: none;
   color: #fefefe;
-  font-family: 'IBM Plex Mono', monospace;
+  font-family: "IBM Plex Mono", monospace;
   font-size: 0.85rem;
   text-shadow:
     0 0 2px #fefefe,
@@ -255,7 +255,7 @@
   min-width: 50px;
 }
 
-.contact-console input[type='text']::placeholder {
+.contact-console input[type="text"]::placeholder {
   color: rgba(255, 255, 255, 0.5);
   text-shadow: none;
 }
