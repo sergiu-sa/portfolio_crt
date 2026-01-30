@@ -4,7 +4,7 @@
 }
 
 #projects::before {
-  content: '';
+  content: "";
   position: fixed;
   inset: 0;
   background: rgba(0, 0, 0, 0.55);
@@ -29,7 +29,7 @@
   background: rgba(0, 0, 0, 0.95);
   border: none;
   box-shadow: 0 0 30px rgba(0, 0, 0, 0.8);
-  font-family: 'IBM Plex Mono', 'Courier New', monospace;
+  font-family: "IBM Plex Mono", "Courier New", monospace;
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
@@ -38,7 +38,7 @@
 
 /* Teletext color bar - styled to match portfolio palette */
 .teletext-container::before {
-  content: '';
+  content: "";
   position: absolute;
   top: 0;
   left: 0;
@@ -60,7 +60,7 @@
 
 /* Scanline effect */
 .teletext-container::after {
-  content: '';
+  content: "";
   position: absolute;
   inset: 0;
   background: repeating-linear-gradient(
@@ -98,7 +98,7 @@
 }
 
 .teletext-page {
-  font-family: 'Press Start 2P', monospace;
+  font-family: "Press Start 2P", monospace;
   font-size: 0.75rem;
   background: var(--teletext-green);
   color: #000;
@@ -137,7 +137,7 @@
 }
 
 .teletext-title {
-  font-family: 'Press Start 2P', monospace;
+  font-family: "Press Start 2P", monospace;
   font-size: 0.9rem;
   color: #000;
   letter-spacing: 1px;
@@ -272,7 +272,7 @@
   background: var(--teletext-blue);
   border: none;
   color: #000;
-  font-family: 'IBM Plex Mono', monospace;
+  font-family: "IBM Plex Mono", monospace;
   font-size: 0.75rem;
   padding: 0.4rem 0.8rem;
   cursor: pointer;
@@ -347,7 +347,7 @@
   font-size: 0.85rem;
   padding: 0.4rem 0.8rem;
   cursor: pointer;
-  font-family: 'IBM Plex Mono', monospace;
+  font-family: "IBM Plex Mono", monospace;
   transition: all 0.2s ease;
   z-index: 1001;
 }
@@ -371,7 +371,7 @@
   font-size: 0.85rem;
   padding: 0.4rem 0.8rem;
   cursor: pointer;
-  font-family: 'IBM Plex Mono', monospace;
+  font-family: "IBM Plex Mono", monospace;
   transition: all 0.2s ease;
 }
 
@@ -383,5 +383,5 @@
 .teletext-lightbox-counter {
   color: var(--teletext-yellow);
   font-size: 0.9rem;
-  font-family: 'IBM Plex Mono', monospace;
+  font-family: "IBM Plex Mono", monospace;
 }

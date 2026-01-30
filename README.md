@@ -6,17 +6,6 @@ Rather than a traditional layout, this portfolio uses a fullscreen "TV screen" b
 
 ---
 
-## Project Purpose
-
-The goal of this portfolio is to:
-
-- Present three development projects using a clear, visual card layout
-- Reflect my personality and problem-solving style
-- Experiment with alternative user interfaces and creative theming
-- Fulfill the required deliverables of the FED1 portfolio brief
-
----
-
 ## What Is CRT?
 
 CRT stands for **Cathode Ray Tube**, a technology once used in old televisions and monitors, and is used here to evoke a retro-futuristic atmosphere.
@@ -39,24 +28,6 @@ CRT stands for **Cathode Ray Tube**, a technology once used in old televisions a
 - **Project Showcase**: Each project is displayed as a card with title, description, screenshot, and links
 - **About & Contact Sections**: Styled with typewriter animation, terminal layout, and responsive design
 - **Fully responsive** for both desktop and mobile screens
-
-## Folder Structure
-
-```bash
-portfolio_crt/
-├── public/
-│   └── assets/
-│       ├── collage/          (move from src/assets/collage/)
-│       ├── projects/         (move from src/assets/projects/)
-│       └── retro/           (move from src/assets/retro/)
-├── src/
-│   ├── style/
-│   ├── js/
-│   └── main.js
-└── index.html
-```
-
----
 
 ## Status
 

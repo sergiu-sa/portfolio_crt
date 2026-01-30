@@ -5,29 +5,21 @@
 
 // Module imports
 import { decryptedText } from './js/decryptedText.js';
-import {
-  initSoundSystem,
-  isSoundEnabled,
-  playNavigationClick
-} from './js/audio.js';
+import { initSoundSystem, isSoundEnabled, playNavigationClick } from './js/audio.js';
 import {
   initChannelSystem,
   setChannel,
   prevChannel,
   nextChannel,
   getYtPlayer,
-  setSoundEnabledChecker
+  setSoundEnabledChecker,
 } from './js/channels.js';
-import {
-  initTerminal,
-  triggerTerminalSequence,
-  startConsoleIntro
-} from './js/terminal.js';
+import { initTerminal, triggerTerminalSequence, startConsoleIntro } from './js/terminal.js';
 import {
   initProjectChannelSystem,
   cleanupTeletext,
   setTeletextCallbacks,
-  stopProjectSlideshow
+  stopProjectSlideshow,
 } from './js/teletext.js';
 
 // ============================================
@@ -113,7 +105,7 @@ function typeWriterEffect() {
  */
 function showSection(section) {
   // Clear gallery intervals
-  galleryIntervals.forEach(interval => clearInterval(interval));
+  galleryIntervals.forEach((interval) => clearInterval(interval));
   galleryIntervals = [];
 
   // Stop project slideshow
@@ -214,7 +206,20 @@ function refreshFadeInObserver() {
  * Update the date display in the header
  */
 function updateDate() {
-  const months = ['JAN', 'FEB', 'MAR', 'APR', 'MAY', 'JUN', 'JUL', 'AUG', 'SEP', 'OCT', 'NOV', 'DEC'];
+  const months = [
+    'JAN',
+    'FEB',
+    'MAR',
+    'APR',
+    'MAY',
+    'JUN',
+    'JUL',
+    'AUG',
+    'SEP',
+    'OCT',
+    'NOV',
+    'DEC',
+  ];
   const now = new Date();
   const dateEl = document.getElementById('current-date');
   if (dateEl) {

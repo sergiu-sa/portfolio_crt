@@ -14,7 +14,7 @@ const projectsData = [
     description: 'Accessible film streaming site built with clean HTML and CSS.',
     github: 'https://github.com/sergiu-sa/pro-school-react.git',
     live: 'https://sergiu-sa.github.io/pro-school-react/',
-    images: ['/assets/projects/square_eyes/new_home02.png']
+    images: ['/assets/projects/square_eyes/new_home02.png'],
   },
   {
     id: 'kid-bank',
@@ -25,8 +25,8 @@ const projectsData = [
     live: 'https://k1dbank.netlify.app',
     images: [
       '/assets/projects/kid_bank/kid_bank01.png',
-      '/assets/projects/kid_bank/kid_bank02.png'
-    ]
+      '/assets/projects/kid_bank/kid_bank02.png',
+    ],
   },
   {
     id: 'ask-better',
@@ -49,9 +49,9 @@ const projectsData = [
       '/assets/projects/ask_better/deep_basic_01.png',
       '/assets/projects/ask_better/deep_pro_01.png',
       '/assets/projects/ask_better/zen_basic01.png',
-      '/assets/projects/ask_better/zen_pro_01.png'
-    ]
-  }
+      '/assets/projects/ask_better/zen_pro_01.png',
+    ],
+  },
 ];
 
 // Teletext state
@@ -162,7 +162,7 @@ function showTeletextProject(index) {
     label.className = 'teletext-label';
     label.textContent = 'TECH:';
     techEl.appendChild(label);
-    techEl.appendChild(document.createTextNode(' ' + project.tech));
+    techEl.appendChild(document.createTextNode(` ${project.tech}`));
   }
 
   if (descEl) descEl.textContent = project.description;
@@ -235,7 +235,8 @@ function navigateLightbox(direction) {
   if (direction === 'next') {
     currentProjectImageIndex = (currentProjectImageIndex + 1) % project.images.length;
   } else {
-    currentProjectImageIndex = (currentProjectImageIndex - 1 + project.images.length) % project.images.length;
+    currentProjectImageIndex =
+      (currentProjectImageIndex - 1 + project.images.length) % project.images.length;
   }
 
   if (lightboxImg) lightboxImg.src = project.images[currentProjectImageIndex];

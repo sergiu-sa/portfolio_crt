@@ -210,7 +210,7 @@ main::-webkit-scrollbar {
 }
 
 #intro::before {
-  content: '';
+  content: "";
   position: absolute;
   top: -10%;
   left: -5%;
@@ -283,7 +283,7 @@ footer {
 }
 
 footer::before {
-  content: '';
+  content: "";
   position: absolute;
   top: 0;
   left: 0;
@@ -294,7 +294,7 @@ footer::before {
 }
 
 footer::after {
-  content: '';
+  content: "";
   position: absolute;
   inset: 0;
   background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="2" height="2"><rect width="1" height="1" fill="rgba(0,0,0,0.08)" x="0" y="0" /><rect width="1" height="1" fill="rgba(255,255,255,0.04)" x="1" y="1" /></svg>');
@@ -328,7 +328,7 @@ footer::after {
 }
 
 .channel-nav button::before {
-  content: '';
+  content: "";
   position: absolute;
   top: 0;
   left: 0;
@@ -376,11 +376,7 @@ footer::after {
 }
 
 .modal-content {
-  background: linear-gradient(
-    145deg,
-    rgba(0, 0, 0, 0.95),
-    rgba(10, 10, 10, 0.9)
-  );
+  background: linear-gradient(145deg, rgba(0, 0, 0, 0.95), rgba(10, 10, 10, 0.9));
   border: 2px solid var(--accent-color);
   border-radius: 12px;
   padding: 2.5rem;
@@ -455,7 +451,7 @@ footer::after {
   border: 2px solid var(--accent-color);
   border-radius: 4px;
   padding: 0.4rem 0.8rem;
-  font-family: 'IBM Plex Mono', monospace;
+  font-family: "IBM Plex Mono", monospace;
   font-size: 0.9rem;
   color: var(--accent-color);
   text-shadow: 0 0 5px var(--accent-color);
@@ -486,7 +482,7 @@ footer::after {
   border: 1px solid rgba(0, 255, 255, 0.2);
   border-radius: 8px;
   padding: 1rem 2rem;
-  font-family: 'IBM Plex Mono', monospace;
+  font-family: "IBM Plex Mono", monospace;
   font-size: 0.85rem;
   cursor: pointer;
   text-shadow:
@@ -623,7 +619,7 @@ footer::after {
 }
 
 .fullscreen-arrow::before {
-  content: '';
+  content: "";
   width: 10px;
   height: 10px;
   border-top: 2px solid currentColor;

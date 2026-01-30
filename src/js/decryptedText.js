@@ -2,17 +2,17 @@ export function decryptedText({
   elementId,
   text: textChunks,
   speed = 15,
-  characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()_+",
-  revealDirection = "start",
+  characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()_+',
+  revealDirection = 'start',
 }) {
   const el = document.getElementById(elementId);
   if (!el) return;
 
-  el.innerHTML = "";
+  el.innerHTML = '';
 
   textChunks.forEach((paragraphText) => {
-    const p = document.createElement("p");
-    p.classList.add("crt-text", "decrypted-text");
+    const p = document.createElement('p');
+    p.classList.add('crt-text', 'decrypted-text');
     el.appendChild(p);
 
     _animateSingleDecryptedText({
@@ -25,50 +25,43 @@ export function decryptedText({
   });
 }
 
-function _animateSingleDecryptedText({
-  element,
-  text,
-  speed,
-  characters,
-  revealDirection,
-}) {
+function _animateSingleDecryptedText({ element, text, speed, characters, revealDirection }) {
   const originalText = text;
-  let revealed = new Set();
+  const revealed = new Set();
   let interval;
   let iterations = 0;
 
   function getNextIndex() {
     switch (revealDirection) {
-      case "center": {
+      case 'center': {
         const middle = Math.floor(text.length / 2);
         const offset = Math.floor(revealed.size / 2);
-        const idx =
-          revealed.size % 2 === 0 ? middle + offset : middle - offset - 1;
+        const idx = revealed.size % 2 === 0 ? middle + offset : middle - offset - 1;
         return !revealed.has(idx)
           ? idx
           : [...Array(text.length).keys()].find((i) => !revealed.has(i));
       }
-      case "end":
+      case 'end':
         return text.length - 1 - revealed.size;
-      case "start":
+      case 'start':
       default:
         return revealed.size;
     }
   }
 
   function scramble() {
-    const scrambled = text.split("").map((char, i) => {
-      if (char === " ") return " ";
+    const scrambled = text.split('').map((char, i) => {
+      if (char === ' ') return ' ';
       if (revealed.has(i)) return char;
       return characters[Math.floor(Math.random() * characters.length)];
     });
 
     element.innerHTML = scrambled
       .map((char, i) => {
-        const spanClass = revealed.has(i) ? "revealed-char" : "encrypted-char";
+        const spanClass = revealed.has(i) ? 'revealed-char' : 'encrypted-char';
         return `<span class="${spanClass}">${char}</span>`;
       })
-      .join("");
+      .join('');
   }
 
   interval = setInterval(() => {

@@ -10,7 +10,7 @@ let terminalOutput = null;
 let contactIntroPlayed = false;
 
 // Command history for arrow key navigation
-let commandHistory = [];
+const commandHistory = [];
 let historyIndex = -1;
 
 /**
@@ -18,36 +18,36 @@ let historyIndex = -1;
  */
 const COMMANDS = {
   '/email': {
-    action: () => window.location.href = 'mailto:sergiudsarbu@gmail.com',
-    response: '[MAIL] Opening email client...'
+    action: () => (window.location.href = 'mailto:sergiudsarbu@gmail.com'),
+    response: '[MAIL] Opening email client...',
   },
   '/github': {
     action: () => window.open('https://github.com/sergiu-sa', '_blank'),
-    response: '[GIT] Opening GitHub...'
+    response: '[GIT] Opening GitHub...',
   },
   '/linkedin': {
     action: () => window.open('https://www.linkedin.com/in/sergiu-sarbu-39154226a', '_blank'),
-    response: '[NETWORK] Opening LinkedIn...'
+    response: '[NETWORK] Opening LinkedIn...',
   },
   '/instagram': {
     action: () => window.open('https://www.instagram.com/sergiu_sarbu_/', '_blank'),
-    response: '[CAMERA] Opening Instagram...'
+    response: '[CAMERA] Opening Instagram...',
   },
   '/discord': {
     action: () => window.open('https://discord.com/users/1275872993859342348', '_blank'),
-    response: '[CHAT] Opening Discord...'
+    response: '[CHAT] Opening Discord...',
   },
   '/poweroff': {
     action: () => document.body.classList.toggle('power-off'),
-    response: '[POWER] CRT power toggled.'
+    response: '[POWER] CRT power toggled.',
   },
   '/ping': {
     action: null,
-    response: '[SIGNAL] Contact signal sent successfully!'
+    response: '[SIGNAL] Contact signal sent successfully!',
   },
   '/clear': {
     action: 'clear',
-    response: null
+    response: null,
   },
   '/help': {
     action: null,
@@ -59,8 +59,8 @@ const COMMANDS = {
   /discord
   /ping
   /poweroff
-  /clear`
-  }
+  /clear`,
+  },
 };
 
 /**

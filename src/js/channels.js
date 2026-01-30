@@ -154,7 +154,7 @@ export async function startYouTubeChannel(showOSD) {
           showinfo: 0,
           rel: 0,
           modestbranding: 1,
-          playsinline: 1
+          playsinline: 1,
         },
         events: {
           onReady: (event) => {
@@ -170,8 +170,8 @@ export async function startYouTubeChannel(showOSD) {
           onError: (event) => {
             console.warn('YouTube player error:', event.data);
             if (showOSD) showOSD('VIDEO ERROR');
-          }
-        }
+          },
+        },
       });
     } else {
       const playerElement = document.getElementById('youtube-container');

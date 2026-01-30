@@ -1,13 +1,13 @@
 /* Fonts */
-@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@300;400&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@300;400&display=swap");
 
 /* CSS Partials */
-@import './_variables.css';
-@import './_base.css';
-@import './_layout.css';
-@import './_tv-effects.css';
-@import './_teletext.css';
-@import './_about.css';
-@import './_contact.css';
-@import './_responsive.css';
+@import "./_variables.css";
+@import "./_base.css";
+@import "./_layout.css";
+@import "./_tv-effects.css";
+@import "./_teletext.css";
+@import "./_about.css";
+@import "./_contact.css";
+@import "./_responsive.css";
