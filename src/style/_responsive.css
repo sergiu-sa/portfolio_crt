@@ -123,32 +123,53 @@
 
 /*    FOOTER AND LAYOUT  < 700px    */
 @media (max-width: 700px) {
-  footer {
-    max-width: 90%;
-    padding: 0.6rem 1.5rem;
-    bottom: 1.2rem;
+  /* Remote control adjustments */
+  .remote-control {
+    gap: 0.75rem;
+    padding: 0.5rem 1rem 0.4rem;
+    bottom: 1rem;
   }
 
-  .channel-nav {
-    gap: 1.5rem;
+  .remote-display {
+    padding: 0.3rem 0.4rem;
+    min-width: 44px;
   }
 
-  .channel-nav button {
-    font-size: 0.85rem;
-    padding: 0.5rem 1.8rem;
+  .display-label {
+    font-size: 0.5rem;
+  }
+
+  .display-number {
+    font-size: 0.75rem;
+  }
+
+  .bar-btn {
+    width: 32px;
+    height: 44px;
     min-height: var(--touch-target-min);
   }
 
-  .home-link {
-    font-size: 0.85rem;
+  .bar-btn-icon svg {
+    width: 22px;
+    height: 22px;
   }
 
-  .header-right {
-    gap: 0.5rem;
+  .bar-label {
+    font-size: 0.55rem;
   }
 
-  #ui-layer {
-    padding: 1.5rem;
+  .brand-name {
+    font-size: 0.6rem;
+  }
+
+  .brand-sub {
+    font-size: 0.35rem;
+  }
+
+  .remote-help {
+    width: 24px;
+    height: 24px;
+    font-size: 0.7rem;
   }
 
   /* Header navigation */
@@ -157,20 +178,9 @@
     padding: 0.3rem 0.4rem;
   }
 
-  /* Ensure touch targets */
-  .keyboard-hint-btn,
-  .sound-toggle-btn {
-    min-width: var(--touch-target-min);
-    min-height: var(--touch-target-min);
-  }
-
-  /* Hide date on medium-small screens */
-  #current-date {
+  /* Hide date on smaller screens */
+  .header-date {
     display: none;
-  }
-
-  #date-display {
-    gap: 0.5rem;
   }
 }
 
@@ -354,35 +364,6 @@
     min-height: 36px;
   }
 
-  /* Header right stays on first row */
-  .header-right {
-    order: 1;
-    gap: 0.5rem;
-  }
-
-  /* Keep home link visible, hide separator slash */
-  #date-display {
-    gap: 0;
-  }
-
-  #date-display::after {
-    display: none;
-  }
-
-  .home-link {
-    font-size: 0.8rem;
-  }
-
-  /* Smaller icon buttons */
-  .keyboard-hint-btn,
-  .sound-toggle-btn {
-    width: 32px;
-    height: 32px;
-    min-width: 32px;
-    min-height: 32px;
-    font-size: 0.85rem;
-  }
-
   /* Contact grid single column */
   .contact-grid {
     grid-template-columns: 1fr;
@@ -462,11 +443,6 @@
     padding: 0.75rem;
   }
 
-  /* UI layer */
-  #ui-layer {
-    padding: 1rem;
-  }
-
   /* Tech stack 2 columns */
   .tech-stack-chips {
     grid-template-columns: repeat(2, 1fr);
@@ -493,23 +469,56 @@
     font-size: clamp(0.8rem, 3.5vw, 1.1rem);
   }
 
-  /* Footer mobile */
-  footer {
-    max-width: 95%;
-    padding: 0.5rem 1rem;
+  /* Remote control mobile */
+  .remote-control {
+    gap: 0.6rem;
+    padding: 0.45rem 0.75rem 0.35rem;
   }
 
-  .channel-nav {
-    gap: 1rem;
+  .remote-display {
+    padding: 0.25rem 0.35rem;
+    min-width: 40px;
+    gap: 0.2rem;
   }
 
-  .channel-nav button {
-    font-size: 0.75rem;
-    padding: 0.5rem 1.2rem;
+  .display-label {
+    font-size: 0.45rem;
   }
 
-  #channel-label {
-    font-size: 0.65rem;
+  .display-number {
+    font-size: 0.7rem;
+  }
+
+  .remote-buttons {
+    gap: 0.4rem;
+  }
+
+  .bar-btn {
+    width: 34px;
+    height: 46px;
+  }
+
+  .bar-btn-icon svg {
+    width: 24px;
+    height: 24px;
+  }
+
+  .bar-label {
+    font-size: 0.5rem;
+  }
+
+  .brand-name {
+    font-size: 0.55rem;
+    letter-spacing: 0.1em;
+  }
+
+  .brand-sub {
+    display: none;
+  }
+
+  .remote-help {
+    width: 26px;
+    height: 26px;
   }
 }
 
@@ -531,37 +540,6 @@
     font-size: 0.65rem;
     padding: 0.4rem;
     min-height: 32px;
-  }
-
-  /* Header right compact */
-  .header-right {
-    width: auto;
-    flex: 1;
-    justify-content: flex-end;
-    gap: 0.25rem;
-  }
-
-  #date-display {
-    font-size: 0.7rem;
-  }
-
-  .home-link {
-    font-size: 0.7rem;
-  }
-
-  /* Even smaller icon buttons */
-  .keyboard-hint-btn,
-  .sound-toggle-btn {
-    width: 28px;
-    height: 28px;
-    min-width: 28px;
-    min-height: 28px;
-    font-size: 0.75rem;
-  }
-
-  .sound-toggle-btn svg {
-    width: 14px;
-    height: 14px;
   }
 
   /* Intro very small */
@@ -631,19 +609,53 @@
     font-size: 0.85rem;
   }
 
-  /* Footer very compact */
-  footer {
-    padding: 0.4rem 0.75rem;
-    bottom: 0.75rem;
+  /* Remote control very compact */
+  .remote-control {
+    gap: 0.4rem;
+    padding: 0.4rem 0.5rem 0.3rem;
+    bottom: 0.5rem;
   }
 
-  .channel-nav {
-    gap: 0.5rem;
+  .remote-display {
+    padding: 0.2rem 0.3rem;
+    min-width: 36px;
+    gap: 0.15rem;
   }
 
-  .channel-nav button {
-    font-size: 0.65rem;
-    padding: 0.4rem 0.8rem;
+  .display-label {
+    font-size: 0.4rem;
+  }
+
+  .display-number {
+    font-size: 0.6rem;
+  }
+
+  .remote-buttons {
+    gap: 0.3rem;
+  }
+
+  .bar-btn {
+    width: 30px;
+    height: 40px;
+  }
+
+  .bar-btn-icon svg {
+    width: 20px;
+    height: 20px;
+  }
+
+  .bar-label {
+    font-size: 0.45rem;
+  }
+
+  .brand-name {
+    font-size: 0.5rem;
+  }
+
+  .remote-help {
+    width: 22px;
+    height: 22px;
+    font-size: 0.6rem;
   }
 
   /* Teletext very small */
@@ -706,14 +718,53 @@
     font-size: clamp(0.7rem, 2.5vh, 1rem);
   }
 
-  /* Footer more compact in landscape */
-  footer {
-    bottom: 0.5rem;
-    padding: 0.4rem 1rem;
+  /* Remote control compact in landscape */
+  .remote-control {
+    bottom: 0.25rem;
+    padding: 0.3rem 0.6rem 0.25rem;
+    gap: 0.5rem;
   }
 
-  .channel-nav button {
-    padding: 0.3rem 1rem;
+  .remote-display {
+    padding: 0.2rem 0.3rem;
+    min-width: 32px;
+    gap: 0.15rem;
+  }
+
+  .display-label {
+    font-size: 0.4rem;
+  }
+
+  .display-number {
+    font-size: 0.55rem;
+  }
+
+  .bar-btn {
+    width: 24px;
+    height: 32px;
+  }
+
+  .bar-btn-icon svg {
+    width: 16px;
+    height: 16px;
+  }
+
+  .bar-label {
+    font-size: 0.4rem;
+  }
+
+  .brand-name {
+    font-size: 0.45rem;
+  }
+
+  .brand-sub {
+    display: none;
+  }
+
+  .remote-help {
+    width: 18px;
+    height: 18px;
+    font-size: 0.5rem;
   }
 
   /* About section landscape */
@@ -815,8 +866,6 @@
   header,
   .easter-egg-buttons,
   .contact-console,
-  .keyboard-hint-btn,
-  .sound-toggle-btn,
   .skip-link,
   #tv-screen,
   #tv-overlay,

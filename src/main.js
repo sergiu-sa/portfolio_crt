@@ -27,7 +27,6 @@ import {
 // ============================================
 
 let galleryIntervals = [];
-let dateInterval = null;
 
 // DOM references
 const sections = document.querySelectorAll('.channel-screen');
@@ -247,7 +246,7 @@ function setupEventListeners() {
     });
   });
 
-  // Channel controls
+  // Channel controls - rocker buttons
   const channelPrev = document.getElementById('channel-prev');
   const channelNext = document.getElementById('channel-next');
 
@@ -258,10 +257,10 @@ function setupEventListeners() {
     channelNext.addEventListener('click', () => nextChannel(channelCallbacks));
   }
 
-  // Home link
-  const homeLink = document.getElementById('home-link');
-  if (homeLink) {
-    homeLink.addEventListener('click', () => showSection('intro'));
+  // Remote home button
+  const remoteHome = document.getElementById('remote-home');
+  if (remoteHome) {
+    remoteHome.addEventListener('click', () => showSection('intro'));
   }
 
   // Easter egg buttons
@@ -295,7 +294,7 @@ function setupEventListeners() {
  * Set up keyboard shortcuts modal
  */
 function setupShortcutsModal() {
-  const keyboardHintBtn = document.getElementById('keyboard-hint');
+  const keyboardHintBtn = document.getElementById('remote-keyboard-hint');
   const shortcutsModal = document.getElementById('shortcuts-modal');
   const modalClose = document.querySelector('.modal-close');
 
@@ -352,7 +351,7 @@ function init() {
 
   // Initialize date display
   updateDate();
-  dateInterval = setInterval(updateDate, 60000);
+  setInterval(updateDate, 60000);
 
   // Set initial channel and show intro
   setChannel(1, { showOSD, triggerFlicker: triggerChannelFlicker });
