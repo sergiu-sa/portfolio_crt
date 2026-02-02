@@ -245,19 +245,19 @@ export function toggleSound(ytPlayer = null) {
  * Update sound toggle button UI state
  */
 export function updateSoundButton() {
-  const btn = document.getElementById('sound-toggle');
+  const btn = document.getElementById('remote-sound-toggle');
   if (!btn) return;
 
   const soundOn = btn.querySelector('.sound-on');
   const soundOff = btn.querySelector('.sound-off');
 
   if (soundEnabled) {
-    btn.classList.remove('muted');
+    btn.classList.remove('muted', 'sound-disabled');
     btn.title = 'Mute CRT Sounds';
     if (soundOn) soundOn.style.display = 'block';
     if (soundOff) soundOff.style.display = 'none';
   } else {
-    btn.classList.add('muted');
+    btn.classList.add('muted', 'sound-disabled');
     btn.title = 'Unmute CRT Sounds';
     if (soundOn) soundOn.style.display = 'none';
     if (soundOff) soundOff.style.display = 'block';
@@ -270,10 +270,11 @@ export function updateSoundButton() {
  * @param {Function} getYtPlayer - Function to get current YouTube player
  */
 export function initSoundSystem(getYtPlayer = () => null) {
-  const soundToggle = document.getElementById('sound-toggle');
+  const soundToggle = document.getElementById('remote-sound-toggle');
   if (soundToggle) {
     soundToggle.addEventListener('click', () => toggleSound(getYtPlayer()));
   }
+
   updateSoundButton();
 
   // Play startup sound on first user interaction

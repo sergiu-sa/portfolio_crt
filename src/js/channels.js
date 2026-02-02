@@ -311,10 +311,11 @@ export function playRetroVideo(videoNumber) {
  */
 export function setChannel(channel, { showOSD, triggerFlicker }) {
   currentChannel = channel;
-  const channelText = `CH ${String(channel).padStart(2, '0')}`;
+  const channelNumber = String(channel).padStart(2, '0');
+  const channelText = `CH ${channelNumber}`;
 
   if (channelLabel) {
-    channelLabel.textContent = channelText;
+    channelLabel.textContent = channelNumber;
   }
 
   if (showOSD) showOSD(channelText);
