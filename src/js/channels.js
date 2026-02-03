@@ -338,9 +338,11 @@ export function setChannel(channel, { showOSD, triggerFlicker }) {
   if (channel === 1) {
     startSlideshow();
   } else if (channel === 2) {
-    startWebcam(showOSD).catch(() => {});
+    // Errors handled internally with OSD feedback
+    startWebcam(showOSD).catch((err) => console.debug('Webcam init:', err.message));
   } else if (channel === 3) {
-    startYouTubeChannel(showOSD).catch(() => {});
+    // Errors handled internally with OSD feedback
+    startYouTubeChannel(showOSD).catch((err) => console.debug('YouTube init:', err.message));
   } else if (channel >= 4 && channel <= MAX_CHANNELS) {
     playRetroVideo(channel - 3);
   }

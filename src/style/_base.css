@@ -197,3 +197,168 @@ body.power-off #power-off:hover {
   box-shadow: 0 0 40px rgba(255, 255, 255, 0.4);
   transform: scale(1.15);
 }
+
+/* ============================================
+   CRT TV Power Off Effect
+   Authentic old-school CRT shutdown animation
+   ============================================ */
+
+/* The horizontal white line element */
+#crt-poweroff-line {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 50%;
+  height: 0;
+  background: #fff;
+  transform: translateY(-50%);
+  z-index: 9999;
+  opacity: 0;
+  pointer-events: none;
+  box-shadow: 0 0 0 rgba(255, 255, 255, 0);
+}
+
+/* TV screen during power-off animation */
+#tv-screen.crt-turning-off {
+  animation: crtScreenOff 0.6s ease-in forwards;
+}
+
+#tv-screen.crt-turning-off #crt-poweroff-line {
+  animation: crtLineAppear 0.6s ease-in forwards;
+}
+
+#tv-screen.crt-turning-off #tv-video,
+#tv-screen.crt-turning-off #tv-image,
+#tv-screen.crt-turning-off #youtube-container,
+#tv-screen.crt-turning-off #channel-indicator,
+#tv-screen.crt-turning-off #vhs-overlay {
+  animation: crtContentFade 0.3s ease-in forwards;
+}
+
+/* TV screen when fully off */
+#tv-screen.crt-off {
+  background: #000 !important;
+}
+
+#tv-screen.crt-off #crt-poweroff-line {
+  opacity: 0;
+}
+
+#tv-screen.crt-off #tv-video,
+#tv-screen.crt-off #tv-image,
+#tv-screen.crt-off #youtube-container,
+#tv-screen.crt-off #tv-overlay,
+#tv-screen.crt-off #channel-flicker,
+#tv-screen.crt-off #channel-indicator,
+#tv-screen.crt-off #vhs-overlay,
+#tv-screen.crt-off #loading-indicator {
+  opacity: 0 !important;
+  visibility: hidden !important;
+  pointer-events: none !important;
+}
+
+/* TV screen during power-on animation */
+#tv-screen.crt-turning-on {
+  animation: crtScreenOn 0.5s ease-out forwards;
+}
+
+#tv-screen.crt-turning-on #crt-poweroff-line {
+  animation: crtLineDisappear 0.5s ease-out forwards;
+}
+
+/* Hide UI layer content when TV is off (except remote) */
+body.tv-powered-off #ui-layer {
+  pointer-events: none;
+}
+
+body.tv-powered-off #ui-layer > *:not(.remote-control) {
+  opacity: 0 !important;
+  visibility: hidden !important;
+  pointer-events: none !important;
+  transition: opacity 0.3s ease;
+}
+
+/* Remote stays visible and interactive when TV is off */
+body.tv-powered-off .remote-control {
+  opacity: 1 !important;
+  visibility: visible !important;
+  pointer-events: auto !important;
+}
+
+/* Keyframe animations */
+@keyframes crtContentFade {
+  0% {
+    opacity: 1;
+    transform: scaleY(1);
+  }
+  100% {
+    opacity: 0;
+    transform: scaleY(0.8);
+  }
+}
+
+@keyframes crtScreenOff {
+  0% {
+    filter: brightness(1);
+  }
+  30% {
+    filter: brightness(1.5);
+  }
+  100% {
+    filter: brightness(0);
+    background: #000;
+  }
+}
+
+@keyframes crtLineAppear {
+  0% {
+    height: 100%;
+    opacity: 0;
+    box-shadow: 0 0 0 rgba(255, 255, 255, 0);
+  }
+  20% {
+    height: 100%;
+    opacity: 1;
+    box-shadow: 0 0 30px rgba(255, 255, 255, 0.8);
+  }
+  60% {
+    height: 4px;
+    opacity: 1;
+    box-shadow: 0 0 40px rgba(255, 255, 255, 1);
+  }
+  100% {
+    height: 2px;
+    opacity: 0;
+    box-shadow: 0 0 20px rgba(255, 255, 255, 0);
+  }
+}
+
+@keyframes crtScreenOn {
+  0% {
+    filter: brightness(0);
+  }
+  50% {
+    filter: brightness(0.5);
+  }
+  100% {
+    filter: brightness(1);
+  }
+}
+
+@keyframes crtLineDisappear {
+  0% {
+    height: 2px;
+    opacity: 1;
+    box-shadow: 0 0 40px rgba(255, 255, 255, 1);
+  }
+  50% {
+    height: 100%;
+    opacity: 1;
+    box-shadow: 0 0 60px rgba(255, 255, 255, 0.8);
+  }
+  100% {
+    height: 100%;
+    opacity: 0;
+    box-shadow: 0 0 0 rgba(255, 255, 255, 0);
+  }
+}
