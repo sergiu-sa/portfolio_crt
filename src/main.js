@@ -5,7 +5,7 @@
 
 // Module imports
 import { decryptedText } from './js/decryptedText.js';
-import { initSoundSystem, isSoundEnabled, playNavigationClick, toggleSound } from './js/audio.js';
+import { initSoundSystem, isSoundEnabled, playNavigationClick, toggleSound, playCRTPowerOff, playCRTTurnOn } from './js/audio.js';
 import {
   initChannelSystem,
   setChannel,
@@ -25,8 +25,6 @@ import {
 // ============================================
 // GLOBAL STATE
 // ============================================
-
-let galleryIntervals = [];
 
 // DOM references
 const sections = document.querySelectorAll('.channel-screen');
@@ -79,6 +77,70 @@ function triggerChannelFlicker() {
 }
 
 // ============================================
+// CRT POWER TOGGLE
+// ============================================
+
+let tvPoweredOn = true;
+
+/**
+ * Toggle CRT TV power with authentic shutdown/startup animation
+ */
+function toggleCRTPower() {
+  const tvScreen = document.getElementById('tv-screen');
+  const powerBtn = document.getElementById('remote-power');
+  const ytPlayer = getYtPlayer();
+
+  if (!tvScreen) return;
+
+  if (tvPoweredOn) {
+    // Turn OFF the TV
+    tvPoweredOn = false;
+
+    // Play power-off sound
+    playCRTPowerOff();
+
+    // Mute YouTube player if active
+    if (ytPlayer && typeof ytPlayer.mute === 'function') {
+      ytPlayer.mute();
+    }
+
+    // Add turning-off animation class
+    tvScreen.classList.add('crt-turning-off');
+    powerBtn?.classList.add('tv-off');
+    document.body.classList.add('tv-powered-off');
+
+    // After animation, set to fully off state
+    setTimeout(() => {
+      tvScreen.classList.remove('crt-turning-off');
+      tvScreen.classList.add('crt-off');
+    }, 600);
+
+  } else {
+    // Turn ON the TV
+    tvPoweredOn = true;
+
+    // Play power-on sound
+    playCRTTurnOn();
+
+    // Unmute YouTube player if sound is enabled
+    if (ytPlayer && typeof ytPlayer.unMute === 'function' && isSoundEnabled()) {
+      ytPlayer.unMute();
+    }
+
+    // Remove off state and add turning-on animation
+    tvScreen.classList.remove('crt-off');
+    tvScreen.classList.add('crt-turning-on');
+    powerBtn?.classList.remove('tv-off');
+    document.body.classList.remove('tv-powered-off');
+
+    // After animation, remove animation class
+    setTimeout(() => {
+      tvScreen.classList.remove('crt-turning-on');
+    }, 500);
+  }
+}
+
+// ============================================
 // TYPEWRITER EFFECT
 // ============================================
 
@@ -103,10 +165,6 @@ function typeWriterEffect() {
  * @param {string} section - Section ID to show
  */
 function showSection(section) {
-  // Clear gallery intervals
-  galleryIntervals.forEach((interval) => clearInterval(interval));
-  galleryIntervals = [];
-
   // Stop project slideshow
   stopProjectSlideshow();
 
@@ -263,6 +321,12 @@ function setupEventListeners() {
     remoteHome.addEventListener('click', () => showSection('intro'));
   }
 
+  // Remote power button - CRT power off/on effect
+  const remotePower = document.getElementById('remote-power');
+  if (remotePower) {
+    remotePower.addEventListener('click', toggleCRTPower);
+  }
+
   // Easter egg buttons
   const pingAll = document.getElementById('ping-all');
   const powerOff = document.getElementById('power-off');
@@ -348,6 +412,13 @@ function setupShortcutsModal() {
     if (e.key === 'm' || e.key === 'M') {
       e.preventDefault();
       toggleSound(getYtPlayer());
+      return;
+    }
+
+    // P - Toggle TV power
+    if (e.key === 'p' || e.key === 'P') {
+      e.preventDefault();
+      toggleCRTPower();
       return;
     }
   });

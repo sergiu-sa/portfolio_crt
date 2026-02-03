@@ -57,6 +57,9 @@
           <p class="loading-text">LOADING...</p>
         </div>
       </div>
+
+      <!-- CRT Power-off line effect -->
+      <div id="crt-poweroff-line"></div>
     </div>
 
     <!-- UI Overlay -->
@@ -106,6 +109,10 @@
 
             <div class="shortcut-category">
               <span class="category-label">CONTROLS</span>
+              <div class="shortcut-item">
+                <kbd class="key-red">P</kbd>
+                <span>Toggle TV power on/off</span>
+              </div>
               <div class="shortcut-item">
                 <kbd class="key-yellow">M</kbd>
                 <span>Toggle sound on/off</span>
@@ -477,6 +484,12 @@
             <span class="bar-label">SOUND</span>
             <button id="remote-sound-toggle" class="bar-btn bar-btn-icon bar-btn-sound" aria-label="Toggle sound" title="Toggle Sound">
               <svg class="icon-sound" viewBox="0 0 24 24" fill="currentColor"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3A4.5 4.5 0 0014 7.97v8.05c1.48-.73 2.5-2.25 2.5-4.02z"/></svg>
+            </button>
+          </div>
+          <div class="remote-bar-group">
+            <span class="bar-label">POWER</span>
+            <button id="remote-power" class="bar-btn bar-btn-icon bar-btn-power" aria-label="Toggle TV power" title="Power On/Off">
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M13 3h-2v10h2V3zm4.83 2.17l-1.42 1.42C17.99 7.86 19 9.81 19 12c0 3.87-3.13 7-7 7s-7-3.13-7-7c0-2.19 1.01-4.14 2.58-5.42L6.17 5.17C4.23 6.82 3 9.26 3 12c0 4.97 4.03 9 9 9s9-4.03 9-9c0-2.74-1.23-5.18-3.17-6.83z"/></svg>
             </button>
           </div>
         </div>

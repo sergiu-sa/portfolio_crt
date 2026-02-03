@@ -81,6 +81,57 @@ export function playCRTTurnOn() {
 }
 
 /**
+ * Play CRT power-off sound sequence
+ * Includes dying whine, discharge thump, and final click
+ */
+export function playCRTPowerOff() {
+  if (!soundEnabled) return;
+  const ctx = initAudioContext();
+
+  // Dying high-pitched CRT whine (descending)
+  const whineOsc = ctx.createOscillator();
+  const whineGain = ctx.createGain();
+  whineOsc.type = 'sine';
+  whineOsc.frequency.setValueAtTime(15700, ctx.currentTime);
+  whineOsc.frequency.exponentialRampToValueAtTime(200, ctx.currentTime + 0.4);
+  whineGain.gain.setValueAtTime(0.04, ctx.currentTime);
+  whineGain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.4);
+  whineOsc.connect(whineGain);
+  whineGain.connect(ctx.destination);
+  whineOsc.start(ctx.currentTime);
+  whineOsc.stop(ctx.currentTime + 0.4);
+
+  // Discharge thump
+  setTimeout(() => {
+    const thumpOsc = ctx.createOscillator();
+    const thumpGain = ctx.createGain();
+    thumpOsc.type = 'sine';
+    thumpOsc.frequency.setValueAtTime(60, ctx.currentTime);
+    thumpOsc.frequency.exponentialRampToValueAtTime(20, ctx.currentTime + 0.3);
+    thumpGain.gain.setValueAtTime(0.25, ctx.currentTime);
+    thumpGain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.35);
+    thumpOsc.connect(thumpGain);
+    thumpGain.connect(ctx.destination);
+    thumpOsc.start(ctx.currentTime);
+    thumpOsc.stop(ctx.currentTime + 0.35);
+  }, 150);
+
+  // Final click
+  setTimeout(() => {
+    const clickOsc = ctx.createOscillator();
+    const clickGain = ctx.createGain();
+    clickOsc.type = 'square';
+    clickOsc.frequency.setValueAtTime(100, ctx.currentTime);
+    clickGain.gain.setValueAtTime(0.2, ctx.currentTime);
+    clickGain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.03);
+    clickOsc.connect(clickGain);
+    clickGain.connect(ctx.destination);
+    clickOsc.start(ctx.currentTime);
+    clickOsc.stop(ctx.currentTime + 0.03);
+  }, 350);
+}
+
+/**
  * Play white noise static burst
  * @param {number} duration - Duration in seconds
  * @param {number} volume - Volume level (0-1)
@@ -285,8 +336,6 @@ export function initSoundSystem(getYtPlayer = () => null) {
         sessionStorage.setItem('crtStartupPlayed', 'true');
         playCRTTurnOn();
       }
-      document.removeEventListener('click', playStartup);
-      document.removeEventListener('keydown', playStartup);
     };
 
     document.addEventListener('click', playStartup, { once: true });
