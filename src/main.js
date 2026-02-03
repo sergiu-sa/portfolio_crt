@@ -5,7 +5,7 @@
 
 // Module imports
 import { decryptedText } from './js/decryptedText.js';
-import { initSoundSystem, isSoundEnabled, playNavigationClick } from './js/audio.js';
+import { initSoundSystem, isSoundEnabled, playNavigationClick, toggleSound } from './js/audio.js';
 import {
   initChannelSystem,
   setChannel,
@@ -291,38 +291,66 @@ function setupEventListeners() {
 }
 
 /**
- * Set up keyboard shortcuts modal
+ * Set up keyboard shortcuts modal and global keyboard shortcuts
  */
 function setupShortcutsModal() {
   const keyboardHintBtn = document.getElementById('remote-keyboard-hint');
   const shortcutsModal = document.getElementById('shortcuts-modal');
-  const modalClose = document.querySelector('.modal-close');
+  const fastextClose = document.querySelector('.fastext-btn[data-action="close"]');
 
+  // Open modal via ? button on remote
   if (keyboardHintBtn && shortcutsModal) {
     keyboardHintBtn.addEventListener('click', () => {
       shortcutsModal.classList.add('active');
     });
   }
 
-  if (modalClose && shortcutsModal) {
-    modalClose.addEventListener('click', () => {
+  // Close via fastext red button
+  if (fastextClose && shortcutsModal) {
+    fastextClose.addEventListener('click', () => {
       shortcutsModal.classList.remove('active');
     });
   }
 
   if (shortcutsModal) {
+    // Close on backdrop click
     shortcutsModal.addEventListener('click', (e) => {
       if (e.target === shortcutsModal) {
         shortcutsModal.classList.remove('active');
       }
     });
-
-    document.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape' && shortcutsModal.classList.contains('active')) {
-        shortcutsModal.classList.remove('active');
-      }
-    });
   }
+
+  // Global keyboard shortcuts
+  document.addEventListener('keydown', (e) => {
+    // Don't trigger shortcuts when typing in input fields
+    if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
+
+    const isModalOpen = shortcutsModal?.classList.contains('active');
+
+    // ESC - Close modal
+    if (e.key === 'Escape' && isModalOpen) {
+      shortcutsModal.classList.remove('active');
+      return;
+    }
+
+    // Don't process other shortcuts if modal is open
+    if (isModalOpen) return;
+
+    // ? - Open help modal
+    if (e.key === '?' && shortcutsModal) {
+      e.preventDefault();
+      shortcutsModal.classList.add('active');
+      return;
+    }
+
+    // M - Toggle sound
+    if (e.key === 'm' || e.key === 'M') {
+      e.preventDefault();
+      toggleSound(getYtPlayer());
+      return;
+    }
+  });
 }
 
 // ============================================
