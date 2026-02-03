@@ -202,7 +202,6 @@ main::-webkit-scrollbar {
   top: -2px;
   bottom: -2px;
   width: 36px;
-  /* Walnut wood grain */
   background:
     repeating-linear-gradient(
       95deg,
@@ -237,16 +236,16 @@ main::-webkit-scrollbar {
 .remote-control::before {
   right: 100%;
   margin-right: -2px;
+  border-left: 2px solid #2a1a10;
   border-radius: 8px 0 0 8px;
-  border-right: none;
 }
 
 /* Right wood grip */
 .remote-control::after {
   left: 100%;
   margin-left: -2px;
+  border-right: 2px solid #2a1a10;
   border-radius: 0 8px 8px 0;
-  border-left: none;
 }
 
 /* Channel Display Window */
@@ -487,7 +486,9 @@ main::-webkit-scrollbar {
   transform: scale(0.95);
 }
 
-/* Modal Styles */
+/* ============================================
+   MODAL - Teletext Style
+   ============================================ */
 .modal {
   display: none;
   position: fixed;
@@ -495,8 +496,8 @@ main::-webkit-scrollbar {
   left: 0;
   width: 100%;
   height: 100%;
-  background: rgba(0, 0, 0, 0.9);
-  backdrop-filter: blur(10px);
+  background: rgba(0, 0, 0, 0.92);
+  backdrop-filter: blur(8px);
   z-index: 10000;
   align-items: center;
   justify-content: center;
@@ -506,100 +507,243 @@ main::-webkit-scrollbar {
   display: flex;
 }
 
-.modal-content {
-  background: linear-gradient(145deg, rgba(0, 0, 0, 0.95), rgba(10, 10, 10, 0.9));
-  border: 2px solid var(--accent-color);
-  border-radius: 12px;
-  padding: 2.5rem;
-  max-width: 600px;
+/* Teletext-style modal container */
+.modal-teletext {
+  background: rgba(0, 0, 0, 0.95);
+  max-width: 500px;
   width: 90%;
   position: relative;
-  box-shadow: 0 0 40px rgba(0, 255, 204, 0.3);
-  animation: modalSlideIn 0.3s ease-out;
+  animation: modalSlideIn 0.25s ease-out;
+  box-shadow: 0 0 30px rgba(0, 0, 0, 0.8);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+/* Color bar at top - matching teletext */
+.modal-teletext::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(
+    90deg,
+    var(--teletext-red) 0%,
+    var(--teletext-red) 25%,
+    var(--teletext-yellow) 25%,
+    var(--teletext-yellow) 50%,
+    var(--teletext-green) 50%,
+    var(--teletext-green) 75%,
+    var(--teletext-blue) 75%,
+    var(--teletext-blue) 100%
+  );
+  z-index: 20;
+}
+
+/* Scanline overlay */
+.modal-teletext::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 2px,
+    rgba(0, 0, 0, 0.1) 2px,
+    rgba(0, 0, 0, 0.1) 4px
+  );
+  pointer-events: none;
+  z-index: 10;
 }
 
 @keyframes modalSlideIn {
   from {
     opacity: 0;
-    transform: translateY(-30px) scale(0.95);
+    transform: translateY(-20px);
   }
   to {
     opacity: 1;
-    transform: translateY(0) scale(1);
+    transform: translateY(0);
   }
 }
 
-.modal-content h2 {
-  margin-top: 0;
-  margin-bottom: 2rem;
-  text-align: center;
-  font-size: 1.5rem;
-}
-
-.modal-close {
-  position: absolute;
-  top: 0.5rem;
-  right: 0.5rem;
-  background: rgba(0, 0, 0, 0.8);
-  border: 2px solid var(--accent-color);
-  border-radius: 50%;
-  color: var(--accent-color);
-  font-size: 1.5rem;
-  cursor: pointer;
-  line-height: 1;
-  padding: 0;
-  width: 44px;
-  height: 44px;
+/* Teletext Header - matching teletext container */
+.modal-teletext-header {
   display: flex;
+  justify-content: space-between;
   align-items: center;
-  justify-content: center;
-  transition: all var(--transition-smooth);
-  z-index: 10001;
+  padding: 0.6rem 1rem;
+  padding-top: 0.8rem;
+  background: #000;
+  font-weight: bold;
+  font-size: 0.9rem;
+  letter-spacing: 1px;
 }
 
-.modal-close:hover {
-  color: #fff;
-  transform: rotate(90deg);
-  text-shadow: 0 0 10px var(--accent-color);
+.modal-teletext-service {
+  text-transform: uppercase;
+  background: var(--teletext-blue);
+  color: #000;
+  padding: 0.15rem 0.5rem;
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 0.8rem;
+  font-weight: 700;
 }
 
-/* Shortcuts Grid */
+.modal-teletext-page {
+  font-family: "Press Start 2P", monospace;
+  font-size: 0.75rem;
+  background: var(--teletext-green);
+  color: #000;
+  padding: 0.15rem 0.5rem;
+  font-weight: 700;
+}
+
+/* Teletext Subheader */
+.modal-teletext-subheader {
+  display: flex;
+  justify-content: space-between;
+  padding: 0.3rem 1rem;
+  background: #000;
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 0.7rem;
+  color: var(--teletext-yellow);
+}
+
+.modal-teletext-subheader .index {
+  color: var(--teletext-blue);
+}
+
+/* Teletext Title */
+.modal-teletext-title {
+  text-align: center;
+  padding: 0.75rem;
+  background: var(--teletext-blue);
+}
+
+.modal-teletext-title h2 {
+  margin: 0;
+  font-family: "Press Start 2P", monospace;
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: #000;
+  letter-spacing: 1px;
+}
+
+/* Shortcuts Grid - Content area */
 .shortcuts-grid {
-  display: grid;
-  gap: 1.5rem;
+  padding: 1.25rem 1.5rem;
+  background: #000;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
 }
 
+/* Shortcut Category */
+.shortcut-category {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.category-label {
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 0.7rem;
+  font-weight: 700;
+  color: var(--teletext-yellow);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+/* Shortcut Item */
 .shortcut-item {
   display: flex;
   align-items: center;
-  gap: 1rem;
-  padding: 1rem;
-  background: rgba(0, 255, 204, 0.05);
-  border: 1px solid rgba(0, 255, 204, 0.2);
-  border-radius: 8px;
-}
-
-.shortcut-item kbd {
-  background: rgba(0, 0, 0, 0.6);
-  border: 2px solid var(--accent-color);
-  border-radius: 4px;
-  padding: 0.4rem 0.8rem;
-  font-family: "IBM Plex Mono", monospace;
-  font-size: 0.9rem;
-  color: var(--accent-color);
-  text-shadow: 0 0 5px var(--accent-color);
-  box-shadow:
-    0 2px 0 rgba(0, 255, 204, 0.3),
-    inset 0 0 5px rgba(0, 255, 204, 0.1);
-  min-width: 35px;
-  text-align: center;
+  gap: 0.75rem;
+  padding: 0.3rem 0;
+  padding-left: 1rem;
 }
 
 .shortcut-item span {
-  color: #e0e0e0;
-  font-size: 0.95rem;
+  color: #fff;
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 0.85rem;
   flex: 1;
 }
+
+/* Teletext-style kbd keys */
+.shortcut-item kbd {
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 0.8rem;
+  font-weight: 700;
+  padding: 0.2rem 0.5rem;
+  min-width: 32px;
+  text-align: center;
+  background: var(--teletext-blue);
+  color: #000;
+  border: none;
+}
+
+/* Fastext color keys */
+.shortcut-item kbd.key-red {
+  background: var(--teletext-red);
+  color: #000;
+}
+
+.shortcut-item kbd.key-green {
+  background: var(--teletext-green);
+  color: #000;
+}
+
+.shortcut-item kbd.key-yellow {
+  background: var(--teletext-yellow);
+  color: #000;
+}
+
+.shortcut-item kbd.key-cyan {
+  background: var(--teletext-blue);
+  color: #000;
+}
+
+/* Teletext Footer - Fastext buttons */
+.modal-teletext-footer {
+  display: flex;
+  background: #000;
+  border-top: 2px solid var(--teletext-blue);
+  padding: 0.6rem 1rem;
+}
+
+.fastext-btn {
+  flex: 1;
+  padding: 0.5rem;
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-align: center;
+  border: none;
+  cursor: default;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.fastext-btn.fastext-red {
+  background: var(--teletext-red);
+  color: #000;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+.fastext-btn.fastext-red:hover {
+  background: var(--teletext-green);
+}
+
+
+
+
+
+
 
 /* Easter Egg Buttons */
 .easter-egg-buttons {
