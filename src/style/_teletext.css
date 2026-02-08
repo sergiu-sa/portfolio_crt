@@ -18,7 +18,9 @@
   opacity: 1;
 }
 
-/* Teletext Container - Semi-transparent overlay on TV */
+/* ============================================
+   TELETEXT CONTAINER
+   ============================================ */
 .teletext-container {
   position: relative;
   width: calc(100% - 2rem);
@@ -27,8 +29,11 @@
   margin: 0.5rem auto;
   padding: 0;
   background: rgba(0, 0, 0, 0.95);
-  border: none;
-  box-shadow: 0 0 30px rgba(0, 0, 0, 0.8);
+  border: 2px solid var(--accent-color);
+  border-top: none;
+  box-shadow:
+    0 0 30px rgba(0, 0, 0, 0.8),
+    0 0 2px rgba(100, 150, 255, 0.12);
   font-family: "IBM Plex Mono", "Courier New", monospace;
   box-sizing: border-box;
   display: flex;
@@ -36,7 +41,7 @@
   overflow: hidden;
 }
 
-/* Teletext color bar - styled to match portfolio palette */
+/* Teletext color bar */
 .teletext-container::before {
   content: "";
   position: absolute;
@@ -74,7 +79,6 @@
   z-index: 10;
 }
 
-/* Teletext Header */
 .teletext-header {
   display: flex;
   justify-content: space-between;
@@ -105,7 +109,6 @@
   padding: 0.15rem 0.5rem;
 }
 
-/* Teletext subheader - index line */
 .teletext-subheader {
   display: flex;
   justify-content: space-between;
@@ -120,7 +123,6 @@
   color: var(--teletext-blue);
 }
 
-/* Teletext Content */
 .teletext-content {
   padding: 1.25rem 2rem;
   flex: 1;
@@ -131,7 +133,7 @@
 /* Project Title Row */
 .teletext-title-row {
   text-align: center;
-  margin-bottom: 1rem;
+  margin-bottom: 0.5rem;
   padding: 0.5rem;
   background: var(--teletext-blue);
 }
@@ -143,7 +145,49 @@
   letter-spacing: 1px;
 }
 
-/* Two Column Layout */
+.teletext-status-line {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.35rem 0.5rem;
+  margin-bottom: 0.75rem;
+  font-size: 0.7rem;
+  letter-spacing: 0.05em;
+}
+
+.teletext-status {
+  display: flex;
+  align-items: center;
+  gap: 0.1rem;
+  color: var(--teletext-yellow);
+  font-weight: 700;
+}
+
+.status-blink {
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--teletext-yellow);
+  animation: statusPulse 2s ease-in-out infinite;
+}
+
+.status-blink.live {
+  background: var(--teletext-green);
+  box-shadow: 0 0 4px var(--teletext-green);
+}
+
+@keyframes statusPulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.3; }
+}
+
+.teletext-year {
+  color: var(--teletext-blue);
+  font-family: "Press Start 2P", monospace;
+  font-size: 0.6rem;
+}
+
 .teletext-columns {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -151,7 +195,6 @@
   align-items: start;
 }
 
-/* Preview Column */
 .teletext-preview {
   display: flex;
   flex-direction: column;
@@ -168,11 +211,14 @@
   justify-content: center;
   overflow: hidden;
   cursor: pointer;
-  transition: border-color 0.2s ease;
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.3s ease;
 }
 
 .teletext-preview-frame:hover {
   border-color: #fff;
+  box-shadow: 0 0 12px rgba(255, 100, 100, 0.25);
 }
 
 .teletext-preview-frame img {
@@ -180,6 +226,11 @@
   height: 100%;
   object-fit: cover;
   display: block;
+  transition: opacity 0.15s ease;
+}
+
+.teletext-preview-frame img.img-fade {
+  opacity: 0.3;
 }
 
 .teletext-preview-nav {
@@ -201,67 +252,134 @@
   margin-top: 0.15rem;
 }
 
-/* Info Column */
 .teletext-info {
   display: flex;
   flex-direction: column;
-  gap: 0.6rem;
+  gap: 0.75rem;
 }
 
-.teletext-tech {
-  font-size: 0.8rem;
-  color: var(--teletext-blue);
+/* Tech Tags */
+.teletext-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
 }
 
-.teletext-label {
-  color: var(--teletext-yellow);
-  font-weight: bold;
+.teletext-tag {
+  display: inline-block;
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 0.7rem;
+  font-weight: 700;
+  padding: 0.2rem 0.5rem;
+  letter-spacing: 0.05em;
+  color: #000;
 }
 
+.teletext-tag.tag-red {
+  background: var(--teletext-red);
+}
+
+.teletext-tag.tag-green {
+  background: var(--teletext-green);
+}
+
+.teletext-tag.tag-yellow {
+  background: var(--teletext-yellow);
+}
+
+.teletext-tag.tag-blue {
+  background: var(--teletext-blue);
+}
+
+/* Description */
 .teletext-desc {
   font-size: 0.8rem;
   color: #fff;
-  line-height: 1.5;
-  padding: 0.5rem 0;
+  line-height: 1.6;
+  padding: 0.5rem 0 0.5rem 0.75rem;
+  border-left: 3px solid var(--teletext-blue);
 }
 
-/* Teletext Links */
 .teletext-links {
   display: flex;
-  gap: 1rem;
-  margin-top: 0.6rem;
+  gap: 0.6rem;
+  margin-top: 0.4rem;
 }
 
 .teletext-link {
   display: inline-flex;
   align-items: center;
-  gap: 0.3rem;
-  color: var(--teletext-green);
+  justify-content: center;
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 0.75rem;
+  font-weight: 700;
+  padding: 0.35rem 0.8rem;
   text-decoration: none;
-  font-size: 0.8rem;
-  padding: 0.3rem 0;
-  background: none;
+  color: #000;
   border: none;
-  transition: color 0.15s ease;
+  cursor: pointer;
+  transition:
+    opacity 0.15s ease,
+    transform 0.1s ease;
+  letter-spacing: 0.05em;
 }
 
 .teletext-link:hover {
-  color: #fff;
+  opacity: 0.8;
+  transform: translateY(-1px);
 }
 
-.teletext-link-key {
-  color: var(--teletext-red);
-  font-weight: bold;
+.teletext-link:active {
+  transform: translateY(0);
 }
 
-/* Teletext Footer */
+.teletext-link.link-code {
+  background: var(--teletext-green);
+}
+
+.teletext-link.link-live {
+  background: var(--teletext-yellow);
+}
+
 .teletext-footer {
-  padding: 0.6rem 1.5rem;
+  padding: 0.5rem 1.5rem 0.6rem;
   background: #000;
   flex-shrink: 0;
   border-top: 2px solid var(--teletext-blue);
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
 }
 
+/* Page Dots */
+.teletext-page-dots {
+  display: flex;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.15rem 0;
+}
+
+.page-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  border: 2px solid var(--teletext-blue);
+  background: transparent;
+  cursor: pointer;
+  padding: 0;
+  transition: all 0.2s ease;
+}
+
+.page-dot:hover {
+  background: rgba(100, 150, 255, 0.4);
+}
+
+.page-dot.active {
+  background: var(--teletext-blue);
+  box-shadow: 0 0 6px rgba(100, 150, 255, 0.5);
+}
+
+/* Navigation Controls */
 .teletext-nav-controls {
   display: flex;
   justify-content: space-between;
@@ -269,35 +387,43 @@
 }
 
 .teletext-nav-btn {
-  background: var(--teletext-blue);
   border: none;
   color: #000;
   font-family: "IBM Plex Mono", monospace;
   font-size: 0.75rem;
+  font-weight: 700;
   padding: 0.4rem 0.8rem;
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: all 0.15s ease;
   display: flex;
   align-items: center;
   gap: 0.3rem;
+  letter-spacing: 0.03em;
+}
+
+.teletext-nav-btn.fastext-red {
+  background: var(--teletext-red);
+}
+
+.teletext-nav-btn.fastext-blue {
+  background: var(--teletext-blue);
 }
 
 .teletext-nav-btn:hover {
-  background: var(--teletext-green);
-  color: #000;
+  opacity: 0.8;
+  transform: translateY(-1px);
 }
 
-.teletext-nav-btn .key-arrow {
-  font-size: 0.9rem;
-  color: inherit;
+.teletext-nav-btn:active {
+  transform: translateY(0);
 }
 
 .teletext-pages {
   color: var(--teletext-green);
   font-size: 0.75rem;
+  font-weight: 700;
 }
 
-/* Teletext Lightbox */
 .teletext-lightbox {
   position: fixed;
   inset: 0;

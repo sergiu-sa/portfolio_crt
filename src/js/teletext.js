@@ -5,12 +5,17 @@
 
 import { playTeletextBeep } from './audio.js';
 
+// Tag color rotation (teletext fastext palette)
+const TAG_COLORS = ['tag-red', 'tag-green', 'tag-yellow', 'tag-blue'];
+
 // Project data
 const projectsData = [
   {
     id: 'square-eyes',
     name: 'Square Eyes',
-    tech: 'HTML / CSS',
+    tags: ['HTML', 'CSS'],
+    year: '2024',
+    status: 'COMPLETE',
     description: 'Accessible film streaming site built with clean HTML and CSS.',
     github: 'https://github.com/sergiu-sa/pro-school-react.git',
     live: 'https://sergiu-sa.github.io/pro-school-react/',
@@ -19,7 +24,9 @@ const projectsData = [
   {
     id: 'kid-bank',
     name: 'Kid Bank',
-    tech: 'JavaScript / API',
+    tags: ['JavaScript', 'API', 'CSS'],
+    year: '2024',
+    status: 'LIVE',
     description: 'Banking app for teens with restricted purchases and barcode scanning.',
     github: 'https://github.com/sergiu-sa/kid_bank_.git',
     live: 'https://k1dbank.netlify.app',
@@ -31,7 +38,9 @@ const projectsData = [
   {
     id: 'ask-better',
     name: 'Ask Better',
-    tech: 'AI / UX',
+    tags: ['AI', 'UX', 'JavaScript'],
+    year: '2025',
+    status: 'LIVE',
     description: 'Prompt-engineering app with mood, complexity, and intent refinements.',
     github: 'https://github.com/sergiu-sa/askbetter.git',
     live: 'https://askbetter.netlify.app',
@@ -104,7 +113,13 @@ function startTeletextImageCycle() {
     const previewImg = document.getElementById('teletext-preview-img');
     const imgCurrentEl = document.getElementById('teletext-img-current');
 
-    if (previewImg) previewImg.src = project.images[currentProjectImageIndex];
+    if (previewImg) {
+      previewImg.classList.add('img-fade');
+      setTimeout(() => {
+        previewImg.src = project.images[currentProjectImageIndex];
+        previewImg.classList.remove('img-fade');
+      }, 150);
+    }
     if (imgCurrentEl) imgCurrentEl.textContent = currentProjectImageIndex + 1;
   }, 4000);
 }
@@ -120,8 +135,60 @@ export function stopProjectSlideshow() {
 }
 
 // ============================================
+// PAGE DOTS
+// ============================================
+
+/**
+ * Create page indicator dots for direct project navigation
+ */
+function createPageDots() {
+  const container = document.getElementById('teletext-page-dots');
+  if (!container) return;
+
+  container.innerHTML = '';
+  projectsData.forEach((project, i) => {
+    const dot = document.createElement('button');
+    dot.className = `page-dot${i === 0 ? ' active' : ''}`;
+    dot.setAttribute('aria-label', `Go to project ${i + 1}: ${project.name}`);
+    dot.addEventListener('click', () => {
+      if (i !== currentProjectIndex) {
+        currentProjectIndex = i;
+        showTeletextProject(i);
+      }
+    });
+    container.appendChild(dot);
+  });
+}
+
+/**
+ * Update active state of page dots
+ * @param {number} index - Active project index
+ */
+function updatePageDots(index) {
+  const dots = document.querySelectorAll('.page-dot');
+  dots.forEach((dot, i) => {
+    dot.classList.toggle('active', i === index);
+  });
+}
+
+// ============================================
 // PROJECT DISPLAY
 // ============================================
+
+/**
+ * Render tech tags as colored badges
+ * @param {HTMLElement} container - Tags container element
+ * @param {string[]} tags - Array of tech tag names
+ */
+function renderTechTags(container, tags) {
+  container.innerHTML = '';
+  tags.forEach((tag, i) => {
+    const span = document.createElement('span');
+    span.className = `teletext-tag ${TAG_COLORS[i % TAG_COLORS.length]}`;
+    span.textContent = tag;
+    container.appendChild(span);
+  });
+}
 
 /**
  * Show a specific project in the teletext UI
@@ -145,10 +212,12 @@ function showTeletextProject(index) {
   const previewImg = document.getElementById('teletext-preview-img');
   const imgCurrentEl = document.getElementById('teletext-img-current');
   const imgTotalEl = document.getElementById('teletext-img-total');
-  const techEl = document.getElementById('teletext-tech');
+  const tagsEl = document.getElementById('teletext-tags');
   const descEl = document.getElementById('teletext-desc');
   const codeLink = document.getElementById('teletext-link-code');
   const liveLink = document.getElementById('teletext-link-live');
+  const statusEl = document.getElementById('teletext-status');
+  const yearEl = document.getElementById('teletext-year');
 
   if (pageNumEl) pageNumEl.textContent = pageNum;
   if (titleEl) titleEl.textContent = project.name.toUpperCase();
@@ -156,18 +225,26 @@ function showTeletextProject(index) {
   if (imgCurrentEl) imgCurrentEl.textContent = '1';
   if (imgTotalEl) imgTotalEl.textContent = project.images.length;
 
-  if (techEl) {
-    techEl.textContent = '';
-    const label = document.createElement('span');
-    label.className = 'teletext-label';
-    label.textContent = 'TECH:';
-    techEl.appendChild(label);
-    techEl.appendChild(document.createTextNode(` ${project.tech}`));
+  // Render tech tags as colored badges
+  if (tagsEl) renderTechTags(tagsEl, project.tags);
+
+  // Update status and year
+  if (statusEl) {
+    statusEl.innerHTML = '';
+    const dot = document.createElement('span');
+    dot.className = project.status === 'LIVE' ? 'status-blink live' : 'status-blink';
+    statusEl.appendChild(dot);
+    statusEl.appendChild(document.createTextNode(` ${project.status}`));
   }
+
+  if (yearEl) yearEl.textContent = project.year;
 
   if (descEl) descEl.textContent = project.description;
   if (codeLink) codeLink.href = project.github;
   if (liveLink) liveLink.href = project.live;
+
+  // Update page dots
+  updatePageDots(index);
 
   startTeletextImageCycle();
 }
@@ -296,6 +373,9 @@ function handleTeletextKeyboard(e) {
 export function initProjectChannelSystem() {
   if (projectChannelInitialized) return;
   projectChannelInitialized = true;
+
+  // Create page dots
+  createPageDots();
 
   // Show first project
   showTeletextProject(0);
