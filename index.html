@@ -170,6 +170,14 @@
                 <span class="teletext-title" id="teletext-project-title">SQUARE EYES</span>
               </div>
 
+              <!-- Status Line -->
+              <div class="teletext-status-line">
+                <span class="teletext-status" id="teletext-status">
+                  <span class="status-blink"></span> COMPLETE
+                </span>
+                <span class="teletext-year" id="teletext-year">2024</span>
+              </div>
+
               <!-- Two Column Layout -->
               <div class="teletext-columns">
                 <!-- Left Column - Project Preview -->
@@ -197,18 +205,19 @@
 
                 <!-- Right Column - Project Info -->
                 <div class="teletext-info">
-                  <div class="teletext-tech" id="teletext-tech">
-                    <span class="teletext-label">TECH:</span> HTML / CSS
+                  <div class="teletext-tags" id="teletext-tags">
+                    <span class="teletext-tag tag-red">HTML</span>
+                    <span class="teletext-tag tag-green">CSS</span>
                   </div>
                   <div class="teletext-desc" id="teletext-desc">
                     Accessible film streaming site built with clean HTML and CSS.
                   </div>
                   <div class="teletext-links">
-                    <a href="#" id="teletext-link-code" class="teletext-link" target="_blank" rel="noopener noreferrer">
-                      <span class="teletext-link-key">[C]</span> CODE
+                    <a href="#" id="teletext-link-code" class="teletext-link link-code" target="_blank" rel="noopener noreferrer">
+                      CODE
                     </a>
-                    <a href="#" id="teletext-link-live" class="teletext-link" target="_blank" rel="noopener noreferrer">
-                      <span class="teletext-link-key">[L]</span> LIVE
+                    <a href="#" id="teletext-link-live" class="teletext-link link-live" target="_blank" rel="noopener noreferrer">
+                      LIVE
                     </a>
                   </div>
                 </div>
@@ -217,13 +226,14 @@
 
             <!-- Teletext Footer/Navigation -->
             <div class="teletext-footer">
+              <div class="teletext-page-dots" id="teletext-page-dots"></div>
               <div class="teletext-nav-controls">
-                <button class="teletext-nav-btn" id="teletext-prev" aria-label="Previous project">
-                  <span class="key-arrow">&#x2190;</span> PREV
+                <button class="teletext-nav-btn fastext-red" id="teletext-prev" aria-label="Previous project">
+                  &#x25C4; PREV
                 </button>
                 <span class="teletext-pages">P.101-103</span>
-                <button class="teletext-nav-btn" id="teletext-next" aria-label="Next project">
-                  NEXT <span class="key-arrow">&#x2192;</span>
+                <button class="teletext-nav-btn fastext-blue" id="teletext-next" aria-label="Next project">
+                  NEXT &#x25BA;
                 </button>
               </div>
             </div>
