@@ -4,7 +4,7 @@
  */
 
 // Module imports
-import { decryptedText } from './js/decryptedText.js';
+import { decryptedText, cleanupDecryptedText } from './js/decryptedText.js';
 import { initSoundSystem, isSoundEnabled, playNavigationClick, toggleSound, playCRTPowerOff, playCRTTurnOn } from './js/audio.js';
 import {
   initChannelSystem,
@@ -165,11 +165,10 @@ function typeWriterEffect() {
  * @param {string} section - Section ID to show
  */
 function showSection(section) {
-  // Stop project slideshow
+  // Cleanup active modules
   stopProjectSlideshow();
-
-  // Cleanup teletext when leaving projects
   cleanupTeletext();
+  cleanupDecryptedText();
 
   // Hide all sections
   sections.forEach((s) => {

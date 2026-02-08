@@ -47,22 +47,6 @@ export function getYtPlayer() {
 }
 
 /**
- * Get current channel number
- * @returns {number}
- */
-export function getCurrentChannel() {
-  return currentChannel;
-}
-
-/**
- * Get maximum channel count
- * @returns {number}
- */
-export function getMaxChannels() {
-  return MAX_CHANNELS;
-}
-
-/**
  * Check if sound is enabled (for YouTube mute state)
  * @param {Function} isSoundEnabled - Function to check sound state
  */
@@ -78,7 +62,7 @@ export function setSoundEnabledChecker(fn) {
 /**
  * Show VHS overlay effect (used on webcam channel)
  */
-export function showVHSOverlay() {
+function showVHSOverlay() {
   const vhsOverlay = document.getElementById('vhs-overlay');
   if (vhsOverlay) {
     vhsOverlay.classList.add('active');
@@ -91,7 +75,7 @@ export function showVHSOverlay() {
 /**
  * Hide VHS overlay effect
  */
-export function hideVHSOverlay() {
+function hideVHSOverlay() {
   const vhsOverlay = document.getElementById('vhs-overlay');
   if (vhsOverlay) {
     vhsOverlay.classList.remove('active');

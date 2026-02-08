@@ -295,7 +295,7 @@ export function toggleSound(ytPlayer = null) {
 /**
  * Update sound toggle button UI state
  */
-export function updateSoundButton() {
+function updateSoundButton() {
   const btn = document.getElementById('remote-sound-toggle');
   if (!btn) return;
 
