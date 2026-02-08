@@ -86,14 +86,6 @@ export function setTeletextCallbacks(callbacks) {
   triggerFlicker = callbacks.triggerFlicker;
 }
 
-/**
- * Get projects data
- * @returns {Array}
- */
-export function getProjectsData() {
-  return projectsData;
-}
-
 // ============================================
 // PROJECT SLIDESHOW
 // ============================================
@@ -371,95 +363,93 @@ function handleTeletextKeyboard(e) {
  * Initialize the teletext project system
  */
 export function initProjectChannelSystem() {
-  if (projectChannelInitialized) return;
-  projectChannelInitialized = true;
+  // One-time DOM binding 
+  if (!projectChannelInitialized) {
+    projectChannelInitialized = true;
 
-  // Create page dots
-  createPageDots();
+    createPageDots();
 
-  // Show first project
-  showTeletextProject(0);
+    // Touch swipe support
+    const teletextContainer = document.querySelector('.teletext-container');
+    if (teletextContainer) {
+      let touchStartX = 0;
 
-  // Keyboard navigation
+      teletextContainer.addEventListener('touchstart', (e) => {
+        touchStartX = e.changedTouches[0].screenX;
+      });
+
+      teletextContainer.addEventListener('touchend', (e) => {
+        const touchEndX = e.changedTouches[0].screenX;
+        const diffX = touchStartX - touchEndX;
+        const threshold = 50;
+
+        if (Math.abs(diffX) > threshold) {
+          if (diffX > 0) {
+            navigateTeletextProject('next');
+          } else {
+            navigateTeletextProject('prev');
+          }
+        }
+      });
+    }
+
+    // Preview click/keyboard to open lightbox
+    const previewFrame = document.querySelector('.teletext-preview-frame');
+    if (previewFrame) {
+      previewFrame.addEventListener('click', openLightbox);
+      previewFrame.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          openLightbox();
+        }
+      });
+    }
+
+    // Lightbox controls
+    const lightboxClose = document.getElementById('lightbox-close');
+    const lightboxPrev = document.getElementById('lightbox-prev');
+    const lightboxNext = document.getElementById('lightbox-next');
+    const lightbox = document.getElementById('teletext-lightbox');
+
+    if (lightboxClose) lightboxClose.addEventListener('click', closeLightbox);
+    if (lightboxPrev) lightboxPrev.addEventListener('click', () => navigateLightbox('prev'));
+    if (lightboxNext) lightboxNext.addEventListener('click', () => navigateLightbox('next'));
+
+    if (lightbox) {
+      lightbox.addEventListener('click', (e) => {
+        if (e.target === lightbox) closeLightbox();
+      });
+    }
+
+    // Navigation buttons
+    const teletextPrev = document.getElementById('teletext-prev');
+    const teletextNext = document.getElementById('teletext-next');
+
+    if (teletextPrev) {
+      teletextPrev.addEventListener('click', () => navigateTeletextProject('prev'));
+    }
+    if (teletextNext) {
+      teletextNext.addEventListener('click', () => navigateTeletextProject('next'));
+    }
+  }
+
+  // Per-activation setup (runs every time the section is shown)
+  showTeletextProject(currentProjectIndex);
+
   teletextKeyboardHandler = handleTeletextKeyboard;
   document.addEventListener('keydown', teletextKeyboardHandler);
-
-  // Touch swipe support
-  const teletextContainer = document.querySelector('.teletext-container');
-  if (teletextContainer) {
-    let touchStartX = 0;
-
-    teletextContainer.addEventListener('touchstart', (e) => {
-      touchStartX = e.changedTouches[0].screenX;
-    });
-
-    teletextContainer.addEventListener('touchend', (e) => {
-      const touchEndX = e.changedTouches[0].screenX;
-      const diffX = touchStartX - touchEndX;
-      const threshold = 50;
-
-      if (Math.abs(diffX) > threshold) {
-        if (diffX > 0) {
-          navigateTeletextProject('next');
-        } else {
-          navigateTeletextProject('prev');
-        }
-      }
-    });
-  }
-
-  // Preview click to open lightbox
-  const previewFrame = document.querySelector('.teletext-preview-frame');
-  if (previewFrame) {
-    previewFrame.addEventListener('click', openLightbox);
-  }
-
-  // Lightbox controls
-  const lightboxClose = document.getElementById('lightbox-close');
-  const lightboxPrev = document.getElementById('lightbox-prev');
-  const lightboxNext = document.getElementById('lightbox-next');
-  const lightbox = document.getElementById('teletext-lightbox');
-
-  if (lightboxClose) lightboxClose.addEventListener('click', closeLightbox);
-  if (lightboxPrev) lightboxPrev.addEventListener('click', () => navigateLightbox('prev'));
-  if (lightboxNext) lightboxNext.addEventListener('click', () => navigateLightbox('next'));
-
-  if (lightbox) {
-    lightbox.addEventListener('click', (e) => {
-      if (e.target === lightbox) closeLightbox();
-    });
-  }
-
-  // Navigation buttons
-  const teletextPrev = document.getElementById('teletext-prev');
-  const teletextNext = document.getElementById('teletext-next');
-
-  if (teletextPrev) {
-    teletextPrev.addEventListener('click', () => navigateTeletextProject('prev'));
-  }
-  if (teletextNext) {
-    teletextNext.addEventListener('click', () => navigateTeletextProject('next'));
-  }
 
   startTeletextImageCycle();
 }
 
 /**
- * Cleanup teletext system (when leaving projects section)
+ * Cleanup teletext system
  */
 export function cleanupTeletext() {
   if (teletextKeyboardHandler) {
     document.removeEventListener('keydown', teletextKeyboardHandler);
     teletextKeyboardHandler = null;
-    projectChannelInitialized = false;
   }
   stopProjectSlideshow();
 }
 
-/**
- * Check if teletext keyboard handler is active
- * @returns {boolean}
- */
-export function isTeletextInitialized() {
-  return projectChannelInitialized;
-}

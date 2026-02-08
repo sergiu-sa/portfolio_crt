@@ -79,7 +79,7 @@ function printCommand(cmd) {
  * Print a response with typewriter effect
  * @param {string} msg - Message to print
  */
-export function printResponse(msg) {
+function printResponse(msg) {
   if (!terminalOutput) return;
   const line = document.createElement('div');
   line.classList.add('terminal-line');
@@ -216,10 +216,4 @@ export function startConsoleIntro() {
   printResponse('Establishing connection with Sergiu...');
 }
 
-/**
- * Set terminal output reference (for external use)
- * @param {HTMLElement} element
- */
-export function setTerminalOutput(element) {
-  terminalOutput = element;
-}
+

@@ -1,3 +1,6 @@
+// Track active intervals for cleanup
+const activeIntervals = [];
+
 export function decryptedText({
   elementId,
   text: textChunks,
@@ -8,6 +11,7 @@ export function decryptedText({
   const el = document.getElementById(elementId);
   if (!el) return;
 
+  cleanupDecryptedText();
   el.innerHTML = '';
 
   textChunks.forEach((paragraphText) => {
@@ -25,11 +29,14 @@ export function decryptedText({
   });
 }
 
+export function cleanupDecryptedText() {
+  activeIntervals.forEach((id) => clearInterval(id));
+  activeIntervals.length = 0;
+}
+
 function _animateSingleDecryptedText({ element, text, speed, characters, revealDirection }) {
-  const originalText = text;
   const revealed = new Set();
   let interval;
-  let iterations = 0;
 
   function getNextIndex() {
     switch (revealDirection) {
@@ -76,6 +83,6 @@ function _animateSingleDecryptedText({ element, text, speed, characters, revealD
     }
     revealed.add(nextIndex);
     scramble();
-    iterations++;
   }, speed);
+  activeIntervals.push(interval);
 }
