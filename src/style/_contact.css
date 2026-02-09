@@ -8,6 +8,50 @@
   box-sizing: border-box;
 }
 
+.contact-header {
+  text-align: center;
+  margin-bottom: 3rem;
+  position: relative;
+  padding: 2rem;
+  background: rgba(0, 0, 0, 0.92);
+  border: 2px solid var(--accent-color);
+  border-top: none;
+  border-radius: 0;
+  width: 100%;
+  max-width: 800px;
+  box-sizing: border-box;
+}
+
+#contact h1 {
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
+  color: #fefefe;
+  text-shadow:
+    0 0 2px #fefefe,
+    0 0 8px var(--accent-color);
+  letter-spacing: 0.1em;
+}
+
+.contact-header::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(
+    90deg,
+    var(--teletext-red) 25%,
+    var(--teletext-yellow) 25%,
+    var(--teletext-yellow) 50%,
+    var(--teletext-green) 50%,
+    var(--teletext-green) 75%,
+    var(--teletext-blue) 75%
+  );
+  opacity: 1;
+  z-index: 1;
+}
+
 /* Terminal Line */
 .terminal-line {
   font-family: "IBM Plex Mono", monospace;

@@ -37,10 +37,6 @@ const COMMANDS = {
     action: () => window.open('https://discord.com/users/1275872993859342348', '_blank'),
     response: '[CHAT] Opening Discord...',
   },
-  '/poweroff': {
-    action: () => document.body.classList.toggle('power-off'),
-    response: '[POWER] CRT power toggled.',
-  },
   '/ping': {
     action: null,
     response: '[SIGNAL] Contact signal sent successfully!',
@@ -58,7 +54,6 @@ const COMMANDS = {
   /instagram
   /discord
   /ping
-  /poweroff
   /clear`,
   },
 };

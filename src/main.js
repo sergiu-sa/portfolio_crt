@@ -328,26 +328,12 @@ function setupEventListeners() {
 
   // Easter egg buttons
   const pingAll = document.getElementById('ping-all');
-  const powerOff = document.getElementById('power-off');
 
   if (pingAll) {
     pingAll.addEventListener('click', () => {
       alert('[SYSTEM] All contact protocols pinged. Awaiting response...');
     });
   }
-
-  if (powerOff) {
-    powerOff.addEventListener('click', () => {
-      document.body.classList.toggle('power-off');
-    });
-  }
-
-  // Escape key to exit power-off mode
-  document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape' && document.body.classList.contains('power-off')) {
-      document.body.classList.remove('power-off');
-    }
-  });
 
   // Keyboard shortcuts modal
   setupShortcutsModal();

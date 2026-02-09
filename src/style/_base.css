@@ -158,46 +158,6 @@ h2 {
   border-radius: 4px;
 }
 
-/* Power Off State */
-body.power-off {
-  filter: grayscale(1) brightness(0.1) blur(3px);
-  transition: all 0.5s ease-in-out;
-}
-
-body.power-off .easter-egg-buttons {
-  filter: none;
-  position: relative;
-  z-index: 1000;
-}
-
-body.power-off .easter-egg-buttons button {
-  filter: none;
-  opacity: 1;
-  visibility: visible;
-}
-
-body.power-off .easter-egg-buttons button:not(#power-off) {
-  opacity: 0.3;
-  pointer-events: none;
-}
-
-body.power-off #power-off {
-  background: rgba(255, 255, 255, 0.1);
-  border-color: rgba(255, 255, 255, 0.5);
-  box-shadow: 0 0 30px rgba(255, 255, 255, 0.3);
-  color: #fff;
-  text-shadow: 0 0 5px #fff;
-  filter: none !important;
-  transform: scale(1.1);
-}
-
-body.power-off #power-off:hover {
-  background: rgba(255, 255, 255, 0.2);
-  border-color: rgba(255, 255, 255, 0.7);
-  box-shadow: 0 0 40px rgba(255, 255, 255, 0.4);
-  transform: scale(1.15);
-}
-
 /* ============================================
    CRT TV Power Off Effect
    Authentic old-school CRT shutdown animation

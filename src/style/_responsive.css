@@ -360,11 +360,13 @@
     margin-top: 2rem;
   }
 
-  .about-header {
+  .about-header,
+  .contact-header {
     padding: 1.5rem 1rem;
   }
 
-  #about h1 {
+  #about h1,
+  #contact h1 {
     font-size: 1.8rem;
   }
 
@@ -484,6 +486,14 @@
     font-size: 0.75rem;
     padding: 0.5rem 0.6rem;
     min-height: 36px;
+  }
+
+  /* Contact header mobile */
+  .contact-header {
+    max-width: none;
+    width: calc(100% - 2rem);
+    margin-left: 1rem;
+    margin-right: 1rem;
   }
 
   /* Contact grid single column */
@@ -690,11 +700,13 @@
     padding: 2rem 1rem;
   }
 
-  .about-header {
+  .about-header,
+  .contact-header {
     padding: 1rem 0.75rem;
   }
 
-  #about h1 {
+  #about h1,
+  #contact h1 {
     font-size: 1.5rem;
   }
 
@@ -944,7 +956,8 @@
     margin-top: 1rem;
   }
 
-  .about-header {
+  .about-header,
+  .contact-header {
     padding: 1rem;
     margin-bottom: 1.5rem;
   }
