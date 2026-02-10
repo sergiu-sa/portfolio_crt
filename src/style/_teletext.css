@@ -425,6 +425,84 @@
   font-weight: 700;
 }
 
+/* ============================================
+   VHS TAPE GLITCH 
+   ============================================ */
+.vhs-glitch {
+  position: absolute;
+  inset: 0;
+  z-index: 25;
+  pointer-events: none;
+  opacity: 0;
+  overflow: hidden;
+}
+
+.vhs-glitch.active {
+  animation: vhsTear 0.25s ease-out forwards;
+}
+
+/* Tracking distortion bar sweeping through */
+.vhs-glitch.active::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 18%;
+  background: linear-gradient(
+    0deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.03) 15%,
+    rgba(255, 255, 255, 0.12) 40%,
+    rgba(255, 255, 255, 0.18) 50%,
+    rgba(255, 255, 255, 0.12) 60%,
+    rgba(255, 255, 255, 0.03) 85%,
+    transparent 100%
+  );
+  animation: vhsTrackingBar 0.25s ease-out forwards;
+}
+
+/* Chroma bleed bands (magenta / cyan offset) */
+.vhs-glitch.active::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    0deg,
+    transparent 0%,
+    transparent 25%,
+    rgba(255, 0, 128, 0.07) 27%,
+    transparent 29%,
+    transparent 48%,
+    rgba(0, 255, 200, 0.06) 50%,
+    transparent 52%,
+    transparent 72%,
+    rgba(120, 0, 255, 0.05) 74%,
+    transparent 76%,
+    transparent 100%
+  );
+  mix-blend-mode: screen;
+  animation: vhsChromaBleed 0.25s steps(2) forwards;
+}
+
+@keyframes vhsTear {
+  0%   { opacity: 1; transform: skewX(0.4deg); }
+  25%  { opacity: 1; transform: skewX(-0.3deg); }
+  55%  { opacity: 0.7; transform: skewX(0.15deg); }
+  100% { opacity: 0; transform: skewX(0); }
+}
+
+@keyframes vhsTrackingBar {
+  0%   { top: -18%; opacity: 1; transform: translateX(8px); }
+  40%  { transform: translateX(-4px); }
+  100% { top: 100%; opacity: 0; transform: translateX(0); }
+}
+
+@keyframes vhsChromaBleed {
+  0%   { opacity: 1; transform: translateX(2px); }
+  50%  { opacity: 0.5; transform: translateX(-1px); }
+  100% { opacity: 0; transform: translateX(0); }
+}
+
 .teletext-lightbox {
   position: fixed;
   inset: 0;

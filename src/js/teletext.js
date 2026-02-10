@@ -70,6 +70,7 @@ let projectSlideshowInterval = null;
 let projectChannelInitialized = false;
 let teletextKeyboardHandler = null;
 let lightboxOpen = false;
+let vhsGlitchTimeout = null;
 
 // Callback references
 let showOSD = null;
@@ -124,6 +125,21 @@ export function stopProjectSlideshow() {
     clearInterval(projectSlideshowInterval);
     projectSlideshowInterval = null;
   }
+}
+
+// ============================================
+// VHS GLITCH EFFECT
+// ============================================
+function triggerVhsGlitch() {
+  const glitch = document.querySelector('.teletext-container .vhs-glitch');
+  if (!glitch) return;
+
+  clearTimeout(vhsGlitchTimeout);
+  glitch.classList.remove('active');
+  void glitch.offsetWidth;
+  glitch.classList.add('active');
+
+  vhsGlitchTimeout = setTimeout(() => glitch.classList.remove('active'), 350);
 }
 
 // ============================================
@@ -185,14 +201,17 @@ function renderTechTags(container, tags) {
 /**
  * Show a specific project in the teletext UI
  * @param {number} index - Project index
+ * @param {boolean} [animate=true] - Whether to play VHS glitch transition
  */
-function showTeletextProject(index) {
+function showTeletextProject(index, animate = true) {
   const project = projectsData[index];
   currentProjectIndex = index;
   currentProjectImageIndex = 0;
 
   if (triggerFlicker) triggerFlicker();
   playTeletextBeep();
+
+  if (animate) triggerVhsGlitch();
 
   // Show OSD with page number
   const pageNum = 101 + index;
@@ -434,7 +453,7 @@ export function initProjectChannelSystem() {
   }
 
   // Per-activation setup (runs every time the section is shown)
-  showTeletextProject(currentProjectIndex);
+  showTeletextProject(currentProjectIndex, false);
 
   teletextKeyboardHandler = handleTeletextKeyboard;
   document.addEventListener('keydown', teletextKeyboardHandler);

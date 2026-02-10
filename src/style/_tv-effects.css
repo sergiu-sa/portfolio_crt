@@ -116,7 +116,7 @@
 /* CRT Flicker */
 #crt-flicker {
   position: fixed;
-  inset: 0;
+  inset: 1.5rem;
   z-index: 5;
   background: repeating-linear-gradient(
     0deg,
@@ -129,17 +129,88 @@
   mix-blend-mode: lighten;
   opacity: 0.3;
   animation: flickerOverlay 0.1s infinite;
+  border-radius: var(--crt-border-radius);
 }
 
 /* Channel Flicker */
 #channel-flicker {
   position: fixed;
-  inset: 0;
+  inset: 1.5rem;
   background: radial-gradient(circle, rgba(255, 255, 255, 0.04) 0%, transparent 80%);
   mix-blend-mode: lighten;
   pointer-events: none;
   z-index: 999;
   opacity: 0;
+  border-radius: var(--crt-border-radius);
+}
+
+/* CRT Channel Switch Transition */
+#glitch-transition {
+  position: fixed;
+  inset: 1.5rem;
+  z-index: 998;
+  border-radius: var(--crt-border-radius);
+  pointer-events: none;
+  opacity: 0;
+  overflow: hidden;
+}
+
+#glitch-transition.active {
+  animation: crtSwitch 0.4s steps(1) forwards;
+}
+
+/* Static interference pattern */
+#glitch-transition.active::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent 0px,
+    transparent 2px,
+    rgba(255, 255, 255, 0.06) 2px,
+    rgba(255, 255, 255, 0.06) 4px
+  );
+  animation: crtStatic 0.4s steps(6) forwards;
+}
+
+/* Vertical sync line rolling down */
+#glitch-transition.active::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: rgba(255, 255, 255, 0.7);
+  box-shadow: 0 0 30px 8px rgba(255, 255, 255, 0.3);
+  border-radius: inherit;
+  animation: crtSyncRoll 0.4s ease-out forwards;
+}
+
+@keyframes crtSwitch {
+  0%   { opacity: 1; background: rgba(255, 255, 255, 0.85); }
+  8%   { opacity: 1; background: rgba(0, 0, 0, 0.95); }
+  14%  { opacity: 1; background: rgba(255, 255, 255, 0.4); }
+  22%  { opacity: 1; background: rgba(0, 0, 0, 0.9); }
+  40%  { opacity: 1; background: rgba(0, 0, 0, 0.6); }
+  65%  { opacity: 0.5; background: rgba(0, 0, 0, 0.3); }
+  100% { opacity: 0; }
+}
+
+@keyframes crtStatic {
+  0%   { opacity: 1; transform: translateX(-3px); }
+  16%  { opacity: 0.9; transform: translateX(4px); }
+  33%  { opacity: 0.7; transform: translateX(-2px); }
+  50%  { opacity: 0.5; transform: translateX(3px); }
+  66%  { opacity: 0.3; transform: translateX(-1px); }
+  100% { opacity: 0; transform: translateX(0); }
+}
+
+@keyframes crtSyncRoll {
+  0%   { top: -4px; opacity: 1; }
+  60%  { opacity: 0.6; }
+  100% { top: 100%; opacity: 0; }
 }
 
 /* On-Screen Display (OSD) Channel Indicator */

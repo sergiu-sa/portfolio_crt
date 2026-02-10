@@ -5,7 +5,7 @@
 
 // Module imports
 import { decryptedText, cleanupDecryptedText } from './js/decryptedText.js';
-import { initSoundSystem, isSoundEnabled, playNavigationClick, toggleSound, playCRTPowerOff, playCRTTurnOn } from './js/audio.js';
+import { initSoundSystem, isSoundEnabled, playNavigationClick, playStaticBurst, toggleSound, playCRTPowerOff, playCRTTurnOn } from './js/audio.js';
 import {
   initChannelSystem,
   setChannel,
@@ -32,6 +32,11 @@ const navButtons = document.querySelectorAll('nav button');
 const typewriter = document.getElementById('typewriter-line');
 const typeText = '> Developer. Explorer. Problem-solver.';
 let typewriterIndex = 0;
+
+// Glitch transition state
+let initialLoadDone = false;
+let glitchTimeout = null;
+let switchTimeout = null;
 
 // ============================================
 // UI EFFECTS
@@ -161,10 +166,47 @@ function typeWriterEffect() {
 // ============================================
 
 /**
- * Show a specific section/screen
+ * Show a section with CRT glitch transition
  * @param {string} section - Section ID to show
  */
 function showSection(section) {
+  const glitch = document.getElementById('glitch-transition');
+
+  // Cancel any pending transition
+  clearTimeout(glitchTimeout);
+  clearTimeout(switchTimeout);
+
+  // Skip glitch on initial page load
+  if (!initialLoadDone) {
+    initialLoadDone = true;
+    switchToSection(section);
+    return;
+  }
+
+  // Trigger glitch overlay
+  if (glitch) {
+    glitch.classList.remove('active');
+    void glitch.offsetWidth;
+    glitch.classList.add('active');
+  }
+
+  // Play static burst audio
+  playStaticBurst(0.3, 0.12);
+
+  // Switch content behind the glitch overlay
+  switchTimeout = setTimeout(() => switchToSection(section), 150);
+
+  // Clean up glitch overlay after animation
+  glitchTimeout = setTimeout(() => {
+    if (glitch) glitch.classList.remove('active');
+  }, 450);
+}
+
+/**
+ * Perform the actual section switch
+ * @param {string} section - Section ID to show
+ */
+function switchToSection(section) {
   // Cleanup active modules
   stopProjectSlideshow();
   cleanupTeletext();
