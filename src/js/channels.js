@@ -4,6 +4,7 @@
  */
 
 import { playChannelChange } from './audio.js';
+import { startBreakout, stopBreakout } from './breakout.js';
 
 // Channel state
 let currentChannel = 1;
@@ -11,7 +12,7 @@ let currentImageIndex = 0;
 let slideshowInterval = null;
 let currentStream = null;
 
-const MAX_CHANNELS = 8;
+const MAX_CHANNELS = 7;
 const YOUTUBE_VIDEO_ID = 'lNYcviXK4rg';
 
 // YouTube player state
@@ -264,7 +265,7 @@ export function stopWebcam() {
 }
 
 // ============================================
-// RETRO VIDEO (CH04-CH08)
+// RETRO VIDEO (CH05-CH07)
 // ============================================
 
 /**
@@ -288,7 +289,7 @@ export function playRetroVideo(videoNumber) {
 
 /**
  * Set current channel and start appropriate media
- * @param {number} channel - Channel number (1-8)
+ * @param {number} channel - Channel number (1-7)
  * @param {Object} callbacks - Callback functions
  * @param {Function} callbacks.showOSD - Show OSD message
  * @param {Function} callbacks.triggerFlicker - Trigger channel flicker effect
@@ -310,6 +311,7 @@ export function setChannel(channel, { showOSD, triggerFlicker }) {
   stopSlideshow();
   stopWebcam();
   stopYouTubeChannel();
+  stopBreakout();
 
   if (tvVideo) {
     tvVideo.pause();
@@ -322,13 +324,17 @@ export function setChannel(channel, { showOSD, triggerFlicker }) {
   if (channel === 1) {
     startSlideshow();
   } else if (channel === 2) {
-    // Errors handled internally with OSD feedback
     startWebcam(showOSD).catch((err) => console.debug('Webcam init:', err.message));
   } else if (channel === 3) {
-    // Errors handled internally with OSD feedback
     startYouTubeChannel(showOSD).catch((err) => console.debug('YouTube init:', err.message));
-  } else if (channel >= 4 && channel <= MAX_CHANNELS) {
-    playRetroVideo(channel - 3);
+  } else if (channel === 4) {
+    startBreakout();
+  } else if (channel === 5) {
+    playRetroVideo(1);
+  } else if (channel === 6) {
+    playRetroVideo(3);
+  } else if (channel === 7) {
+    playRetroVideo(4);
   }
 }
 

@@ -21,6 +21,7 @@ import {
   setTeletextCallbacks,
   stopProjectSlideshow,
 } from './js/teletext.js';
+import { stopBreakout } from './js/breakout.js';
 
 // ============================================
 // GLOBAL STATE
@@ -171,6 +172,11 @@ function typeWriterEffect() {
  */
 function showSection(section) {
   const glitch = document.getElementById('glitch-transition');
+
+  // If breakout game is active, stop it so sections become visible again
+  if (document.body.classList.contains('breakout-active')) {
+    stopBreakout();
+  }
 
   // Cancel any pending transition
   clearTimeout(glitchTimeout);

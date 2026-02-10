@@ -350,3 +350,96 @@ export function initSoundSystem(getYtPlayer = () => null) {
 export function isSoundEnabled() {
   return soundEnabled;
 }
+
+// ============================================
+// BREAKOUT GAME SOUNDS
+// ============================================
+
+/**
+ * Play brick break sound (short percussive hit)
+ */
+export function playBrickBreak() {
+  if (!soundEnabled) return;
+  const ctx = initAudioContext();
+
+  const osc1 = ctx.createOscillator();
+  const osc2 = ctx.createOscillator();
+  const gain = ctx.createGain();
+
+  osc1.type = 'square';
+  osc1.frequency.setValueAtTime(600, ctx.currentTime);
+  osc1.frequency.exponentialRampToValueAtTime(200, ctx.currentTime + 0.08);
+
+  osc2.type = 'sawtooth';
+  osc2.frequency.setValueAtTime(1200, ctx.currentTime);
+  osc2.frequency.exponentialRampToValueAtTime(300, ctx.currentTime + 0.06);
+
+  gain.gain.setValueAtTime(0.1, ctx.currentTime);
+  gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.08);
+
+  osc1.connect(gain);
+  osc2.connect(gain);
+  gain.connect(ctx.destination);
+
+  osc1.start(ctx.currentTime);
+  osc2.start(ctx.currentTime);
+  osc1.stop(ctx.currentTime + 0.08);
+  osc2.stop(ctx.currentTime + 0.08);
+}
+
+/**
+ * Play game over sound
+ */
+export function playGameOver() {
+  if (!soundEnabled) return;
+  const ctx = initAudioContext();
+
+  const osc = ctx.createOscillator();
+  const gain = ctx.createGain();
+
+  osc.type = 'sawtooth';
+  osc.frequency.setValueAtTime(400, ctx.currentTime);
+  osc.frequency.exponentialRampToValueAtTime(80, ctx.currentTime + 0.6);
+
+  gain.gain.setValueAtTime(0.12, ctx.currentTime);
+  gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.6);
+
+  osc.connect(gain);
+  gain.connect(ctx.destination);
+
+  osc.start(ctx.currentTime);
+  osc.stop(ctx.currentTime + 0.6);
+
+  setTimeout(() => playStaticBurst(0.3, 0.08), 300);
+}
+
+/**
+ * Play victory fanfare
+ */
+export function playVictory() {
+  if (!soundEnabled) return;
+  const ctx = initAudioContext();
+
+  // C4 - E4 - G4 - C5 arpeggio
+  const notes = [261.6, 329.6, 392.0, 523.3];
+  const noteLength = 0.15;
+
+  notes.forEach((freq, i) => {
+    const osc = ctx.createOscillator();
+    const gain = ctx.createGain();
+
+    osc.type = 'square';
+    osc.frequency.setValueAtTime(freq, ctx.currentTime + i * noteLength);
+
+    const start = ctx.currentTime + i * noteLength;
+    gain.gain.setValueAtTime(0.001, start);
+    gain.gain.linearRampToValueAtTime(0.1, start + 0.02);
+    gain.gain.exponentialRampToValueAtTime(0.001, start + noteLength);
+
+    osc.connect(gain);
+    gain.connect(ctx.destination);
+
+    osc.start(start);
+    osc.stop(start + noteLength);
+  });
+}
