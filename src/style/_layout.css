@@ -9,6 +9,9 @@
   padding: 0;
   overflow: hidden;
   border-radius: var(--crt-border-radius);
+  animation:
+    glow-pulse 4s ease-in-out infinite,
+    flicker 0.12s infinite;
 }
 
 #ui-layer::-webkit-scrollbar {
@@ -217,14 +220,7 @@ main::-webkit-scrollbar {
       rgba(60, 35, 20, 0.18) 12px,
       rgba(60, 35, 20, 0.18) 14px
     ),
-    linear-gradient(
-      180deg,
-      #5c3d2e 0%,
-      #4a3225 20%,
-      #3d2a1f 50%,
-      #4a3225 80%,
-      #5c3d2e 100%
-    );
+    linear-gradient(180deg, #5c3d2e 0%, #4a3225 20%, #3d2a1f 50%, #4a3225 80%, #5c3d2e 100%);
   border: 2px solid #2a1a10;
   box-shadow:
     inset 0 2px 3px rgba(255, 255, 255, 0.08),
@@ -842,14 +838,7 @@ main::-webkit-scrollbar {
 
 /* DIM button — blackout active: dark charcoal */
 .screen-blackout .bar-btn-dim {
-  background: linear-gradient(
-    180deg,
-    #666 0%,
-    #555 15%,
-    #444 50%,
-    #333 85%,
-    #222 100%
-  );
+  background: linear-gradient(180deg, #666 0%, #555 15%, #444 50%, #333 85%, #222 100%);
   border-color: #111;
   color: #999;
   box-shadow:
@@ -859,19 +848,9 @@ main::-webkit-scrollbar {
 }
 
 .screen-blackout .bar-btn-dim:hover {
-  background: linear-gradient(
-    180deg,
-    #777 0%,
-    #666 15%,
-    #555 50%,
-    #444 85%,
-    #333 100%
-  );
+  background: linear-gradient(180deg, #777 0%, #666 15%, #555 50%, #444 85%, #333 100%);
   color: #ccc;
 }
-
-
-
 
 /* Easter Egg Buttons */
 .easter-egg-buttons {

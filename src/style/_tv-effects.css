@@ -16,9 +16,7 @@
     0 0 20px 15px rgba(0, 0, 0, 0.8),
     /* Outer glow for CRT effect */ 0 0 80px rgba(0, 255, 255, 0.15);
   transform: perspective(800px) rotateX(1deg);
-  animation:
-    glow-pulse 4s ease-in-out infinite,
-    flicker 0.12s infinite;
+ 
 }
 
 /* TV bezel reflection effect */
@@ -173,8 +171,8 @@
 
 /* Channel Flicker */
 #channel-flicker {
-  position: fixed;
-  inset: 1.5rem;
+  position: absolute;
+  inset: 0;
   background: radial-gradient(circle, rgba(255, 255, 255, 0.04) 0%, transparent 80%);
   mix-blend-mode: lighten;
   pointer-events: none;
@@ -185,8 +183,8 @@
 
 /* CRT Channel Switch Transition */
 #glitch-transition {
-  position: fixed;
-  inset: 1.5rem;
+  position: absolute;
+  inset: 0;
   z-index: 998;
   border-radius: var(--crt-border-radius);
   pointer-events: none;

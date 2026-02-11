@@ -11,6 +11,57 @@ const TAG_COLORS = ['tag-red', 'tag-green', 'tag-yellow', 'tag-blue'];
 // Project data
 const projectsData = [
   {
+    id: 'aucto',
+    name: 'Aucto',
+    tags: ['TypeScript', 'Tailwind', 'API'],
+    year: '2025',
+    status: 'LIVE',
+    description:
+      'Brutalist auction platform with real-time bidding, JWT auth, and credit management via Noroff API v2.',
+    github: 'https://github.com/sergiu-sa/auction_house_sp2',
+    live: 'https://auctohouse.netlify.app/',
+    images: [
+      '/assets/projects/aucto/aucto_intro.gif',
+      '/assets/projects/aucto/b_aucto_feed.png',
+      '/assets/projects/aucto/c_aucto_item.png',
+      '/assets/projects/aucto/d_aucto_profile.png',
+      '/assets/projects/aucto/e_aucto_catalog.jpg',
+      '/assets/projects/aucto/f_aucto_login.png',
+      '/assets/projects/aucto/g_aucto_register.png',
+    ],
+  },
+  {
+    id: 'linka',
+    name: 'Linka',
+    tags: ['TypeScript', 'Three.js', 'API'],
+    year: '2025',
+    status: 'LIVE',
+    description:
+      'Social media platform with 3D intro, emoji reactions, comments, and real-time search. Team-built with Three.js and Tailwind.',
+    github: 'https://github.com/sergiu-sa/linka-social-media',
+    live: 'https://linka-social.netlify.app/',
+    images: [
+      '/assets/projects/linka/linka_intro_light.gif',
+      '/assets/projects/linka/linka_intro_dark.gif',
+      '/assets/projects/linka/linka_feed_light.png',
+      '/assets/projects/linka/linka_feed_dark.png',
+      '/assets/projects/linka/linka_profile_light.png',
+      '/assets/projects/linka/linka_profile_dark.png',
+    ],
+  },
+  {
+    id: 'adventure-trails',
+    name: 'Adventure Trails',
+    tags: ['HTML', 'CSS'],
+    year: '2024',
+    status: 'COMPLETE',
+    description:
+      'Marketing site for guided hiking expeditions with responsive design, gallery, and SEO optimization. Pure HTML and CSS.',
+    github: 'https://github.com/sergiu-sa/adventure_trails_hikes',
+    live: 'https://adventuretrailshikes.netlify.app/',
+    images: ['/assets/projects/adventure_trails/adventure_trails_01.png'],
+  },
+  {
     id: 'square-eyes',
     name: 'Square Eyes',
     tags: ['HTML', 'CSS'],
@@ -219,6 +270,8 @@ function showTeletextProject(index, animate = true) {
 
   // Update DOM elements
   const pageNumEl = document.getElementById('teletext-page-num');
+  const counterEl = document.getElementById('teletext-project-counter');
+  const pageRangeEl = document.getElementById('teletext-page-range');
   const titleEl = document.getElementById('teletext-project-title');
   const previewImg = document.getElementById('teletext-preview-img');
   const imgCurrentEl = document.getElementById('teletext-img-current');
@@ -231,6 +284,8 @@ function showTeletextProject(index, animate = true) {
   const yearEl = document.getElementById('teletext-year');
 
   if (pageNumEl) pageNumEl.textContent = pageNum;
+  if (counterEl) counterEl.textContent = `PROJECT ${index + 1} OF ${projectsData.length}`;
+  if (pageRangeEl) pageRangeEl.textContent = `P.101-${100 + projectsData.length}`;
   if (titleEl) titleEl.textContent = project.name.toUpperCase();
   if (previewImg) previewImg.src = project.images[0];
   if (imgCurrentEl) imgCurrentEl.textContent = '1';
@@ -382,7 +437,7 @@ function handleTeletextKeyboard(e) {
  * Initialize the teletext project system
  */
 export function initProjectChannelSystem() {
-  // One-time DOM binding 
+  // One-time DOM binding
   if (!projectChannelInitialized) {
     projectChannelInitialized = true;
 
@@ -471,4 +526,3 @@ export function cleanupTeletext() {
   }
   stopProjectSlideshow();
 }
-
