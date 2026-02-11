@@ -123,6 +123,25 @@
   opacity: 1;
 }
 
+/* Screen Dim Overlay (accessibility) */
+#screen-dim-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background: #000;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.5s ease;
+}
+
+.screen-dim #screen-dim-overlay {
+  opacity: 0.6;
+}
+
+.screen-blackout #screen-dim-overlay {
+  opacity: 0.92;
+}
+
 /* TV Overlay */
 #tv-overlay::before {
   content: "";

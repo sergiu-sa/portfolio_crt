@@ -39,6 +39,10 @@ let initialLoadDone = false;
 let glitchTimeout = null;
 let switchTimeout = null;
 
+// Screen dim state
+const DIM_LEVELS = ['off', 'dim', 'blackout'];
+let dimLevel = localStorage.getItem('crtDimLevel') || 'off';
+
 // ============================================
 // UI EFFECTS
 // ============================================
@@ -144,6 +148,29 @@ function toggleCRTPower() {
       tvScreen.classList.remove('crt-turning-on');
     }, 500);
   }
+}
+
+// ============================================
+// SCREEN DIM TOGGLE
+// ============================================
+
+/**
+ * Apply current dim level to body classes
+ */
+function applyDim() {
+  document.body.classList.remove('screen-dim', 'screen-blackout');
+  if (dimLevel === 'dim') document.body.classList.add('screen-dim');
+  else if (dimLevel === 'blackout') document.body.classList.add('screen-blackout');
+}
+
+/**
+ * Cycle through dim levels: off → dim → blackout → off
+ */
+function cycleDim() {
+  const idx = DIM_LEVELS.indexOf(dimLevel);
+  dimLevel = DIM_LEVELS[(idx + 1) % DIM_LEVELS.length];
+  localStorage.setItem('crtDimLevel', dimLevel);
+  applyDim();
 }
 
 // ============================================
@@ -374,6 +401,12 @@ function setupEventListeners() {
     remotePower.addEventListener('click', toggleCRTPower);
   }
 
+  // Remote dim button - screen brightness toggle
+  const remoteDim = document.getElementById('remote-dim');
+  if (remoteDim) {
+    remoteDim.addEventListener('click', cycleDim);
+  }
+
   // Easter egg buttons
   const pingAll = document.getElementById('ping-all');
 
@@ -448,6 +481,13 @@ function setupShortcutsModal() {
       return;
     }
 
+    // D - Cycle screen dim
+    if (e.key === 'd' || e.key === 'D') {
+      e.preventDefault();
+      cycleDim();
+      return;
+    }
+
     // P - Toggle TV power
     if (e.key === 'p' || e.key === 'P') {
       e.preventDefault();
@@ -480,6 +520,9 @@ function init() {
 
   // Set up event listeners
   setupEventListeners();
+
+  // Apply saved dim preference
+  applyDim();
 
   // Initialize date display
   updateDate();

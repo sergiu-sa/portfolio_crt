@@ -811,8 +811,64 @@ main::-webkit-scrollbar {
   background: var(--teletext-green);
 }
 
+/* ============================================
+   DIM BUTTON STATES
+   ============================================ */
 
+/* DIM button — dim active: warm amber */
+.screen-dim .bar-btn-dim {
+  background: linear-gradient(
+    180deg,
+    #e8c860 0%,
+    #d8a840 15%,
+    #c89030 50%,
+    #a87820 85%,
+    #886010 100%
+  );
+  border-color: #5a4020;
+  color: #2a1a10;
+}
 
+.screen-dim .bar-btn-dim:hover {
+  background: linear-gradient(
+    180deg,
+    #f0d870 0%,
+    #e0b850 15%,
+    #d0a040 50%,
+    #b88830 85%,
+    #987020 100%
+  );
+}
+
+/* DIM button — blackout active: dark charcoal */
+.screen-blackout .bar-btn-dim {
+  background: linear-gradient(
+    180deg,
+    #666 0%,
+    #555 15%,
+    #444 50%,
+    #333 85%,
+    #222 100%
+  );
+  border-color: #111;
+  color: #999;
+  box-shadow:
+    inset 0 2px 0 rgba(255, 255, 255, 0.15),
+    inset 0 -2px 3px rgba(0, 0, 0, 0.3),
+    0 3px 6px rgba(0, 0, 0, 0.4);
+}
+
+.screen-blackout .bar-btn-dim:hover {
+  background: linear-gradient(
+    180deg,
+    #777 0%,
+    #666 15%,
+    #555 50%,
+    #444 85%,
+    #333 100%
+  );
+  color: #ccc;
+}
 
 
 
