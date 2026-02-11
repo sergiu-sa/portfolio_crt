@@ -59,7 +59,12 @@ const projectsData = [
       'Marketing site for guided hiking expeditions with responsive design, gallery, and SEO optimization. Pure HTML and CSS.',
     github: 'https://github.com/sergiu-sa/adventure_trails_hikes',
     live: 'https://adventuretrailshikes.netlify.app/',
-    images: ['/assets/projects/adventure_trails/adventure_trails_01.png'],
+    images: [
+      '/assets/projects/adventure_trails/adventure_intro.gif',
+      '/assets/projects/adventure_trails/hike-min.png',
+      '/assets/projects/adventure_trails/home-min.png',
+      '/assets/projects/adventure_trails/about-min.png',
+    ],
   },
   {
     id: 'square-eyes',
@@ -69,8 +74,11 @@ const projectsData = [
     status: 'COMPLETE',
     description: 'Accessible film streaming site built with clean HTML and CSS.',
     github: 'https://github.com/sergiu-sa/pro-school-react.git',
-    live: 'https://sergiu-sa.github.io/pro-school-react/',
-    images: ['/assets/projects/square_eyes/new_home02.png'],
+    live: 'https://square-eyes-sa.netlify.app/',
+    images: [
+      '/assets/projects/square_eyes/new_home02.png',
+      '/assets/projects/square_eyes/new_home01.png',
+    ],
   },
   {
     id: 'kid-bank',
