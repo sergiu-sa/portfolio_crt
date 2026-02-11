@@ -181,22 +181,22 @@
             <!-- Teletext Subheader - Index Line -->
             <div class="teletext-subheader">
               <span class="teletext-index">INDEX 100</span>
-              <span>PROJECTS 101-103</span>
+              <span id="teletext-project-counter">PROJECT 1 OF 3</span>
             </div>
 
             <!-- Teletext Content Area -->
             <div class="teletext-content">
               <!-- Project Title Row -->
               <div class="teletext-title-row">
-                <span class="teletext-title" id="teletext-project-title">SQUARE EYES</span>
+                <span class="teletext-title" id="teletext-project-title">AUCTO</span>
               </div>
 
               <!-- Status Line -->
               <div class="teletext-status-line">
                 <span class="teletext-status" id="teletext-status">
-                  <span class="status-blink"></span> COMPLETE
+                  <span class="status-blink live"></span> LIVE
                 </span>
-                <span class="teletext-year" id="teletext-year">2024</span>
+                <span class="teletext-year" id="teletext-year">2025</span>
               </div>
 
               <!-- Two Column Layout -->
@@ -211,7 +211,7 @@
                   >
                     <img
                       id="teletext-preview-img"
-                      src="/assets/projects/square_eyes/new_home02.png"
+                      src="/assets/projects/aucto/aucto_01.png"
                       alt="Project preview"
                       loading="lazy"
                     />
@@ -227,11 +227,12 @@
                 <!-- Right Column - Project Info -->
                 <div class="teletext-info">
                   <div class="teletext-tags" id="teletext-tags">
-                    <span class="teletext-tag tag-red">HTML</span>
-                    <span class="teletext-tag tag-green">CSS</span>
+                    <span class="teletext-tag tag-red">TypeScript</span>
+                    <span class="teletext-tag tag-green">Tailwind</span>
+                    <span class="teletext-tag tag-yellow">API</span>
                   </div>
                   <div class="teletext-desc" id="teletext-desc">
-                    Accessible film streaming site built with clean HTML and CSS.
+                    Brutalist auction platform with real-time bidding, JWT auth, and credit management via Noroff API v2.
                   </div>
                   <div class="teletext-links">
                     <a href="#" id="teletext-link-code" class="teletext-link link-code" target="_blank" rel="noopener noreferrer">
@@ -252,7 +253,7 @@
                 <button class="teletext-nav-btn fastext-red" id="teletext-prev" aria-label="Previous project">
                   &#x25C4; PREV
                 </button>
-                <span class="teletext-pages">P.101-103</span>
+                <span class="teletext-pages" id="teletext-page-range">P.101-103</span>
                 <button class="teletext-nav-btn fastext-blue" id="teletext-next" aria-label="Next project">
                   NEXT &#x25BA;
                 </button>
