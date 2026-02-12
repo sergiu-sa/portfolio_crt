@@ -1,6 +1,7 @@
 /* Projects section dark backdrop */
 #projects {
   position: relative;
+  overflow: hidden;
 }
 
 #projects::before {
@@ -501,6 +502,101 @@
   0%   { opacity: 1; transform: translateX(2px); }
   50%  { opacity: 0.5; transform: translateX(-1px); }
   100% { opacity: 0; transform: translateX(0); }
+}
+
+/* ============================================
+   SIGNAL BREAK TRANSITION
+   Dual-animation: translate (slide) + transform (distortion)
+   --signal-dir: -1 (next/up) or 1 (prev/down), set by JS
+   ============================================ */
+.teletext-container.signal-out {
+  animation:
+    signalSlideExit 0.25s ease-in both,
+    signalBreak 0.25s ease-in both;
+}
+
+.teletext-container.signal-in {
+  animation:
+    signalSlideEnter 0.3s ease-out both,
+    signalLock 0.3s ease-out both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .teletext-container.signal-out,
+  .teletext-container.signal-in {
+    animation: none;
+  }
+}
+
+/* Directional slide */
+@keyframes signalSlideExit {
+  0%   { translate: 0 0; }
+  100% { translate: 0 calc(var(--signal-dir) * 120%); }
+}
+
+@keyframes signalSlideEnter {
+  0%   { translate: 0 calc(var(--signal-dir) * -120%); }
+  65%  { translate: 0 calc(var(--signal-dir) * 2.5%); }
+  82%  { translate: 0 calc(var(--signal-dir) * -1%); }
+  100% { translate: 0 0; }
+}
+
+/* CRT distortion — exit: signal breaking up */
+@keyframes signalBreak {
+  0% {
+    transform: perspective(800px) skewX(0) scaleX(1) rotateX(0);
+    filter: brightness(1);
+    opacity: 1;
+  }
+  20% {
+    transform: perspective(800px) skewX(-3.5deg) scaleX(1.02) rotateX(-1deg);
+    filter: brightness(1.5);
+    opacity: 1;
+  }
+  45% {
+    transform: perspective(800px) skewX(4deg) scaleX(0.97) rotateX(1.5deg);
+    filter: brightness(0.5);
+    opacity: 0.8;
+  }
+  75% {
+    transform: perspective(800px) skewX(-1.5deg) scaleX(1.05) rotateX(2deg);
+    filter: brightness(2);
+    opacity: 0.3;
+  }
+  100% {
+    transform: perspective(800px) skewX(0) scaleX(1.08) rotateX(2.5deg);
+    filter: brightness(2.5);
+    opacity: 0;
+  }
+}
+
+/* CRT distortion — entry: signal locking in */
+@keyframes signalLock {
+  0% {
+    transform: perspective(800px) skewX(0) scaleX(1.06) rotateX(-2deg);
+    filter: brightness(2.5);
+    opacity: 0;
+  }
+  30% {
+    transform: perspective(800px) skewX(3deg) scaleX(1.03) rotateX(-1deg);
+    filter: brightness(1.6);
+    opacity: 0.7;
+  }
+  60% {
+    transform: perspective(800px) skewX(-1.5deg) scaleX(1.005) rotateX(0.3deg);
+    filter: brightness(1.1);
+    opacity: 1;
+  }
+  80% {
+    transform: perspective(800px) skewX(0.5deg) scaleX(0.998) rotateX(-0.1deg);
+    filter: brightness(1.02);
+    opacity: 1;
+  }
+  100% {
+    transform: perspective(800px) skewX(0) scaleX(1) rotateX(0);
+    filter: brightness(1);
+    opacity: 1;
+  }
 }
 
 .teletext-lightbox {

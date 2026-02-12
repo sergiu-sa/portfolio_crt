@@ -130,6 +130,7 @@ let projectChannelInitialized = false;
 let teletextKeyboardHandler = null;
 let lightboxOpen = false;
 let vhsGlitchTimeout = null;
+let signalTimer = null;
 
 // Callback references
 let showOSD = null;
@@ -219,8 +220,9 @@ function createPageDots() {
     dot.setAttribute('aria-label', `Go to project ${i + 1}: ${project.name}`);
     dot.addEventListener('click', () => {
       if (i !== currentProjectIndex) {
+        const dir = i > currentProjectIndex ? 'next' : 'prev';
         currentProjectIndex = i;
-        showTeletextProject(i);
+        showTeletextProject(i, true, dir);
       }
     });
     container.appendChild(dot);
@@ -258,28 +260,10 @@ function renderTechTags(container, tags) {
 }
 
 /**
- * Show a specific project in the teletext UI
- * @param {number} index - Project index
- * @param {boolean} [animate=true] - Whether to play VHS glitch transition
+ * Update content area DOM elements with project data
+ * @param {Object} project - Project data object
  */
-function showTeletextProject(index, animate = true) {
-  const project = projectsData[index];
-  currentProjectIndex = index;
-  currentProjectImageIndex = 0;
-
-  if (triggerFlicker) triggerFlicker();
-  playTeletextBeep();
-
-  if (animate) triggerVhsGlitch();
-
-  // Show OSD with page number
-  const pageNum = 101 + index;
-  if (showOSD) showOSD(`P.${pageNum}`);
-
-  // Update DOM elements
-  const pageNumEl = document.getElementById('teletext-page-num');
-  const counterEl = document.getElementById('teletext-project-counter');
-  const pageRangeEl = document.getElementById('teletext-page-range');
+function updateProjectDOM(project) {
   const titleEl = document.getElementById('teletext-project-title');
   const previewImg = document.getElementById('teletext-preview-img');
   const imgCurrentEl = document.getElementById('teletext-img-current');
@@ -291,18 +275,12 @@ function showTeletextProject(index, animate = true) {
   const statusEl = document.getElementById('teletext-status');
   const yearEl = document.getElementById('teletext-year');
 
-  if (pageNumEl) pageNumEl.textContent = pageNum;
-  if (counterEl) counterEl.textContent = `PROJECT ${index + 1} OF ${projectsData.length}`;
-  if (pageRangeEl) pageRangeEl.textContent = `P.101-${100 + projectsData.length}`;
   if (titleEl) titleEl.textContent = project.name.toUpperCase();
   if (previewImg) previewImg.src = project.images[0];
   if (imgCurrentEl) imgCurrentEl.textContent = '1';
   if (imgTotalEl) imgTotalEl.textContent = project.images.length;
-
-  // Render tech tags as colored badges
   if (tagsEl) renderTechTags(tagsEl, project.tags);
 
-  // Update status and year
   if (statusEl) {
     statusEl.innerHTML = '';
     const dot = document.createElement('span');
@@ -312,15 +290,103 @@ function showTeletextProject(index, animate = true) {
   }
 
   if (yearEl) yearEl.textContent = project.year;
-
   if (descEl) descEl.textContent = project.description;
   if (codeLink) codeLink.href = project.github;
   if (liveLink) liveLink.href = project.live;
+}
 
-  // Update page dots
+/**
+ * Update frame elements (header, subheader, footer) outside the sliding content
+ * @param {number} index - Project index
+ */
+function updateFrameElements(index) {
+  const pageNum = 101 + index;
+  const pageNumEl = document.getElementById('teletext-page-num');
+  const counterEl = document.getElementById('teletext-project-counter');
+  const pageRangeEl = document.getElementById('teletext-page-range');
+
+  if (pageNumEl) pageNumEl.textContent = pageNum;
+  if (counterEl) counterEl.textContent = `PROJECT ${index + 1} OF ${projectsData.length}`;
+  if (pageRangeEl) pageRangeEl.textContent = `P.101-${100 + projectsData.length}`;
+
   updatePageDots(index);
+}
 
-  startTeletextImageCycle();
+/**
+ * Reset container animation state
+ * @param {HTMLElement} container - The teletext container element
+ */
+function resetContainerAnimation(container) {
+  if (!container) return;
+  container.classList.remove('signal-out', 'signal-in');
+  container.style.removeProperty('--signal-dir');
+}
+
+/**
+ * Show a specific project in the teletext UI
+ * @param {number} index - Project index
+ * @param {boolean} [animate=true] - Whether to play VHS glitch transition
+ * @param {'next'|'prev'} [direction='next'] - Slide direction
+ */
+function showTeletextProject(index, animate = true, direction = 'next') {
+  const project = projectsData[index];
+  currentProjectIndex = index;
+  currentProjectImageIndex = 0;
+
+  const container = document.querySelector('.teletext-container');
+
+  if (triggerFlicker) triggerFlicker();
+  playTeletextBeep();
+  if (animate) triggerVhsGlitch();
+
+  // Show OSD with page number
+  const pageNum = 101 + index;
+  if (showOSD) showOSD(`P.${pageNum}`);
+
+  const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  // No animation: instant swap
+  if (!animate || !container || prefersReducedMotion) {
+    if (signalTimer) {
+      clearTimeout(signalTimer);
+      signalTimer = null;
+    }
+    resetContainerAnimation(container);
+    updateFrameElements(index);
+    updateProjectDOM(project);
+    startTeletextImageCycle();
+    return;
+  }
+
+  // Cancel in-progress animation
+  if (signalTimer) {
+    clearTimeout(signalTimer);
+    signalTimer = null;
+    resetContainerAnimation(container);
+  }
+
+  // Direction: -1 = slide up (next), 1 = slide down (prev)
+  container.style.setProperty('--signal-dir', direction === 'next' ? '-1' : '1');
+
+  // Phase 1: Slide out with CRT distortion (250ms)
+  container.classList.add('signal-out');
+
+  signalTimer = setTimeout(() => {
+    // Phase 2: DOM swap (container is off-screen and invisible)
+    container.classList.remove('signal-out');
+    updateFrameElements(index);
+    updateProjectDOM(project);
+
+    // Phase 3: Slide in with signal lock-in (300ms)
+    container.classList.add('signal-in');
+    startTeletextImageCycle();
+
+    // Cleanup after entry completes
+    signalTimer = setTimeout(() => {
+      resetContainerAnimation(container);
+      signalTimer = null;
+    }, 300);
+  }, 250);
 }
 
 /**
@@ -333,7 +399,7 @@ function navigateTeletextProject(direction) {
   } else {
     currentProjectIndex = (currentProjectIndex - 1 + projectsData.length) % projectsData.length;
   }
-  showTeletextProject(currentProjectIndex);
+  showTeletextProject(currentProjectIndex, true, direction);
 }
 
 // ============================================
@@ -532,5 +598,10 @@ export function cleanupTeletext() {
     document.removeEventListener('keydown', teletextKeyboardHandler);
     teletextKeyboardHandler = null;
   }
+  if (signalTimer) {
+    clearTimeout(signalTimer);
+    signalTimer = null;
+  }
+  resetContainerAnimation(document.querySelector('.teletext-container'));
   stopProjectSlideshow();
 }
