@@ -132,6 +132,22 @@ let lightboxOpen = false;
 let vhsGlitchTimeout = null;
 let signalTimer = null;
 
+// Lightbox zoom/pan state
+let zoomLevel = 1;
+const ZOOM_MIN = 1;
+const ZOOM_MAX = 5;
+const ZOOM_STEP = 0.15;
+let panX = 0;
+let panY = 0;
+let isPanning = false;
+let panStartX = 0;
+let panStartY = 0;
+let panStartPanX = 0;
+let panStartPanY = 0;
+let zoomIndicatorTimeout = null;
+let initialPinchDistance = null;
+let initialPinchZoom = 1;
+
 // Callback references
 let showOSD = null;
 let triggerFlicker = null;
@@ -368,7 +384,7 @@ function showTeletextProject(index, animate = true, direction = 'next') {
   // Direction: -1 = slide up (next), 1 = slide down (prev)
   container.style.setProperty('--signal-dir', direction === 'next' ? '-1' : '1');
 
-  // Phase 1: Slide out with CRT distortion (250ms)
+  // Phase 1: Slide out with front-loaded glitch burst (220ms)
   container.classList.add('signal-out');
 
   signalTimer = setTimeout(() => {
@@ -377,7 +393,7 @@ function showTeletextProject(index, animate = true, direction = 'next') {
     updateFrameElements(index);
     updateProjectDOM(project);
 
-    // Phase 3: Slide in with signal lock-in (300ms)
+    // Phase 3: Slide in with delayed lock-in glitch (260ms)
     container.classList.add('signal-in');
     startTeletextImageCycle();
 
@@ -385,8 +401,8 @@ function showTeletextProject(index, animate = true, direction = 'next') {
     signalTimer = setTimeout(() => {
       resetContainerAnimation(container);
       signalTimer = null;
-    }, 300);
-  }, 250);
+    }, 260);
+  }, 220);
 }
 
 /**
@@ -400,6 +416,137 @@ function navigateTeletextProject(direction) {
     currentProjectIndex = (currentProjectIndex - 1 + projectsData.length) % projectsData.length;
   }
   showTeletextProject(currentProjectIndex, true, direction);
+}
+
+// ============================================
+// LIGHTBOX ZOOM / PAN
+// ============================================
+
+/**
+ * Reset zoom to 1x and re-center the image
+ */
+function resetZoom() {
+  zoomLevel = 1;
+  panX = 0;
+  panY = 0;
+  const viewport = document.getElementById('lightbox-img-viewport');
+  const img = document.getElementById('lightbox-img');
+
+  if (viewport) {
+    viewport.classList.remove('is-zoomed', 'is-panning');
+  }
+  if (img) {
+    img.style.transition = 'transform 0.2s ease-out';
+    img.style.transform = '';
+    img.style.willChange = '';
+  }
+  isPanning = false;
+  updateZoomIndicator();
+}
+
+/**
+ * Clamp pan so the image stays within viewable bounds
+ */
+function clampPan() {
+  const viewport = document.getElementById('lightbox-img-viewport');
+  const img = document.getElementById('lightbox-img');
+  if (!viewport || !img || !img.naturalWidth) return;
+
+  const viewportRect = viewport.getBoundingClientRect();
+  // offsetWidth/Height gives CSS layout size (unaffected by transform)
+  const layoutW = img.offsetWidth;
+  const layoutH = img.offsetHeight;
+  const visualW = layoutW * zoomLevel;
+  const visualH = layoutH * zoomLevel;
+
+  const maxPanX = Math.max(0, (visualW - viewportRect.width) / 2);
+  const maxPanY = Math.max(0, (visualH - viewportRect.height) / 2);
+
+  panX = Math.max(-maxPanX, Math.min(maxPanX, panX));
+  panY = Math.max(-maxPanY, Math.min(maxPanY, panY));
+}
+
+/**
+ * Apply the current transform (zoom + pan) to the image
+ * @param {boolean} smooth - Whether to use CSS transition
+ */
+function applyTransform(smooth) {
+  const img = document.getElementById('lightbox-img');
+  if (!img) return;
+
+  clampPan();
+  img.style.transition = smooth ? 'transform 0.2s ease-out' : 'none';
+  img.style.transform = `translate(${panX}px, ${panY}px) scale(${zoomLevel})`;
+  img.style.willChange = zoomLevel > 1 ? 'transform' : '';
+}
+
+/**
+ * Apply zoom level, keeping the focal point stable under the cursor
+ * @param {number} newZoom - Target zoom level
+ * @param {number} clientX - Screen X of focal point (e.clientX)
+ * @param {number} clientY - Screen Y of focal point (e.clientY)
+ * @param {boolean} smooth - Whether to animate the transition
+ */
+function applyZoom(newZoom, clientX, clientY, smooth) {
+  const viewport = document.getElementById('lightbox-img-viewport');
+  const img = document.getElementById('lightbox-img');
+  if (!viewport || !img || !img.naturalWidth) return;
+
+  const prevZoom = zoomLevel;
+  zoomLevel = Math.max(ZOOM_MIN, Math.min(ZOOM_MAX, newZoom));
+
+  if (zoomLevel <= 1) {
+    resetZoom();
+    return;
+  }
+
+  // Expand viewport FIRST so we compute focal point in the expanded rect
+  viewport.classList.add('is-zoomed');
+
+  // Read rect AFTER expansion (triggers synchronous reflow)
+  const viewportRect = viewport.getBoundingClientRect();
+  const focalX = clientX - viewportRect.left;
+  const focalY = clientY - viewportRect.top;
+
+  // Focal point relative to viewport center
+  const focalFromCenterX = focalX - viewportRect.width / 2;
+  const focalFromCenterY = focalY - viewportRect.height / 2;
+
+  // Keep the point under the cursor stable
+  const effectivePrevZoom = prevZoom <= 1 ? 1 : prevZoom;
+  panX = focalFromCenterX - ((focalFromCenterX - panX) / effectivePrevZoom) * zoomLevel;
+  panY = focalFromCenterY - ((focalFromCenterY - panY) / effectivePrevZoom) * zoomLevel;
+
+  applyTransform(smooth);
+  updateZoomIndicator();
+}
+
+/**
+ * Update the zoom indicator OSD
+ */
+function updateZoomIndicator() {
+  const indicator = document.getElementById('lightbox-zoom-indicator');
+  const valueEl = document.getElementById('lightbox-zoom-value');
+  const fillEl = document.getElementById('lightbox-zoom-fill');
+
+  if (!indicator) return;
+
+  if (valueEl) valueEl.textContent = `${zoomLevel.toFixed(1)}x`;
+  if (fillEl) {
+    const pct = ((zoomLevel - ZOOM_MIN) / (ZOOM_MAX - ZOOM_MIN)) * 100;
+    fillEl.style.width = `${pct}%`;
+  }
+
+  // Show indicator
+  indicator.classList.add('visible');
+
+  // Auto-hide after 1.5s of inactivity at 1x
+  clearTimeout(zoomIndicatorTimeout);
+  if (zoomLevel <= 1) {
+    zoomIndicatorTimeout = setTimeout(() => {
+      indicator.classList.remove('visible');
+    }, 1500);
+  }
 }
 
 // ============================================
@@ -419,6 +566,7 @@ function openLightbox() {
   if (!lightbox || !lightboxImg) return;
 
   stopProjectSlideshow();
+  resetZoom();
 
   lightboxImg.src = project.images[currentProjectImageIndex];
   if (lightboxCurrent) lightboxCurrent.textContent = currentProjectImageIndex + 1;
@@ -434,6 +582,7 @@ function openLightbox() {
 function closeLightbox() {
   const lightbox = document.getElementById('teletext-lightbox');
   if (lightbox) {
+    resetZoom();
     lightbox.classList.remove('active');
     lightboxOpen = false;
     startTeletextImageCycle();
@@ -445,6 +594,7 @@ function closeLightbox() {
  * @param {'next'|'prev'} direction
  */
 function navigateLightbox(direction) {
+  resetZoom();
   const project = projectsData[currentProjectIndex];
   const lightboxImg = document.getElementById('lightbox-img');
   const lightboxCurrent = document.getElementById('lightbox-current');
@@ -478,7 +628,7 @@ function handleTeletextKeyboard(e) {
   const projectsSection = document.getElementById('projects');
   if (!projectsSection || !projectsSection.classList.contains('active')) return;
 
-  // Lightbox navigation
+  // Lightbox navigation + zoom
   if (lightboxOpen) {
     if (e.key === 'Escape') {
       e.preventDefault();
@@ -489,6 +639,23 @@ function handleTeletextKeyboard(e) {
     } else if (e.key === 'ArrowRight') {
       e.preventDefault();
       navigateLightbox('next');
+    } else if (e.key === '+' || e.key === '=') {
+      e.preventDefault();
+      const viewport = document.getElementById('lightbox-img-viewport');
+      if (viewport) {
+        const rect = viewport.getBoundingClientRect();
+        applyZoom(zoomLevel + ZOOM_STEP, rect.left + rect.width / 2, rect.top + rect.height / 2, true);
+      }
+    } else if (e.key === '-' || e.key === '_') {
+      e.preventDefault();
+      const viewport = document.getElementById('lightbox-img-viewport');
+      if (viewport) {
+        const rect = viewport.getBoundingClientRect();
+        applyZoom(zoomLevel - ZOOM_STEP, rect.left + rect.width / 2, rect.top + rect.height / 2, true);
+      }
+    } else if (e.key === '0') {
+      e.preventDefault();
+      resetZoom();
     }
     return;
   }
@@ -566,6 +733,117 @@ export function initProjectChannelSystem() {
     if (lightbox) {
       lightbox.addEventListener('click', (e) => {
         if (e.target === lightbox) closeLightbox();
+      });
+    }
+
+    // Lightbox zoom/pan bindings
+    const lightboxViewport = document.getElementById('lightbox-img-viewport');
+    if (lightboxViewport) {
+      // Mouse wheel zoom
+      lightboxViewport.addEventListener(
+        'wheel',
+        (e) => {
+          if (!lightboxOpen) return;
+          e.preventDefault();
+          const delta = e.deltaY > 0 ? -ZOOM_STEP : ZOOM_STEP;
+          applyZoom(zoomLevel + delta, e.clientX, e.clientY, false);
+        },
+        { passive: false }
+      );
+
+      // Mouse drag to pan when zoomed
+      lightboxViewport.addEventListener('mousedown', (e) => {
+        if (!lightboxOpen || zoomLevel <= 1) return;
+        e.preventDefault();
+        isPanning = true;
+        panStartX = e.clientX;
+        panStartY = e.clientY;
+        panStartPanX = panX;
+        panStartPanY = panY;
+        lightboxViewport.classList.add('is-panning');
+      });
+
+      document.addEventListener('mousemove', (e) => {
+        if (!isPanning) return;
+        panX = panStartPanX + (e.clientX - panStartX);
+        panY = panStartPanY + (e.clientY - panStartY);
+        applyTransform(false);
+      });
+
+      document.addEventListener('mouseup', () => {
+        if (isPanning) {
+          isPanning = false;
+          const vp = document.getElementById('lightbox-img-viewport');
+          if (vp) vp.classList.remove('is-panning');
+        }
+      });
+
+      // Double-click to toggle zoom
+      lightboxViewport.addEventListener('dblclick', (e) => {
+        if (!lightboxOpen) return;
+        e.preventDefault();
+        if (zoomLevel > 1) {
+          resetZoom();
+        } else {
+          applyZoom(2.5, e.clientX, e.clientY, true);
+        }
+      });
+
+      // Touch: pinch-to-zoom + single-finger pan
+      lightboxViewport.addEventListener(
+        'touchstart',
+        (e) => {
+          if (!lightboxOpen) return;
+          if (e.touches.length === 2) {
+            e.preventDefault();
+            const dx = e.touches[0].clientX - e.touches[1].clientX;
+            const dy = e.touches[0].clientY - e.touches[1].clientY;
+            initialPinchDistance = Math.hypot(dx, dy);
+            initialPinchZoom = zoomLevel;
+          } else if (e.touches.length === 1 && zoomLevel > 1) {
+            e.preventDefault();
+            isPanning = true;
+            panStartX = e.touches[0].clientX;
+            panStartY = e.touches[0].clientY;
+            panStartPanX = panX;
+            panStartPanY = panY;
+            lightboxViewport.classList.add('is-panning');
+          }
+        },
+        { passive: false }
+      );
+
+      lightboxViewport.addEventListener(
+        'touchmove',
+        (e) => {
+          if (!lightboxOpen) return;
+          if (e.touches.length === 2 && initialPinchDistance !== null) {
+            e.preventDefault();
+            const dx = e.touches[0].clientX - e.touches[1].clientX;
+            const dy = e.touches[0].clientY - e.touches[1].clientY;
+            const currentDist = Math.hypot(dx, dy);
+            const scale = currentDist / initialPinchDistance;
+            const midX = (e.touches[0].clientX + e.touches[1].clientX) / 2;
+            const midY = (e.touches[0].clientY + e.touches[1].clientY) / 2;
+            applyZoom(initialPinchZoom * scale, midX, midY, false);
+          } else if (e.touches.length === 1 && isPanning) {
+            e.preventDefault();
+            panX = panStartPanX + (e.touches[0].clientX - panStartX);
+            panY = panStartPanY + (e.touches[0].clientY - panStartY);
+            applyTransform(false);
+          }
+        },
+        { passive: false }
+      );
+
+      lightboxViewport.addEventListener('touchend', (e) => {
+        if (e.touches.length < 2) {
+          initialPinchDistance = null;
+        }
+        if (e.touches.length === 0) {
+          isPanning = false;
+          lightboxViewport.classList.remove('is-panning');
+        }
       });
     }
 

@@ -36,7 +36,6 @@ export function cleanupDecryptedText() {
 
 function _animateSingleDecryptedText({ element, text, speed, characters, revealDirection }) {
   const revealed = new Set();
-  let interval;
 
   function getNextIndex() {
     switch (revealDirection) {
@@ -71,7 +70,7 @@ function _animateSingleDecryptedText({ element, text, speed, characters, revealD
       .join('');
   }
 
-  interval = setInterval(() => {
+  const interval = setInterval(() => {
     if (revealed.size >= text.length) {
       clearInterval(interval);
       return;
