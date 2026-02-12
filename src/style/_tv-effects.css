@@ -121,6 +121,26 @@
   opacity: 1;
 }
 
+/* Dead Channel Tuner Canvas (CH07) */
+#tuner-canvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+  opacity: 0;
+  display: none;
+  transition: opacity 0.5s ease-in-out;
+  filter: contrast(1.2) brightness(1.05);
+  image-rendering: pixelated;
+}
+
+#tuner-canvas.visible {
+  display: block;
+  opacity: 1;
+}
+
 /* Screen Dim Overlay (accessibility) */
 #screen-dim-overlay {
   position: absolute;

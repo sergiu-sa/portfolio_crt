@@ -22,6 +22,7 @@ import {
   stopProjectSlideshow,
 } from './js/teletext.js';
 import { stopBreakout } from './js/breakout.js';
+import { stopTuner } from './js/tuner.js';
 
 // ============================================
 // GLOBAL STATE
@@ -114,6 +115,14 @@ function toggleCRTPower() {
       ytPlayer.mute();
     }
 
+    // Stop fullscreen canvas channels
+    if (document.body.classList.contains('tuner-active')) {
+      stopTuner();
+    }
+    if (document.body.classList.contains('breakout-active')) {
+      stopBreakout();
+    }
+
     // Add turning-off animation class
     tvScreen.classList.add('crt-turning-off');
     powerBtn?.classList.add('tv-off');
@@ -200,9 +209,12 @@ function typeWriterEffect() {
 function showSection(section) {
   const glitch = document.getElementById('glitch-transition');
 
-  // If breakout game is active, stop it so sections become visible again
+  // If breakout game or tuner is active, stop it so sections become visible again
   if (document.body.classList.contains('breakout-active')) {
     stopBreakout();
+  }
+  if (document.body.classList.contains('tuner-active')) {
+    stopTuner();
   }
 
   // Cancel any pending transition
