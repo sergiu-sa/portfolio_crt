@@ -351,12 +351,20 @@ export function isSoundEnabled() {
   return soundEnabled;
 }
 
+/**
+ * Get the shared AudioContext instance
+ * @returns {AudioContext}
+ */
+export function getAudioContext() {
+  return initAudioContext();
+}
+
 // ============================================
 // BREAKOUT GAME SOUNDS
 // ============================================
 
 /**
- * Play brick break sound (short percussive hit)
+ * Play brick break sound 
  */
 export function playBrickBreak() {
   if (!soundEnabled) return;

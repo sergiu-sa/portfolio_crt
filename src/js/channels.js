@@ -5,6 +5,7 @@
 
 import { playChannelChange } from './audio.js';
 import { startBreakout, stopBreakout } from './breakout.js';
+import { startTuner, stopTuner, setTunerCallbacks } from './tuner.js';
 
 // Channel state
 let currentChannel = 1;
@@ -312,6 +313,7 @@ export function setChannel(channel, { showOSD, triggerFlicker }) {
   stopWebcam();
   stopYouTubeChannel();
   stopBreakout();
+  stopTuner();
 
   if (tvVideo) {
     tvVideo.pause();
@@ -334,7 +336,8 @@ export function setChannel(channel, { showOSD, triggerFlicker }) {
   } else if (channel === 6) {
     playRetroVideo(3);
   } else if (channel === 7) {
-    playRetroVideo(4);
+    setTunerCallbacks({ showOSD });
+    startTuner();
   }
 }
 

@@ -43,7 +43,7 @@ const MAX_LIVES = 3;
 // Normalized game dimensions (0–1 coordinate system)
 const PADDLE_W = 0.12;
 const PADDLE_H = 0.018;
-const PADDLE_Y = 0.92;
+const PADDLE_Y = 0.80;
 const BALL_R = 0.008;
 const BRICK_TOP = 0.12;
 const BRICK_AREA_H = 0.22;
@@ -299,7 +299,7 @@ function updateBall(dt) {
   }
 
   // Ball lost below paddle
-  if (ballY - BALL_R > 1) {
+  if (ballY - BALL_R > PADDLE_Y + 0.08) {
     lives--;
     playStaticBurst(0.2, 0.1);
 
@@ -418,18 +418,18 @@ function render() {
     }
     // Control hints
     const moveHint = isTouchDevice ? 'DRAG TO MOVE' : 'MOUSE or ← → TO MOVE';
-    drawHintText(w, h, moveHint, 0.015, 0.82);
-    drawHintText(w, h, 'HOME or CH+/- TO EXIT', 0.015, 0.87);
+    drawHintText(w, h, moveHint, 0.015, 0.70);
+    drawHintText(w, h, 'HOME or CH+/- TO EXIT', 0.015, 0.75);
   } else if (state === STATES.GAME_OVER) {
     drawCenteredText(w, h, 'GAME OVER', 0.05);
     drawCenteredText(w, h, `SCORE: ${score}`, 0.03, 0.07);
     drawCenteredText(w, h, restartMsg, 0.02, 0.13);
-    drawHintText(w, h, 'HOME or CH+/- TO EXIT', 0.015, 0.87);
+    drawHintText(w, h, 'HOME or CH+/- TO EXIT', 0.015, 0.75);
   } else if (state === STATES.VICTORY) {
     drawCenteredText(w, h, 'YOU WIN!', 0.05);
     drawCenteredText(w, h, `SCORE: ${score}`, 0.03, 0.07);
     drawCenteredText(w, h, restartMsg, 0.02, 0.13);
-    drawHintText(w, h, 'HOME or CH+/- TO EXIT', 0.015, 0.87);
+    drawHintText(w, h, 'HOME or CH+/- TO EXIT', 0.015, 0.75);
   }
 }
 
