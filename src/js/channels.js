@@ -61,6 +61,37 @@ export function setSoundEnabledChecker(fn) {
 // VHS CAMCORDER EFFECT
 // ============================================
 
+let vhsTimerInterval = null;
+let vhsTimerSeconds = 0;
+
+/**
+ * Start VHS camcorder running timer and date stamp
+ */
+function startVHSTimer() {
+  vhsTimerSeconds = 0;
+  const timerEl = document.getElementById('vhs-timer');
+
+  if (timerEl) timerEl.textContent = '00:00:00';
+  vhsTimerInterval = setInterval(() => {
+    vhsTimerSeconds++;
+    if (timerEl) {
+      const h = String(Math.floor(vhsTimerSeconds / 3600)).padStart(2, '0');
+      const m = String(Math.floor((vhsTimerSeconds % 3600) / 60)).padStart(2, '0');
+      const s = String(vhsTimerSeconds % 60).padStart(2, '0');
+      timerEl.textContent = `${h}:${m}:${s}`;
+    }
+  }, 1000);
+}
+
+/**
+ * Stop VHS camcorder timer
+ */
+function stopVHSTimer() {
+  clearInterval(vhsTimerInterval);
+  vhsTimerInterval = null;
+  vhsTimerSeconds = 0;
+}
+
 /**
  * Show VHS overlay effect (used on webcam channel)
  */
@@ -72,6 +103,7 @@ function showVHSOverlay() {
   if (tvVideo) {
     tvVideo.classList.add('vhs-effect');
   }
+  startVHSTimer();
 }
 
 /**
@@ -85,6 +117,7 @@ function hideVHSOverlay() {
   if (tvVideo) {
     tvVideo.classList.remove('vhs-effect');
   }
+  stopVHSTimer();
 }
 
 // ============================================

@@ -191,6 +191,7 @@ h2 {
 #tv-screen.crt-turning-off #tv-image,
 #tv-screen.crt-turning-off #youtube-container,
 #tv-screen.crt-turning-off #breakout-canvas,
+#tv-screen.crt-turning-off #tuner-canvas,
 #tv-screen.crt-turning-off #screen-dim-overlay,
 #tv-screen.crt-turning-off #channel-indicator,
 #tv-screen.crt-turning-off #vhs-overlay {
@@ -210,6 +211,7 @@ h2 {
 #tv-screen.crt-off #tv-image,
 #tv-screen.crt-off #youtube-container,
 #tv-screen.crt-off #breakout-canvas,
+#tv-screen.crt-off #tuner-canvas,
 #tv-screen.crt-off #screen-dim-overlay,
 #tv-screen.crt-off #tv-overlay,
 #tv-screen.crt-off #channel-flicker,

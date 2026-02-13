@@ -690,6 +690,19 @@
     width: 26px;
     height: 26px;
   }
+
+  /* VHS HUD — clear wrapped two-row header and larger mobile remote */
+  .vhs-rec {
+    top: 5.5rem;
+  }
+
+  .vhs-timestamp {
+    bottom: 6rem;
+  }
+
+  .vhs-datestamp {
+    bottom: 6rem;
+  }
 }
 
 /*    SMALL PHONES  < 400px     */
@@ -1087,6 +1100,19 @@
 
   .lightbox-zoom-indicator {
     bottom: 3rem;
+  }
+
+  /* VHS HUD — compact header, smaller remote */
+  .vhs-rec {
+    top: 3rem;
+  }
+
+  .vhs-timestamp {
+    bottom: 4.5rem;
+  }
+
+  .vhs-datestamp {
+    bottom: 4.5rem;
   }
 
 }
