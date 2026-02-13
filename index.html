@@ -34,6 +34,32 @@
     <link rel="stylesheet" href="/src/style/main.css" />
   </head>
   <body>
+    <!-- First-visit broadcast test card -->
+    <div id="splash-screen" class="splash-screen" role="dialog" aria-modal="true" aria-label="Broadcast notice">
+      <div class="splash-card">
+        <div class="splash-bars">
+          <span></span><span></span><span></span><span></span><span></span><span></span><span></span>
+        </div>
+        <h1 class="splash-title">SIGNAL ACQUIRED</h1>
+        <p class="splash-message">
+          Welcome. This portfolio is live and fully functional &mdash;<br />
+          feel free to explore all channels and interact with everything.
+        </p>
+        <p class="splash-submessage">
+          New projects and features are being added regularly.<br />
+          Here is what is on air right now:
+        </p>
+        <ul class="splash-status">
+          <li class="status-ready"><span class="status-icon">&#x25C8;</span> About &mdash; Live</li>
+          <li class="status-ready"><span class="status-icon">&#x25C8;</span> Contact &mdash; Live</li>
+          <li class="status-ready"><span class="status-icon">&#x25C8;</span> Projects &mdash; Live &amp; growing</li>
+          <li class="status-wip"><span class="status-icon">&#x25CB;</span> More channels &mdash; Coming soon</li>
+        </ul>
+        <button id="splash-dismiss" class="splash-btn">&#x25B6; START EXPLORING</button>
+        <span class="splash-footer">PORTFOLIO v1.0 &mdash; 2025</span>
+      </div>
+    </div>
+
     <!-- Skip link for keyboard navigation -->
     <a href="#main-content" class="skip-link">Skip to main content</a>
     <!-- CRT Screen & Video/Image Background -->

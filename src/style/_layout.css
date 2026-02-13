@@ -1077,3 +1077,143 @@ main::-webkit-scrollbar {
 .tuner-active #shortcuts-modal {
   pointer-events: auto;
 }
+
+/* ============================================
+   FIRST-VISIT BROADCAST SPLASH
+   ============================================ */
+
+.splash-screen {
+  position: fixed;
+  inset: 0;
+  z-index: 10001;
+  background: rgba(5, 5, 5, 0.92);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 1;
+  transition: opacity 0.6s ease, visibility 0.6s ease;
+}
+
+.splash-screen.hidden {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.splash-card {
+  position: relative;
+  max-width: 580px;
+  width: 90vw;
+  padding: 2.5rem 3rem;
+  border: 2px solid var(--teletext-blue);
+  background: rgba(0, 0, 0, 0.9);
+  font-family: "IBM Plex Mono", monospace;
+  text-align: center;
+}
+
+/* Scanline overlay on card */
+.splash-card::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 2px,
+    rgba(0, 0, 0, 0.15) 2px,
+    rgba(0, 0, 0, 0.15) 4px
+  );
+  pointer-events: none;
+}
+
+/* Color bars — classic TV test card */
+.splash-bars {
+  display: flex;
+  height: 16px;
+  gap: 2px;
+  margin-bottom: 2rem;
+}
+
+.splash-bars span {
+  flex: 1;
+}
+
+.splash-bars span:nth-child(1) { background: #fff; }
+.splash-bars span:nth-child(2) { background: var(--teletext-yellow); }
+.splash-bars span:nth-child(3) { background: #0ff; }
+.splash-bars span:nth-child(4) { background: var(--teletext-green); }
+.splash-bars span:nth-child(5) { background: #f0f; }
+.splash-bars span:nth-child(6) { background: var(--teletext-red); }
+.splash-bars span:nth-child(7) { background: var(--teletext-blue); }
+
+.splash-title {
+  color: var(--teletext-yellow);
+  font-size: 1.4rem;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  margin: 0 0 1.25rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid rgba(100, 150, 255, 0.3);
+}
+
+.splash-message {
+  color: #ddd;
+  font-size: 1rem;
+  line-height: 1.7;
+  margin: 0 0 1rem;
+}
+
+.splash-submessage {
+  color: #999;
+  font-size: 0.85rem;
+  line-height: 1.6;
+  margin: 0 0 1.25rem;
+}
+
+.splash-status {
+  list-style: none;
+  text-align: left;
+  padding: 0;
+  margin: 0 auto 2rem;
+  max-width: 320px;
+}
+
+.splash-status li {
+  font-size: 1rem;
+  color: #ccc;
+  padding: 0.4rem 0;
+}
+
+.splash-status .status-ready .status-icon {
+  color: var(--teletext-green);
+}
+
+.splash-status .status-wip .status-icon {
+  color: var(--teletext-yellow);
+}
+
+.splash-btn {
+  background: var(--teletext-green);
+  color: #000;
+  border: none;
+  padding: 0.75rem 2.5rem;
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 1rem;
+  font-weight: 700;
+  cursor: pointer;
+  letter-spacing: 0.1em;
+  transition: background 0.2s, box-shadow 0.2s;
+}
+
+.splash-btn:hover {
+  background: var(--teletext-yellow);
+  box-shadow: 0 0 12px rgba(100, 255, 150, 0.4);
+}
+
+.splash-footer {
+  display: block;
+  margin-top: 2rem;
+  font-size: 0.75rem;
+  color: #666;
+  letter-spacing: 0.1em;
+}

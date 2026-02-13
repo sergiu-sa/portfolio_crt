@@ -367,11 +367,15 @@
     width: 45px;
   }
 
-  /* Lightbox touch-friendly navigation */
+  /* Lightbox side navigation — larger touch targets */
   .teletext-lightbox-nav button {
-    padding: 0.6rem 1rem;
+    padding: 1rem 0.5rem;
     min-height: var(--touch-target-min);
-    font-size: 0.85rem;
+    font-size: 0.8rem;
+  }
+
+  .teletext-lightbox-counter {
+    bottom: 5rem;
   }
 
   .teletext-nav-btn {
@@ -1085,9 +1089,6 @@
     bottom: 3rem;
   }
 
-  .teletext-lightbox-nav {
-    margin-top: 0.5rem;
-  }
 }
 
 /*    HIGH DPI / RETINA DISPLAYS    */
