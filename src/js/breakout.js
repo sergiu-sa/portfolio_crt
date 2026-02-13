@@ -569,7 +569,6 @@ export function startBreakout() {
   handleResize();
 
   resetGame();
-  initBricks();
 
   bindInput();
 

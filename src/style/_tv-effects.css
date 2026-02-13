@@ -589,6 +589,92 @@
   }
 }
 
+/* ---- VHS Camcorder HUD ---- */
+
+.vhs-rec,
+.vhs-timestamp,
+.vhs-datestamp {
+  position: absolute;
+  z-index: 14;
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 0.85rem;
+  color: rgba(255, 255, 255, 0.9);
+  text-shadow: 1px 1px 0 rgba(0, 0, 0, 0.8);
+  opacity: 0;
+  transition: opacity 0.3s;
+  pointer-events: none;
+}
+
+.vhs-overlay.active .vhs-rec,
+.vhs-overlay.active .vhs-timestamp,
+.vhs-overlay.active .vhs-datestamp {
+  opacity: 1;
+}
+
+/* REC indicator — top-left, below header */
+.vhs-rec {
+  top: 3.5rem;
+  left: 2rem;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.vhs-rec-dot {
+  width: 10px;
+  height: 10px;
+  background: #ff0000;
+  border-radius: 50%;
+  box-shadow: 0 0 6px rgba(255, 0, 0, 0.8);
+  animation: vhs-rec-blink 1s steps(1) infinite;
+}
+
+@keyframes vhs-rec-blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+
+.vhs-rec-text {
+  font-weight: 700;
+  letter-spacing: 0.1em;
+}
+
+/* Timestamp + mode — bottom-left, above remote */
+.vhs-timestamp {
+  bottom: 5.5rem;
+  left: 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+}
+
+.vhs-timer {
+  font-size: 0.85rem;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.05em;
+}
+
+.vhs-mode {
+  font-size: 0.7rem;
+  color: rgba(255, 255, 255, 0.6);
+}
+
+/* Battery — bottom-right, above remote */
+.vhs-datestamp {
+  bottom: 5.5rem;
+  right: 2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 0.15rem;
+}
+
+.vhs-battery {
+  font-size: 0.7rem;
+  color: rgba(255, 255, 255, 0.6);
+  letter-spacing: 0.05em;
+}
+
 /* VHS Color Fringing Overlay */
 .vhs-overlay::after {
   content: "";
