@@ -517,6 +517,27 @@ function setupShortcutsModal() {
  * Initialize the application
  */
 function init() {
+  // First-visit splash screen
+  const splashSeen = localStorage.getItem('crtSplashSeen') === 'true';
+  const splash = document.getElementById('splash-screen');
+  const splashBtn = document.getElementById('splash-dismiss');
+
+  if (splashSeen && splash) {
+    splash.remove();
+  } else if (splash && splashBtn) {
+    splashBtn.addEventListener('click', () => {
+      splash.classList.add('hidden');
+      localStorage.setItem('crtSplashSeen', 'true');
+      splash.addEventListener('transitionend', () => splash.remove(), { once: true });
+    });
+    document.addEventListener('keydown', function splashKey(e) {
+      if (e.key === 'Escape') {
+        splashBtn.click();
+        document.removeEventListener('keydown', splashKey);
+      }
+    });
+  }
+
   // Initialize channel system
   initChannelSystem();
   setSoundEnabledChecker(isSoundEnabled);
