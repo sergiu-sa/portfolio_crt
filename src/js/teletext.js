@@ -292,7 +292,10 @@ function updateProjectDOM(project) {
   const yearEl = document.getElementById('teletext-year');
 
   if (titleEl) titleEl.textContent = project.name.toUpperCase();
-  if (previewImg) previewImg.src = project.images[0];
+  if (previewImg) {
+    previewImg.src = project.images[0];
+    previewImg.alt = `${project.name} project preview`;
+  }
   if (imgCurrentEl) imgCurrentEl.textContent = '1';
   if (imgTotalEl) imgTotalEl.textContent = project.images.length;
   if (tagsEl) renderTechTags(tagsEl, project.tags);
@@ -684,21 +687,26 @@ export function initProjectChannelSystem() {
 
     createPageDots();
 
-    // Touch swipe support
+    // Touch swipe support (horizontal only — ignore vertical scroll)
     const teletextContainer = document.querySelector('.teletext-container');
     if (teletextContainer) {
       let touchStartX = 0;
+      let touchStartY = 0;
 
       teletextContainer.addEventListener('touchstart', (e) => {
         touchStartX = e.changedTouches[0].screenX;
+        touchStartY = e.changedTouches[0].screenY;
       });
 
       teletextContainer.addEventListener('touchend', (e) => {
         const touchEndX = e.changedTouches[0].screenX;
+        const touchEndY = e.changedTouches[0].screenY;
         const diffX = touchStartX - touchEndX;
+        const diffY = touchStartY - touchEndY;
         const threshold = 50;
 
-        if (Math.abs(diffX) > threshold) {
+        // Only navigate if horizontal movement dominates vertical
+        if (Math.abs(diffX) > threshold && Math.abs(diffX) > Math.abs(diffY) * 1.5) {
           if (diffX > 0) {
             navigateTeletextProject('next');
           } else {

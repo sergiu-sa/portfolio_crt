@@ -900,23 +900,6 @@
     gap: 0.35rem;
   }
 
-  /* Fullscreen navigation compact */
-  .fullscreen-arrow {
-    width: 36px;
-    height: 36px;
-    font-size: 1.2rem;
-  }
-
-  .fullscreen-nav {
-    padding: 0.5rem 1rem;
-  }
-
-  .close-fullscreen {
-    top: 1rem;
-    right: 1rem;
-    padding: 0.5rem 0.75rem;
-    font-size: 0.8rem;
-  }
 }
 
 /*    LANDSCAPE ORIENTATION  phones     */

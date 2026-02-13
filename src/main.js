@@ -424,7 +424,13 @@ function setupEventListeners() {
 
   if (pingAll) {
     pingAll.addEventListener('click', () => {
-      alert('[SYSTEM] All contact protocols pinged. Awaiting response...');
+      showOSD('PING ALL');
+      document.querySelectorAll('.contact-card').forEach((card, i) => {
+        setTimeout(() => {
+          card.classList.add('pinged');
+          setTimeout(() => card.classList.remove('pinged'), 600);
+        }, i * 100);
+      });
     });
   }
 

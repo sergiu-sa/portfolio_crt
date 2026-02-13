@@ -8,6 +8,7 @@ import { playTypingSound } from './audio.js';
 // Terminal state
 let terminalOutput = null;
 let contactIntroPlayed = false;
+const MAX_TERMINAL_LINES = 50;
 
 // Command history for arrow key navigation
 const commandHistory = [];
@@ -62,12 +63,19 @@ const COMMANDS = {
  * Print a command to the terminal output
  * @param {string} cmd - Command text
  */
+function trimTerminalOutput() {
+  while (terminalOutput && terminalOutput.children.length > MAX_TERMINAL_LINES) {
+    terminalOutput.removeChild(terminalOutput.firstChild);
+  }
+}
+
 function printCommand(cmd) {
   if (!terminalOutput) return;
   const line = document.createElement('div');
   line.classList.add('terminal-line');
   line.textContent = `> ${cmd}`;
   terminalOutput.appendChild(line);
+  trimTerminalOutput();
 }
 
 /**
@@ -88,6 +96,8 @@ function printResponse(msg) {
       line.textContent += msg.charAt(i);
       i++;
       setTimeout(typeChar, speed);
+    } else {
+      trimTerminalOutput();
     }
   }
   typeChar();

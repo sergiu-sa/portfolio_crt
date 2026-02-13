@@ -208,15 +208,29 @@ export async function startYouTubeChannel(showOSD) {
  * Stop YouTube channel playback
  */
 export function stopYouTubeChannel() {
-  const container = document.getElementById('youtube-container');
-  if (!container) return;
-
   if (ytPlayer && ytPlayer.destroy) {
     ytPlayer.destroy();
     ytPlayer = null;
   }
 
-  container.classList.remove('visible');
+  // YT.Player.destroy() removes the original div — recreate it
+  if (!document.getElementById('youtube-container')) {
+    const tvScreen = document.getElementById('tv-screen');
+    if (tvScreen) {
+      const div = document.createElement('div');
+      div.id = 'youtube-container';
+      // Insert after #tv-image
+      const tvImage = document.getElementById('tv-image');
+      if (tvImage && tvImage.nextSibling) {
+        tvScreen.insertBefore(div, tvImage.nextSibling);
+      } else {
+        tvScreen.appendChild(div);
+      }
+    }
+  }
+
+  const container = document.getElementById('youtube-container');
+  if (container) container.classList.remove('visible');
 }
 
 // ============================================

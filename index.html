@@ -8,6 +8,7 @@
       content="Sergiu Sarbu - Front-End Developer portfolio showcasing web development projects built with HTML, CSS, JavaScript, React, and Vue.js"
     />
     <title>Sergiu Sarbu | Portfolio</title>
+    <meta name="theme-color" content="#0a0a0a" />
 
     <link rel="icon" href="/favicon.ico" sizes="any" />
 
@@ -15,13 +16,14 @@
     <meta property="og:title" content="Sergiu Sarbu | Portfolio" />
     <meta property="og:description" content="Front-End Developer portfolio built as a retro CRT TV experience." />
     <meta property="og:type" content="website" />
-    <meta property="og:image" content="/assets/og-preview.png" />
+    <meta property="og:url" content="https://portfoliosergiusarbu.netlify.app/" />
+    <meta property="og:image" content="https://portfoliosergiusarbu.netlify.app/assets/og-preview.png" />
 
     <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content="Sergiu Sarbu | Portfolio" />
     <meta name="twitter:description" content="Front-End Developer portfolio built as a retro CRT TV experience." />
-    <meta name="twitter:image" content="/assets/og-preview.png" />
+    <meta name="twitter:image" content="https://portfoliosergiusarbu.netlify.app/assets/og-preview.png" />
 
     <!-- Preconnect to external resources for faster loading -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -69,9 +71,9 @@
       <!-- YouTube Retro TV Channel -->
       <div id="youtube-container"></div>
       <!-- Breakout Game Canvas (CH04) -->
-      <canvas id="breakout-canvas"></canvas>
+      <canvas id="breakout-canvas" role="img" aria-label="Breakout game on channel 4"></canvas>
       <!-- Dead Channel Tuner Canvas (CH07) -->
-      <canvas id="tuner-canvas"></canvas>
+      <canvas id="tuner-canvas" role="img" aria-label="Static tuner on channel 7"></canvas>
       <div id="screen-dim-overlay"></div>
       <div id="tv-overlay"></div>
       <div id="channel-flicker"></div>
@@ -221,7 +223,7 @@
             </div>
 
             <!-- Teletext Content Area -->
-            <div class="teletext-content">
+            <div class="teletext-content" aria-live="polite" aria-atomic="true">
               <!-- Project Title Row -->
               <div class="teletext-title-row">
                 <span class="teletext-title" id="teletext-project-title">AUCTO</span>

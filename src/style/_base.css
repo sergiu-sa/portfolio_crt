@@ -80,10 +80,6 @@ h2 {
 }
 
 /* Utility Classes */
-.active {
-  display: block;
-}
-
 .fade-in {
   opacity: 0;
   transform: translateY(30px) scale(0.98);
@@ -117,23 +113,6 @@ h2 {
   text-shadow:
     0 0 3px #fefefe,
     0 0 5px #00ffcc;
-}
-
-/* Links */
-.glitch-link {
-  color: #0ff;
-  text-decoration: none;
-  border-bottom: 1px dashed #0ff;
-  transition: all 0.2s;
-  position: relative;
-}
-
-.glitch-link:hover {
-  color: #fff;
-  border-color: #fff;
-  text-shadow:
-    0 0 4px #0ff,
-    0 0 8px #0ff;
 }
 
 /* Icons */

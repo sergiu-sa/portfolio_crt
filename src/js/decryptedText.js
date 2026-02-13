@@ -62,12 +62,13 @@ function _animateSingleDecryptedText({ element, text, speed, characters, revealD
       return characters[Math.floor(Math.random() * characters.length)];
     });
 
-    element.innerHTML = scrambled
-      .map((char, i) => {
-        const spanClass = revealed.has(i) ? 'revealed-char' : 'encrypted-char';
-        return `<span class="${spanClass}">${char}</span>`;
-      })
-      .join('');
+    element.textContent = '';
+    scrambled.forEach((char, i) => {
+      const span = document.createElement('span');
+      span.className = revealed.has(i) ? 'revealed-char' : 'encrypted-char';
+      span.textContent = char;
+      element.appendChild(span);
+    });
   }
 
   const interval = setInterval(() => {
