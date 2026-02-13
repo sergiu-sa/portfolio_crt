@@ -22,8 +22,8 @@ const projectsData = [
     live: 'https://auctohouse.netlify.app/',
     images: [
       '/assets/projects/aucto/aucto_intro.gif',
-      '/assets/projects/aucto/b_aucto_feed.png',
-      '/assets/projects/aucto/c_aucto_item.png',
+      '/assets/projects/aucto/b_aucto_feed.jpg',
+      '/assets/projects/aucto/c_aucto.png',
       '/assets/projects/aucto/d_aucto_profile.png',
       '/assets/projects/aucto/e_aucto_catalog.jpg',
       '/assets/projects/aucto/f_aucto_login.png',
