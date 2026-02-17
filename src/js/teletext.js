@@ -94,32 +94,6 @@ const projectsData = [
       '/assets/projects/kid_bank/kid_bank02.png',
     ],
   },
-  {
-    id: 'ask-better',
-    name: 'Ask Better',
-    tags: ['AI', 'UX', 'JavaScript'],
-    year: '2025',
-    status: 'LIVE',
-    description: 'Prompt-engineering app with mood, complexity, and intent refinements.',
-    github: 'https://github.com/sergiu-sa/askbetter.git',
-    live: 'https://askbetter.netlify.app',
-    images: [
-      '/assets/projects/ask_better/corporate_basic_01.png',
-      '/assets/projects/ask_better/corporate_pro_01.png',
-      '/assets/projects/ask_better/coffe_basic_02.png',
-      '/assets/projects/ask_better/coffe_pro_02.png',
-      '/assets/projects/ask_better/coffe_pro_03.png',
-      '/assets/projects/ask_better/forest_basic_01.png',
-      '/assets/projects/ask_better/forest_pro_02.png',
-      '/assets/projects/ask_better/golden_basic_01.png',
-      '/assets/projects/ask_better/golden_pro_01.png',
-      '/assets/projects/ask_better/golden_pro_03.png',
-      '/assets/projects/ask_better/deep_basic_01.png',
-      '/assets/projects/ask_better/deep_pro_01.png',
-      '/assets/projects/ask_better/zen_basic01.png',
-      '/assets/projects/ask_better/zen_pro_01.png',
-    ],
-  },
 ];
 
 // Teletext state

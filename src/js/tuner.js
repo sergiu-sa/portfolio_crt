@@ -35,7 +35,7 @@ const SMPTE_COLORS = [
 const COLORS = {
   bg: '#0a0a14',
   text: '#e0e0e0',
-  textDim: 'rgba(224, 224, 224, 0.4)',
+  textDim: 'rgba(224, 224, 224, 0.82)',
   barBg: 'rgba(0, 0, 0, 0.6)',
   barCursor: '#00ffcc',
   barStation: '#ffcc00',
@@ -253,7 +253,7 @@ function drawStandby(c, w, h) {
   c.strokeRect(pad, pad, w - pad * 2, h - pad * 2);
 
   // Inner border
-  c.strokeStyle = 'rgba(255, 255, 255, 0.15)';
+  c.strokeStyle = 'rgba(255, 255, 255, 0.45)';
   c.lineWidth = 1;
   c.strokeRect(pad + 8, pad + 8, w - pad * 2 - 16, h - pad * 2 - 16);
 
@@ -266,12 +266,12 @@ function drawStandby(c, w, h) {
   c.fillText('STAND BY', w / 2, h * 0.52);
 
   // Badge
-  c.fillStyle = 'rgba(255, 255, 255, 0.4)';
+  c.fillStyle = 'rgba(255, 255, 255, 0.78)';
   c.font = `${Math.max(8, h * 0.018)}px "Press Start 2P", monospace`;
   c.fillText('PORTFOLIO TV', w / 2, h * 0.72);
 
   // Horizontal line divider
-  c.strokeStyle = 'rgba(255, 255, 255, 0.2)';
+  c.strokeStyle = 'rgba(255, 255, 255, 0.5)';
   c.lineWidth = 1;
   c.beginPath();
   c.moveTo(w * 0.3, h * 0.63);
@@ -300,7 +300,7 @@ function drawOffAir(c, w, h) {
   c.fillText(timeStr, w / 2, h * 0.55);
 
   // Channel ID
-  c.fillStyle = 'rgba(255, 255, 255, 0.3)';
+  c.fillStyle = 'rgba(255, 255, 255, 0.72)';
   c.font = `${Math.max(8, h * 0.018)}px "Press Start 2P", monospace`;
   c.fillText('CH 07  PORTFOLIO TV', w / 2, h * 0.75);
 
