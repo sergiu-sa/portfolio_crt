@@ -282,6 +282,12 @@ export function stopSlideshow() {
 export async function startWebcam(showOSD) {
   const loadingIndicator = document.getElementById('loading-indicator');
 
+  // Stop any existing stream before requesting a new one
+  if (currentStream) {
+    currentStream.getTracks().forEach((track) => track.stop());
+    currentStream = null;
+  }
+
   try {
     if (loadingIndicator) loadingIndicator.classList.add('active');
 

@@ -546,6 +546,7 @@ function openLightbox() {
   resetZoom();
 
   lightboxImg.src = project.images[currentProjectImageIndex];
+  lightboxImg.alt = `${project.name} — image ${currentProjectImageIndex + 1} of ${project.images.length}`;
   if (lightboxCurrent) lightboxCurrent.textContent = currentProjectImageIndex + 1;
   if (lightboxTotal) lightboxTotal.textContent = project.images.length;
 
@@ -583,7 +584,10 @@ function navigateLightbox(direction) {
       (currentProjectImageIndex - 1 + project.images.length) % project.images.length;
   }
 
-  if (lightboxImg) lightboxImg.src = project.images[currentProjectImageIndex];
+  if (lightboxImg) {
+    lightboxImg.src = project.images[currentProjectImageIndex];
+    lightboxImg.alt = `${project.name} — image ${currentProjectImageIndex + 1} of ${project.images.length}`;
+  }
   if (lightboxCurrent) lightboxCurrent.textContent = currentProjectImageIndex + 1;
 
   // Update preview thumbnail

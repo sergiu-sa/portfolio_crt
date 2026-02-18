@@ -9,6 +9,7 @@
     />
     <title>Sergiu Sarbu | Portfolio</title>
     <meta name="theme-color" content="#0a0a0a" />
+    <meta name="color-scheme" content="dark" />
 
     <link rel="icon" href="/favicon.ico" sizes="any" />
 
@@ -62,6 +63,12 @@
       </div>
     </div>
 
+    <noscript>
+      <p style="color:#ccc;background:#111;padding:2rem;text-align:center;font-family:monospace;">
+        This portfolio requires JavaScript to run. Please enable JavaScript in your browser settings.
+      </p>
+    </noscript>
+
     <!-- Skip link for keyboard navigation -->
     <a href="#main-content" class="skip-link">Skip to main content</a>
     <!-- CRT Screen & Video/Image Background -->
@@ -71,9 +78,9 @@
       <!-- YouTube Retro TV Channel -->
       <div id="youtube-container"></div>
       <!-- Breakout Game Canvas (CH04) -->
-      <canvas id="breakout-canvas" role="img" aria-label="Breakout game on channel 4"></canvas>
+      <canvas id="breakout-canvas" role="application" aria-label="Breakout arcade game — use arrow keys or mouse to play">Your browser does not support canvas. This is an interactive Breakout game.</canvas>
       <!-- Dead Channel Tuner Canvas (CH07) -->
-      <canvas id="tuner-canvas" role="img" aria-label="Static tuner on channel 7"></canvas>
+      <canvas id="tuner-canvas" role="application" aria-label="Interactive dead-channel tuner — drag to tune frequencies">Your browser does not support canvas. This is an interactive channel tuner.</canvas>
       <div id="screen-dim-overlay"></div>
       <div id="tv-overlay"></div>
       <div id="channel-flicker"></div>
@@ -520,7 +527,7 @@
           </div>
 
           <div class="contact-console">
-            <label for="contact-input" class="prompt">></label>
+            <label for="contact-input" class="prompt" aria-hidden="true">></label>
             <input
               type="text"
               id="contact-input"

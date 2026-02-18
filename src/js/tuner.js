@@ -320,6 +320,9 @@ function drawOffAir(c, w, h) {
 function startAudio() {
   if (!isSoundEnabled() || audioStarted) return;
 
+  // Clean up any leftover nodes from a previous cycle
+  stopAudio();
+
   try {
     const actx = getAudioContext();
 
