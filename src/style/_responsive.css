@@ -1146,6 +1146,31 @@
     animation: none;
     opacity: 1;
   }
+
+  /* Hide purely decorative CRT effect layers that may cause discomfort */
+  #crt-flicker,
+  .vhs-noise,
+  .vhs-tracking,
+  .vhs-overlay::before {
+    display: none;
+  }
+
+  /* Stop pulsing status indicators — show them static instead */
+  .status-blink {
+    animation: none;
+    opacity: 1;
+  }
+
+  .vhs-rec-dot {
+    animation: none;
+    opacity: 1;
+  }
+
+  /* Intro glow — keep visible but freeze */
+  #intro::before {
+    animation: none;
+    opacity: 0.4;
+  }
 }
 
 /*     PRINT STYLES     */

@@ -523,6 +523,10 @@ function setupShortcutsModal() {
  * Initialize the application
  */
 function init() {
+  // Set dynamic year in splash footer
+  const splashYear = document.getElementById('splash-year');
+  if (splashYear) splashYear.textContent = new Date().getFullYear();
+
   // First-visit splash screen
   const splashSeen = localStorage.getItem('crtSplashSeen') === 'true';
   const splash = document.getElementById('splash-screen');

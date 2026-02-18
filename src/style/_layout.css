@@ -208,14 +208,14 @@ main::-webkit-scrollbar {
   background:
     repeating-linear-gradient(
       95deg,
-      transparent 0px,
+      transparent 0,
       transparent 3px,
       rgba(80, 50, 30, 0.12) 3px,
       rgba(80, 50, 30, 0.12) 5px
     ),
     repeating-linear-gradient(
       88deg,
-      transparent 0px,
+      transparent 0,
       transparent 12px,
       rgba(60, 35, 20, 0.18) 12px,
       rgba(60, 35, 20, 0.18) 14px
@@ -304,8 +304,9 @@ main::-webkit-scrollbar {
 
 /* Zenith-style vertical bar buttons */
 .bar-btn {
+  position: relative;
   width: 28px;
-  height: 42px;
+  height: 44px;
   background: linear-gradient(180deg, #f8f8f8 0%, #eee 15%, #ddd 50%, #c5c5c5 85%, #aaa 100%);
   border: 2px solid #666;
   border-radius: 3px;
@@ -332,6 +333,16 @@ main::-webkit-scrollbar {
   box-shadow:
     inset 0 3px 6px rgba(0, 0, 0, 0.25),
     0 1px 2px rgba(0, 0, 0, 0.2);
+}
+
+/* Expand touch target to meet 44×44px accessibility minimum */
+.bar-btn::after {
+  content: "";
+  position: absolute;
+  inset: 50% auto auto 50%;
+  transform: translate(-50%, -50%);
+  width: var(--touch-target-min);
+  height: var(--touch-target-min);
 }
 
 /* Icon buttons */
@@ -526,6 +537,7 @@ main::-webkit-scrollbar {
 
 /* Help button */
 .remote-help {
+  position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -543,6 +555,16 @@ main::-webkit-scrollbar {
   box-shadow:
     inset 0 1px 0 rgba(255, 255, 255, 0.15),
     0 2px 4px rgba(0, 0, 0, 0.4);
+}
+
+/* Expand touch target to meet 44×44px accessibility minimum */
+.remote-help::after {
+  content: "";
+  position: absolute;
+  inset: 50% auto auto 50%;
+  transform: translate(-50%, -50%);
+  width: var(--touch-target-min);
+  height: var(--touch-target-min);
 }
 
 .remote-help:hover {
