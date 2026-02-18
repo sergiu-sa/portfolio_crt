@@ -531,17 +531,21 @@ function init() {
   if (splashSeen && splash) {
     splash.remove();
   } else if (splash && splashBtn) {
-    splashBtn.addEventListener('click', () => {
+    function dismissSplash() {
       splash.classList.add('hidden');
       localStorage.setItem('crtSplashSeen', 'true');
       splash.addEventListener('transitionend', () => splash.remove(), { once: true });
-    });
-    document.addEventListener('keydown', function splashKey(e) {
+      document.removeEventListener('keydown', splashKey);
+    }
+
+    function splashKey(e) {
       if (e.key === 'Escape') {
-        splashBtn.click();
-        document.removeEventListener('keydown', splashKey);
+        dismissSplash();
       }
-    });
+    }
+
+    splashBtn.addEventListener('click', dismissSplash);
+    document.addEventListener('keydown', splashKey);
   }
 
   // Initialize channel system

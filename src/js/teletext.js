@@ -844,6 +844,10 @@ export function initProjectChannelSystem() {
   // Per-activation setup (runs every time the section is shown)
   showTeletextProject(currentProjectIndex, false);
 
+  // Remove any existing handler before adding to prevent duplicates
+  if (teletextKeyboardHandler) {
+    document.removeEventListener('keydown', teletextKeyboardHandler);
+  }
   teletextKeyboardHandler = handleTeletextKeyboard;
   document.addEventListener('keydown', teletextKeyboardHandler);
 

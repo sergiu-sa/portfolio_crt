@@ -68,6 +68,10 @@ let vhsTimerSeconds = 0;
  * Start VHS camcorder running timer and date stamp
  */
 function startVHSTimer() {
+  // Clear any existing timer to prevent stacking
+  if (vhsTimerInterval) {
+    clearInterval(vhsTimerInterval);
+  }
   vhsTimerSeconds = 0;
   const timerEl = document.getElementById('vhs-timer');
 
