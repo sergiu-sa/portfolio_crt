@@ -2,7 +2,7 @@
 #ui-layer {
   position: fixed;
   inset: 1.5rem;
-  z-index: 10;
+  z-index: var(--z-ui);
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -26,7 +26,7 @@ header {
   font-size: 0.95rem;
   padding: 0.6rem 1rem;
   position: relative;
-  z-index: 5;
+  z-index: var(--z-header);
 }
 
 /* Navigation */
@@ -38,15 +38,12 @@ nav {
 nav button {
   background: none;
   border: none;
-  color: #aaa;
+  color: var(--color-muted);
   font-size: 1rem;
   cursor: pointer;
-  transition: color 0.2s;
+  transition: color var(--duration-fast);
   font-family: inherit;
-  text-shadow:
-    0 0 1px #66ccff,
-    0 0 2px #3399ff,
-    0 0 3px #0066cc;
+  text-shadow: var(--text-glow-nav);
 }
 
 nav button:hover {
@@ -56,10 +53,8 @@ nav button:hover {
 /* Header Date */
 .header-date {
   font-size: 1rem;
-  color: #777;
-  text-shadow:
-    0 0 1px #66ccff,
-    0 0 2px #3399ff;
+  color: var(--color-dim);
+  text-shadow: var(--text-glow-nav);
   font-family: "IBM Plex Mono", monospace;
 }
 
@@ -85,7 +80,7 @@ main::-webkit-scrollbar {
   padding: 0;
   width: 100%;
   height: auto;
-  z-index: 1;
+  z-index: var(--z-base);
   overflow-x: hidden;
   opacity: 0;
   visibility: hidden;
@@ -175,7 +170,7 @@ main::-webkit-scrollbar {
   justify-content: center;
   gap: 1.25rem;
   padding: 0.7rem 1.75rem 0.6rem;
-  z-index: 10;
+  z-index: var(--z-ui);
   position: fixed;
   bottom: 1.5rem;
   left: 50%;
@@ -188,7 +183,7 @@ main::-webkit-scrollbar {
     #a5843d 70%,
     #8a6a2e 100%
   );
-  border-radius: 6px;
+  border-radius: var(--remote-border-radius);
   border: 2px solid #6b5522;
   box-shadow:
     inset 0 2px 0 rgba(255, 255, 255, 0.35),
@@ -252,7 +247,7 @@ main::-webkit-scrollbar {
   gap: 0.3rem;
   background: #0a0a0a;
   padding: 0.35rem 0.5rem;
-  border-radius: 3px;
+  border-radius: var(--remote-display-radius);
   border: 2px solid #333;
   box-shadow:
     inset 0 2px 6px rgba(0, 0, 0, 0.9),
@@ -309,9 +304,9 @@ main::-webkit-scrollbar {
   height: 44px;
   background: linear-gradient(180deg, #f8f8f8 0%, #eee 15%, #ddd 50%, #c5c5c5 85%, #aaa 100%);
   border: 2px solid #666;
-  border-radius: 3px;
+  border-radius: var(--remote-display-radius);
   cursor: pointer;
-  transition: all 0.1s ease;
+  transition: all var(--duration-xfast) ease;
   box-shadow:
     inset 0 2px 0 rgba(255, 255, 255, 0.9),
     inset 0 -2px 3px rgba(0, 0, 0, 0.15),
@@ -588,7 +583,7 @@ main::-webkit-scrollbar {
   height: 100%;
   background: rgba(0, 0, 0, 0.92);
   backdrop-filter: blur(8px);
-  z-index: 10000;
+  z-index: var(--z-modal);
   align-items: center;
   justify-content: center;
 }
@@ -952,7 +947,7 @@ main::-webkit-scrollbar {
 .splash-screen {
   position: fixed;
   inset: 0;
-  z-index: 10001;
+  z-index: var(--z-splash);
   background: rgba(5, 5, 5, 0.92);
   display: flex;
   align-items: center;
@@ -1074,7 +1069,7 @@ main::-webkit-scrollbar {
 
 .splash-btn:hover {
   background: var(--teletext-yellow);
-  box-shadow: 0 0 12px rgba(100, 255, 150, 0.4);
+  box-shadow: 0 0 12px var(--accent-alpha-40);
 }
 
 .splash-footer {

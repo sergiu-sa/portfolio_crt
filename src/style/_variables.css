@@ -3,6 +3,12 @@
   --accent-color: #00ffcc;
   --accent-color-light: #fefefe;
 
+  /* Accent color alpha variants */
+  --accent-alpha-08: rgba(0, 255, 204, 0.08);
+  --accent-alpha-15: rgba(0, 255, 204, 0.15);
+  --accent-alpha-30: rgba(0, 255, 204, 0.3);
+  --accent-alpha-40: rgba(0, 255, 204, 0.4);
+
   /* CRT effects */
   --crt-glow: 0 0 2px #fefefe, 0 0 4px #00ffcc;
   --crt-border-radius: 2rem;
@@ -10,14 +16,44 @@
   /* TV bezel */
   --tv-bezel-color: #1a1a1a;
 
+  /* UI text colors */
+  --color-muted: #aaa;
+  --color-dim: #777;
+  --color-nav-glow: #66ccff;
+  --color-nav-glow-mid: #3399ff;
+  --color-nav-glow-dark: #0066cc;
+
+  /* Text shadows */
+  --text-glow: 0 0 2px var(--accent-color-light), 0 0 4px var(--accent-color);
+  --text-glow-nav: 0 0 1px var(--color-nav-glow), 0 0 2px var(--color-nav-glow-mid), 0 0 3px var(--color-nav-glow-dark);
+
   /* Transitions */
   --transition-smooth: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+
+  /* Animation durations */
+  --duration-xfast: 0.1s;
+  --duration-fast: 0.2s;
+  --duration-normal: 0.3s;
+  --duration-slow: 0.5s;
 
   /* Teletext palette */
   --teletext-red: rgb(255, 100, 100);
   --teletext-yellow: rgb(255, 200, 100);
   --teletext-green: rgb(100, 255, 150);
   --teletext-blue: rgb(100, 150, 255);
+
+  /* Remote control */
+  --remote-border-radius: 6px;
+  --remote-display-radius: 3px;
+
+  /* Z-index scale */
+  --z-base: 1;
+  --z-header: 5;
+  --z-ui: 10;
+  --z-osd: 1000;
+  --z-poweroff: 9999;
+  --z-modal: 10000;
+  --z-splash: 10001;
 
   /* Spacing */
   --spacing-xs: 0.5rem;

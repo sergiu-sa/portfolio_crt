@@ -167,8 +167,8 @@
   text-decoration: none;
   text-shadow:
     0 0 2px #fefefe,
-    0 0 4px rgb(255, 200, 100);
-  transition: color 0.3s ease;
+    0 0 4px var(--teletext-yellow);
+  transition: color var(--duration-normal) ease;
   margin-top: 1.2rem;
 }
 
@@ -212,7 +212,7 @@
 
 .contact-card:hover .contact-link span {
   color: #fff;
-  text-shadow: 0 0 5px rgb(255, 200, 100);
+  text-shadow: 0 0 5px var(--teletext-yellow);
 }
 
 /* Hover tooltip */
@@ -220,7 +220,7 @@
   content: attr(data-hover);
   font-size: 0.75rem;
   color: #fefefe;
-  text-shadow: 0 0 4px rgb(255, 200, 100);
+  text-shadow: 0 0 4px var(--teletext-yellow);
   position: absolute;
   bottom: -2rem;
   left: 50%;
@@ -241,12 +241,12 @@
   width: 40px;
   height: 40px;
   fill: #fefefe;
-  transition: all 0.3s ease;
+  transition: all var(--duration-normal) ease;
 }
 
 .contact-card:hover svg.icon {
-  fill: rgb(255, 200, 100);
-  filter: drop-shadow(0 0 8px rgb(255, 200, 100));
+  fill: var(--teletext-yellow);
+  filter: drop-shadow(0 0 8px var(--teletext-yellow));
 }
 
 /* Contact Console */

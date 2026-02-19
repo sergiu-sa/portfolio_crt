@@ -10,7 +10,7 @@
   text-decoration: none;
   font-family: "IBM Plex Mono", monospace;
   font-weight: bold;
-  z-index: 10000;
+  z-index: var(--z-modal);
   border-radius: 0 0 8px 8px;
   transition: top 0.3s ease;
 }
@@ -64,9 +64,7 @@ h1 {
   margin: 0;
   color: #fefefe;
   line-height: 1.1;
-  text-shadow:
-    0 0 2px #fefefe,
-    0 0 4px #00ffcc;
+  text-shadow: var(--text-glow);
 }
 
 h2 {
@@ -74,9 +72,7 @@ h2 {
   color: #fefefe;
   letter-spacing: 2px;
   margin: 0;
-  text-shadow:
-    0 0 2px #fefefe,
-    0 0 4px #00ffcc;
+  text-shadow: var(--text-glow);
 }
 
 /* Utility Classes */
