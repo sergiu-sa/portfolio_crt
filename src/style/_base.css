@@ -166,6 +166,7 @@ h2 {
 #tv-screen.crt-turning-off #tv-image,
 #tv-screen.crt-turning-off #youtube-container,
 #tv-screen.crt-turning-off #breakout-canvas,
+#tv-screen.crt-turning-off #testcard-canvas,
 #tv-screen.crt-turning-off #tuner-canvas,
 #tv-screen.crt-turning-off #screen-dim-overlay,
 #tv-screen.crt-turning-off #channel-indicator,
@@ -186,6 +187,7 @@ h2 {
 #tv-screen.crt-off #tv-image,
 #tv-screen.crt-off #youtube-container,
 #tv-screen.crt-off #breakout-canvas,
+#tv-screen.crt-off #testcard-canvas,
 #tv-screen.crt-off #tuner-canvas,
 #tv-screen.crt-off #screen-dim-overlay,
 #tv-screen.crt-off #tv-overlay,
@@ -301,5 +303,113 @@ body.tv-powered-off .remote-control {
     height: 100%;
     opacity: 0;
     box-shadow: 0 0 0 rgba(255, 255, 255, 0);
+  }
+}
+
+/* ============================================
+   GLOBAL RESPONSIVE - hi-DPI, reduced motion, print
+   ============================================ */
+
+@media (min-resolution: 192dpi) {
+  .crt-text {
+    text-shadow:
+      0 0 1px #fefefe,
+      0 0 2px #00ffcc;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+
+  .fade-in {
+    opacity: 1;
+    transform: none;
+  }
+
+  .teletext-lightbox {
+    transition: none;
+  }
+
+  .lightbox-img-viewport img {
+    transition: none;
+  }
+
+  .lightbox-zoom-indicator {
+    transition: none;
+  }
+
+  .channel-screen {
+    transition: none;
+  }
+
+  .status-dot {
+    animation: none;
+    opacity: 1;
+  }
+
+  /* Hide purely decorative CRT effect layers that may cause discomfort */
+  #crt-flicker,
+  .vhs-noise,
+  .vhs-tracking,
+  .vhs-overlay::before {
+    display: none;
+  }
+
+  .status-blink {
+    animation: none;
+    opacity: 1;
+  }
+
+  .vhs-rec-dot {
+    animation: none;
+    opacity: 1;
+  }
+
+  #intro::before {
+    animation: none;
+    opacity: 0.4;
+  }
+}
+
+@media print {
+  footer,
+  header,
+  .easter-egg-buttons,
+  .contact-console,
+  .skip-link,
+  #tv-screen,
+  #tv-overlay,
+  #vhs-overlay,
+  #channel-indicator,
+  #loading-indicator {
+    display: none !important;
+  }
+
+  body {
+    background: #fff;
+    color: #000;
+  }
+
+  .channel-screen {
+    display: block !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+    break-after: page;
+  }
+
+  .crt-text,
+  .teletext-title,
+  .teletext-desc,
+  h1,
+  h2,
+  p {
+    color: #000 !important;
+    text-shadow: none !important;
   }
 }

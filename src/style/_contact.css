@@ -358,3 +358,115 @@
   background: rgba(0, 0, 0, 0.9);
   box-sizing: border-box;
 }
+
+/* ============================================
+   RESPONSIVE - Contact section, console, terminal
+   ============================================ */
+
+@media (min-width: 1400px) {
+  .contact-grid {
+    max-width: 1300px;
+    gap: 3.5rem;
+  }
+}
+
+@media (max-width: 992px) {
+  .contact-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2rem;
+  }
+}
+
+@media (max-width: 550px) {
+  .contact-header {
+    max-width: none;
+    width: calc(100% - 2rem);
+    margin-left: 1rem;
+    margin-right: 1rem;
+  }
+
+  .contact-grid {
+    grid-template-columns: 1fr;
+    padding: 0 1rem;
+    gap: 1.5rem;
+  }
+
+  .contact-card {
+    padding: 1.25rem;
+    font-size: 0.9rem;
+    min-height: var(--touch-target-min);
+  }
+
+  .contact-card svg.icon {
+    width: 32px;
+    height: 32px;
+  }
+
+  .easter-egg-buttons {
+    flex-direction: column;
+    gap: 0.75rem;
+    padding: 0 1rem;
+  }
+
+  .easter-egg-buttons button {
+    width: 100%;
+    padding: 1rem 1.5rem;
+    min-height: var(--touch-target-min);
+  }
+
+  .contact-console {
+    flex-direction: row;
+    flex-wrap: nowrap;
+    align-items: center;
+    font-size: 0.8rem;
+    margin: 1.5rem 1rem;
+    padding: 1rem;
+    gap: 0.5rem;
+    width: calc(100% - 2rem);
+    max-width: none;
+  }
+
+  .contact-console .prompt {
+    flex-shrink: 0;
+  }
+
+  .contact-console input {
+    flex: 1;
+    min-width: 0;
+    font-size: 0.9rem;
+    min-height: var(--touch-target-min);
+  }
+
+  .console-submit-btn {
+    flex-shrink: 0;
+    min-width: 48px;
+    min-height: 48px;
+  }
+
+  .console-submit-btn svg {
+    width: 22px;
+    height: 22px;
+  }
+
+  .terminal-line {
+    font-size: 0.8rem;
+    padding: 0.75rem 0;
+  }
+
+  .terminal-output {
+    max-width: none;
+    width: calc(100% - 2rem);
+    margin: 1rem 1rem 0;
+    padding: 0.75rem;
+  }
+}
+
+@media (max-width: 400px) {
+  .contact-card {
+    padding: 1rem;
+  }
+
+  .contact-link span {
+    font-size: 0.85rem;
+  }
+}

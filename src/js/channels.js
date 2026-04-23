@@ -6,6 +6,7 @@
 import { playChannelChange } from './audio.js';
 import { startBreakout, stopBreakout } from './breakout.js';
 import { startTuner, stopTuner, setTunerCallbacks } from './tuner.js';
+import { startTestCard, stopTestCard } from './testcards.js';
 
 // Channel state
 let currentChannel = 1;
@@ -323,25 +324,6 @@ export function stopWebcam() {
 }
 
 // ============================================
-// RETRO VIDEO (CH05-CH07)
-// ============================================
-
-/**
- * Play retro video loop
- * @param {number} videoNumber - Video number (1-5)
- */
-export function playRetroVideo(videoNumber) {
-  if (!tvImage || !tvVideo) return;
-
-  tvImage.classList.remove('visible');
-  tvVideo.srcObject = null;
-  tvVideo.src = `/assets/retro/retro${videoNumber}.mp4`;
-  tvVideo.loop = true;
-  tvVideo.classList.add('visible');
-  tvVideo.play().catch((err) => console.error('Video play error:', err));
-}
-
-// ============================================
 // CHANNEL SWITCHING
 // ============================================
 
@@ -371,6 +353,7 @@ export function setChannel(channel, { showOSD, triggerFlicker }) {
   stopYouTubeChannel();
   stopBreakout();
   stopTuner();
+  stopTestCard();
 
   if (tvVideo) {
     tvVideo.pause();
@@ -389,9 +372,9 @@ export function setChannel(channel, { showOSD, triggerFlicker }) {
   } else if (channel === 4) {
     startBreakout();
   } else if (channel === 5) {
-    playRetroVideo(1);
+    startTestCard('smpte');
   } else if (channel === 6) {
-    playRetroVideo(3);
+    startTestCard('standby');
   } else if (channel === 7) {
     setTunerCallbacks({ showOSD });
     startTuner();

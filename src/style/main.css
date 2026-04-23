@@ -1,4 +1,6 @@
-/* CSS Partials */
+/* CSS Partials.
+   Each component file ends with its own "RESPONSIVE" section;
+   global responsive rules (reduced-motion, print, hi-dpi) live in _base.css. */
 @import "./_variables.css";
 @import "./_base.css";
 @import "./_layout.css";
@@ -6,4 +8,3 @@
 @import "./_teletext.css";
 @import "./_about.css";
 @import "./_contact.css";
-@import "./_responsive.css";

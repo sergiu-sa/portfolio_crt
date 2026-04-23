@@ -81,10 +81,9 @@ let audioStarted = false;
 
 // Input
 let keysDown = {};
-let onKeyDown = null;
-let onKeyUp = null;
-let onPointerMove = null;
-let onPointerDown = null;
+
+// AbortController for grouped input-listener cleanup
+let inputController = null;
 
 // Callbacks (set by channels.js via setChannel)
 let showOSD = null;
@@ -421,34 +420,35 @@ function updateAudio() {
 // ============================================
 
 function bindInput() {
-  onKeyDown = (e) => {
+  inputController = new AbortController();
+  const { signal } = inputController;
+
+  const onKeyDown = (e) => {
     if (['m', 'M', 'p', 'P', '?', 'Escape'].includes(e.key)) return;
     keysDown[e.key] = true;
   };
 
-  onKeyUp = (e) => {
+  const onKeyUp = (e) => {
     delete keysDown[e.key];
   };
 
-  onPointerMove = (e) => {
+  const onPointerMove = (e) => {
     if (!canvas) return;
     const rect = canvas.getBoundingClientRect();
     const x = e.clientX ?? e.touches?.[0]?.clientX ?? 0;
     frequency = Math.max(0, Math.min(1, (x - rect.left) / rect.width));
-
 
     if (showInstructions) {
       showInstructions = false;
     }
   };
 
-  onPointerDown = (e) => {
+  const onPointerDown = (e) => {
     if (e.target.closest('.remote-control')) return;
     if (!canvas) return;
     const rect = canvas.getBoundingClientRect();
     const x = e.clientX ?? e.touches?.[0]?.clientX ?? 0;
     frequency = Math.max(0, Math.min(1, (x - rect.left) / rect.width));
-
 
     if (showInstructions) {
       showInstructions = false;
@@ -460,29 +460,19 @@ function bindInput() {
     }
   };
 
-  document.addEventListener('keydown', onKeyDown);
-  document.addEventListener('keyup', onKeyUp);
-  document.addEventListener('mousemove', onPointerMove);
-  document.addEventListener('touchmove', onPointerMove, { passive: true });
-  document.addEventListener('mousedown', onPointerDown);
-  document.addEventListener('touchstart', onPointerDown, { passive: true });
+  document.addEventListener('keydown', onKeyDown, { signal });
+  document.addEventListener('keyup', onKeyUp, { signal });
+  document.addEventListener('mousemove', onPointerMove, { signal });
+  document.addEventListener('touchmove', onPointerMove, { passive: true, signal });
+  document.addEventListener('mousedown', onPointerDown, { signal });
+  document.addEventListener('touchstart', onPointerDown, { passive: true, signal });
 }
 
 function unbindInput() {
-  if (onKeyDown) document.removeEventListener('keydown', onKeyDown);
-  if (onKeyUp) document.removeEventListener('keyup', onKeyUp);
-  if (onPointerMove) {
-    document.removeEventListener('mousemove', onPointerMove);
-    document.removeEventListener('touchmove', onPointerMove);
+  if (inputController) {
+    inputController.abort();
+    inputController = null;
   }
-  if (onPointerDown) {
-    document.removeEventListener('mousedown', onPointerDown);
-    document.removeEventListener('touchstart', onPointerDown);
-  }
-  onKeyDown = null;
-  onKeyUp = null;
-  onPointerMove = null;
-  onPointerDown = null;
   keysDown = {};
 }
 

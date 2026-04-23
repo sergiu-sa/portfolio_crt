@@ -4,104 +4,17 @@
  */
 
 import { playTeletextBeep } from './audio.js';
+import { projects as projectsData } from '../data/projects.js';
 
 // Tag color rotation (teletext fastext palette)
 const TAG_COLORS = ['tag-red', 'tag-green', 'tag-yellow', 'tag-blue'];
-
-// Project data
-const projectsData = [
-  {
-    id: 'aucto',
-    name: 'Aucto',
-    tags: ['TypeScript', 'Tailwind', 'API'],
-    year: '2025',
-    status: 'LIVE',
-    description:
-      'Brutalist auction platform with real-time bidding, JWT auth, and credit management via Noroff API v2.',
-    github: 'https://github.com/sergiu-sa/auction_house_sp2',
-    live: 'https://auctohouse.netlify.app/',
-    images: [
-      '/assets/projects/aucto/aucto_intro.gif',
-      '/assets/projects/aucto/b_aucto_feed.jpg',
-      '/assets/projects/aucto/c_aucto.png',
-      '/assets/projects/aucto/d_aucto_profile.png',
-      '/assets/projects/aucto/e_aucto_catalog.jpg',
-      '/assets/projects/aucto/f_aucto_login.png',
-      '/assets/projects/aucto/g_aucto_register.png',
-    ],
-  },
-  {
-    id: 'linka',
-    name: 'Linka',
-    tags: ['TypeScript', 'Three.js', 'API'],
-    year: '2025',
-    status: 'LIVE',
-    description:
-      'Social media platform with 3D intro, emoji reactions, comments, and real-time search. Team-built with Three.js and Tailwind.',
-    github: 'https://github.com/sergiu-sa/linka-social-media',
-    live: 'https://linka-social.netlify.app/',
-    images: [
-      '/assets/projects/linka/linka_intro_light.gif',
-      '/assets/projects/linka/linka_intro_dark.gif',
-      '/assets/projects/linka/linka_feed_light.png',
-      '/assets/projects/linka/linka_feed_dark.png',
-      '/assets/projects/linka/linka_profile_light.png',
-      '/assets/projects/linka/linka_profile_dark.png',
-    ],
-  },
-  {
-    id: 'adventure-trails',
-    name: 'Adventure Trails',
-    tags: ['HTML', 'CSS'],
-    year: '2024',
-    status: 'COMPLETE',
-    description:
-      'Marketing site for guided hiking expeditions with responsive design, gallery, and SEO optimization. Pure HTML and CSS.',
-    github: 'https://github.com/sergiu-sa/adventure_trails_hikes',
-    live: 'https://adventuretrailshikes.netlify.app/',
-    images: [
-      '/assets/projects/adventure_trails/adventure_intro.gif',
-      '/assets/projects/adventure_trails/hike-min.png',
-      '/assets/projects/adventure_trails/home-min.png',
-      '/assets/projects/adventure_trails/about-min.png',
-    ],
-  },
-  {
-    id: 'square-eyes',
-    name: 'Square Eyes',
-    tags: ['HTML', 'CSS'],
-    year: '2024',
-    status: 'COMPLETE',
-    description: 'Accessible film streaming site built with clean HTML and CSS.',
-    github: 'https://github.com/sergiu-sa/pro-school-react.git',
-    live: 'https://square-eyes-sa.netlify.app/',
-    images: [
-      '/assets/projects/square_eyes/new_home02.png',
-      '/assets/projects/square_eyes/new_home01.png',
-    ],
-  },
-  {
-    id: 'kid-bank',
-    name: 'Kid Bank',
-    tags: ['JavaScript', 'API', 'CSS'],
-    year: '2024',
-    status: 'LIVE',
-    description: 'Banking app for teens with restricted purchases and barcode scanning.',
-    github: 'https://github.com/sergiu-sa/kid_bank_.git',
-    live: 'https://k1dbank.netlify.app',
-    images: [
-      '/assets/projects/kid_bank/kid_bank01.png',
-      '/assets/projects/kid_bank/kid_bank02.png',
-    ],
-  },
-];
 
 // Teletext state
 let currentProjectIndex = 0;
 let currentProjectImageIndex = 0;
 let projectSlideshowInterval = null;
 let projectChannelInitialized = false;
-let teletextKeyboardHandler = null;
+let sectionController = null;
 let lightboxOpen = false;
 let vhsGlitchTimeout = null;
 let signalTimer = null;
@@ -845,15 +758,16 @@ export function initProjectChannelSystem() {
     }
   }
 
-  // Per-activation setup (runs every time the section is shown)
+  // Per-activation setup (runs every time the section is shown).
+  // Abort any previous section-scoped listeners so they don't stack.
+  if (sectionController) sectionController.abort();
+  sectionController = new AbortController();
+
   showTeletextProject(currentProjectIndex, false);
 
-  // Remove any existing handler before adding to prevent duplicates
-  if (teletextKeyboardHandler) {
-    document.removeEventListener('keydown', teletextKeyboardHandler);
-  }
-  teletextKeyboardHandler = handleTeletextKeyboard;
-  document.addEventListener('keydown', teletextKeyboardHandler);
+  document.addEventListener('keydown', handleTeletextKeyboard, {
+    signal: sectionController.signal,
+  });
 
   startTeletextImageCycle();
 }
@@ -862,9 +776,9 @@ export function initProjectChannelSystem() {
  * Cleanup teletext system
  */
 export function cleanupTeletext() {
-  if (teletextKeyboardHandler) {
-    document.removeEventListener('keydown', teletextKeyboardHandler);
-    teletextKeyboardHandler = null;
+  if (sectionController) {
+    sectionController.abort();
+    sectionController = null;
   }
   if (signalTimer) {
     clearTimeout(signalTimer);
