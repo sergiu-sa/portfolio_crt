@@ -191,14 +191,14 @@
    ============================================ */
 
 @keyframes commercialHero {
-  from {
+  0% {
     transform: scale(1.02);
     opacity: 0.7;
   }
   10% {
     opacity: 1;
   }
-  to {
+  100% {
     transform: scale(1.12);
     opacity: 1;
   }

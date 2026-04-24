@@ -230,7 +230,7 @@
   border-radius: inherit;
   background: repeating-linear-gradient(
     0deg,
-    transparent 0px,
+    transparent 0,
     transparent 2px,
     rgba(255, 255, 255, 0.06) 2px,
     rgba(255, 255, 255, 0.06) 4px
@@ -252,28 +252,74 @@
 }
 
 @keyframes crtSwitch {
-  0%   { opacity: 1; background: rgba(255, 255, 255, 0.85); }
-  8%   { opacity: 1; background: rgba(0, 0, 0, 0.95); }
-  14%  { opacity: 1; background: rgba(255, 255, 255, 0.4); }
-  22%  { opacity: 1; background: rgba(0, 0, 0, 0.9); }
-  40%  { opacity: 1; background: rgba(0, 0, 0, 0.6); }
-  65%  { opacity: 0.5; background: rgba(0, 0, 0, 0.3); }
-  100% { opacity: 0; }
+  0% {
+    opacity: 1;
+    background: rgba(255, 255, 255, 0.85);
+  }
+  8% {
+    opacity: 1;
+    background: rgba(0, 0, 0, 0.95);
+  }
+  14% {
+    opacity: 1;
+    background: rgba(255, 255, 255, 0.4);
+  }
+  22% {
+    opacity: 1;
+    background: rgba(0, 0, 0, 0.9);
+  }
+  40% {
+    opacity: 1;
+    background: rgba(0, 0, 0, 0.6);
+  }
+  65% {
+    opacity: 0.5;
+    background: rgba(0, 0, 0, 0.3);
+  }
+  100% {
+    opacity: 0;
+  }
 }
 
 @keyframes crtStatic {
-  0%   { opacity: 1; transform: translateX(-3px); }
-  16%  { opacity: 0.9; transform: translateX(4px); }
-  33%  { opacity: 0.7; transform: translateX(-2px); }
-  50%  { opacity: 0.5; transform: translateX(3px); }
-  66%  { opacity: 0.3; transform: translateX(-1px); }
-  100% { opacity: 0; transform: translateX(0); }
+  0% {
+    opacity: 1;
+    transform: translateX(-3px);
+  }
+  16% {
+    opacity: 0.9;
+    transform: translateX(4px);
+  }
+  33% {
+    opacity: 0.7;
+    transform: translateX(-2px);
+  }
+  50% {
+    opacity: 0.5;
+    transform: translateX(3px);
+  }
+  66% {
+    opacity: 0.3;
+    transform: translateX(-1px);
+  }
+  100% {
+    opacity: 0;
+    transform: translateX(0);
+  }
 }
 
 @keyframes crtSyncRoll {
-  0%   { top: -4px; opacity: 1; }
-  60%  { opacity: 0.6; }
-  100% { top: 100%; opacity: 0; }
+  0% {
+    top: -4px;
+    opacity: 1;
+  }
+  60% {
+    opacity: 0.6;
+  }
+  100% {
+    top: 100%;
+    opacity: 0;
+  }
 }
 
 /* On-Screen Display (OSD) Channel Indicator */
