@@ -1081,6 +1081,36 @@ main::-webkit-scrollbar {
 }
 
 /* ============================================
+   Immersive channels (CH05 news / CH06 commercial)
+   These take over the screen — the intro headline
+   steps aside, and clicks on the empty middle area
+   pass through to the channel below #ui-layer.
+   Nav + remote stay interactive.
+   ============================================ */
+
+body.news-active #intro,
+body.commercial-active #intro {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+/* Allow clicks on the main content area to pass through when these
+   channels are active, so the channel receives the click. */
+body.news-active #main-content,
+body.commercial-active #main-content {
+  pointer-events: none;
+}
+
+/* Re-enable pointer events on whatever section is currently active,
+   so Projects / About / Contact remain fully interactive over the
+   channel (the channel only wins when user is on `#intro`). */
+body.news-active #main-content .channel-screen.active:not(#intro),
+body.commercial-active #main-content .channel-screen.active:not(#intro) {
+  pointer-events: auto;
+}
+
+/* ============================================
    RESPONSIVE - Header, Nav, Intro, Remote, Modal
    ============================================ */
 

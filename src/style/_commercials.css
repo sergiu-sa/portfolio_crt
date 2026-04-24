@@ -1,0 +1,291 @@
+/* ============================================
+   CH06 — Commercial Break
+   Cinematic full-bleed project trailer.
+   One image · one title · one line · one arrow.
+   ============================================ */
+
+#commercial-channel {
+  position: absolute;
+  inset: 0;
+  z-index: var(--z-base);
+  opacity: 0;
+  display: none;
+  transition: opacity var(--duration-slow) ease-in-out;
+  pointer-events: none;
+}
+
+#commercial-channel.visible {
+  display: block;
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.commercial {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background: #000;
+  cursor: pointer;
+  color: #fff;
+  font-family: "IBM Plex Mono", monospace;
+}
+
+/* Full-bleed hero image, subtle Ken Burns drift over 10s */
+.commercial-hero {
+  position: absolute;
+  inset: 0;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  transform-origin: center;
+  animation: commercialHero 10s linear forwards;
+  filter: saturate(1.05);
+}
+
+/* Gradient darkens the bottom so the text has solid contrast without a
+   distinct panel. Left edge gets a subtle darken too for readability. */
+.commercial-overlay {
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(180deg, transparent 0%, transparent 40%, rgba(0, 0, 0, 0.55) 70%, rgba(0, 0, 0, 0.95) 100%),
+    linear-gradient(90deg, rgba(0, 0, 0, 0.45) 0%, transparent 50%);
+  pointer-events: none;
+}
+
+/* Scanline + vignette for CRT character */
+.commercial::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse at center, transparent 55%, rgba(0, 0, 0, 0.45) 100%),
+    repeating-linear-gradient(0deg, rgba(0, 0, 0, 0.06) 0 1px, transparent 1px 3px);
+  mix-blend-mode: multiply;
+  pointer-events: none;
+}
+
+/* Content sits bottom-left, breathing room around it */
+.commercial-content {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  padding: 2.5rem 3rem 2.8rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.9rem;
+  max-width: min(780px, 85%);
+  z-index: 2;
+}
+
+.commercial-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+  animation: commercialRise 0.6s ease-out 0.15s both;
+}
+
+.commercial-tag {
+  display: inline-block;
+  font-family: "Press Start 2P", monospace;
+  font-size: 0.55rem;
+  letter-spacing: 0.15em;
+  padding: 0.3rem 0.5rem;
+  line-height: 1;
+}
+
+.commercial-tag.tag-red {
+  background: var(--teletext-red);
+  color: #000;
+}
+.commercial-tag.tag-green {
+  background: var(--teletext-green);
+  color: #000;
+}
+.commercial-tag.tag-yellow {
+  background: var(--teletext-yellow);
+  color: #000;
+}
+.commercial-tag.tag-blue {
+  background: var(--teletext-blue);
+  color: #000;
+}
+
+.commercial-title {
+  margin: 0;
+  font-family: "Press Start 2P", monospace;
+  font-size: clamp(2.2rem, 6.5vw, 5rem);
+  line-height: 0.95;
+  letter-spacing: -0.01em;
+  color: #fff;
+  text-shadow:
+    0 2px 0 rgba(0, 0, 0, 0.8),
+    0 0 24px rgba(255, 255, 255, 0.15);
+  animation: commercialRise 0.7s cubic-bezier(0.16, 1, 0.3, 1) 0.25s both;
+}
+
+.commercial-desc {
+  margin: 0;
+  font-size: 1rem;
+  line-height: 1.55;
+  color: rgba(255, 255, 255, 0.82);
+  max-width: 60ch;
+  letter-spacing: 0.01em;
+  animation: commercialRise 0.6s ease-out 0.4s both;
+}
+
+/* Action row — single arrow + VISIT. No panel, no button shape,
+   no "CLICK ANYWHERE" instructions. The arrow is the affordance. */
+.commercial-action {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-top: 0.4rem;
+  font-family: "Press Start 2P", monospace;
+  font-size: 0.7rem;
+  letter-spacing: 0.25em;
+  color: var(--teletext-green);
+  text-shadow: 0 0 12px rgba(100, 255, 150, 0.5);
+  animation: commercialRise 0.5s ease-out 0.55s both;
+}
+
+.commercial-action-arrow {
+  display: inline-block;
+  font-family: inherit;
+  font-size: 1.1rem;
+  animation: commercialArrowNudge 1.4s ease-in-out infinite;
+}
+
+/* Thin bottom progress sliver — barely visible, just enough to feel cadence */
+.commercial-progress {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  height: 2px;
+  width: 0;
+  background: linear-gradient(90deg, var(--teletext-yellow), var(--teletext-red));
+  animation: commercialProgress 10s linear forwards;
+  z-index: 3;
+  box-shadow: 0 0 10px rgba(255, 204, 0, 0.5);
+}
+
+/* Hover invites interaction: image lifts brightness, arrow runs forward */
+.commercial:hover .commercial-hero {
+  filter: saturate(1.15) brightness(1.08);
+}
+
+.commercial:hover .commercial-action-arrow {
+  animation-duration: 0.8s;
+}
+
+.commercial:hover .commercial-title {
+  text-shadow:
+    0 2px 0 rgba(0, 0, 0, 0.8),
+    0 0 32px rgba(255, 255, 255, 0.3);
+}
+
+/* ============================================
+   Animations
+   ============================================ */
+
+@keyframes commercialHero {
+  from {
+    transform: scale(1.02);
+    opacity: 0.7;
+  }
+  10% {
+    opacity: 1;
+  }
+  to {
+    transform: scale(1.12);
+    opacity: 1;
+  }
+}
+
+@keyframes commercialRise {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes commercialArrowNudge {
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+  50% {
+    transform: translateX(6px);
+  }
+}
+
+@keyframes commercialProgress {
+  from {
+    width: 0%;
+  }
+  to {
+    width: 100%;
+  }
+}
+
+/* ============================================
+   RESPONSIVE
+   ============================================ */
+
+@media (max-width: 900px) {
+  .commercial-content {
+    padding: 1.5rem 1.5rem 2rem;
+    max-width: 92%;
+  }
+  .commercial-title {
+    font-size: clamp(1.6rem, 9vw, 3.2rem);
+  }
+  .commercial-desc {
+    font-size: 0.9rem;
+  }
+  .commercial-action {
+    font-size: 0.6rem;
+  }
+}
+
+@media (max-width: 550px) {
+  .commercial-content {
+    padding: 1rem 1rem 1.5rem;
+  }
+  .commercial-desc {
+    font-size: 0.85rem;
+    line-height: 1.45;
+  }
+  .commercial-tag {
+    font-size: 0.5rem;
+    padding: 0.25rem 0.4rem;
+  }
+}
+
+/* ============================================
+   Reduced motion — strip Ken Burns + rises,
+   keep progress complete so feedback remains.
+   ============================================ */
+
+@media (prefers-reduced-motion: reduce) {
+  .commercial-hero,
+  .commercial-tags,
+  .commercial-title,
+  .commercial-desc,
+  .commercial-action,
+  .commercial-action-arrow {
+    animation: none;
+    opacity: 1;
+    transform: none;
+  }
+  .commercial-progress {
+    width: 100%;
+    animation: none;
+  }
+}

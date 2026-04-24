@@ -617,6 +617,16 @@
   visibility: visible;
 }
 
+/* Hide header + remote while the lightbox is open so the image can use the
+   full viewport — especially important on mobile where they overlap. */
+body.lightbox-open header,
+body.lightbox-open .remote-control {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition: opacity 0.2s ease, visibility 0.2s ease;
+}
+
 .teletext-lightbox-content {
   position: relative;
   display: flex;

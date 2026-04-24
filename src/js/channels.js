@@ -6,13 +6,15 @@
 import { playChannelChange } from './audio.js';
 import { startBreakout, stopBreakout } from './breakout.js';
 import { startTuner, stopTuner, setTunerCallbacks } from './tuner.js';
-import { startTestCard, stopTestCard } from './testcards.js';
+import { startNewsChannel, stopNewsChannel } from './newschannel.js';
+import { startCommercials, stopCommercials } from './commercials.js';
 
 // Channel state
 let currentChannel = 1;
 let currentImageIndex = 0;
 let slideshowInterval = null;
 let currentStream = null;
+let tvOn = true;
 
 const MAX_CHANNELS = 7;
 const YOUTUBE_VIDEO_ID = 'lNYcviXK4rg';
@@ -47,6 +49,24 @@ export function initChannelSystem() {
  */
 export function getYtPlayer() {
   return ytPlayer;
+}
+
+/**
+ * Get the currently-selected channel number. Used by main.js to resume
+ * the right channel's media when the TV powers back on.
+ */
+export function getCurrentChannel() {
+  return currentChannel;
+}
+
+/**
+ * Inform the channel system whether the TV is powered. When off,
+ * `setChannel` still stops all media but won't start anything new
+ * and won't play sounds / OSD / flicker. Call before any setChannel
+ * that should reflect a new power state.
+ */
+export function setTvPowered(on) {
+  tvOn = on;
 }
 
 /**
@@ -334,26 +354,23 @@ export function stopWebcam() {
  * @param {Function} callbacks.showOSD - Show OSD message
  * @param {Function} callbacks.triggerFlicker - Trigger channel flicker effect
  */
-export function setChannel(channel, { showOSD, triggerFlicker }) {
+export function setChannel(channel, { showOSD, triggerFlicker } = {}) {
   currentChannel = channel;
   const channelNumber = String(channel).padStart(2, '0');
-  const channelText = `CH ${channelNumber}`;
 
   if (channelLabel) {
     channelLabel.textContent = channelNumber;
   }
 
-  if (showOSD) showOSD(channelText);
-  if (triggerFlicker) triggerFlicker();
-  playChannelChange();
-
-  // Stop all channel types
+  // Always stop everything — safe and idempotent. This runs whether the TV
+  // is on or off, so turning off while on CH04 actually halts the game.
   stopSlideshow();
   stopWebcam();
   stopYouTubeChannel();
   stopBreakout();
   stopTuner();
-  stopTestCard();
+  stopNewsChannel();
+  stopCommercials();
 
   if (tvVideo) {
     tvVideo.pause();
@@ -361,6 +378,14 @@ export function setChannel(channel, { showOSD, triggerFlicker }) {
     tvVideo.removeAttribute('src');
     tvVideo.srcObject = null;
   }
+
+  // When the TV is off, stop here — no sound, no OSD, no new media.
+  if (!tvOn) return;
+
+  const channelText = `CH ${channelNumber}`;
+  if (showOSD) showOSD(channelText);
+  if (triggerFlicker) triggerFlicker();
+  playChannelChange();
 
   // Channel routing
   if (channel === 1) {
@@ -372,9 +397,9 @@ export function setChannel(channel, { showOSD, triggerFlicker }) {
   } else if (channel === 4) {
     startBreakout();
   } else if (channel === 5) {
-    startTestCard('smpte');
+    startNewsChannel();
   } else if (channel === 6) {
-    startTestCard('standby');
+    startCommercials();
   } else if (channel === 7) {
     setTunerCallbacks({ showOSD });
     startTuner();

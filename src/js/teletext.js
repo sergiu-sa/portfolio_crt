@@ -464,6 +464,7 @@ function openLightbox() {
   if (lightboxTotal) lightboxTotal.textContent = project.images.length;
 
   lightbox.classList.add('active');
+  document.body.classList.add('lightbox-open');
   lightboxOpen = true;
 }
 
@@ -475,6 +476,7 @@ function closeLightbox() {
   if (lightbox) {
     resetZoom();
     lightbox.classList.remove('active');
+    document.body.classList.remove('lightbox-open');
     lightboxOpen = false;
     startTeletextImageCycle();
   }

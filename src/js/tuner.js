@@ -34,8 +34,8 @@ const SMPTE_COLORS = [
 
 const COLORS = {
   bg: '#0a0a14',
-  text: '#e0e0e0',
-  textDim: 'rgba(224, 224, 224, 0.82)',
+  text: '#ffffff',
+  textDim: 'rgba(255, 255, 255, 0.92)',
   barBg: 'rgba(0, 0, 0, 0.6)',
   barCursor: '#00ffcc',
   barStation: '#ffcc00',
@@ -589,7 +589,10 @@ function drawNoSignal(w, h) {
   ctx.font = `${Math.max(16, h * 0.05)}px "Press Start 2P", monospace`;
   ctx.textAlign = 'center';
   ctx.textBaseline = 'middle';
+  ctx.shadowColor = 'rgba(0, 0, 0, 0.9)';
+  ctx.shadowBlur = 8;
   ctx.fillText('NO SIGNAL', w / 2, h / 2);
+  ctx.shadowBlur = 0;
 }
 
 function drawNoise(w, h) {
@@ -725,7 +728,10 @@ function drawFreqBar(w, h) {
   ctx.font = `${Math.max(8, h * 0.014)}px "Press Start 2P", monospace`;
   ctx.textAlign = 'right';
   ctx.textBaseline = 'top';
+  ctx.shadowColor = 'rgba(0, 0, 0, 0.9)';
+  ctx.shadowBlur = 6;
   ctx.fillText(`${foundCount}/${STATIONS.length} FOUND`, barX + barW, barY + barH + 10);
+  ctx.shadowBlur = 0;
 }
 
 function drawInstructions(w, h) {
@@ -733,6 +739,10 @@ function drawInstructions(w, h) {
 
   const isTouchDevice = 'ontouchstart' in window;
   const text = isTouchDevice ? 'DRAG TO TUNE' : 'MOVE TO TUNE';
+
+  // Shadow gives reliable contrast over animated static
+  ctx.shadowColor = 'rgba(0, 0, 0, 0.9)';
+  ctx.shadowBlur = 8;
 
   ctx.fillStyle = COLORS.text;
   ctx.font = `${Math.max(12, h * 0.028)}px "Press Start 2P", monospace`;
@@ -746,6 +756,7 @@ function drawInstructions(w, h) {
   ctx.fillText(hintText, w / 2, h / 2 + h * 0.06);
   ctx.fillText('HOME or CH+/- TO EXIT', w / 2, h * 0.75);
 
+  ctx.shadowBlur = 0;
   ctx.globalAlpha = 1;
 }
 

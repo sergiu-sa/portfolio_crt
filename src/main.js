@@ -5,6 +5,8 @@
 
 // Module imports
 import { decryptedText, cleanupDecryptedText } from './js/decryptedText.js';
+import { projects } from './data/projects.js';
+import { skills } from './data/skills.js';
 import { initSoundSystem, isSoundEnabled, playNavigationClick, playStaticBurst, toggleSound, playCRTPowerOff, playCRTTurnOn } from './js/audio.js';
 import {
   initChannelSystem,
@@ -13,6 +15,8 @@ import {
   nextChannel,
   getYtPlayer,
   setSoundEnabledChecker,
+  setTvPowered,
+  getCurrentChannel,
 } from './js/channels.js';
 import { initTerminal, triggerTerminalSequence, startConsoleIntro } from './js/terminal.js';
 import {
@@ -94,65 +98,45 @@ function triggerChannelFlicker() {
 let tvPoweredOn = true;
 
 /**
- * Toggle CRT TV power with authentic shutdown/startup animation
+ * Toggle CRT TV power with authentic shutdown/startup animation.
+ * Media lifecycle is delegated to channels.js via `setTvPowered` +
+ * `setChannel` — that way nothing starts (or stays playing) while off.
  */
 function toggleCRTPower() {
   const tvScreen = document.getElementById('tv-screen');
   const powerBtn = document.getElementById('remote-power');
-  const ytPlayer = getYtPlayer();
 
   if (!tvScreen) return;
 
   if (tvPoweredOn) {
-    // Turn OFF the TV
+    // Turn OFF: mark off, then setChannel to stop every channel's media.
     tvPoweredOn = false;
-
-    // Play power-off sound
     playCRTPowerOff();
 
-    // Mute YouTube player if active
-    if (ytPlayer && typeof ytPlayer.mute === 'function') {
-      ytPlayer.mute();
-    }
+    setTvPowered(false);
+    setChannel(getCurrentChannel()); // stops slideshow/webcam/YT/canvas; no sound, no start
 
-    // Stop fullscreen canvas channels
-    if (document.body.classList.contains('tuner-active')) {
-      stopTuner();
-    }
-    if (document.body.classList.contains('breakout-active')) {
-      stopBreakout();
-    }
-
-    // Add turning-off animation class
     tvScreen.classList.add('crt-turning-off');
     powerBtn?.classList.add('tv-off');
     document.body.classList.add('tv-powered-off');
 
-    // After animation, set to fully off state
     setTimeout(() => {
       tvScreen.classList.remove('crt-turning-off');
       tvScreen.classList.add('crt-off');
     }, 600);
-
   } else {
-    // Turn ON the TV
+    // Turn ON: mark on, then setChannel to resume the current channel's media.
     tvPoweredOn = true;
-
-    // Play power-on sound
     playCRTTurnOn();
 
-    // Unmute YouTube player if sound is enabled
-    if (ytPlayer && typeof ytPlayer.unMute === 'function' && isSoundEnabled()) {
-      ytPlayer.unMute();
-    }
+    setTvPowered(true);
+    setChannel(getCurrentChannel(), { showOSD, triggerFlicker: triggerChannelFlicker });
 
-    // Remove off state and add turning-on animation
     tvScreen.classList.remove('crt-off');
     tvScreen.classList.add('crt-turning-on');
     powerBtn?.classList.remove('tv-off');
     document.body.classList.remove('tv-powered-off');
 
-    // After animation, remove animation class
     setTimeout(() => {
       tvScreen.classList.remove('crt-turning-on');
     }, 500);
@@ -287,15 +271,57 @@ function switchToSection(section) {
 }
 
 /**
- * Initialize the about section with animations
+ * Initialize the about section with animations.
+ * Renders the skills meter, sets the project count, wires the
+ * fastext footer to navigate to other sections, then kicks off
+ * the existing decrypted-text bio animation.
  */
 function initAboutSection() {
+  // Typewriter prompt above the transcript
   if (typewriter) {
     typewriter.textContent = '> ';
     typewriterIndex = 0;
     setTimeout(typeWriterEffect, 300);
   }
 
+  // Stats: live project count reads from the single data file
+  const countEl = document.getElementById('about-project-count');
+  if (countEl) {
+    countEl.textContent = String(projects.length).padStart(2, '0');
+  }
+
+  // Signal-strength skill meters
+  const skillsList = document.getElementById('about-skills');
+  if (skillsList) {
+    skillsList.innerHTML = skills
+      .map(
+        (s, i) => `
+        <li class="skill" data-tier="${s.tier}" style="--skill-level:${s.level}; --skill-delay:${(i * 0.08).toFixed(2)}s">
+          <span class="skill-name">${s.name}</span>
+          <span class="skill-bar" role="meter" aria-label="${s.name}" aria-valuemin="0" aria-valuemax="10" aria-valuenow="${s.level}">
+            <span class="skill-bar-fill"></span>
+          </span>
+          <span class="skill-tier">${s.tier.toUpperCase()}</span>
+        </li>
+      `
+      )
+      .join('');
+  }
+
+  // Fastext footer buttons navigate to named sections
+  document.querySelectorAll('#about .about-fastext[data-section]').forEach((btn) => {
+    if (btn.dataset.wired) return;
+    btn.dataset.wired = 'true';
+    btn.addEventListener('click', () => {
+      const target = btn.getAttribute('data-section');
+      if (target) {
+        playNavigationClick();
+        showSection(target);
+      }
+    });
+  });
+
+  // Bio — kept verbatim; the decrypted-text animation is the signature move
   const aboutText = document.getElementById('about-text');
   if (aboutText) {
     aboutText.textContent = '';
@@ -401,10 +427,15 @@ function setupEventListeners() {
     channelNext.addEventListener('click', () => nextChannel(channelCallbacks));
   }
 
-  // Remote home button
+  // Remote home button — return to the "start state": intro section + CH01.
+  // This also clears any immersive channel body class (news/commercial), so
+  // the intro headline is visible again.
   const remoteHome = document.getElementById('remote-home');
   if (remoteHome) {
-    remoteHome.addEventListener('click', () => showSection('intro'));
+    remoteHome.addEventListener('click', () => {
+      showSection('intro');
+      setChannel(1, { showOSD, triggerFlicker: triggerChannelFlicker });
+    });
   }
 
   // Remote power button - CRT power off/on effect
