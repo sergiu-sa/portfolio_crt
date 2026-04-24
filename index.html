@@ -7,6 +7,7 @@
       name="description"
       content="Sergiu Sarbu — Front-End Developer portfolio presented as an interactive retro CRT TV. Built with vanilla JavaScript, Vite, Web Audio, and Canvas."
     />
+    <meta name="author" content="Sergiu Sarbu" />
     <title>Sergiu Sarbu | Portfolio</title>
     <meta name="theme-color" content="#0a0a0a" />
     <meta name="color-scheme" content="dark" />
@@ -15,17 +16,23 @@
     <link rel="canonical" href="https://portfoliosergiusarbu.netlify.app/" />
 
     <!-- Open Graph -->
+    <meta property="og:site_name" content="Sergiu Sarbu Portfolio" />
+    <meta property="og:locale" content="en_US" />
     <meta property="og:title" content="Sergiu Sarbu | Portfolio" />
     <meta property="og:description" content="Front-End Developer portfolio built as a retro CRT TV experience." />
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://portfoliosergiusarbu.netlify.app/" />
     <meta property="og:image" content="https://portfoliosergiusarbu.netlify.app/assets/og-preview.png" />
+    <meta property="og:image:width" content="2404" />
+    <meta property="og:image:height" content="1364" />
+    <meta property="og:image:alt" content="Sergiu Sarbu — Front-End Developer portfolio, retro CRT TV theme with vintage remote control." />
 
     <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content="Sergiu Sarbu | Portfolio" />
     <meta name="twitter:description" content="Front-End Developer portfolio built as a retro CRT TV experience." />
     <meta name="twitter:image" content="https://portfoliosergiusarbu.netlify.app/assets/og-preview.png" />
+    <meta name="twitter:image:alt" content="Sergiu Sarbu — Front-End Developer portfolio, retro CRT TV theme with vintage remote control." />
 
     <!-- Preconnect to external resources for faster loading -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -240,6 +247,7 @@
         <section id="intro" class="channel-screen active">
           <h1>SERGIU<br />SARBU</h1>
           <h2>FRONT-END DEVELOPER</h2>
+          <p class="intro-tagline">BROADCASTING FROM OSLO &middot; SINCE 2024</p>
         </section>
         <section id="projects" class="channel-screen">
           <!-- Teletext-style Projects Overlay -->
@@ -299,21 +307,66 @@
 
                 <!-- Right Column - Project Info -->
                 <div class="teletext-info">
-                  <div class="teletext-tags" id="teletext-tags">
-                    <span class="teletext-tag tag-red">TypeScript</span>
-                    <span class="teletext-tag tag-green">Tailwind</span>
-                    <span class="teletext-tag tag-yellow">API</span>
+                  <!-- 01 BRIEF -->
+                  <div class="teletext-subsection">
+                    <h3 class="teletext-subsection-title">
+                      <span class="teletext-subsection-num">01</span>
+                      <span class="teletext-subsection-name">BRIEF</span>
+                    </h3>
+                    <p class="teletext-brief" id="teletext-brief">
+                      Live auction marketplace where you bid on items with in-app credits.
+                    </p>
                   </div>
-                  <div class="teletext-desc" id="teletext-desc">
-                    Brutalist auction platform with real-time bidding, JWT auth, and credit management via Noroff API v2.
+
+                  <!-- 02 HIGHLIGHTS -->
+                  <div class="teletext-subsection">
+                    <h3 class="teletext-subsection-title">
+                      <span class="teletext-subsection-num">02</span>
+                      <span class="teletext-subsection-name">HIGHLIGHTS</span>
+                    </h3>
+                    <ul class="teletext-highlights" id="teletext-highlights">
+                      <li>Real-time bidding flow with optimistic UI updates</li>
+                      <li>JWT auth + credit management via Noroff API v2</li>
+                      <li>Brutalist visual system built from scratch</li>
+                    </ul>
                   </div>
-                  <div class="teletext-links">
-                    <a href="#" id="teletext-link-code" class="teletext-link link-code" target="_blank" rel="noopener noreferrer">
-                      CODE
-                    </a>
-                    <a href="#" id="teletext-link-live" class="teletext-link link-live" target="_blank" rel="noopener noreferrer">
-                      LIVE
-                    </a>
+
+                  <!-- 03 STACK -->
+                  <div class="teletext-subsection">
+                    <h3 class="teletext-subsection-title">
+                      <span class="teletext-subsection-num">03</span>
+                      <span class="teletext-subsection-name">STACK</span>
+                    </h3>
+                    <div class="teletext-tags" id="teletext-tags">
+                      <span class="teletext-tag tag-red">TypeScript</span>
+                      <span class="teletext-tag tag-green">Tailwind</span>
+                      <span class="teletext-tag tag-yellow">API</span>
+                    </div>
+                  </div>
+
+                  <!-- 04 ROLE -->
+                  <div class="teletext-subsection">
+                    <h3 class="teletext-subsection-title">
+                      <span class="teletext-subsection-num">04</span>
+                      <span class="teletext-subsection-name">ROLE</span>
+                    </h3>
+                    <p class="teletext-role" id="teletext-role">Solo &mdash; Noroff Semester Project 2</p>
+                  </div>
+
+                  <!-- 05 LINKS -->
+                  <div class="teletext-subsection">
+                    <h3 class="teletext-subsection-title">
+                      <span class="teletext-subsection-num">05</span>
+                      <span class="teletext-subsection-name">LINKS</span>
+                    </h3>
+                    <div class="teletext-links">
+                      <a href="#" id="teletext-link-code" class="teletext-link link-code" target="_blank" rel="noopener noreferrer">
+                        CODE
+                      </a>
+                      <a href="#" id="teletext-link-live" class="teletext-link link-live" target="_blank" rel="noopener noreferrer">
+                        LIVE
+                      </a>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -445,7 +498,7 @@
               <section class="about-stats" aria-label="Broadcast stats">
                 <div class="about-stat">
                   <span class="about-stat-label">TRANSMITTING SINCE</span>
-                  <span class="about-stat-value">2023</span>
+                  <span class="about-stat-value">2024</span>
                 </div>
                 <div class="about-stat">
                   <span class="about-stat-label">PROJECTS ON AIR</span>

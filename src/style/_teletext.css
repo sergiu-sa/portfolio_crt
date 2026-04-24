@@ -260,15 +260,108 @@
   gap: 1rem;
   padding-left: 1rem;
   border-left: 2px solid rgba(100, 150, 255, 0.15);
+  min-width: 0;
 }
 
-/* Tech Tags */
+/* ---------- Numbered sub-sections (BRIEF / HIGHLIGHTS / STACK / ROLE / LINKS) ---------- */
+
+.teletext-subsection {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding-bottom: 0.85rem;
+  border-bottom: 1px dashed rgba(100, 150, 255, 0.2);
+  min-width: 0;
+}
+
+.teletext-subsection:last-child {
+  padding-bottom: 0;
+  border-bottom: none;
+}
+
+.teletext-subsection-title {
+  display: flex;
+  align-items: baseline;
+  gap: 0.55rem;
+  margin: 0;
+  font-family: "Press Start 2P", monospace;
+  font-size: 0.6rem;
+  letter-spacing: 0.2em;
+  color: #fff;
+  line-height: 1.2;
+  overflow-wrap: anywhere;
+  min-width: 0;
+}
+
+.teletext-subsection-num {
+  color: var(--teletext-yellow);
+  font-size: 0.55rem;
+  text-shadow: 0 0 6px rgba(255, 204, 0, 0.4);
+}
+
+.teletext-subsection-name {
+  color: #fff;
+}
+
+.teletext-brief {
+  margin: 0;
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 0.9rem;
+  color: rgba(255, 255, 255, 0.92);
+  line-height: 1.55;
+  letter-spacing: 0.02em;
+  overflow-wrap: anywhere;
+  min-width: 0;
+}
+
+.teletext-highlights {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  min-width: 0;
+}
+
+.teletext-highlights li {
+  position: relative;
+  padding-left: 1rem;
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 0.82rem;
+  color: rgba(255, 255, 255, 0.88);
+  line-height: 1.5;
+  overflow-wrap: anywhere;
+  min-width: 0;
+}
+
+.teletext-highlights li::before {
+  content: "▸";
+  position: absolute;
+  left: 0;
+  top: 0;
+  color: var(--teletext-yellow);
+  text-shadow: 0 0 4px rgba(255, 204, 0, 0.4);
+}
+
+.teletext-role {
+  margin: 0;
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 0.82rem;
+  color: rgba(255, 255, 255, 0.88);
+  letter-spacing: 0.02em;
+  line-height: 1.5;
+  overflow-wrap: anywhere;
+  min-width: 0;
+}
+
+/* ---------- Tech tag pills ---------- */
+
 .teletext-tags {
   display: flex;
   flex-wrap: wrap;
   gap: 0.4rem;
-  padding-bottom: 0.75rem;
-  border-bottom: 1px solid rgba(100, 150, 255, 0.1);
+  min-width: 0;
 }
 
 .teletext-tag {
@@ -297,21 +390,11 @@
   background: var(--teletext-blue);
 }
 
-/* Description */
-.teletext-desc {
-  font-size: 0.8rem;
-  color: #fff;
-  line-height: 1.6;
-  padding: 0.6rem 0.6rem 0.75rem 0.75rem;
-  border-left: 3px solid var(--teletext-blue);
-  background: rgba(100, 150, 255, 0.04);
-  border-bottom: 1px solid rgba(100, 150, 255, 0.1);
-}
+/* ---------- Links ---------- */
 
 .teletext-links {
   display: flex;
   gap: 0.6rem;
-  margin-top: 0.4rem;
 }
 
 .teletext-link {
@@ -940,11 +1023,6 @@ body.lightbox-open .remote-control {
     padding: 0.5rem 0.6rem;
   }
 
-  .teletext-desc {
-    font-size: 0.7rem;
-    padding-left: 0.5rem;
-  }
-
   .teletext-status-line {
     font-size: 0.6rem;
     padding: 0.25rem 0.4rem;
@@ -1030,12 +1108,6 @@ body.lightbox-open .remote-control {
 
   .teletext-title {
     font-size: 0.6rem;
-  }
-
-  .teletext-desc {
-    font-size: 0.65rem;
-    padding-left: 0.4rem;
-    border-left-width: 2px;
   }
 
   .teletext-status-line {

@@ -294,11 +294,6 @@
     padding: 0.5rem 0.6rem;
   }
 
-  .teletext-desc {
-    font-size: 0.7rem;
-    padding-left: 0.5rem;
-  }
-
   .teletext-status-line {
     font-size: 0.6rem;
     padding: 0.25rem 0.4rem;
@@ -748,12 +743,6 @@
     font-size: 0.6rem;
   }
 
-  .teletext-desc {
-    font-size: 0.65rem;
-    padding-left: 0.4rem;
-    border-left-width: 2px;
-  }
-
   .teletext-status-line {
     font-size: 0.55rem;
     padding: 0.2rem 0.3rem;
@@ -1088,7 +1077,6 @@
   /* Make content readable */
   .crt-text,
   .teletext-title,
-  .teletext-desc,
   h1,
   h2,
   p {

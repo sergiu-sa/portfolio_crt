@@ -163,6 +163,18 @@ function renderTechTags(container, tags) {
 }
 
 /**
+ * Render an array of strings as <li> children of a container.
+ */
+function renderHighlights(container, items) {
+  container.innerHTML = '';
+  (items || []).forEach((text) => {
+    const li = document.createElement('li');
+    li.textContent = text;
+    container.appendChild(li);
+  });
+}
+
+/**
  * Update content area DOM elements with project data
  * @param {Object} project - Project data object
  */
@@ -171,8 +183,10 @@ function updateProjectDOM(project) {
   const previewImg = document.getElementById('teletext-preview-img');
   const imgCurrentEl = document.getElementById('teletext-img-current');
   const imgTotalEl = document.getElementById('teletext-img-total');
+  const briefEl = document.getElementById('teletext-brief');
+  const highlightsEl = document.getElementById('teletext-highlights');
   const tagsEl = document.getElementById('teletext-tags');
-  const descEl = document.getElementById('teletext-desc');
+  const roleEl = document.getElementById('teletext-role');
   const codeLink = document.getElementById('teletext-link-code');
   const liveLink = document.getElementById('teletext-link-live');
   const statusEl = document.getElementById('teletext-status');
@@ -185,7 +199,11 @@ function updateProjectDOM(project) {
   }
   if (imgCurrentEl) imgCurrentEl.textContent = '1';
   if (imgTotalEl) imgTotalEl.textContent = project.images.length;
+
+  if (briefEl) briefEl.textContent = project.brief || '';
+  if (highlightsEl) renderHighlights(highlightsEl, project.highlights);
   if (tagsEl) renderTechTags(tagsEl, project.tags);
+  if (roleEl) roleEl.textContent = project.role || '';
 
   if (statusEl) {
     statusEl.innerHTML = '';
@@ -196,7 +214,6 @@ function updateProjectDOM(project) {
   }
 
   if (yearEl) yearEl.textContent = project.year;
-  if (descEl) descEl.textContent = project.description;
   if (codeLink) codeLink.href = project.github;
   if (liveLink) liveLink.href = project.live;
 }
