@@ -1,285 +1,856 @@
-/* Contact Section */
+/* ============================================
+   P.500 — CALLSIGN / CONTACT DIRECTORY
+   Teletext-style contact page. Same grammar as
+   Projects (P.101+) and About (P.400):
+   header bar → subheader → body → fastext footer.
+   ============================================ */
+
 #contact {
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 2rem 1rem 8rem;
   width: 100%;
+  padding: 1.5rem 1.25rem 3rem;
   box-sizing: border-box;
+  min-height: 100vh;
 }
 
-.contact-header {
-  text-align: center;
-  margin-bottom: 3rem;
-  position: relative;
-  padding: 2rem;
-  background: rgba(0, 0, 0, 0.92);
-  border: 2px solid var(--accent-color);
-  border-top: none;
-  border-radius: 0;
+.contact-page {
   width: 100%;
-  max-width: 800px;
-  box-sizing: border-box;
-}
-
-#contact h1 {
-  font-size: 2.5rem;
-  margin-bottom: 1rem;
+  max-width: min(1100px, 100%);
+  display: grid;
+  grid-template-rows: auto auto 1fr auto;
+  background: rgba(5, 5, 15, 0.95);
+  border: 1px solid rgba(100, 150, 255, 0.25);
+  box-shadow:
+    0 0 24px rgba(0, 0, 0, 0.6),
+    inset 0 0 60px rgba(0, 20, 60, 0.25);
+  font-family: "IBM Plex Mono", monospace;
   color: #fefefe;
-  text-shadow:
-    0 0 2px #fefefe,
-    0 0 8px var(--accent-color);
-  letter-spacing: 0.1em;
+  overflow: hidden;
+  position: relative;
+  box-sizing: border-box;
+  min-width: 0;
 }
 
-.contact-header::before {
+.contact-page::after {
   content: "";
   position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 4px;
-  background: linear-gradient(
-    90deg,
-    var(--teletext-red) 25%,
-    var(--teletext-yellow) 25%,
-    var(--teletext-yellow) 50%,
-    var(--teletext-green) 50%,
-    var(--teletext-green) 75%,
-    var(--teletext-blue) 75%
+  inset: 0;
+  background: repeating-linear-gradient(
+    0deg,
+    rgba(255, 255, 255, 0.015) 0 1px,
+    transparent 1px 3px
   );
-  opacity: 1;
+  pointer-events: none;
   z-index: 1;
 }
 
-/* Terminal Line */
+/* ---------- Header bar ---------- */
+
+.contact-header-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.75rem 1.25rem;
+  background: var(--teletext-yellow);
+  color: #000;
+  font-family: "Press Start 2P", monospace;
+  font-size: 0.75rem;
+  letter-spacing: 0.15em;
+  position: relative;
+  z-index: 2;
+}
+
+.contact-service {
+  letter-spacing: 0.2em;
+}
+
+.contact-page-num {
+  letter-spacing: 0.15em;
+}
+
+/* ---------- Subheader ---------- */
+
+.contact-subheader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.55rem 1.25rem;
+  background: rgba(100, 150, 255, 0.15);
+  border-bottom: 1px solid rgba(100, 150, 255, 0.3);
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 0.7rem;
+  letter-spacing: 0.15em;
+  color: var(--teletext-blue);
+  text-transform: uppercase;
+  position: relative;
+  z-index: 2;
+}
+
+.contact-index {
+  margin: 0;
+  font: inherit;
+  letter-spacing: inherit;
+  color: inherit;
+  text-transform: inherit;
+}
+
+.contact-subheader-right {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.contact-clock-sep {
+  color: rgba(255, 255, 255, 0.25);
+}
+
+#contact-clock-time {
+  color: var(--teletext-green);
+  text-shadow: 0 0 6px rgba(100, 255, 150, 0.4);
+  font-variant-numeric: tabular-nums;
+}
+
+/* ---------- Body ---------- */
+
+.contact-body {
+  position: relative;
+  z-index: 2;
+  padding: 2rem 1.75rem 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 2.5rem;
+  min-width: 0;
+}
+
+/* Section grammar — mirrors About */
+.contact-section {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  animation: contactRise 0.6s cubic-bezier(0.16, 1, 0.3, 1) both;
+  min-width: 0;
+}
+
+.contact-section:nth-of-type(1) { animation-delay: 0.05s; }
+.contact-section:nth-of-type(2) { animation-delay: 0.12s; }
+.contact-section:nth-of-type(3) { animation-delay: 0.2s; }
+.contact-section:nth-of-type(4) { animation-delay: 0.28s; }
+.contact-section:nth-of-type(5) { animation-delay: 0.35s; }
+
+.contact-section-title {
+  display: flex;
+  align-items: baseline;
+  gap: 0.75rem;
+  margin: 0;
+  padding: 0 0 0.5rem;
+  border-bottom: 1px dashed rgba(100, 150, 255, 0.25);
+  font-family: "Press Start 2P", monospace;
+  font-size: 0.72rem;
+  letter-spacing: 0.2em;
+  color: #fff;
+  line-height: 1.2;
+  flex-wrap: wrap;
+  overflow-wrap: anywhere;
+  min-width: 0;
+}
+
+.contact-section-num {
+  color: var(--teletext-yellow);
+  font-size: 0.65rem;
+  text-shadow: 0 0 8px rgba(255, 204, 0, 0.5);
+}
+
+.contact-section-name {
+  color: #fff;
+}
+
+.contact-section-dash {
+  color: rgba(255, 255, 255, 0.4);
+}
+
+.contact-section-sub {
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 0.7rem;
+  letter-spacing: 0.1em;
+  color: rgba(255, 255, 255, 0.55);
+  text-transform: none;
+}
+
+/* ---------- Station sign-on card ---------- */
+
+.contact-signon-list {
+  margin: 0;
+  padding: 1.25rem 1.5rem;
+  display: grid;
+  gap: 0.7rem;
+  background: rgba(0, 0, 0, 0.55);
+  border: 1px solid rgba(100, 150, 255, 0.28);
+  border-left: 3px solid var(--teletext-green);
+  box-shadow:
+    inset 0 0 30px rgba(0, 20, 60, 0.3),
+    0 0 12px rgba(0, 0, 0, 0.3);
+  position: relative;
+  min-width: 0;
+}
+
+/* Faint scanlines inside the card — reinforces the "broadcast filing" feel */
+.contact-signon-list::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(
+    0deg,
+    rgba(100, 255, 150, 0.018) 0 1px,
+    transparent 1px 3px
+  );
+  pointer-events: none;
+}
+
+.contact-signon-row {
+  display: grid;
+  grid-template-columns: 9rem 1fr;
+  align-items: baseline;
+  gap: 1.1rem;
+  min-width: 0;
+  position: relative;
+  z-index: 1;
+}
+
+.contact-signon-row dt {
+  font-family: "Press Start 2P", monospace;
+  font-size: 0.55rem;
+  letter-spacing: 0.2em;
+  color: var(--teletext-green);
+  text-shadow: 0 0 5px rgba(100, 255, 150, 0.3);
+  text-transform: uppercase;
+  white-space: nowrap;
+  margin: 0;
+}
+
+.contact-signon-row dd {
+  margin: 0;
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 0.95rem;
+  color: rgba(255, 255, 255, 0.88);
+  letter-spacing: 0.02em;
+  overflow-wrap: anywhere;
+  min-width: 0;
+  line-height: 1.4;
+}
+
+.contact-signon-callsign {
+  color: var(--teletext-yellow);
+  font-size: 1.15rem;
+  letter-spacing: 0.08em;
+  text-shadow: 0 0 4px rgba(255, 204, 0, 0.4);
+}
+
+.contact-signon-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+  color: var(--teletext-green);
+  text-shadow: 0 0 6px rgba(100, 255, 150, 0.4);
+}
+
+.contact-signon-dot {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: var(--teletext-green);
+  box-shadow: 0 0 10px var(--teletext-green);
+  animation: pulse-dot 2s ease-in-out infinite;
+  flex-shrink: 0;
+}
+
+/* ---------- Primary transmission (email hero) ---------- */
+
+.contact-primary {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: 1.25rem;
+  padding: 1.25rem 1.5rem 1.25rem 1.75rem;
+  background: rgba(0, 0, 0, 0.5);
+  border: 1px solid rgba(255, 204, 0, 0.35);
+  box-shadow:
+    inset 0 0 20px rgba(255, 204, 0, 0.05),
+    0 0 14px rgba(255, 204, 0, 0.08);
+  position: relative;
+  min-width: 0;
+}
+
+.contact-primary::before {
+  content: "";
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: 3px;
+  background: var(--teletext-yellow);
+  box-shadow: 0 0 12px rgba(255, 204, 0, 0.6);
+}
+
+.contact-primary-led {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--teletext-green);
+  box-shadow: 0 0 10px var(--teletext-green);
+  animation: pulse-dot 2s ease-in-out infinite;
+  flex-shrink: 0;
+}
+
+.contact-primary-address {
+  font-family: "IBM Plex Mono", monospace;
+  font-size: clamp(0.95rem, 2.4vw, 1.3rem);
+  color: #fff;
+  text-decoration: none;
+  letter-spacing: 0.04em;
+  text-shadow: 0 0 6px rgba(0, 255, 204, 0.35);
+  overflow-wrap: anywhere;
+  min-width: 0;
+  transition: color var(--duration-fast) ease, text-shadow var(--duration-fast) ease;
+}
+
+.contact-primary-address:hover,
+.contact-primary-address:focus-visible {
+  color: var(--teletext-yellow);
+  text-shadow: 0 0 10px rgba(255, 204, 0, 0.5);
+  outline: none;
+}
+
+.contact-primary-actions {
+  display: inline-flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+}
+
+.contact-primary-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.55rem 0.85rem;
+  background: transparent;
+  border: 1px solid rgba(255, 204, 0, 0.5);
+  color: var(--teletext-yellow);
+  font-family: "Press Start 2P", monospace;
+  font-size: 0.55rem;
+  letter-spacing: 0.18em;
+  cursor: pointer;
+  text-decoration: none;
+  min-height: var(--touch-target-min);
+  box-sizing: border-box;
+  transition:
+    background var(--duration-fast) ease,
+    color var(--duration-fast) ease,
+    border-color var(--duration-fast) ease;
+}
+
+.contact-primary-btn:hover,
+.contact-primary-btn:focus-visible {
+  background: var(--teletext-yellow);
+  color: #000;
+  outline: none;
+}
+
+.contact-primary-btn.copied {
+  background: var(--teletext-green);
+  border-color: var(--teletext-green);
+  color: #000;
+}
+
+.contact-primary-btn-go {
+  background: rgba(255, 204, 0, 0.08);
+}
+
+.contact-primary-arrow {
+  font-size: 0.7rem;
+}
+
+/* ---------- Directory (outbound lines) ---------- */
+
+.contact-directory {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  border-top: 1px solid rgba(100, 150, 255, 0.2);
+  min-width: 0;
+}
+
+.contact-line {
+  --line-color: var(--teletext-blue);
+
+  display: grid;
+  grid-template-columns: auto 8rem 1fr;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.85rem 0.75rem;
+  border-bottom: 1px solid rgba(100, 150, 255, 0.15);
+  min-width: 0;
+  transition: background var(--duration-fast) ease;
+}
+
+.contact-line[data-color="red"] { --line-color: var(--teletext-red); }
+.contact-line[data-color="green"] { --line-color: var(--teletext-green); }
+.contact-line[data-color="yellow"] { --line-color: var(--teletext-yellow); }
+.contact-line[data-color="blue"] { --line-color: var(--teletext-blue); }
+
+.contact-line:hover,
+.contact-line:focus-within {
+  background: rgba(255, 255, 255, 0.03);
+}
+
+.contact-line-led {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--line-color);
+  box-shadow: 0 0 8px var(--line-color);
+  flex-shrink: 0;
+}
+
+.contact-line-label {
+  font-family: "Press Start 2P", monospace;
+  font-size: 0.6rem;
+  letter-spacing: 0.18em;
+  color: var(--line-color);
+  text-shadow: 0 0 6px var(--line-color);
+  overflow-wrap: anywhere;
+  min-width: 0;
+}
+
+.contact-line-handle {
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 0.95rem;
+  color: rgba(255, 255, 255, 0.85);
+  text-decoration: none;
+  letter-spacing: 0.02em;
+  display: inline-flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.75rem;
+  min-width: 0;
+  overflow-wrap: anywhere;
+  min-height: var(--touch-target-min);
+  padding: 0.35rem 0;
+  transition: color var(--duration-fast) ease;
+}
+
+.contact-line-handle:hover,
+.contact-line-handle:focus-visible {
+  color: #fff;
+  outline: none;
+}
+
+.contact-line-arrow {
+  color: var(--line-color);
+  opacity: 0.5;
+  transition:
+    transform var(--duration-fast) ease,
+    opacity var(--duration-fast) ease;
+  flex-shrink: 0;
+}
+
+.contact-line:hover .contact-line-arrow,
+.contact-line:focus-within .contact-line-arrow {
+  opacity: 1;
+  transform: translateX(3px);
+}
+
+/* /ping-all pulse */
+.contact-line.pinged {
+  animation: ping-flash 0.6s ease-out;
+}
+
+@keyframes ping-flash {
+  0% {
+    background: rgba(0, 255, 204, 0);
+    box-shadow: inset 0 0 0 rgba(0, 255, 204, 0);
+  }
+  30% {
+    background: rgba(0, 255, 204, 0.15);
+    box-shadow: inset 0 0 20px rgba(0, 255, 204, 0.35);
+  }
+  100% {
+    background: rgba(0, 255, 204, 0);
+    box-shadow: inset 0 0 0 rgba(0, 255, 204, 0);
+  }
+}
+
+/* ---------- Compose form ---------- */
+
+.contact-form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+  padding: 1.25rem 1.5rem 1rem;
+  background: rgba(0, 0, 0, 0.55);
+  border: 1px solid rgba(255, 204, 0, 0.3);
+  box-shadow:
+    inset 0 0 30px rgba(255, 204, 0, 0.03),
+    0 0 12px rgba(255, 204, 0, 0.04);
+  position: relative;
+  min-width: 0;
+}
+
+.contact-form::before {
+  content: "";
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: 3px;
+  background: var(--teletext-yellow);
+  box-shadow: 0 0 10px rgba(255, 204, 0, 0.5);
+  opacity: 0.7;
+}
+
+.contact-form-row {
+  display: grid;
+  grid-template-columns: 7rem 1fr;
+  align-items: baseline;
+  gap: 1rem;
+  min-width: 0;
+}
+
+.contact-form-row-textarea {
+  align-items: flex-start;
+}
+
+.contact-form-prompt {
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 0.8rem;
+  letter-spacing: 0.15em;
+  color: var(--teletext-yellow);
+  text-shadow: 0 0 4px rgba(255, 204, 0, 0.4);
+  text-transform: uppercase;
+  padding-top: 0.4rem;
+  white-space: nowrap;
+  display: inline-flex;
+  gap: 0.45rem;
+  align-items: baseline;
+}
+
+.contact-form-caret {
+  color: var(--teletext-yellow);
+  opacity: 0.65;
+}
+
+.contact-form-input {
+  background: transparent;
+  border: none;
+  border-bottom: 1px dashed rgba(255, 204, 0, 0.3);
+  color: #fefefe;
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 0.95rem;
+  letter-spacing: 0.02em;
+  padding: 0.35rem 0.3rem 0.45rem;
+  outline: none;
+  min-width: 0;
+  width: 100%;
+  text-shadow:
+    0 0 2px #fefefe,
+    0 0 4px var(--accent-color);
+  caret-color: var(--teletext-yellow);
+  min-height: var(--touch-target-min);
+  box-sizing: border-box;
+  transition:
+    border-color var(--duration-fast) ease,
+    box-shadow var(--duration-fast) ease;
+}
+
+.contact-form-input:focus {
+  border-bottom-color: var(--teletext-yellow);
+  box-shadow: 0 2px 0 -1px rgba(255, 204, 0, 0.4);
+}
+
+.contact-form-input::placeholder {
+  color: rgba(255, 255, 255, 0.28);
+  text-shadow: none;
+}
+
+.contact-form-input:invalid:not(:placeholder-shown) {
+  border-bottom-color: rgba(255, 100, 100, 0.55);
+}
+
+.contact-form-textarea {
+  resize: vertical;
+  min-height: 6rem;
+  padding: 0.6rem 0.7rem;
+  line-height: 1.55;
+  border: 1px dashed rgba(255, 204, 0, 0.3);
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255, 204, 0, 0.3) transparent;
+}
+
+.contact-form-textarea:focus {
+  border-color: var(--teletext-yellow);
+  box-shadow:
+    inset 0 0 10px rgba(255, 204, 0, 0.05),
+    0 0 0 1px rgba(255, 204, 0, 0.2);
+}
+
+.contact-form-honeypot {
+  position: absolute;
+  left: -9999px;
+  top: auto;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}
+
+.contact-form-actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-top: 0.4rem;
+  padding-top: 0.85rem;
+  border-top: 1px dashed rgba(255, 204, 0, 0.18);
+  min-width: 0;
+  flex-wrap: wrap;
+}
+
+.contact-form-status {
+  margin: 0;
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 0.82rem;
+  color: rgba(255, 255, 255, 0.55);
+  min-height: 1.2em;
+  letter-spacing: 0.02em;
+  overflow-wrap: anywhere;
+  min-width: 0;
+  flex: 1;
+}
+
+.contact-form-status:empty::before {
+  content: "";
+}
+
+.contact-form-status[data-kind="prompt"] {
+  color: var(--teletext-yellow);
+  text-shadow: 0 0 4px rgba(255, 204, 0, 0.4);
+}
+
+.contact-form-status[data-kind="ok"] {
+  color: var(--teletext-green);
+  text-shadow: 0 0 4px rgba(100, 255, 150, 0.4);
+}
+
+.contact-form-status[data-kind="error"] {
+  color: var(--teletext-red);
+  text-shadow: 0 0 4px rgba(255, 100, 100, 0.4);
+}
+
+.contact-form-submit {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.65rem 1.2rem;
+  background: rgba(255, 204, 0, 0.1);
+  border: 1px solid var(--teletext-yellow);
+  color: var(--teletext-yellow);
+  font-family: "Press Start 2P", monospace;
+  font-size: 0.6rem;
+  letter-spacing: 0.2em;
+  cursor: pointer;
+  min-height: var(--touch-target-min);
+  text-shadow: 0 0 4px rgba(255, 204, 0, 0.5);
+  transition:
+    background var(--duration-fast) ease,
+    color var(--duration-fast) ease,
+    transform var(--duration-fast) ease,
+    box-shadow var(--duration-fast) ease;
+}
+
+.contact-form-submit:hover,
+.contact-form-submit:focus-visible {
+  background: var(--teletext-yellow);
+  color: #000;
+  outline: none;
+  text-shadow: none;
+  box-shadow: 0 0 14px rgba(255, 204, 0, 0.35);
+}
+
+.contact-form-submit:active {
+  transform: translateY(1px);
+}
+
+.contact-form-submit:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.contact-form-arrow {
+  font-size: 0.7rem;
+}
+
+/* ---------- Clock colon blink ---------- */
+
+.contact-clock-colon {
+  display: inline-block;
+  animation: clockBlink 1.2s step-end infinite;
+}
+
+@keyframes clockBlink {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.15;
+  }
+}
+
+/* ---------- Console frame ---------- */
+
+.contact-console-frame {
+  display: flex;
+  flex-direction: column;
+  background: rgba(0, 0, 0, 0.8);
+  border: 1px solid rgba(255, 204, 0, 0.3);
+  box-shadow: inset 0 0 40px rgba(255, 204, 0, 0.04);
+  overflow: hidden;
+  min-width: 0;
+}
+
+.terminal-output {
+  padding: 1rem 1.25rem;
+  max-height: 18rem;
+  overflow-y: auto;
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 0.85rem;
+  color: #fefefe;
+  background: rgba(0, 0, 0, 0.5);
+  border-bottom: 1px dashed rgba(255, 204, 0, 0.2);
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255, 204, 0, 0.3) transparent;
+  min-width: 0;
+}
+
+.terminal-output:empty {
+  display: none;
+}
+
+.terminal-output::-webkit-scrollbar {
+  width: 6px;
+}
+
+.terminal-output::-webkit-scrollbar-thumb {
+  background: rgba(255, 204, 0, 0.3);
+}
+
 .terminal-line {
   font-family: "IBM Plex Mono", monospace;
   background: none;
-  padding: 0.3rem 0;
+  padding: 0.15rem 0;
   margin: 0;
-  border: none;
   color: #fefefe;
   font-size: 0.85rem;
   text-align: left;
   text-shadow:
     0 0 2px #fefefe,
-    0 0 4px #00ffcc;
-  box-shadow: none;
-  width: 100%;
-  max-width: 800px;
-  overflow-wrap: break-word;
+    0 0 4px var(--accent-color);
+  overflow-wrap: anywhere;
+  white-space: pre-wrap;
 }
 
-.terminal-output .terminal-line {
-  font-family: "IBM Plex Mono", monospace;
-  color: #fefefe;
-  font-size: 0.85rem;
-  margin-top: 0;
-  text-shadow:
-    0 0 2px #fefefe,
-    0 0 4px #00ffcc;
+.terminal-line[data-kind="error"] {
+  color: var(--teletext-red);
+  text-shadow: 0 0 4px rgba(255, 100, 100, 0.5);
 }
 
-.terminal-line:hover .icon {
-  opacity: 1;
+.terminal-line[data-kind="ok"] {
+  color: var(--teletext-green);
+  text-shadow: 0 0 4px rgba(100, 255, 150, 0.5);
 }
 
-/* Contact Grid */
-.contact-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 3rem;
-  justify-items: center;
-  justify-content: center;
-  max-width: 1200px;
-  width: 100%;
-  margin: 3rem auto 4rem;
-  padding: 0;
-  box-sizing: border-box;
+.terminal-line[data-kind="prompt"] {
+  color: var(--teletext-yellow);
+  text-shadow: 0 0 4px rgba(255, 204, 0, 0.5);
 }
 
-/* Contact Card */
-.contact-card {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 1.5rem;
-  border: 2px solid rgba(100, 150, 255, 0.4);
-  border-radius: 0;
-  background: rgba(0, 0, 0, 0.9);
-  text-align: center;
-  box-shadow: 0 0 2px rgba(100, 150, 255, 0.1);
-  position: relative;
-  transition: all var(--transition-smooth);
-  max-width: 280px;
-  width: 100%;
-  box-sizing: border-box;
-  margin-bottom: 2.5rem;
+.terminal-line[data-kind="dim"] {
+  color: rgba(255, 255, 255, 0.5);
+  text-shadow: none;
 }
 
-/* Contact card colors */
-.contact-grid .contact-card:nth-child(1) {
-  border-color: rgba(255, 100, 100, 0.4);
-  box-shadow: 0 0 2px rgba(255, 100, 100, 0.1);
-}
+/* Command chips */
 
-.contact-grid .contact-card:nth-child(2) {
-  border-color: rgba(100, 255, 150, 0.4);
-  box-shadow: 0 0 2px rgba(100, 255, 150, 0.1);
-}
-
-.contact-grid .contact-card:nth-child(3) {
-  border-color: rgba(100, 150, 255, 0.4);
-  box-shadow: 0 0 2px rgba(100, 150, 255, 0.1);
-}
-
-.contact-grid .contact-card:nth-child(4) {
-  border-color: rgba(255, 100, 100, 0.4);
-  box-shadow: 0 0 2px rgba(255, 100, 100, 0.1);
-}
-
-.contact-grid .contact-card:nth-child(5) {
-  border-color: rgba(255, 200, 100, 0.4);
-  box-shadow: 0 0 2px rgba(255, 200, 100, 0.1);
-}
-
-.contact-grid .contact-card:nth-child(6) {
-  border-color: rgba(100, 150, 255, 0.4);
-  box-shadow: 0 0 2px rgba(100, 150, 255, 0.1);
-}
-
-/* Contact Link */
-.contact-link {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  text-decoration: none;
-  color: #fefefe;
-  width: 100%;
-  height: 100%;
-  cursor: pointer;
-}
-
-.contact-link span {
-  font-size: 1rem;
-  color: #fefefe;
-  text-decoration: none;
-  text-shadow:
-    0 0 2px #fefefe,
-    0 0 4px var(--teletext-yellow);
-  transition: color var(--duration-normal) ease;
-  margin-top: 1.2rem;
-}
-
-/* Contact Card Hover States */
-.contact-card:hover {
-  box-shadow: 0 0 10px rgba(100, 150, 255, 0.3);
-  border-color: rgba(100, 150, 255, 0.8);
-  background: rgba(0, 0, 0, 0.95);
-}
-
-/* Contact card hover colors  */
-.contact-grid .contact-card:nth-child(1):hover {
-  border-color: rgba(255, 100, 100, 0.8);
-  box-shadow: 0 0 10px rgba(255, 100, 100, 0.3);
-}
-
-.contact-grid .contact-card:nth-child(2):hover {
-  border-color: rgba(100, 255, 150, 0.8);
-  box-shadow: 0 0 10px rgba(100, 255, 150, 0.3);
-}
-
-.contact-grid .contact-card:nth-child(3):hover {
-  border-color: rgba(100, 150, 255, 0.8);
-  box-shadow: 0 0 10px rgba(100, 150, 255, 0.3);
-}
-
-.contact-grid .contact-card:nth-child(4):hover {
-  border-color: rgba(255, 100, 100, 0.8);
-  box-shadow: 0 0 10px rgba(255, 100, 100, 0.3);
-}
-
-.contact-grid .contact-card:nth-child(5):hover {
-  border-color: rgba(255, 200, 100, 0.8);
-  box-shadow: 0 0 10px rgba(255, 200, 100, 0.3);
-}
-
-.contact-grid .contact-card:nth-child(6):hover {
-  border-color: rgba(100, 150, 255, 0.8);
-  box-shadow: 0 0 10px rgba(100, 150, 255, 0.3);
-}
-
-.contact-card:hover .contact-link span {
-  color: #fff;
-  text-shadow: 0 0 5px var(--teletext-yellow);
-}
-
-/* Hover tooltip */
-.contact-card:hover::after {
-  content: attr(data-hover);
-  font-size: 0.75rem;
-  color: #fefefe;
-  text-shadow: 0 0 4px var(--teletext-yellow);
-  position: absolute;
-  bottom: -2rem;
-  left: 50%;
-  transform: translateX(-50%);
-  white-space: nowrap;
-  background: rgba(0, 0, 0, 0.8);
-  padding: 0.5rem 1rem;
-  border-radius: 0;
-  border: 1px solid rgba(255, 200, 100, 0.4);
-  opacity: 0.9;
-  font-family: "IBM Plex Mono", monospace;
-  pointer-events: none;
-  z-index: 10;
-}
-
-/* Contact Card Icon */
-.contact-card svg.icon {
-  width: 40px;
-  height: 40px;
-  fill: #fefefe;
-  transition: all var(--duration-normal) ease;
-}
-
-.contact-card:hover svg.icon {
-  fill: var(--teletext-yellow);
-  filter: drop-shadow(0 0 8px var(--teletext-yellow));
-}
-
-/* Contact Console */
-.contact-console {
-  width: 100%;
-  max-width: 800px;
-  margin: 2rem auto 3rem;
-  padding: 1.5rem;
-  background: rgba(0, 0, 0, 0.92);
-  border: 2px solid rgba(255, 200, 100, 0.4);
-  border-radius: 0;
-  box-shadow: 0 0 2px rgba(255, 200, 100, 0.15);
+.contact-chips {
   display: flex;
   flex-wrap: wrap;
+  gap: 0.35rem;
+  padding: 0.75rem 1rem;
+  background: rgba(0, 0, 0, 0.3);
+  border-bottom: 1px dashed rgba(255, 204, 0, 0.2);
+}
+
+.contact-chip {
+  background: transparent;
+  border: 1px solid rgba(255, 204, 0, 0.35);
+  color: rgba(255, 204, 0, 0.85);
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 0.78rem;
+  letter-spacing: 0.03em;
+  padding: 0.3rem 0.65rem;
+  cursor: pointer;
+  transition:
+    background var(--duration-fast) ease,
+    color var(--duration-fast) ease,
+    border-color var(--duration-fast) ease;
+  min-height: 36px;
+}
+
+.contact-chip:hover,
+.contact-chip:focus-visible {
+  background: rgba(255, 204, 0, 0.15);
+  color: #fff;
+  border-color: rgba(255, 204, 0, 0.8);
+  outline: none;
+}
+
+.contact-chip:active {
+  background: rgba(255, 204, 0, 0.25);
+}
+
+/* Console input row */
+
+.contact-console {
+  width: 100%;
+  max-width: none;
+  margin: 0;
+  padding: 0.85rem 1rem;
+  background: rgba(0, 0, 0, 0.4);
+  border: none;
+  border-radius: 0;
+  display: flex;
+  flex-wrap: nowrap;
   align-items: center;
-  transition: all var(--transition-smooth);
+  gap: 0.5rem;
   box-sizing: border-box;
+  box-shadow: none;
+  transition: none;
 }
 
 .contact-console:hover {
-  box-shadow: 0 0 8px rgba(255, 200, 100, 0.3);
-  border-color: rgba(255, 200, 100, 0.8);
+  box-shadow: none;
+  border-color: transparent;
 }
 
 .contact-console .prompt {
   font-family: "IBM Plex Mono", monospace;
-  color: #fefefe;
-  font-size: 0.85rem;
-  text-shadow:
-    0 0 2px #fefefe,
-    0 0 4px #00ffcc;
-  margin-right: 0.5rem;
+  color: var(--teletext-yellow);
+  font-size: 1rem;
+  text-shadow: 0 0 4px rgba(255, 204, 0, 0.6);
   flex-shrink: 0;
+  margin-right: 0.25rem;
+  line-height: 1;
 }
 
 .contact-console input[type="text"] {
@@ -288,26 +859,26 @@
   border: none;
   color: #fefefe;
   font-family: "IBM Plex Mono", monospace;
-  font-size: 0.85rem;
+  font-size: 0.95rem;
   text-shadow:
     0 0 2px #fefefe,
-    0 0 4px #00ffcc;
+    0 0 4px var(--accent-color);
   outline: none;
-  padding: 0;
+  padding: 0.4rem 0;
   margin: 0;
   min-width: 50px;
+  caret-color: var(--teletext-yellow);
 }
 
 .contact-console input[type="text"]::placeholder {
-  color: rgba(255, 255, 255, 0.5);
+  color: rgba(255, 255, 255, 0.35);
   text-shadow: none;
 }
 
-/* Console Submit Button */
 .console-submit-btn {
   background: none;
-  border: 1px solid rgba(255, 200, 100, 0.4);
-  color: rgba(255, 200, 100, 0.8);
+  border: 1px solid rgba(255, 204, 0, 0.4);
+  color: rgba(255, 204, 0, 0.8);
   border-radius: 0;
   padding: 0.5rem;
   cursor: pointer;
@@ -320,153 +891,479 @@
   min-height: 44px;
 }
 
-.console-submit-btn:hover {
-  background: rgba(255, 200, 100, 0.15);
-  border-color: rgba(255, 200, 100, 0.8);
+.console-submit-btn:hover,
+.console-submit-btn:focus-visible {
+  background: rgba(255, 204, 0, 0.15);
+  border-color: rgba(255, 204, 0, 0.8);
   color: #fff;
-  box-shadow: 0 0 15px rgba(255, 200, 100, 0.3);
+  outline: none;
 }
 
 .console-submit-btn:active {
-  box-shadow: 0 0 10px rgba(255, 200, 100, 0.2);
+  box-shadow: 0 0 10px rgba(255, 204, 0, 0.2);
 }
 
 .console-submit-btn svg {
-  width: 20px;
-  height: 20px;
-  filter: drop-shadow(0 0 3px rgba(255, 200, 100, 0.5));
+  width: 18px;
+  height: 18px;
+  filter: drop-shadow(0 0 3px rgba(255, 204, 0, 0.5));
 }
 
-/* Ping All flash effect */
-.contact-card.pinged {
-  animation: ping-flash 0.6s ease-out;
+/* ---------- Stats strip ---------- */
+
+.contact-stats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0;
+  padding: 0;
+  border: 1px solid rgba(100, 150, 255, 0.3);
+  background: rgba(0, 0, 0, 0.4);
+  animation: contactRise 0.6s cubic-bezier(0.16, 1, 0.3, 1) 0.4s both;
 }
 
-@keyframes ping-flash {
-  0% { box-shadow: 0 0 0 rgba(0, 255, 204, 0); }
-  30% { box-shadow: 0 0 20px rgba(0, 255, 204, 0.6); }
-  100% { box-shadow: 0 0 2px rgba(100, 150, 255, 0.1); }
+.contact-stat {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 1rem 0.75rem;
+  border-right: 1px dashed rgba(100, 150, 255, 0.25);
+  text-align: center;
 }
 
-/* Terminal Output */
-.terminal-output {
-  width: 100%;
-  max-width: 800px;
-  margin: 1rem auto 0;
-  padding: 1rem;
-  border-top: 1px dashed rgba(0, 255, 255, 0.3);
-  background: rgba(0, 0, 0, 0.9);
-  box-sizing: border-box;
+.contact-stat:last-child {
+  border-right: none;
+}
+
+.contact-stat-label {
+  font-family: "Press Start 2P", monospace;
+  font-size: 0.5rem;
+  letter-spacing: 0.25em;
+  color: var(--teletext-blue);
+}
+
+.contact-stat-value {
+  font-family: "Press Start 2P", monospace;
+  font-size: 1.05rem;
+  letter-spacing: 0.1em;
+  color: #fff;
+  text-shadow: 0 0 10px rgba(255, 255, 255, 0.25);
+  font-variant-numeric: tabular-nums;
+}
+
+/* ---------- Fastext footer ---------- */
+
+.contact-footer-bar {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0;
+  position: relative;
+  z-index: 2;
+  border-top: 1px solid rgba(100, 150, 255, 0.3);
+}
+
+.contact-fastext {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+  padding: 0.7rem 0.5rem;
+  border: none;
+  background: #000;
+  color: #fff;
+  font-family: "Press Start 2P", monospace;
+  font-size: 0.6rem;
+  letter-spacing: 0.2em;
+  cursor: pointer;
+  border-right: 1px solid rgba(255, 255, 255, 0.1);
+  transition:
+    background var(--duration-fast) ease,
+    color var(--duration-fast) ease;
+}
+
+.contact-fastext:last-child {
+  border-right: none;
+}
+
+.contact-fastext-red {
+  color: var(--teletext-red);
+  border-top: 3px solid var(--teletext-red);
+}
+
+.contact-fastext-green {
+  color: var(--teletext-green);
+  border-top: 3px solid var(--teletext-green);
+}
+
+.contact-fastext-yellow {
+  color: var(--teletext-yellow);
+  border-top: 3px solid var(--teletext-yellow);
+}
+
+.contact-fastext-blue {
+  color: var(--teletext-blue);
+  border-top: 3px solid var(--teletext-blue);
+}
+
+.contact-fastext-static {
+  cursor: default;
+  opacity: 0.7;
+}
+
+button.contact-fastext:hover,
+button.contact-fastext:focus-visible {
+  background: var(--teletext-yellow);
+  color: #000;
+  outline: none;
+}
+
+button.contact-fastext-red:hover,
+button.contact-fastext-red:focus-visible {
+  background: var(--teletext-red);
+  color: #000;
+}
+
+button.contact-fastext-green:hover,
+button.contact-fastext-green:focus-visible {
+  background: var(--teletext-green);
+  color: #000;
+}
+
+/* ---------- Animations ---------- */
+
+@keyframes contactRise {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 /* ============================================
-   RESPONSIVE - Contact section, console, terminal
+   RESPONSIVE
    ============================================ */
 
-@media (min-width: 1400px) {
-  .contact-grid {
-    max-width: 1300px;
-    gap: 3.5rem;
-  }
-}
-
-@media (max-width: 992px) {
-  .contact-grid {
-    grid-template-columns: repeat(2, 1fr);
+@media (max-width: 900px) {
+  .contact-body {
+    padding: 1.5rem 1.25rem 1rem;
     gap: 2rem;
   }
-}
 
-@media (max-width: 550px) {
-  .contact-header {
-    max-width: none;
-    width: calc(100% - 2rem);
-    margin-left: 1rem;
-    margin-right: 1rem;
+  .contact-primary {
+    grid-template-columns: auto 1fr;
+    grid-template-areas:
+      "led address"
+      "actions actions";
+    gap: 0.85rem;
+    padding: 1rem 1rem 1rem 1.25rem;
   }
 
-  .contact-grid {
-    grid-template-columns: 1fr;
-    padding: 0 1rem;
+  .contact-primary-led { grid-area: led; }
+  .contact-primary-address { grid-area: address; }
+  .contact-primary-actions {
+    grid-area: actions;
+    justify-content: flex-start;
+  }
+
+  .contact-line {
+    grid-template-columns: auto 7rem 1fr;
+    gap: 0.75rem;
+    padding: 0.75rem 0.5rem;
+  }
+
+  .contact-line-label { font-size: 0.55rem; }
+  .contact-line-handle { font-size: 0.9rem; }
+
+  .contact-form {
+    padding: 1rem 1.15rem 0.9rem;
+  }
+
+  .contact-form-row {
+    grid-template-columns: 6rem 1fr;
+    gap: 0.85rem;
+  }
+
+  .contact-signon-list {
+    padding: 1.1rem 1.25rem;
+    gap: 0.6rem;
+  }
+
+  .contact-signon-row {
+    grid-template-columns: 7.5rem 1fr;
+    gap: 0.9rem;
+  }
+}
+
+@media (max-width: 600px) {
+  #contact {
+    padding: 0.75rem 0.5rem 1.5rem;
+  }
+
+  .contact-header-bar {
+    font-size: 0.6rem;
+    padding: 0.55rem 0.75rem;
+  }
+
+  .contact-subheader {
+    font-size: 0.55rem;
+    padding: 0.45rem 0.75rem;
+    letter-spacing: 0.1em;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+  }
+
+  .contact-body {
+    padding: 1.25rem 0.85rem 0.75rem;
     gap: 1.5rem;
   }
 
-  .contact-card {
-    padding: 1.25rem;
-    font-size: 0.9rem;
-    min-height: var(--touch-target-min);
+  .contact-section-title {
+    font-size: 0.55rem;
+    gap: 0.4rem;
+    letter-spacing: 0.15em;
   }
 
-  .contact-card svg.icon {
-    width: 32px;
-    height: 32px;
+  .contact-section-num { font-size: 0.5rem; }
+  .contact-section-sub { font-size: 0.6rem; }
+
+  .contact-primary {
+    padding: 0.85rem 0.9rem 0.85rem 1.15rem;
   }
 
-  .easter-egg-buttons {
-    flex-direction: column;
-    gap: 0.75rem;
-    padding: 0 1rem;
+  .contact-primary-address {
+    font-size: 0.92rem;
   }
 
-  .easter-egg-buttons button {
-    width: 100%;
-    padding: 1rem 1.5rem;
-    min-height: var(--touch-target-min);
+  .contact-primary-btn {
+    font-size: 0.5rem;
+    padding: 0.55rem 0.7rem;
+    letter-spacing: 0.12em;
   }
 
-  .contact-console {
-    flex-direction: row;
-    flex-wrap: nowrap;
-    align-items: center;
+  .contact-line {
+    grid-template-columns: auto 1fr;
+    grid-template-areas:
+      "led label"
+      "handle handle";
+    gap: 0.25rem 0.6rem;
+    padding: 0.7rem 0.4rem;
+    align-items: baseline;
+  }
+
+  .contact-line-led {
+    grid-area: led;
+    align-self: center;
+  }
+  .contact-line-label {
+    grid-area: label;
+    font-size: 0.55rem;
+  }
+  .contact-line-handle {
+    grid-area: handle;
+    font-size: 0.85rem;
+    padding: 0.5rem 0;
+  }
+
+  .terminal-output {
+    max-height: 14rem;
+    padding: 0.8rem 0.9rem;
     font-size: 0.8rem;
-    margin: 1.5rem 1rem;
-    padding: 1rem;
-    gap: 0.5rem;
-    width: calc(100% - 2rem);
-    max-width: none;
-  }
-
-  .contact-console .prompt {
-    flex-shrink: 0;
-  }
-
-  .contact-console input {
-    flex: 1;
-    min-width: 0;
-    font-size: 0.9rem;
-    min-height: var(--touch-target-min);
-  }
-
-  .console-submit-btn {
-    flex-shrink: 0;
-    min-width: 48px;
-    min-height: 48px;
-  }
-
-  .console-submit-btn svg {
-    width: 22px;
-    height: 22px;
   }
 
   .terminal-line {
     font-size: 0.8rem;
-    padding: 0.75rem 0;
   }
 
-  .terminal-output {
-    max-width: none;
-    width: calc(100% - 2rem);
-    margin: 1rem 1rem 0;
-    padding: 0.75rem;
+  .contact-form {
+    padding: 0.95rem 1rem 0.85rem;
+    gap: 0.7rem;
+  }
+
+  .contact-form-row {
+    grid-template-columns: 1fr;
+    gap: 0.25rem;
+  }
+
+  .contact-form-prompt {
+    font-size: 0.65rem;
+    padding-top: 0;
+    letter-spacing: 0.12em;
+  }
+
+  .contact-form-input {
+    font-size: 0.9rem;
+  }
+
+  .contact-form-textarea {
+    min-height: 5rem;
+  }
+
+  .contact-form-actions {
+    gap: 0.6rem;
+  }
+
+  .contact-form-status {
+    flex-basis: 100%;
+    font-size: 0.75rem;
+  }
+
+  .contact-form-submit {
+    font-size: 0.55rem;
+    padding: 0.6rem 1rem;
+    letter-spacing: 0.15em;
+  }
+
+  .contact-signon-list {
+    padding: 0.95rem 1rem;
+    gap: 0.75rem;
+  }
+
+  .contact-signon-row {
+    grid-template-columns: 1fr;
+    gap: 0.3rem;
+  }
+
+  .contact-signon-row dt {
+    font-size: 0.5rem;
+    letter-spacing: 0.18em;
+  }
+
+  .contact-signon-row dd {
+    font-size: 0.88rem;
+  }
+
+  .contact-signon-callsign {
+    font-size: 1rem;
+  }
+
+  .contact-console {
+    padding: 0.65rem 0.8rem;
+  }
+
+  .contact-console input[type="text"] {
+    font-size: 0.88rem;
+    min-height: var(--touch-target-min);
+  }
+
+  .contact-chips {
+    padding: 0.5rem 0.75rem;
+    gap: 0.3rem;
+  }
+
+  .contact-chip {
+    font-size: 0.7rem;
+    padding: 0.3rem 0.5rem;
+  }
+
+  .contact-stats {
+    grid-template-columns: 1fr;
+  }
+
+  .contact-stat {
+    flex-direction: row;
+    justify-content: space-between;
+    padding: 0.7rem 0.85rem;
+    border-right: none;
+    border-bottom: 1px dashed rgba(100, 150, 255, 0.25);
+    text-align: left;
+    gap: 0.75rem;
+  }
+
+  .contact-stat:last-child {
+    border-bottom: none;
+  }
+
+  .contact-stat-label {
+    font-size: 0.45rem;
+  }
+
+  .contact-stat-value {
+    font-size: 0.85rem;
+    letter-spacing: 0.08em;
+  }
+
+  .contact-footer-bar {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .contact-fastext {
+    font-size: 0.5rem;
+    padding: 0.55rem 0.4rem;
+    border-right: 1px solid rgba(255, 255, 255, 0.1);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    gap: 0.3rem;
+  }
+
+  .contact-fastext:nth-child(2n) {
+    border-right: none;
+  }
+
+  .contact-fastext:nth-last-child(-n + 2) {
+    border-bottom: none;
   }
 }
 
 @media (max-width: 400px) {
-  .contact-card {
-    padding: 1rem;
+  #contact {
+    padding: 0.5rem 0.3rem 1.25rem;
   }
 
-  .contact-link span {
-    font-size: 0.85rem;
+  .contact-header-bar {
+    font-size: 0.55rem;
+    padding: 0.5rem 0.65rem;
+  }
+
+  .contact-subheader {
+    font-size: 0.5rem;
+    padding: 0.4rem 0.65rem;
+  }
+
+  .contact-body {
+    padding: 1rem 0.7rem 0.5rem;
+    gap: 1.25rem;
+  }
+
+  .contact-primary-address {
+    font-size: 0.88rem;
+  }
+
+  .contact-line-handle {
+    font-size: 0.8rem;
+  }
+
+  .contact-stat-value {
+    font-size: 0.78rem;
+  }
+
+  .contact-fastext {
+    font-size: 0.45rem;
+    padding: 0.5rem 0.3rem;
+    letter-spacing: 0.1em;
+  }
+}
+
+/* ---------- Reduced motion ---------- */
+
+@media (prefers-reduced-motion: reduce) {
+  .contact-section,
+  .contact-stats {
+    animation: none;
+    opacity: 1;
+    transform: none;
+  }
+
+  .contact-primary-led,
+  .contact-clock-colon,
+  .contact-signon-dot {
+    animation: none;
+  }
+
+  .contact-line.pinged {
+    animation: none;
+    background: rgba(0, 255, 204, 0.15);
   }
 }

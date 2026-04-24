@@ -13,11 +13,6 @@
     max-width: 1200px;
   }
 
-  .contact-grid {
-    max-width: 1300px;
-    gap: 3.5rem;
-  }
-
   /* Larger typography for big screens */
   #intro h1 {
     font-size: clamp(3rem, 7vw, 5rem);
@@ -43,12 +38,6 @@
 
 /*    TABLETS  768px - 992px     */
 @media (max-width: 992px) {
-  /* Contact grid 2 columns */
-  .contact-grid {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 2rem;
-  }
-
   /* Intro section adjustments */
   #intro {
     margin-top: 20vh;
@@ -392,19 +381,12 @@
     margin-top: 2rem;
   }
 
-  .about-header,
-  .contact-header {
+  .about-header {
     padding: 1.5rem 1rem;
   }
 
-  #about h1,
-  #contact h1 {
+  #about h1 {
     font-size: 1.8rem;
-  }
-
-  .status-indicator {
-    font-size: 0.75rem;
-    padding: 0.4rem 0.8rem;
   }
 
   .bio-section,
@@ -518,93 +500,6 @@
     font-size: 0.75rem;
     padding: 0.5rem 0.6rem;
     min-height: 36px;
-  }
-
-  /* Contact header mobile */
-  .contact-header {
-    max-width: none;
-    width: calc(100% - 2rem);
-    margin-left: 1rem;
-    margin-right: 1rem;
-  }
-
-  /* Contact grid single column */
-  .contact-grid {
-    grid-template-columns: 1fr;
-    padding: 0 1rem;
-    gap: 1.5rem;
-  }
-
-  .contact-card {
-    padding: 1.25rem;
-    font-size: 0.9rem;
-    min-height: var(--touch-target-min);
-  }
-
-  .contact-card svg.icon {
-    width: 32px;
-    height: 32px;
-  }
-
-  /* Easter egg buttons stack */
-  .easter-egg-buttons {
-    flex-direction: column;
-    gap: 0.75rem;
-    padding: 0 1rem;
-  }
-
-  .easter-egg-buttons button {
-    width: 100%;
-    padding: 1rem 1.5rem;
-    min-height: var(--touch-target-min);
-  }
-
-  /* Contact console */
-  .contact-console {
-    flex-direction: row;
-    flex-wrap: nowrap;
-    align-items: center;
-    font-size: 0.8rem;
-    margin: 1.5rem 1rem;
-    padding: 1rem;
-    gap: 0.5rem;
-    width: calc(100% - 2rem);
-    max-width: none;
-  }
-
-  .contact-console .prompt {
-    flex-shrink: 0;
-  }
-
-  .contact-console input {
-    flex: 1;
-    min-width: 0;
-    font-size: 0.9rem;
-    min-height: var(--touch-target-min);
-  }
-
-  .console-submit-btn {
-    flex-shrink: 0;
-    min-width: 48px;
-    min-height: 48px;
-  }
-
-  .console-submit-btn svg {
-    width: 22px;
-    height: 22px;
-  }
-
-  /* Terminal */
-  .terminal-line {
-    font-size: 0.8rem;
-    padding: 0.75rem 0;
-  }
-
-  .terminal-output {
-    max-width: none;
-    width: calc(100% - 2rem);
-    margin: 1rem 1rem 0;
-    padding: 0.75rem;
   }
 
   /* Tech stack 2 columns */
@@ -745,13 +640,11 @@
     padding: 2rem 1rem;
   }
 
-  .about-header,
-  .contact-header {
+  .about-header {
     padding: 1rem 0.75rem;
   }
 
-  #about h1,
-  #contact h1 {
+  #about h1 {
     font-size: 1.5rem;
   }
 
@@ -783,15 +676,6 @@
   .chip-icon {
     width: 24px;
     height: 24px;
-  }
-
-  /* Contact compact */
-  .contact-card {
-    padding: 1rem;
-  }
-
-  .contact-link span {
-    font-size: 0.85rem;
   }
 
   /* Remote control very compact */
@@ -984,8 +868,7 @@
     margin-top: 1rem;
   }
 
-  .about-header,
-  .contact-header {
+  .about-header {
     padding: 1rem;
     margin-bottom: 1.5rem;
   }
@@ -1178,7 +1061,6 @@
   /* Hide interactive elements */
   footer,
   header,
-  .easter-egg-buttons,
   .contact-console,
   .skip-link,
   #tv-screen,

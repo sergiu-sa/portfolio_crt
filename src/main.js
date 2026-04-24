@@ -19,6 +19,7 @@ import {
   getCurrentChannel,
 } from './js/channels.js';
 import { initTerminal, triggerTerminalSequence, startConsoleIntro } from './js/terminal.js';
+import { initContact, cleanupContact } from './js/contact.js';
 import {
   initProjectChannelSystem,
   cleanupTeletext,
@@ -240,6 +241,7 @@ function switchToSection(section) {
   stopProjectSlideshow();
   cleanupTeletext();
   cleanupDecryptedText();
+  cleanupContact();
 
   // Hide all sections
   sections.forEach((s) => {
@@ -260,9 +262,9 @@ function switchToSection(section) {
   }
 
   if (section === 'contact') {
+    initContact({ showOSD, showSection });
     triggerTerminalSequence();
     startConsoleIntro();
-    refreshFadeInObserver();
   }
 
   if (section === 'projects') {
@@ -358,15 +360,6 @@ const fadeInObserver = new IntersectionObserver(
 // Observe all fade-in elements
 document.querySelectorAll('.fade-in').forEach((el) => fadeInObserver.observe(el));
 
-/**
- * Refresh fade-in observer for dynamically added elements
- */
-function refreshFadeInObserver() {
-  document.querySelectorAll('.fade-in').forEach((el) => {
-    fadeInObserver.observe(el);
-  });
-}
-
 // ============================================
 // DATE DISPLAY
 // ============================================
@@ -448,21 +441,6 @@ function setupEventListeners() {
   const remoteDim = document.getElementById('remote-dim');
   if (remoteDim) {
     remoteDim.addEventListener('click', cycleDim);
-  }
-
-  // Easter egg buttons
-  const pingAll = document.getElementById('ping-all');
-
-  if (pingAll) {
-    pingAll.addEventListener('click', () => {
-      showOSD('PING ALL');
-      document.querySelectorAll('.contact-card').forEach((card, i) => {
-        setTimeout(() => {
-          card.classList.add('pinged');
-          setTimeout(() => card.classList.remove('pinged'), 600);
-        }, i * 100);
-      });
-    });
   }
 
   // Keyboard shortcuts modal

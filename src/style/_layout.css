@@ -869,41 +869,6 @@ main::-webkit-scrollbar {
   color: #ccc;
 }
 
-/* Easter Egg Buttons */
-.easter-egg-buttons {
-  display: flex;
-  justify-content: center;
-  gap: 1.5rem;
-  margin-top: 2rem;
-}
-
-.easter-egg-buttons button {
-  background: rgba(0, 0, 0, 0.9);
-  color: #fefefe;
-  border: 2px solid rgba(0, 255, 204, 0.4);
-  border-radius: 0;
-  padding: 1rem 2rem;
-  font-family: "IBM Plex Mono", monospace;
-  font-size: 0.85rem;
-  cursor: pointer;
-  text-shadow:
-    0 0 2px #fefefe,
-    0 0 4px #00ffcc;
-  transition: all var(--transition-smooth);
-  box-shadow: 0 0 2px rgba(0, 255, 204, 0.1);
-  position: relative;
-}
-
-.easter-egg-buttons button:hover {
-  box-shadow: 0 0 10px rgba(0, 255, 204, 0.3);
-  background: rgba(0, 0, 0, 0.95);
-  border-color: rgba(0, 255, 204, 0.8);
-}
-
-.easter-egg-buttons button:active {
-  box-shadow: 0 0 6px rgba(0, 255, 204, 0.2);
-}
-
 /* ============================================
    BREAKOUT GAME ACTIVE STATE
    ============================================ */
