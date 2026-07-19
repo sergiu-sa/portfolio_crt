@@ -95,6 +95,19 @@
   letter-spacing: inherit;
   color: inherit;
   text-transform: inherit;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  min-width: 0;
+}
+
+.contact-index-sep {
+  color: rgba(255, 255, 255, 0.35);
+}
+
+.contact-index-status {
+  color: var(--teletext-green);
+  text-shadow: 0 0 6px rgba(100, 255, 150, 0.4);
 }
 
 .contact-subheader-right {
@@ -138,8 +151,6 @@
 .contact-section:nth-of-type(1) { animation-delay: 0.05s; }
 .contact-section:nth-of-type(2) { animation-delay: 0.12s; }
 .contact-section:nth-of-type(3) { animation-delay: 0.2s; }
-.contact-section:nth-of-type(4) { animation-delay: 0.28s; }
-.contact-section:nth-of-type(5) { animation-delay: 0.35s; }
 
 .contact-section-title {
   display: flex;
@@ -168,98 +179,17 @@
   color: #fff;
 }
 
-.contact-section-dash {
-  color: rgba(255, 255, 255, 0.4);
-}
-
-.contact-section-sub {
-  font-family: "IBM Plex Mono", monospace;
-  font-size: 0.7rem;
-  letter-spacing: 0.1em;
-  color: rgba(255, 255, 255, 0.55);
-  text-transform: none;
-}
-
-/* ---------- Station sign-on card ---------- */
-
-.contact-signon-list {
-  margin: 0;
-  padding: 1.25rem 1.5rem;
-  display: grid;
-  gap: 0.7rem;
-  background: rgba(0, 0, 0, 0.55);
-  border: 1px solid rgba(100, 150, 255, 0.28);
-  border-left: 3px solid var(--teletext-green);
-  box-shadow:
-    inset 0 0 30px rgba(0, 20, 60, 0.3),
-    0 0 12px rgba(0, 0, 0, 0.3);
-  position: relative;
-  min-width: 0;
-}
-
-/* Faint scanlines inside the card — reinforces the "broadcast filing" feel */
-.contact-signon-list::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: repeating-linear-gradient(
-    0deg,
-    rgba(100, 255, 150, 0.018) 0 1px,
-    transparent 1px 3px
-  );
-  pointer-events: none;
-}
-
-.contact-signon-row {
-  display: grid;
-  grid-template-columns: 9rem 1fr;
-  align-items: baseline;
-  gap: 1.1rem;
-  min-width: 0;
-  position: relative;
-  z-index: 1;
-}
-
-.contact-signon-row dt {
-  font-family: "Press Start 2P", monospace;
-  font-size: 0.55rem;
-  letter-spacing: 0.2em;
-  color: var(--teletext-green);
-  text-shadow: 0 0 5px rgba(100, 255, 150, 0.3);
-  text-transform: uppercase;
-  white-space: nowrap;
-  margin: 0;
-}
-
-.contact-signon-row dd {
-  margin: 0;
-  font-family: "IBM Plex Mono", monospace;
-  font-size: 0.95rem;
-  color: rgba(255, 255, 255, 0.88);
-  letter-spacing: 0.02em;
-  overflow-wrap: anywhere;
-  min-width: 0;
-  line-height: 1.4;
-}
+/* ---------- Callsign in subheader ---------- */
 
 .contact-signon-callsign {
   color: var(--teletext-yellow);
-  font-size: 1.15rem;
-  letter-spacing: 0.08em;
   text-shadow: 0 0 4px rgba(255, 204, 0, 0.4);
-}
-
-.contact-signon-status {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.55rem;
-  color: var(--teletext-green);
-  text-shadow: 0 0 6px rgba(100, 255, 150, 0.4);
+  text-transform: none;
 }
 
 .contact-signon-dot {
-  width: 9px;
-  height: 9px;
+  width: 8px;
+  height: 8px;
   border-radius: 50%;
   background: var(--teletext-green);
   box-shadow: 0 0 10px var(--teletext-green);
@@ -361,14 +291,6 @@
   background: var(--teletext-green);
   border-color: var(--teletext-green);
   color: #000;
-}
-
-.contact-primary-btn-go {
-  background: rgba(255, 204, 0, 0.08);
-}
-
-.contact-primary-arrow {
-  font-size: 0.7rem;
 }
 
 /* ---------- Directory (outbound lines) ---------- */
@@ -481,213 +403,6 @@
     background: rgba(0, 255, 204, 0);
     box-shadow: inset 0 0 0 rgba(0, 255, 204, 0);
   }
-}
-
-/* ---------- Compose form ---------- */
-
-.contact-form {
-  display: flex;
-  flex-direction: column;
-  gap: 0.85rem;
-  padding: 1.25rem 1.5rem 1rem;
-  background: rgba(0, 0, 0, 0.55);
-  border: 1px solid rgba(255, 204, 0, 0.3);
-  box-shadow:
-    inset 0 0 30px rgba(255, 204, 0, 0.03),
-    0 0 12px rgba(255, 204, 0, 0.04);
-  position: relative;
-  min-width: 0;
-}
-
-.contact-form::before {
-  content: "";
-  position: absolute;
-  inset: 0 auto 0 0;
-  width: 3px;
-  background: var(--teletext-yellow);
-  box-shadow: 0 0 10px rgba(255, 204, 0, 0.5);
-  opacity: 0.7;
-}
-
-.contact-form-row {
-  display: grid;
-  grid-template-columns: 7rem 1fr;
-  align-items: baseline;
-  gap: 1rem;
-  min-width: 0;
-}
-
-.contact-form-row-textarea {
-  align-items: flex-start;
-}
-
-.contact-form-prompt {
-  font-family: "IBM Plex Mono", monospace;
-  font-size: 0.8rem;
-  letter-spacing: 0.15em;
-  color: var(--teletext-yellow);
-  text-shadow: 0 0 4px rgba(255, 204, 0, 0.4);
-  text-transform: uppercase;
-  padding-top: 0.4rem;
-  white-space: nowrap;
-  display: inline-flex;
-  gap: 0.45rem;
-  align-items: baseline;
-}
-
-.contact-form-caret {
-  color: var(--teletext-yellow);
-  opacity: 0.65;
-}
-
-.contact-form-input {
-  background: transparent;
-  border: none;
-  border-bottom: 1px dashed rgba(255, 204, 0, 0.3);
-  color: #fefefe;
-  font-family: "IBM Plex Mono", monospace;
-  font-size: 0.95rem;
-  letter-spacing: 0.02em;
-  padding: 0.35rem 0.3rem 0.45rem;
-  outline: none;
-  min-width: 0;
-  width: 100%;
-  text-shadow:
-    0 0 2px #fefefe,
-    0 0 4px var(--accent-color);
-  caret-color: var(--teletext-yellow);
-  min-height: var(--touch-target-min);
-  box-sizing: border-box;
-  transition:
-    border-color var(--duration-fast) ease,
-    box-shadow var(--duration-fast) ease;
-}
-
-.contact-form-input:focus {
-  border-bottom-color: var(--teletext-yellow);
-  box-shadow: 0 2px 0 -1px rgba(255, 204, 0, 0.4);
-}
-
-.contact-form-input::placeholder {
-  color: rgba(255, 255, 255, 0.28);
-  text-shadow: none;
-}
-
-.contact-form-input:invalid:not(:placeholder-shown) {
-  border-bottom-color: rgba(255, 100, 100, 0.55);
-}
-
-.contact-form-textarea {
-  resize: vertical;
-  min-height: 6rem;
-  padding: 0.6rem 0.7rem;
-  line-height: 1.55;
-  border: 1px dashed rgba(255, 204, 0, 0.3);
-  scrollbar-width: thin;
-  scrollbar-color: rgba(255, 204, 0, 0.3) transparent;
-}
-
-.contact-form-textarea:focus {
-  border-color: var(--teletext-yellow);
-  box-shadow:
-    inset 0 0 10px rgba(255, 204, 0, 0.05),
-    0 0 0 1px rgba(255, 204, 0, 0.2);
-}
-
-.contact-form-honeypot {
-  position: absolute;
-  left: -9999px;
-  top: auto;
-  width: 1px;
-  height: 1px;
-  overflow: hidden;
-}
-
-.contact-form-actions {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 1rem;
-  margin-top: 0.4rem;
-  padding-top: 0.85rem;
-  border-top: 1px dashed rgba(255, 204, 0, 0.18);
-  min-width: 0;
-  flex-wrap: wrap;
-}
-
-.contact-form-status {
-  margin: 0;
-  font-family: "IBM Plex Mono", monospace;
-  font-size: 0.82rem;
-  color: rgba(255, 255, 255, 0.55);
-  min-height: 1.2em;
-  letter-spacing: 0.02em;
-  overflow-wrap: anywhere;
-  min-width: 0;
-  flex: 1;
-}
-
-.contact-form-status:empty::before {
-  content: "";
-}
-
-.contact-form-status[data-kind="prompt"] {
-  color: var(--teletext-yellow);
-  text-shadow: 0 0 4px rgba(255, 204, 0, 0.4);
-}
-
-.contact-form-status[data-kind="ok"] {
-  color: var(--teletext-green);
-  text-shadow: 0 0 4px rgba(100, 255, 150, 0.4);
-}
-
-.contact-form-status[data-kind="error"] {
-  color: var(--teletext-red);
-  text-shadow: 0 0 4px rgba(255, 100, 100, 0.4);
-}
-
-.contact-form-submit {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
-  padding: 0.65rem 1.2rem;
-  background: rgba(255, 204, 0, 0.1);
-  border: 1px solid var(--teletext-yellow);
-  color: var(--teletext-yellow);
-  font-family: "Press Start 2P", monospace;
-  font-size: 0.6rem;
-  letter-spacing: 0.2em;
-  cursor: pointer;
-  min-height: var(--touch-target-min);
-  text-shadow: 0 0 4px rgba(255, 204, 0, 0.5);
-  transition:
-    background var(--duration-fast) ease,
-    color var(--duration-fast) ease,
-    transform var(--duration-fast) ease,
-    box-shadow var(--duration-fast) ease;
-}
-
-.contact-form-submit:hover,
-.contact-form-submit:focus-visible {
-  background: var(--teletext-yellow);
-  color: #000;
-  outline: none;
-  text-shadow: none;
-  box-shadow: 0 0 14px rgba(255, 204, 0, 0.35);
-}
-
-.contact-form-submit:active {
-  transform: translateY(1px);
-}
-
-.contact-form-submit:disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
-  transform: none;
-}
-
-.contact-form-arrow {
-  font-size: 0.7rem;
 }
 
 /* ---------- Clock colon blink ---------- */
@@ -909,49 +624,6 @@
   filter: drop-shadow(0 0 3px rgba(255, 204, 0, 0.5));
 }
 
-/* ---------- Stats strip ---------- */
-
-.contact-stats {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 0;
-  padding: 0;
-  border: 1px solid rgba(100, 150, 255, 0.3);
-  background: rgba(0, 0, 0, 0.4);
-  animation: contactRise 0.6s cubic-bezier(0.16, 1, 0.3, 1) 0.4s both;
-}
-
-.contact-stat {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  gap: 0.35rem;
-  padding: 1rem 0.75rem;
-  border-right: 1px dashed rgba(100, 150, 255, 0.25);
-  text-align: center;
-}
-
-.contact-stat:last-child {
-  border-right: none;
-}
-
-.contact-stat-label {
-  font-family: "Press Start 2P", monospace;
-  font-size: 0.5rem;
-  letter-spacing: 0.25em;
-  color: var(--teletext-blue);
-}
-
-.contact-stat-value {
-  font-family: "Press Start 2P", monospace;
-  font-size: 1.05rem;
-  letter-spacing: 0.1em;
-  color: #fff;
-  text-shadow: 0 0 10px rgba(255, 255, 255, 0.25);
-  font-variant-numeric: tabular-nums;
-}
-
 /* ---------- Fastext footer ---------- */
 
 .contact-footer-bar {
@@ -1077,25 +749,6 @@ button.contact-fastext-green:focus-visible {
 
   .contact-line-label { font-size: 0.55rem; }
   .contact-line-handle { font-size: 0.9rem; }
-
-  .contact-form {
-    padding: 1rem 1.15rem 0.9rem;
-  }
-
-  .contact-form-row {
-    grid-template-columns: 6rem 1fr;
-    gap: 0.85rem;
-  }
-
-  .contact-signon-list {
-    padding: 1.1rem 1.25rem;
-    gap: 0.6rem;
-  }
-
-  .contact-signon-row {
-    grid-template-columns: 7.5rem 1fr;
-    gap: 0.9rem;
-  }
 }
 
 @media (max-width: 600px) {
@@ -1128,7 +781,6 @@ button.contact-fastext-green:focus-visible {
   }
 
   .contact-section-num { font-size: 0.5rem; }
-  .contact-section-sub { font-size: 0.6rem; }
 
   .contact-primary {
     padding: 0.85rem 0.9rem 0.85rem 1.15rem;
@@ -1178,68 +830,6 @@ button.contact-fastext-green:focus-visible {
     font-size: 0.8rem;
   }
 
-  .contact-form {
-    padding: 0.95rem 1rem 0.85rem;
-    gap: 0.7rem;
-  }
-
-  .contact-form-row {
-    grid-template-columns: 1fr;
-    gap: 0.25rem;
-  }
-
-  .contact-form-prompt {
-    font-size: 0.65rem;
-    padding-top: 0;
-    letter-spacing: 0.12em;
-  }
-
-  .contact-form-input {
-    font-size: 0.9rem;
-  }
-
-  .contact-form-textarea {
-    min-height: 5rem;
-  }
-
-  .contact-form-actions {
-    gap: 0.6rem;
-  }
-
-  .contact-form-status {
-    flex-basis: 100%;
-    font-size: 0.75rem;
-  }
-
-  .contact-form-submit {
-    font-size: 0.55rem;
-    padding: 0.6rem 1rem;
-    letter-spacing: 0.15em;
-  }
-
-  .contact-signon-list {
-    padding: 0.95rem 1rem;
-    gap: 0.75rem;
-  }
-
-  .contact-signon-row {
-    grid-template-columns: 1fr;
-    gap: 0.3rem;
-  }
-
-  .contact-signon-row dt {
-    font-size: 0.5rem;
-    letter-spacing: 0.18em;
-  }
-
-  .contact-signon-row dd {
-    font-size: 0.88rem;
-  }
-
-  .contact-signon-callsign {
-    font-size: 1rem;
-  }
-
   .contact-console {
     padding: 0.65rem 0.8rem;
   }
@@ -1257,33 +847,6 @@ button.contact-fastext-green:focus-visible {
   .contact-chip {
     font-size: 0.7rem;
     padding: 0.3rem 0.5rem;
-  }
-
-  .contact-stats {
-    grid-template-columns: 1fr;
-  }
-
-  .contact-stat {
-    flex-direction: row;
-    justify-content: space-between;
-    padding: 0.7rem 0.85rem;
-    border-right: none;
-    border-bottom: 1px dashed rgba(100, 150, 255, 0.25);
-    text-align: left;
-    gap: 0.75rem;
-  }
-
-  .contact-stat:last-child {
-    border-bottom: none;
-  }
-
-  .contact-stat-label {
-    font-size: 0.45rem;
-  }
-
-  .contact-stat-value {
-    font-size: 0.85rem;
-    letter-spacing: 0.08em;
   }
 
   .contact-footer-bar {
@@ -1335,10 +898,6 @@ button.contact-fastext-green:focus-visible {
     font-size: 0.8rem;
   }
 
-  .contact-stat-value {
-    font-size: 0.78rem;
-  }
-
   .contact-fastext {
     font-size: 0.45rem;
     padding: 0.5rem 0.3rem;
@@ -1349,8 +908,7 @@ button.contact-fastext-green:focus-visible {
 /* ---------- Reduced motion ---------- */
 
 @media (prefers-reduced-motion: reduce) {
-  .contact-section,
-  .contact-stats {
+  .contact-section {
     animation: none;
     opacity: 1;
     transform: none;

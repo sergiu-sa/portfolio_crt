@@ -532,35 +532,6 @@ function setupShortcutsModal() {
  * Initialize the application
  */
 function init() {
-  // Set dynamic year in splash footer
-  const splashYear = document.getElementById('splash-year');
-  if (splashYear) splashYear.textContent = new Date().getFullYear();
-
-  // First-visit splash screen
-  const splashSeen = localStorage.getItem('crtSplashSeen') === 'true';
-  const splash = document.getElementById('splash-screen');
-  const splashBtn = document.getElementById('splash-dismiss');
-
-  if (splashSeen && splash) {
-    splash.remove();
-  } else if (splash && splashBtn) {
-    function dismissSplash() {
-      splash.classList.add('hidden');
-      localStorage.setItem('crtSplashSeen', 'true');
-      splash.addEventListener('transitionend', () => splash.remove(), { once: true });
-      document.removeEventListener('keydown', splashKey);
-    }
-
-    function splashKey(e) {
-      if (e.key === 'Escape') {
-        dismissSplash();
-      }
-    }
-
-    splashBtn.addEventListener('click', dismissSplash);
-    document.addEventListener('keydown', splashKey);
-  }
-
   // Initialize channel system
   initChannelSystem();
   setSoundEnabledChecker(isSoundEnabled);

@@ -37,7 +37,6 @@ function renderClockInto(el, time) {
 function updateClock() {
   const time = formatOsloTime(new Date());
   renderClockInto(document.getElementById('contact-clock-time'), time);
-  renderClockInto(document.getElementById('contact-stat-time'), time);
 }
 
 function startClock() {
@@ -136,75 +135,6 @@ export async function submitContactMessage({ email, subject, message }) {
 }
 
 /**
- * Wire the visible compose form. Submits through submitContactMessage
- * (same Formspree path as the /message terminal wizard). Status feedback
- * is rendered inline under the form.
- */
-function setupComposeForm() {
-  const form = document.getElementById('contact-form');
-  if (!form || form.dataset.wired) return;
-  form.dataset.wired = 'true';
-
-  const statusEl = document.getElementById('contact-form-status');
-  const submitBtn = document.getElementById('contact-form-submit');
-  const emailInput = document.getElementById('contact-form-email');
-  const subjectInput = document.getElementById('contact-form-subject');
-  const messageInput = document.getElementById('contact-form-message');
-  const honeypot = form.querySelector('input[name="_gotcha"]');
-
-  function setStatus(text, kind) {
-    if (!statusEl) return;
-    statusEl.textContent = text;
-    if (kind) statusEl.dataset.kind = kind;
-    else delete statusEl.dataset.kind;
-  }
-
-  // Enter in subject → advance to message (textarea still takes newlines as expected)
-  subjectInput?.addEventListener('keydown', (e) => {
-    if (e.key === 'Enter') {
-      e.preventDefault();
-      messageInput?.focus();
-    }
-  });
-
-  form.addEventListener('submit', async (e) => {
-    e.preventDefault();
-
-    // Spam honeypot — bots fill hidden fields; treat as silent success.
-    if (honeypot && honeypot.value) {
-      setStatus('[OK] Message received. I will get back to you.', 'ok');
-      form.reset();
-      return;
-    }
-
-    const payload = {
-      email: emailInput.value.trim(),
-      subject: subjectInput.value.trim(),
-      message: messageInput.value.trim(),
-    };
-
-    if (!payload.email || !payload.subject || !payload.message) {
-      setStatus('[ERROR] Fill every field before transmitting.', 'error');
-      return;
-    }
-
-    submitBtn.disabled = true;
-    setStatus('[TRANSMITTING] ......', 'prompt');
-
-    try {
-      await submitContactMessage(payload);
-      setStatus('[OK] Message received. I will get back to you.', 'ok');
-      form.reset();
-    } catch (err) {
-      const msg = err && err.message ? err.message : 'Transmission failed.';
-      setStatus(`[ERROR] ${msg}`, 'error');
-    } finally {
-      submitBtn.disabled = false;
-    }
-  });
-}
-
-/**
  * Initialize the P.500 CALLSIGN page. Called when #contact becomes active.
  * @param {{showOSD?:Function, showSection?:Function}} ctx
  */
@@ -212,7 +142,6 @@ export function initContact(ctx = {}) {
   startClock();
   setupCopyEmail(ctx.showOSD);
   setupFastextFooter(ctx.showSection);
-  setupComposeForm();
 }
 
 /**
