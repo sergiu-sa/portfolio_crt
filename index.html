@@ -509,7 +509,12 @@
             </header>
 
             <div class="contact-subheader">
-              <h1 id="contact-title" class="contact-index">INDEX 500 &middot; CALLSIGN</h1>
+              <h1 id="contact-title" class="contact-index">
+                <span class="contact-signon-dot" aria-hidden="true"></span>
+                <span class="contact-signon-callsign">oltenkS</span>
+                <span class="contact-index-sep" aria-hidden="true">&middot;</span>
+                <span class="contact-index-status">OPEN LINE</span>
+              </h1>
               <span class="contact-subheader-right">
                 <span>OSLO</span>
                 <span class="contact-clock-sep">&middot;</span>
@@ -520,45 +525,11 @@
             </div>
 
             <div class="contact-body">
-              <!-- Station sign-on card -->
-              <section class="contact-section contact-signon" aria-label="Station sign-on">
-                <h2 class="contact-section-title">
-                  <span class="contact-section-num">00</span>
-                  <span class="contact-section-name">STATION SIGN-ON</span>
-                  <span class="contact-section-dash">&mdash;</span>
-                  <span class="contact-section-sub">On air</span>
-                </h2>
-
-                <dl class="contact-signon-list">
-                  <div class="contact-signon-row">
-                    <dt>CALLSIGN</dt>
-                    <dd class="contact-signon-callsign">oltenkS&#8209;FM</dd>
-                  </div>
-                  <div class="contact-signon-row">
-                    <dt>COORDS</dt>
-                    <dd>59.9139&deg;N / 10.7522&deg;E</dd>
-                  </div>
-                  <div class="contact-signon-row">
-                    <dt>OPERATOR</dt>
-                    <dd>SERGIU SARBU</dd>
-                  </div>
-                  <div class="contact-signon-row">
-                    <dt>STATUS</dt>
-                    <dd class="contact-signon-status">
-                      <span class="contact-signon-dot" aria-hidden="true"></span>
-                      <span>OPEN LINE &mdash; ACCEPTING SIGNALS</span>
-                    </dd>
-                  </div>
-                </dl>
-              </section>
-
-              <!-- Primary transmission line -->
-              <section class="contact-section" aria-label="Primary transmission">
+              <!-- Email hero -->
+              <section class="contact-section" aria-label="Email">
                 <h2 class="contact-section-title">
                   <span class="contact-section-num">01</span>
-                  <span class="contact-section-name">PRIMARY TRANSMISSION</span>
-                  <span class="contact-section-dash">&mdash;</span>
-                  <span class="contact-section-sub">Fastest route</span>
+                  <span class="contact-section-name">EMAIL</span>
                 </h2>
                 <div class="contact-primary">
                   <span class="contact-primary-led" aria-hidden="true"></span>
@@ -569,21 +540,15 @@
                     <button type="button" class="contact-primary-btn" id="contact-copy-mail" aria-label="Copy email address to clipboard">
                       <span>COPY</span>
                     </button>
-                    <a class="contact-primary-btn contact-primary-btn-go" href="mailto:sergiudsarbu@gmail.com" aria-label="Open email client">
-                      <span>OPEN MAIL</span>
-                      <span class="contact-primary-arrow" aria-hidden="true">&#9654;</span>
-                    </a>
                   </div>
                 </div>
               </section>
 
-              <!-- Outbound lines directory -->
-              <section class="contact-section" aria-label="Outbound lines">
+              <!-- Links directory -->
+              <section class="contact-section" aria-label="Links">
                 <h2 class="contact-section-title">
                   <span class="contact-section-num">02</span>
-                  <span class="contact-section-name">OUTBOUND LINES</span>
-                  <span class="contact-section-dash">&mdash;</span>
-                  <span class="contact-section-sub">03 channels</span>
+                  <span class="contact-section-name">LINKS</span>
                 </h2>
                 <ul class="contact-directory">
                   <li class="contact-line" data-color="blue">
@@ -613,91 +578,11 @@
                 </ul>
               </section>
 
-              <!-- Compose form (visible Formspree path) -->
-              <section class="contact-section" aria-label="Compose a message">
-                <h2 class="contact-section-title">
-                  <span class="contact-section-num">03</span>
-                  <span class="contact-section-name">TRANSMIT</span>
-                  <span class="contact-section-dash">&mdash;</span>
-                  <span class="contact-section-sub">Send a direct message</span>
-                </h2>
-
-                <form id="contact-form" class="contact-form" novalidate>
-                  <div class="contact-form-row">
-                    <label for="contact-form-email" class="contact-form-prompt">
-                      <span class="contact-form-caret" aria-hidden="true">&gt;</span>
-                      <span>FROM</span>
-                    </label>
-                    <input
-                      type="email"
-                      id="contact-form-email"
-                      name="email"
-                      class="contact-form-input"
-                      placeholder="your@email.com"
-                      autocomplete="email"
-                      required
-                    />
-                  </div>
-
-                  <div class="contact-form-row">
-                    <label for="contact-form-subject" class="contact-form-prompt">
-                      <span class="contact-form-caret" aria-hidden="true">&gt;</span>
-                      <span>RE</span>
-                    </label>
-                    <input
-                      type="text"
-                      id="contact-form-subject"
-                      name="subject"
-                      class="contact-form-input"
-                      placeholder="subject line"
-                      maxlength="120"
-                      required
-                    />
-                  </div>
-
-                  <div class="contact-form-row contact-form-row-textarea">
-                    <label for="contact-form-message" class="contact-form-prompt">
-                      <span class="contact-form-caret" aria-hidden="true">&gt;</span>
-                      <span>MESSAGE</span>
-                    </label>
-                    <textarea
-                      id="contact-form-message"
-                      name="message"
-                      class="contact-form-input contact-form-textarea"
-                      placeholder="your message..."
-                      rows="5"
-                      maxlength="2000"
-                      required
-                    ></textarea>
-                  </div>
-
-                  <!-- Formspree honeypot: bots fill it, humans don't see it -->
-                  <input
-                    type="text"
-                    name="_gotcha"
-                    class="contact-form-honeypot"
-                    tabindex="-1"
-                    autocomplete="off"
-                    aria-hidden="true"
-                  />
-
-                  <div class="contact-form-actions">
-                    <p class="contact-form-status" id="contact-form-status" aria-live="polite"></p>
-                    <button type="submit" class="contact-form-submit" id="contact-form-submit">
-                      <span>TRANSMIT</span>
-                      <span class="contact-form-arrow" aria-hidden="true">&#9654;</span>
-                    </button>
-                  </div>
-                </form>
-              </section>
-
-              <!-- Console (terminal) -->
+              <!-- Console (terminal) — /message wizard is the send path -->
               <section class="contact-section" aria-label="Command console">
                 <h2 class="contact-section-title">
-                  <span class="contact-section-num">04</span>
+                  <span class="contact-section-num">03</span>
                   <span class="contact-section-name">CONSOLE</span>
-                  <span class="contact-section-dash">&mdash;</span>
-                  <span class="contact-section-sub">Terminal &middot; /help for commands</span>
                 </h2>
 
                 <div class="contact-console-frame">
@@ -706,8 +591,6 @@
                   <div class="contact-chips" role="toolbar" aria-label="Quick commands">
                     <button type="button" class="contact-chip" data-cmd="/help">/help</button>
                     <button type="button" class="contact-chip" data-cmd="/message">/message</button>
-                    <button type="button" class="contact-chip" data-cmd="/email">/email</button>
-                    <button type="button" class="contact-chip" data-cmd="/ping-all">/ping-all</button>
                     <button type="button" class="contact-chip" data-cmd="/clear">/clear</button>
                   </div>
 
@@ -732,22 +615,6 @@
                       <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><use href="/icons.svg#i-submit"></use></svg>
                     </button>
                   </div>
-                </div>
-              </section>
-
-              <!-- Stats strip -->
-              <section class="contact-stats" aria-label="Channel stats">
-                <div class="contact-stat">
-                  <span class="contact-stat-label">MODE</span>
-                  <span class="contact-stat-value">REMOTE</span>
-                </div>
-                <div class="contact-stat">
-                  <span class="contact-stat-label">LOCAL TIME</span>
-                  <span class="contact-stat-value" id="contact-stat-time">--:--</span>
-                </div>
-                <div class="contact-stat">
-                  <span class="contact-stat-label">PREFERRED</span>
-                  <span class="contact-stat-value">EMAIL</span>
                 </div>
               </section>
             </div>
