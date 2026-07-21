@@ -21,13 +21,14 @@ import {
 import { initTerminal, triggerTerminalSequence, startConsoleIntro } from './js/terminal.js';
 import { initContact, cleanupContact } from './js/contact.js';
 import {
-  initProjectChannelSystem,
-  cleanupTeletext,
-  setTeletextCallbacks,
-  stopProjectSlideshow,
-} from './js/teletext.js';
+  initProjectsSection,
+  cleanupProjects,
+  setProjectsCallbacks,
+  showProjectView,
+} from './js/projectsView.js';
 import { stopBreakout } from './js/breakout.js';
 import { stopTuner } from './js/tuner.js';
+import { initRedesignNotice } from './js/notice.js';
 
 // ============================================
 // GLOBAL STATE
@@ -44,6 +45,9 @@ let typewriterIndex = 0;
 let initialLoadDone = false;
 let glitchTimeout = null;
 let switchTimeout = null;
+
+// Section currently on screen — the comparison that makes routing idempotent
+let currentSection = null;
 
 // Screen dim state
 const DIM_LEVELS = ['off', 'dim', 'blackout'];
@@ -237,9 +241,16 @@ function showSection(section) {
  * @param {string} section - Section ID to show
  */
 function switchToSection(section) {
+  currentSection = section;
+
+  // Keep the hash authoritative even for callers that reach here without going through  routeFromHash.
+  // Written after currentSection is set, so the hashchange this triggers finds the state already applied and no-ops.
+  if (parseHash(window.location.hash).section !== section) {
+    window.location.hash = `#${section}`;
+  }
+
   // Cleanup active modules
-  stopProjectSlideshow();
-  cleanupTeletext();
+  cleanupProjects();
   cleanupDecryptedText();
   cleanupContact();
 
@@ -268,7 +279,55 @@ function switchToSection(section) {
   }
 
   if (section === 'projects') {
-    initProjectChannelSystem();
+    // Derive the view from the hash that was just reconciled above, not from whatever project the module last rendered.
+    initProjectsSection(parseHash(window.location.hash).projectId);
+  }
+}
+
+// ============================================
+// HASH ROUTING
+// ============================================
+
+const VALID_SECTIONS = ['intro', 'projects', 'about', 'contact'];
+
+/**
+ * Parse the URL hash into a section and optional project id.
+ * An empty hash is the intro. A non-empty hash naming no known section is not a route at all — the skip link writes `#main-content`, and in-page anchors would do the same — so it resolves to `null` and the caller decides.
+ * @param {string} hash
+ * @returns {{section: string|null, projectId: string|null}}
+ */
+function parseHash(hash) {
+  const clean = (hash || '').replace(/^#/, '');
+  if (!clean) return { section: 'intro', projectId: null };
+
+  const [section, projectId] = clean.split('/');
+  if (!VALID_SECTIONS.includes(section)) return { section: null, projectId: null };
+
+  return { section, projectId: projectId || null };
+}
+
+/**
+ * Apply the current hash to the UI.
+ * Idempotent — routing to the state already on screen does nothing, which is what stops a write/event loop and keeps showSection from re-firing its glitch and static burst on a redundant route.
+ */
+function routeFromHash() {
+  const { section, projectId } = parseHash(window.location.hash);
+
+  // A hash that names no section is left alone rather than treated as intro:
+  // the skip link sets `#main-content`, and yanking a keyboard user out of the section they are reading is worse than a stale URL.
+  // The intro fallback only applies to the very first route, when nothing has been shown yet.
+  if (section === null) {
+    if (currentSection !== null) return;
+    showSection('intro');
+    return;
+  }
+
+  if (section !== currentSection) {
+    showSection(section);
+  }
+
+  if (section === 'projects') {
+    showProjectView(projectId);
   }
 }
 
@@ -405,7 +464,7 @@ function setupEventListeners() {
     btn.addEventListener('click', () => {
       const section = btn.getAttribute('data-section');
       playNavigationClick();
-      showSection(section);
+      window.location.hash = `#${section}`;
     });
   });
 
@@ -426,7 +485,7 @@ function setupEventListeners() {
   const remoteHome = document.getElementById('remote-home');
   if (remoteHome) {
     remoteHome.addEventListener('click', () => {
-      showSection('intro');
+      window.location.hash = '#intro';
       setChannel(1, { showOSD, triggerFlicker: triggerChannelFlicker });
     });
   }
@@ -536,8 +595,8 @@ function init() {
   initChannelSystem();
   setSoundEnabledChecker(isSoundEnabled);
 
-  // Set callbacks for teletext
-  setTeletextCallbacks({ showOSD, triggerFlicker: triggerChannelFlicker });
+  // Set callbacks for the projects view
+  setProjectsCallbacks({ showOSD });
 
   // Initialize terminal
   initTerminal();
@@ -555,9 +614,13 @@ function init() {
   updateDate();
   setInterval(updateDate, 60000);
 
-  // Set initial channel and show intro
+  // Set initial channel, then let the URL decide which section to show
   setChannel(1, { showOSD, triggerFlicker: triggerChannelFlicker });
-  showSection('intro');
+  window.addEventListener('hashchange', routeFromHash);
+  routeFromHash();
+
+  // First-visit "site mid-redesign" notice (temporary)
+  initRedesignNotice();
 }
 
 // Start application when DOM is ready
