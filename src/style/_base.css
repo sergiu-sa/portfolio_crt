@@ -21,6 +21,19 @@
   outline-offset: 2px;
 }
 
+/* Visually hidden but exposed to assistive tech (live regions, labels) */
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+}
+
 /* Focus Styles for Accessibility */
 *:focus-visible {
   outline: 2px solid var(--accent-color);
@@ -334,7 +347,7 @@ body.tv-powered-off .remote-control {
     transform: none;
   }
 
-  .teletext-lightbox {
+  .lightbox {
     transition: none;
   }
 
@@ -361,11 +374,6 @@ body.tv-powered-off .remote-control {
   .vhs-tracking,
   .vhs-overlay::before {
     display: none;
-  }
-
-  .status-blink {
-    animation: none;
-    opacity: 1;
   }
 
   .vhs-rec-dot {
@@ -405,7 +413,6 @@ body.tv-powered-off .remote-control {
   }
 
   .crt-text,
-  .teletext-title,
   h1,
   h2,
   p {

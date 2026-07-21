@@ -1,0 +1,1004 @@
+/* ============================================
+   SARBU+ — the projects "streaming service"
+   Old CRT (amber monitor wall, scanlines, signal-lock glitch) meets new
+   streaming UI (ident, shelves→catalogue, title pages). Phosphor = --accent-color
+   (cool / "new"); ember = warm amber ("old"). Press Start 2P appears nowhere here.
+   ============================================ */
+
+#projects {
+  position: relative;
+  overflow: hidden;
+}
+
+/* Dim the channel playing behind the panel. */
+#projects::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.62);
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0;
+  transition: opacity var(--duration-slow) ease;
+}
+
+#projects.active::before {
+  opacity: 1;
+}
+
+/* ---- The screen. Frame matches the About (P.400) and Contact (P.500) panels:
+   navy ground, faint blue border, soft blue interior glow. ---- */
+.sarbu {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  width: calc(100% - 1.5rem);
+  max-width: 1200px;
+  max-height: calc(100vh - 9rem);
+  margin: 0.5rem auto;
+  overflow: hidden;
+  background: var(--surface-panel);
+  border: 1px solid rgba(100, 150, 255, 0.25);
+  box-shadow:
+    0 0 24px rgba(0, 0, 0, 0.6),
+    inset 0 0 60px rgba(0, 20, 60, 0.25);
+  box-sizing: border-box;
+  font-family: "IBM Plex Mono", "Courier New", monospace;
+}
+
+/* ---- Service bar (station ident). Amber, matching the About/Contact bars. ---- */
+.sarbu-bar {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+  flex-shrink: 0;
+  padding: 0.7rem 1.1rem;
+  background: var(--teletext-yellow);
+  color: #000;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.22);
+}
+
+.sarbu-wordmark {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 1.15rem;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  color: #000;
+}
+
+.sarbu-plus {
+  color: #8a3a00;
+}
+
+.sarbu-ch {
+  font-size: var(--fs-micro);
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: #000;
+  background: rgba(0, 0, 0, 0.07);
+  border: 1px solid rgba(0, 0, 0, 0.35);
+  border-radius: 999px;
+  padding: 0.2rem 0.7rem;
+}
+
+.sarbu-meta {
+  margin-left: auto;
+  font-size: var(--fs-micro);
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: rgba(0, 0, 0, 0.6);
+}
+
+/* ---- Scroll body ---- */
+.sarbu-body {
+  position: relative;
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+/* ============================================
+   SIGNAL-LOCK GLITCH (fires on every in-panel navigation)
+   Transform-only jitter + an overlay band — no whole-panel filter, so it stays cheap.
+   ============================================ */
+.sarbu-glitch {
+  pointer-events: none;
+  position: absolute;
+  inset: 0;
+  z-index: 8;
+  opacity: 0;
+  background: repeating-linear-gradient(0deg, transparent 0 3px, rgba(0, 0, 0, 0.16) 4px, transparent 6px);
+}
+
+.sarbu-glitch::before {
+  content: "";
+  position: absolute;
+  left: -3%;
+  right: -3%;
+  top: -12%;
+  height: 12%;
+  background: linear-gradient(90deg, rgba(255, 46, 136, 0.22), rgba(0, 255, 204, 0.22));
+  mix-blend-mode: screen;
+}
+
+.sarbu.is-glitching .sarbu-glitch {
+  opacity: 1;
+  animation: sarbu-jit 0.1s steps(2) infinite;
+}
+
+.sarbu.is-glitching .sarbu-glitch::before {
+  animation: sarbu-roll 0.42s linear infinite;
+}
+
+.sarbu.is-glitching .sarbu-body {
+  animation: sarbu-jolt 0.12s steps(2) infinite;
+}
+
+@keyframes sarbu-jit {
+  0% { transform: translateX(0); }
+  50% { transform: translateX(-3px); }
+  100% { transform: translateX(2px); }
+}
+
+@keyframes sarbu-roll {
+  from { top: -12%; }
+  to { top: 112%; }
+}
+
+@keyframes sarbu-jolt {
+  0% { transform: translate(0, 0); }
+  50% { transform: translate(2px, -1px); }
+  100% { transform: translate(-2px, 1px); }
+}
+
+/* ============================================
+   BROWSE — channel ident
+   ============================================ */
+.sarbu-ident {
+  position: relative;
+  min-height: 42vh;
+  display: grid;
+  place-items: center;
+  text-align: center;
+  padding: clamp(1.5rem, 4vw, 2.75rem);
+  overflow: hidden;
+}
+
+.sarbu-wall {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-auto-rows: 1fr;
+  gap: 6px;
+  opacity: 0.7;
+
+  /* One muted amber monochrome — a bank of old amber-phosphor monitors. */
+  filter: grayscale(1) sepia(1) hue-rotate(-8deg) saturate(1.15) brightness(0.5) contrast(1.03);
+}
+
+.sarbu-wall img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.sarbu-wall::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(0deg, transparent 0 2px, rgba(0, 0, 0, 0.32) 3px, transparent 4px);
+}
+
+.sarbu-ident-scrim {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse 60% 62% at 50% 48%, rgba(var(--sarbu-shell), 0.72) 0%, rgba(var(--sarbu-shell), 0.42) 48%, rgba(var(--sarbu-shell), 0.1) 100%);
+}
+
+.sarbu-ident-inner {
+  position: relative;
+  z-index: 3;
+  max-width: 680px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.15rem;
+}
+
+.sarbu-kicker {
+  margin: 0;
+  font-size: var(--fs-micro);
+  letter-spacing: 0.36em;
+  text-transform: uppercase;
+  color: var(--ember);
+}
+
+/* Signature recoloured via mask so the source SVG's dark fill doesn't matter. */
+.sarbu-sig {
+  display: block;
+  width: min(420px, 76%);
+  aspect-ratio: 720 / 322;
+  background: var(--accent-color);
+  -webkit-mask: url("/assets/scribble/signature.svg") center / contain no-repeat;
+  mask: url("/assets/scribble/signature.svg") center / contain no-repeat;
+  filter: drop-shadow(0 1px 10px rgba(0, 0, 0, 0.6));
+}
+
+.sarbu-role-line {
+  margin: 0;
+  font-family: "IBM Plex Mono", monospace;
+  font-size: var(--fs-micro);
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: var(--color-dim);
+}
+
+.sarbu-tagline {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-size: clamp(0.85rem, 2vw, 1rem);
+  color: var(--color-muted);
+}
+
+.sarbu-tagline b {
+  color: var(--text-primary);
+  font-weight: 600;
+}
+
+/* ---- Buttons ---- */
+.sarbu-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.42rem 0.95rem;
+  font-family: "IBM Plex Mono", monospace;
+  font-size: var(--fs-micro);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  text-decoration: none;
+  border: 1px solid transparent;
+  border-radius: 5px;
+  cursor: pointer;
+  transition:
+    transform var(--duration-fast) ease,
+    box-shadow var(--duration-fast) ease,
+    border-color var(--duration-fast) ease,
+    color var(--duration-fast) ease;
+}
+
+.sarbu-btn-play {
+  background: var(--accent-color);
+  color: var(--sarbu-ink);
+  font-weight: 700;
+}
+
+.sarbu-btn-play:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 26px var(--accent-alpha-40);
+}
+
+.sarbu-btn-ghost {
+  background: var(--surface-raised);
+  color: var(--text-primary);
+  border-color: var(--border-subtle);
+}
+
+.sarbu-btn-ghost:hover {
+  transform: translateY(-2px);
+  border-color: var(--accent-color);
+  color: var(--accent-color);
+}
+
+.sarbu-btn:focus-visible {
+  outline: 2px solid var(--accent-color);
+  outline-offset: 3px;
+}
+
+/* ---- Filter strip ---- */
+.sarbu-filter {
+  position: sticky;
+  top: 0;
+  z-index: 4;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem 0.85rem;
+  padding: 0.75rem clamp(1rem, 3vw, 1.75rem);
+  background: rgba(var(--sarbu-shell), 0.94);
+  border-bottom: 1px solid var(--border-subtle);
+  backdrop-filter: blur(6px);
+}
+
+.sarbu-filter-label {
+  font-size: var(--fs-meta);
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--text-primary);
+}
+
+.sarbu-filter-count {
+  font-size: var(--fs-micro);
+  letter-spacing: 0.18em;
+  color: var(--color-dim);
+}
+
+.sarbu-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+  margin-left: auto;
+}
+
+.sarbu-chip {
+  font-family: "IBM Plex Mono", monospace;
+  font-size: var(--fs-micro);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-muted);
+  background: transparent;
+  border: 1px solid var(--border-subtle);
+  border-radius: 999px;
+  padding: 0.28rem 0.7rem;
+  cursor: pointer;
+  transition:
+    color var(--duration-fast) ease,
+    border-color var(--duration-fast) ease,
+    background var(--duration-fast) ease;
+}
+
+.sarbu-chip:hover {
+  color: var(--text-primary);
+  border-color: var(--color-muted);
+}
+
+.sarbu-chip[aria-pressed="true"] {
+  background: var(--accent-color);
+  color: var(--sarbu-ink);
+  border-color: var(--accent-color);
+  font-weight: 700;
+}
+
+.sarbu-chip:focus-visible {
+  outline: 2px solid var(--accent-color);
+  outline-offset: 2px;
+}
+
+/* ---- Catalogue grid ---- */
+.sarbu-cat-head {
+  display: flex;
+  align-items: baseline;
+  gap: 0.7rem;
+  padding: 1.5rem clamp(1rem, 3vw, 1.75rem) 0;
+  font-size: var(--fs-meta);
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--text-primary);
+}
+
+.sarbu-cat-head .arrow {
+  color: var(--accent-color);
+}
+
+.sarbu-catalogue {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 1.1rem;
+  padding: 1rem clamp(1rem, 3vw, 1.75rem) 2rem;
+  margin: 0;
+  list-style: none;
+}
+
+.sarbu-cat-item {
+  min-width: 0;
+}
+
+.sarbu-card {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  height: 100%;
+  text-decoration: none;
+  color: var(--text-primary);
+  background: var(--surface-raised);
+  border: 1px solid var(--border-subtle);
+  border-radius: 8px;
+  overflow: hidden;
+  transition:
+    transform var(--duration-fast) ease,
+    border-color var(--duration-fast) ease,
+    box-shadow var(--duration-fast) ease;
+}
+
+.sarbu-card:hover,
+.sarbu-card:focus-visible {
+  transform: translateY(-4px);
+  border-color: var(--accent-color);
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.55), 0 0 0 1px var(--border-accent);
+  outline: none;
+}
+
+.sarbu-card-media {
+  position: relative;
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  background: #000;
+}
+
+.sarbu-card-media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform var(--duration-normal) ease, filter var(--duration-fast) ease;
+}
+
+.sarbu-card:hover .sarbu-card-media img,
+.sarbu-card:focus-visible .sarbu-card-media img {
+  transform: scale(1.04);
+  filter: brightness(0.45);
+}
+
+.sarbu-card-media::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: repeating-linear-gradient(0deg, transparent 0 2px, rgba(0, 0, 0, 0.12) 3px, transparent 4px);
+  opacity: 0.3;
+}
+
+.sarbu-card-preview {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  gap: 0.5rem;
+  padding: 0.9rem;
+  opacity: 0;
+  transition: opacity var(--duration-fast) ease;
+}
+
+.sarbu-card:hover .sarbu-card-preview,
+.sarbu-card:focus-visible .sarbu-card-preview {
+  opacity: 1;
+}
+
+.sarbu-card-preview p {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-size: var(--fs-meta);
+  line-height: 1.5;
+  color: var(--text-primary);
+}
+
+.sarbu-card-cta {
+  font-size: var(--fs-micro);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--accent-color);
+}
+
+.sarbu-card-body {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  min-width: 0;
+  padding: 0.75rem 0.85rem 0.95rem;
+}
+
+.sarbu-card-index {
+  font-size: var(--fs-micro);
+  letter-spacing: 0.2em;
+  color: var(--color-dim);
+}
+
+.sarbu-card-name {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 1.25rem;
+  text-transform: uppercase;
+  letter-spacing: 0.01em;
+  line-height: 1.05;
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+.sarbu-card-meta {
+  font-size: var(--fs-micro);
+  letter-spacing: 0.08em;
+  color: var(--color-muted);
+}
+
+.sarbu-card-stack {
+  font-size: var(--fs-micro);
+  letter-spacing: 0.04em;
+  color: var(--color-dim);
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+/* Shared live-status dot */
+.sarbu-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  color: var(--color-dim);
+}
+
+.sarbu-status::before {
+  content: "";
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: currentcolor;
+}
+
+.sarbu-status.is-live {
+  color: var(--ember);
+}
+
+/* ============================================
+   TITLE PAGE (detail)
+   ============================================ */
+.sarbu-back {
+  position: sticky;
+  top: 0;
+  z-index: 4;
+  display: flex;
+  align-items: center;
+  gap: 0.9rem;
+  padding: 0.7rem clamp(1rem, 3vw, 1.75rem);
+  background: rgba(var(--sarbu-shell), 0.94);
+  border-bottom: 1px solid var(--border-subtle);
+  backdrop-filter: blur(6px);
+}
+
+.sarbu-back-btn {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.32rem 0.75rem;
+  font-family: "IBM Plex Mono", monospace;
+  font-size: var(--fs-micro);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  text-decoration: none;
+  color: var(--accent-color);
+  background: var(--accent-alpha-08);
+  border: 1px solid var(--border-accent);
+  border-radius: 6px;
+}
+
+.sarbu-back-btn:hover,
+.sarbu-back-btn:focus-visible {
+  background: var(--accent-alpha-15);
+  outline: none;
+}
+
+.sarbu-crumb {
+  font-size: var(--fs-micro);
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--color-dim);
+}
+
+.sarbu-crumb b {
+  color: var(--color-muted);
+  font-weight: 400;
+}
+
+.sarbu-detail-hero {
+  position: relative;
+  min-height: 40vh;
+  display: flex;
+  align-items: flex-end;
+  padding: clamp(1.25rem, 4vw, 2.75rem);
+  overflow: hidden;
+}
+
+.sarbu-detail-bg {
+  position: absolute;
+  inset: 0;
+  background-size: cover;
+  background-position: center;
+  transform: scale(1.02);
+}
+
+.sarbu-detail-scrim {
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(90deg, rgba(var(--sarbu-shell), 0.94) 0%, rgba(var(--sarbu-shell), 0.55) 44%, rgba(var(--sarbu-shell), 0.12) 100%),
+    linear-gradient(0deg, var(--surface-panel) 2%, rgba(var(--sarbu-shell), 0.2) 48%, transparent 74%);
+}
+
+.sarbu-detail-inner {
+  position: relative;
+  z-index: 2;
+  max-width: 640px;
+}
+
+.sarbu-detail-title {
+  margin: 0.6rem 0 0;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: clamp(2rem, 6vw, 3.75rem);
+  line-height: 0.95;
+  text-transform: uppercase;
+  color: var(--text-primary);
+  text-shadow: -1.5px 0 var(--chroma), 1.5px 0 var(--accent-color), 0 0 30px rgba(0, 0, 0, 0.6);
+}
+
+.sarbu-detail-title:focus-visible {
+  outline: 2px solid var(--accent-color);
+  outline-offset: 4px;
+}
+
+.sarbu-detail-meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.55rem 0.85rem;
+  margin: 1rem 0 0;
+  font-size: var(--fs-meta);
+  letter-spacing: 0.1em;
+  color: var(--color-muted);
+}
+
+.sarbu-genres {
+  color: var(--color-dim);
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+.sarbu-detail-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-top: 1.4rem;
+}
+
+.sarbu-detail-body {
+  display: grid;
+  grid-template-columns: minmax(0, 1.6fr) minmax(0, 1fr);
+  gap: clamp(1.5rem, 4vw, 3rem);
+  padding: 1.75rem clamp(1rem, 3vw, 1.75rem) 0;
+  max-width: 1080px;
+}
+
+.sarbu-synopsis h3,
+.sarbu-facts h3,
+.sarbu-gallery h3 {
+  margin: 0 0 0.7rem;
+  font-size: var(--fs-micro);
+  font-weight: 400;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: var(--accent-color);
+}
+
+.sarbu-synopsis {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+.sarbu-lede {
+  margin: 0 0 1.1rem;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-size: 1.05rem;
+  line-height: 1.6;
+  color: var(--text-primary);
+  max-width: 60ch;
+}
+
+.sarbu-highlights {
+  margin: 1.4rem 0 0;
+  padding-left: 1.1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  max-width: 60ch;
+}
+
+.sarbu-highlights li {
+  font-size: var(--fs-body);
+  line-height: 1.55;
+  color: var(--color-muted);
+}
+
+.sarbu-facts {
+  min-width: 0;
+}
+
+.sarbu-facts dl {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 0.6rem 1.1rem;
+  margin: 0;
+}
+
+.sarbu-facts dt {
+  font-size: var(--fs-micro);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--color-dim);
+  align-self: center;
+}
+
+.sarbu-facts dd {
+  margin: 0;
+  font-size: var(--fs-body);
+  color: var(--text-primary);
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+.sarbu-facts a {
+  color: var(--accent-color);
+  text-decoration: none;
+  border-bottom: 1px solid var(--border-accent);
+}
+
+.sarbu-facts a:hover,
+.sarbu-facts a:focus-visible {
+  color: var(--ember);
+  border-bottom-color: var(--ember);
+}
+
+/* ---- Gallery ("episodes") ---- */
+.sarbu-gallery {
+  padding: 1.75rem clamp(1rem, 3vw, 1.75rem) 1.5rem;
+  max-width: 1080px;
+}
+
+.sarbu-gallery h3 .hint {
+  color: var(--color-dim);
+  letter-spacing: 0.1em;
+}
+
+.sarbu-gallery-lead {
+  display: flex;
+  flex-direction: column;
+  gap: 0.7rem;
+}
+
+/* Big lead still — a CRT "preview screen" that reads unmistakably as a gallery. */
+.sarbu-gallery-hero {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  padding: 0;
+  cursor: zoom-in;
+  background: #000;
+  border: 1px solid var(--border-subtle);
+  border-radius: 8px;
+  transition: border-color var(--duration-fast) ease;
+}
+
+.sarbu-gallery-hero img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: filter var(--duration-fast) ease;
+}
+
+.sarbu-gallery-hero::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: repeating-linear-gradient(0deg, transparent 0 2px, rgba(0, 0, 0, 0.14) 3px, transparent 4px);
+  opacity: 0.4;
+}
+
+.sarbu-gallery-hero:hover,
+.sarbu-gallery-hero:focus-visible {
+  border-color: var(--accent-color);
+  outline: none;
+}
+
+.sarbu-gallery-hero:hover img,
+.sarbu-gallery-hero:focus-visible img {
+  filter: brightness(0.68);
+}
+
+.sarbu-gallery-expand {
+  position: absolute;
+  right: 0.8rem;
+  bottom: 0.7rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  padding: 0.3rem 0.7rem;
+  font-family: "IBM Plex Mono", monospace;
+  font-size: var(--fs-micro);
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--sarbu-ink);
+  background: var(--accent-color);
+  border-radius: 5px;
+}
+
+.sarbu-gallery-strip {
+  display: flex;
+  gap: 0.6rem;
+  overflow-x: auto;
+  padding-bottom: 0.4rem;
+}
+
+.sarbu-thumb {
+  position: relative;
+  flex: 0 0 auto;
+  width: clamp(120px, 22vw, 168px);
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  padding: 0;
+  cursor: zoom-in;
+  background: #000;
+  border: 1px solid var(--border-subtle);
+  border-radius: 6px;
+  transition: transform var(--duration-fast) ease, border-color var(--duration-fast) ease;
+}
+
+.sarbu-thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: filter var(--duration-fast) ease;
+}
+
+.sarbu-thumb:hover,
+.sarbu-thumb:focus-visible {
+  transform: translateY(-3px);
+  border-color: var(--accent-color);
+  outline: none;
+}
+
+.sarbu-thumb:hover img,
+.sarbu-thumb:focus-visible img {
+  filter: brightness(0.62);
+}
+
+.sarbu-thumb .idx {
+  position: absolute;
+  bottom: 0.4rem;
+  left: 0.5rem;
+  font-size: var(--fs-micro);
+  letter-spacing: 0.16em;
+  color: var(--text-primary);
+  text-shadow: 0 1px 4px #000;
+}
+
+/* ---- More from the catalogue — a distinct band so it never reads as part
+   of the gallery above it. ---- */
+.sarbu-related {
+  margin-top: 3rem;
+  padding: 1.75rem clamp(1rem, 3vw, 1.75rem) 2rem;
+  border-top: 1px solid var(--border-subtle);
+  background: rgba(255, 255, 255, 0.02);
+}
+
+.sarbu-related-head {
+  display: flex;
+  align-items: baseline;
+  gap: 0.7rem;
+  margin-bottom: 0.9rem;
+  font-size: var(--fs-meta);
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--text-primary);
+}
+
+.sarbu-related-head .arrow {
+  color: var(--accent-color);
+}
+
+.sarbu-related-row {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 1.1rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+/* ============================================
+   VIEW TRANSITION
+   ============================================ */
+.sarbu-body.is-browse .sarbu-catalogue,
+.sarbu-body.is-detail .sarbu-detail-body {
+  animation: sarbu-view-in var(--duration-normal) ease both;
+}
+
+@keyframes sarbu-view-in {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* Controls are visually compact but keep a full 44px hit area on touch. */
+@media (pointer: coarse) {
+  .sarbu-btn,
+  .sarbu-back-btn,
+  .sarbu-chip {
+    min-height: var(--touch-target-min);
+  }
+}
+
+/* ============================================
+   RESPONSIVE
+   ============================================ */
+@media (max-width: 760px) {
+  .sarbu-detail-body {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 1.4rem;
+  }
+}
+
+@media (max-width: 600px) {
+  .sarbu {
+    width: calc(100% - 1rem);
+    max-height: calc(100vh - 8rem);
+  }
+
+  .sarbu-catalogue {
+    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+    gap: 0.8rem;
+  }
+
+  .sarbu-ident {
+    min-height: 38vh;
+  }
+}
+
+/* ============================================
+   REDUCED MOTION
+   ============================================ */
+@media (prefers-reduced-motion: reduce) {
+  .sarbu-body.is-browse .sarbu-catalogue,
+  .sarbu-body.is-detail .sarbu-detail-body {
+    animation: none;
+  }
+
+  .sarbu.is-glitching .sarbu-glitch,
+  .sarbu.is-glitching .sarbu-glitch::before,
+  .sarbu.is-glitching .sarbu-body {
+    animation: none;
+  }
+
+  .sarbu-glitch {
+    display: none;
+  }
+
+  .sarbu-card,
+  .sarbu-btn,
+  .sarbu-thumb,
+  .sarbu-card-media img {
+    transition: none;
+  }
+
+  .sarbu-card:hover,
+  .sarbu-card:focus-visible {
+    transform: none;
+  }
+
+  .sarbu-card:hover .sarbu-card-media img,
+  .sarbu-card:focus-visible .sarbu-card-media img {
+    transform: none;
+  }
+}

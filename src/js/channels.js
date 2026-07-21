@@ -26,7 +26,7 @@ let ytApiReady = false;
 // Collage images for CH01
 const collageImages = Array.from(
   { length: 16 },
-  (_, i) => `/assets/collage/face${String(i + 1).padStart(2, '0')}.jpg`
+  (_, i) => `/assets/collage/face${String(i + 1).padStart(2, '0')}.webp`
 );
 
 // DOM element references (initialized on setup)

@@ -5,8 +5,10 @@
 @import "./_base.css";
 @import "./_layout.css";
 @import "./_tv-effects.css";
-@import "./_teletext.css";
+@import "./_projects.css";
+@import "./_lightbox.css";
 @import "./_about.css";
 @import "./_contact.css";
 @import "./_newschannel.css";
 @import "./_commercials.css";
+@import "./_notice.css";

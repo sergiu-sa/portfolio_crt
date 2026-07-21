@@ -63,4 +63,32 @@
 
   /* Touch targets (minimum 44px for accessibility) */
   --touch-target-min: 44px;
+
+  /* Content surfaces — shared by redesigned sections. The navy matches the
+     About (P.400) and Contact (P.500) panels, so all three read as one set. */
+  --surface-panel: rgba(5, 5, 15, 0.95);
+  --surface-raised: rgba(255, 255, 255, 0.03);
+  --surface-hover: rgba(255, 255, 255, 0.06);
+  --border-subtle: rgba(255, 255, 255, 0.1);
+  --border-accent: rgba(0, 255, 204, 0.35);
+  --text-primary: #e8ecec;
+
+  /* Type scale */
+  --fs-display: clamp(1.4rem, 3vw, 2rem);
+  --fs-title: clamp(1.05rem, 2vw, 1.35rem);
+  --fs-body: 0.9rem;
+  --fs-meta: 0.75rem;
+  --fs-micro: 0.68rem;
+  --tracking-wide: 0.08em;
+
+  /* SARBU+ streaming layer (Projects). Phosphor = --accent-color (cool, "new");
+     ember = warm amber ("old" CRT); chroma = the glitch bleed. */
+  --ember: #ff9d42;
+  --ember-dim: rgba(255, 157, 66, 0.28);
+  --chroma: #ff2e88;
+  --font-display: "Oswald", "Arial Narrow", "Helvetica Neue", Impact, sans-serif;
+
+  /* Shell tint as an RGB triple so bars and scrims can vary alpha off one value. */
+  --sarbu-shell: 6, 9, 11;
+  --sarbu-ink: #04110d;
 }

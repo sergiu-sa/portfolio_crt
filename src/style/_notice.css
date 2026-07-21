@@ -1,0 +1,143 @@
+/* First-visit broadcast notice (site mid-redesign). Temporary — delete this
+   file, its @import in main.css, the #broadcast-notice markup, and the
+   initRedesignNotice() wiring once About/Contact are redesigned. */
+
+.broadcast-notice {
+  position: absolute;
+  top: 3.75rem;
+  right: 1rem;
+  z-index: 50;
+  width: min(330px, calc(100% - 2rem));
+  background: rgba(5, 5, 15, 0.96);
+  border: 1px solid rgba(100, 150, 255, 0.3);
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.7);
+  font-family: "IBM Plex Mono", monospace;
+  opacity: 0;
+  transform: translateY(-8px);
+  transition:
+    opacity var(--duration-normal) ease,
+    transform var(--duration-normal) ease;
+  pointer-events: none;
+}
+
+.broadcast-notice.is-visible {
+  opacity: 1;
+  transform: none;
+  pointer-events: auto;
+}
+
+.broadcast-notice[hidden] {
+  display: none;
+}
+
+.broadcast-notice-head {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.45rem 0.7rem;
+  background: var(--teletext-yellow);
+  color: #000;
+  font-size: 0.62rem;
+  font-weight: bold;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.broadcast-notice-rec {
+  width: 8px;
+  height: 8px;
+  flex-shrink: 0;
+  border-radius: 50%;
+  background: #c0261b;
+  animation: broadcast-rec-blink 1.4s steps(1) infinite;
+}
+
+@keyframes broadcast-rec-blink {
+  0%,
+  100% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0.25;
+  }
+}
+
+.broadcast-notice-title {
+  flex: 1;
+}
+
+.broadcast-notice-close {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 28px;
+  min-height: 28px;
+  padding: 0;
+  font-size: 0.8rem;
+  line-height: 1;
+  color: #000;
+  background: transparent;
+  border: 0;
+  cursor: pointer;
+}
+
+.broadcast-notice-close:hover {
+  color: #8a3a00;
+}
+
+.broadcast-notice-close:focus-visible {
+  outline: 2px solid #000;
+  outline-offset: 1px;
+}
+
+.broadcast-notice-body {
+  margin: 0;
+  padding: 0.7rem 0.8rem 0.4rem;
+  font-size: 0.78rem;
+  line-height: 1.55;
+  color: #cdd6d5;
+}
+
+.broadcast-notice-link {
+  display: inline-block;
+  margin: 0 0.8rem 0.75rem;
+  padding-block: 0.3rem;
+  font-size: 0.72rem;
+  letter-spacing: 0.05em;
+  color: var(--accent-color);
+  text-decoration: none;
+  border-bottom: 1px solid var(--border-accent);
+}
+
+.broadcast-notice-link:hover,
+.broadcast-notice-link:focus-visible {
+  color: var(--ember);
+  border-bottom-color: var(--ember);
+}
+
+@media (pointer: coarse) {
+  .broadcast-notice-close {
+    min-width: var(--touch-target-min);
+    min-height: var(--touch-target-min);
+  }
+}
+
+@media (max-width: 600px) {
+  .broadcast-notice {
+    top: 3.5rem;
+    right: 0.75rem;
+    left: 0.75rem;
+    width: auto;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .broadcast-notice {
+    transition: none;
+  }
+
+  .broadcast-notice-rec {
+    animation: none;
+  }
+}

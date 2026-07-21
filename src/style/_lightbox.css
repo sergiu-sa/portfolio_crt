@@ -1,0 +1,273 @@
+/* ============================================
+   LIGHTBOX - fullscreen image viewer (zoom / pan)
+   ============================================ */
+
+.lightbox {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  background: rgba(0, 0, 0, 0.95);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+  opacity: 0;
+  visibility: hidden;
+  transition:
+    opacity 0.3s ease,
+    visibility 0.3s ease;
+}
+
+.lightbox.active {
+  opacity: 1;
+  visibility: visible;
+}
+
+/* Hide header + remote while the lightbox is open so the image can use the
+   full viewport — especially important on mobile where they overlap. */
+body.lightbox-open header,
+body.lightbox-open .remote-control {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition: opacity 0.2s ease, visibility 0.2s ease;
+}
+
+.lightbox-content {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  max-width: 90vw;
+  max-height: 90vh;
+  width: 100%;
+}
+
+/* Viewport for zoom/pan  */
+.lightbox-img-viewport {
+  position: relative;
+  overflow: hidden;
+  max-width: 90vw;
+  max-height: 70vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--border-subtle);
+  background: #000;
+  cursor: zoom-in;
+}
+
+.lightbox-img-viewport.is-zoomed {
+  cursor: grab;
+  width: 90vw;
+  height: 85vh;
+  max-width: 90vw;
+  max-height: 85vh;
+}
+
+.lightbox-img-viewport.is-panning {
+  cursor: grabbing;
+}
+
+.lightbox-img-viewport img {
+  display: block;
+  max-width: 100%;
+  max-height: 70vh;
+  object-fit: contain;
+  transform-origin: center center;
+  user-select: none;
+  -webkit-user-select: none;
+  pointer-events: none;
+}
+
+/* ---- ZOOM INDICATOR  ---- */
+.lightbox-zoom-indicator {
+  position: absolute;
+  bottom: 4rem;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.3rem 0.75rem;
+  background: rgba(0, 0, 0, 0.85);
+  border: 1px solid var(--border-subtle);
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 0.75rem;
+  z-index: 1002;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  pointer-events: none;
+}
+
+.lightbox-zoom-indicator.visible {
+  opacity: 1;
+}
+
+.zoom-label {
+  color: var(--color-dim);
+  font-weight: 700;
+  font-size: 0.65rem;
+  letter-spacing: 0.1em;
+}
+
+.zoom-value {
+  color: var(--color-muted);
+  font-weight: 700;
+  min-width: 2.5em;
+  text-align: right;
+}
+
+.zoom-bar-track {
+  width: 60px;
+  height: 4px;
+  background: #222;
+  border: 1px solid var(--border-subtle);
+  position: relative;
+}
+
+/* The fill is the one live reading in the lightbox, so it carries the accent. */
+.zoom-bar-fill {
+  position: absolute;
+  inset: 0;
+  right: auto;
+  background: var(--accent-color);
+  transition: width 0.15s;
+}
+
+.lightbox-close {
+  position: fixed;
+  top: 4.5rem;
+  right: 1rem;
+  background: var(--surface-raised);
+  border: 1px solid var(--border-subtle);
+  color: var(--color-muted);
+  font-size: 0.85rem;
+  padding: 0.6rem 1rem;
+  cursor: pointer;
+  font-family: "IBM Plex Mono", monospace;
+  transition: all 0.2s ease;
+  z-index: 1001;
+  min-height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.lightbox-close:hover,
+.lightbox-close:focus-visible {
+  background: var(--surface-hover);
+  border-color: var(--border-accent);
+  color: var(--accent-color);
+}
+
+.lightbox-nav {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 1rem;
+  margin: 0;
+  pointer-events: none;
+  z-index: 1001;
+}
+
+.lightbox-nav button {
+  background: var(--surface-raised);
+  border: 1px solid var(--border-subtle);
+  color: var(--color-muted);
+  font-size: 0.85rem;
+  padding: 0.8rem 0.6rem;
+  cursor: pointer;
+  pointer-events: auto;
+  font-family: "IBM Plex Mono", monospace;
+  transition: all 0.2s ease;
+}
+
+.lightbox-nav button:hover,
+.lightbox-nav button:focus-visible {
+  background: var(--surface-hover);
+  border-color: var(--border-accent);
+  color: var(--accent-color);
+}
+
+.lightbox-counter {
+  position: fixed;
+  bottom: 6rem;
+  left: 50%;
+  transform: translateX(-50%);
+  color: var(--color-muted);
+  font-size: 0.9rem;
+  font-family: "IBM Plex Mono", monospace;
+  background: rgba(0, 0, 0, 0.8);
+  padding: 0.2rem 0.6rem;
+  border: 1px solid var(--border-subtle);
+  pointer-events: none;
+}
+
+/* The immersive channels (CH05/CH06) drop pointer events on #main-content so
+   clicks fall through to the channel — see _layout.css. That rule re-enables
+   them only on `.channel-screen.active`, and the lightbox is a sibling of the
+   sections rather than a descendant, so it must opt back in itself. */
+body.news-active #main-content .lightbox,
+body.commercial-active #main-content .lightbox {
+  pointer-events: auto;
+}
+
+/* ============================================
+   RESPONSIVE - Lightbox
+   ============================================ */
+
+@media (max-width: 650px) {
+  .lightbox-close {
+    top: 5rem;
+    right: 0.5rem;
+    font-size: 0.8rem;
+    padding: 0.5rem 1rem;
+    min-height: var(--touch-target-min);
+  }
+
+  .lightbox-img-viewport {
+    max-height: 65vh;
+  }
+
+  .lightbox-img-viewport img {
+    max-height: 65vh;
+  }
+
+  .lightbox-zoom-indicator {
+    bottom: 3.5rem;
+    font-size: 0.65rem;
+    padding: 0.25rem 0.6rem;
+  }
+
+  .zoom-bar-track {
+    width: 45px;
+  }
+
+  .lightbox-nav button {
+    padding: 1rem 0.5rem;
+    min-height: var(--touch-target-min);
+    font-size: 0.8rem;
+  }
+
+  .lightbox-counter {
+    bottom: 5rem;
+  }
+}
+
+@media (max-height: 500px) and (orientation: landscape) {
+  .lightbox-img-viewport {
+    max-height: 55vh;
+  }
+
+  .lightbox-img-viewport img {
+    max-height: 55vh;
+  }
+
+  .lightbox-zoom-indicator {
+    bottom: 3rem;
+  }
+}

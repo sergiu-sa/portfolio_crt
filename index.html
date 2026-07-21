@@ -39,7 +39,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 
     <!-- Google Fonts -->
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@300;400&family=Press+Start+2P&display=swap" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@300;400&family=Oswald:wght@500;600;700&family=Press+Start+2P&display=swap" />
 
     <link rel="stylesheet" href="/src/style/main.css" />
 
@@ -144,6 +144,19 @@
         <span id="current-date" class="header-date"></span>
       </header>
 
+      <!-- First-visit notice: site mid-redesign (temporary — see src/js/notice.js) -->
+      <aside class="broadcast-notice" id="broadcast-notice" role="status" aria-live="polite" hidden>
+        <div class="broadcast-notice-head">
+          <span class="broadcast-notice-rec" aria-hidden="true"></span>
+          <span class="broadcast-notice-title">Retuning the signal</span>
+          <button type="button" class="broadcast-notice-close" id="broadcast-notice-close" aria-label="Dismiss notice">&times;</button>
+        </div>
+        <p class="broadcast-notice-body">
+          The projects and the concept are live and ready to explore. A couple of channels (About and Contact) are being redesigned.
+        </p>
+        <a class="broadcast-notice-link" href="https://portfolio-sergiu-sa.netlify.app/" target="_blank" rel="noopener noreferrer">See my latest portfolio &rarr;</a>
+      </aside>
+
       <!-- Keyboard shortcuts modal - Teletext style -->
       <div id="shortcuts-modal" class="modal" role="dialog" aria-modal="true" aria-labelledby="shortcuts-title">
         <div class="modal-teletext">
@@ -170,7 +183,7 @@
               <span class="category-label">NAVIGATION</span>
               <div class="shortcut-item">
                 <kbd class="key-red">←</kbd> <kbd class="key-red">→</kbd>
-                <span>Switch between projects</span>
+                <span>Previous / next project (in a project page)</span>
               </div>
               <div class="shortcut-item">
                 <kbd class="key-green">←</kbd> <kbd class="key-green">→</kbd>
@@ -224,174 +237,18 @@
           <p class="intro-tagline">BROADCASTING FROM OSLO &middot; SINCE 2024</p>
         </section>
         <section id="projects" class="channel-screen">
-          <!-- Teletext-style Projects Overlay -->
-          <div class="teletext-container">
-            <!-- Teletext Header -->
-            <div class="teletext-header">
-              <span class="teletext-service">PORTFOLIO</span>
-              <span class="teletext-page">P.<span id="teletext-page-num">101</span></span>
-            </div>
+          <div class="sarbu">
+            <header class="sarbu-bar">
+              <span class="sarbu-wordmark">SARBU<span class="sarbu-plus">+</span></span>
+              <span class="sarbu-ch">CH &middot; PROJECTS</span>
+              <span class="sarbu-meta" id="projects-head-meta"></span>
+            </header>
 
-            <!-- Teletext Subheader - Index Line -->
-            <div class="teletext-subheader">
-              <span class="teletext-index">INDEX 100</span>
-              <span id="teletext-project-counter">PROJECT 1 OF 5</span>
-            </div>
+            <p class="visually-hidden" id="projects-live" aria-live="polite"></p>
 
-            <!-- Teletext Content Area -->
-            <div class="teletext-content" aria-live="polite" aria-atomic="true">
-              <!-- Project Title Row -->
-              <div class="teletext-title-row">
-                <span class="teletext-title" id="teletext-project-title">AUCTO</span>
-              </div>
+            <div class="sarbu-body" id="projects-body"></div>
 
-              <!-- Status Line -->
-              <div class="teletext-status-line">
-                <span class="teletext-status" id="teletext-status">
-                  <span class="status-blink live"></span> LIVE
-                </span>
-                <span class="teletext-year" id="teletext-year">2025</span>
-              </div>
-
-              <!-- Two Column Layout -->
-              <div class="teletext-columns">
-                <!-- Left Column - Project Preview -->
-                <div class="teletext-preview">
-                  <div
-                    class="teletext-preview-frame"
-                    role="button"
-                    tabindex="0"
-                    aria-label="Click to enlarge project image"
-                  >
-                    <img
-                      id="teletext-preview-img"
-                      src="/assets/projects/aucto/aucto_intro.gif"
-                      alt="Project preview"
-                      loading="lazy"
-                      decoding="async"
-                    />
-                  </div>
-                  <div class="teletext-preview-nav">
-                    <span class="teletext-img-counter"
-                      ><span id="teletext-img-current">1</span>/<span id="teletext-img-total">1</span></span
-                    >
-                    <span class="teletext-click-hint">CLICK TO ENLARGE</span>
-                  </div>
-                </div>
-
-                <!-- Right Column - Project Info -->
-                <div class="teletext-info">
-                  <!-- 01 BRIEF -->
-                  <div class="teletext-subsection">
-                    <h3 class="teletext-subsection-title">
-                      <span class="teletext-subsection-num">01</span>
-                      <span class="teletext-subsection-name">BRIEF</span>
-                    </h3>
-                    <p class="teletext-brief" id="teletext-brief">
-                      Live auction marketplace where you bid on items with in-app credits.
-                    </p>
-                  </div>
-
-                  <!-- 02 HIGHLIGHTS -->
-                  <div class="teletext-subsection">
-                    <h3 class="teletext-subsection-title">
-                      <span class="teletext-subsection-num">02</span>
-                      <span class="teletext-subsection-name">HIGHLIGHTS</span>
-                    </h3>
-                    <ul class="teletext-highlights" id="teletext-highlights">
-                      <li>Real-time bidding flow with optimistic UI updates</li>
-                      <li>JWT auth + credit management via Noroff API v2</li>
-                      <li>Brutalist visual system built from scratch</li>
-                    </ul>
-                  </div>
-
-                  <!-- 03 STACK -->
-                  <div class="teletext-subsection">
-                    <h3 class="teletext-subsection-title">
-                      <span class="teletext-subsection-num">03</span>
-                      <span class="teletext-subsection-name">STACK</span>
-                    </h3>
-                    <div class="teletext-tags" id="teletext-tags">
-                      <span class="teletext-tag tag-red">TypeScript</span>
-                      <span class="teletext-tag tag-green">Tailwind</span>
-                      <span class="teletext-tag tag-yellow">API</span>
-                    </div>
-                  </div>
-
-                  <!-- 04 ROLE -->
-                  <div class="teletext-subsection">
-                    <h3 class="teletext-subsection-title">
-                      <span class="teletext-subsection-num">04</span>
-                      <span class="teletext-subsection-name">ROLE</span>
-                    </h3>
-                    <p class="teletext-role" id="teletext-role">Solo &mdash; Noroff Semester Project 2</p>
-                  </div>
-
-                  <!-- 05 LINKS -->
-                  <div class="teletext-subsection">
-                    <h3 class="teletext-subsection-title">
-                      <span class="teletext-subsection-num">05</span>
-                      <span class="teletext-subsection-name">LINKS</span>
-                    </h3>
-                    <div class="teletext-links">
-                      <a href="#" id="teletext-link-code" class="teletext-link link-code" target="_blank" rel="noopener noreferrer">
-                        CODE
-                      </a>
-                      <a href="#" id="teletext-link-live" class="teletext-link link-live" target="_blank" rel="noopener noreferrer">
-                        LIVE
-                      </a>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <!-- Teletext Footer/Navigation -->
-            <div class="teletext-footer">
-              <div class="teletext-page-dots" id="teletext-page-dots"></div>
-              <div class="teletext-nav-controls">
-                <button class="teletext-nav-btn fastext-red" id="teletext-prev" aria-label="Previous project">
-                  &#x25C4; PREV
-                </button>
-                <span class="teletext-pages" id="teletext-page-range">P.101-103</span>
-                <button class="teletext-nav-btn fastext-blue" id="teletext-next" aria-label="Next project">
-                  NEXT &#x25BA;
-                </button>
-              </div>
-            </div>
-
-            <!-- VHS Glitch Overlay (project transitions) -->
-            <div class="vhs-glitch"></div>
-          </div>
-
-          <!-- Lightbox for enlarged images -->
-          <div
-            class="teletext-lightbox"
-            id="teletext-lightbox"
-            role="dialog"
-            aria-modal="true"
-            aria-label="Project image gallery"
-          >
-            <div class="teletext-lightbox-content">
-              <button class="teletext-lightbox-close" id="lightbox-close" aria-label="Close image gallery">
-                [X] CLOSE
-              </button>
-              <div class="lightbox-zoom-indicator" id="lightbox-zoom-indicator" aria-live="polite">
-                <span class="zoom-label">ZOOM</span>
-                <span class="zoom-value" id="lightbox-zoom-value">1.0x</span>
-                <span class="zoom-bar-track"><span class="zoom-bar-fill" id="lightbox-zoom-fill"></span></span>
-              </div>
-              <div class="lightbox-img-viewport" id="lightbox-img-viewport">
-                <img id="lightbox-img" alt="Enlarged project image" draggable="false" loading="lazy" decoding="async" />
-              </div>
-              <div class="teletext-lightbox-nav">
-                <button id="lightbox-prev" aria-label="Previous image">&#x2190; PREV</button>
-                <span class="teletext-lightbox-counter"
-                  ><span id="lightbox-current">1</span>/<span id="lightbox-total">1</span></span
-                >
-                <button id="lightbox-next" aria-label="Next image">NEXT &#x2192;</button>
-              </div>
-            </div>
+            <div class="sarbu-glitch" aria-hidden="true"></div>
           </div>
         </section>
 
@@ -632,6 +489,36 @@
             </footer>
           </article>
         </section>
+
+        <!-- Lightbox for enlarged images (modal overlay, shared by all sections) -->
+        <div
+          class="lightbox"
+          id="lightbox"
+          role="dialog"
+          aria-modal="true"
+          aria-label="Project image gallery"
+        >
+          <div class="lightbox-content">
+            <button class="lightbox-close" id="lightbox-close" aria-label="Close image gallery">
+              [X] CLOSE
+            </button>
+            <div class="lightbox-zoom-indicator" id="lightbox-zoom-indicator" aria-live="polite">
+              <span class="zoom-label">ZOOM</span>
+              <span class="zoom-value" id="lightbox-zoom-value">1.0x</span>
+              <span class="zoom-bar-track"><span class="zoom-bar-fill" id="lightbox-zoom-fill"></span></span>
+            </div>
+            <div class="lightbox-img-viewport" id="lightbox-img-viewport">
+              <img id="lightbox-img" alt="Enlarged project image" draggable="false" loading="lazy" decoding="async" />
+            </div>
+            <div class="lightbox-nav">
+              <button id="lightbox-prev" aria-label="Previous image">&#x2190; PREV</button>
+              <span class="lightbox-counter"
+                ><span id="lightbox-current">1</span>/<span id="lightbox-total">1</span></span
+              >
+              <button id="lightbox-next" aria-label="Next image">NEXT &#x2192;</button>
+            </div>
+          </div>
+        </div>
       </main>
 
       <footer class="remote-control" role="navigation" aria-label="Channel navigation">

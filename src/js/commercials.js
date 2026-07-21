@@ -42,7 +42,7 @@ function render(index) {
     )
     .join('');
 
-  const imageUrl = (project.images && project.images[0]) || '';
+  const imageUrl = project.cover || (project.images && project.images[0]) || '';
 
   // Tip: description is kept to one breathing line, no labels, no counter.
   container.innerHTML = `
