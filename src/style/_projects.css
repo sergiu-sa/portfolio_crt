@@ -29,6 +29,9 @@
 /* ---- The screen. Frame matches the About (P.400) and Contact (P.500) panels:
    navy ground, faint blue border, soft blue interior glow. ---- */
 .sarbu {
+  /* Shared measure for the detail-view content bands (synopsis, gallery, related) so they line up as one centred column inside the wider panel. */
+  --sarbu-content-max: 1080px;
+
   position: relative;
   z-index: 1;
   display: flex;
@@ -670,7 +673,8 @@
   grid-template-columns: minmax(0, 1.6fr) minmax(0, 1fr);
   gap: clamp(1.5rem, 4vw, 3rem);
   padding: 1.75rem clamp(1rem, 3vw, 1.75rem) 0;
-  max-width: 1080px;
+  max-width: var(--sarbu-content-max);
+  margin-inline: auto;
 }
 
 .sarbu-synopsis h3,
@@ -755,7 +759,8 @@
 /* ---- Gallery ("episodes") ---- */
 .sarbu-gallery {
   padding: 1.75rem clamp(1rem, 3vw, 1.75rem) 1.5rem;
-  max-width: 1080px;
+  max-width: var(--sarbu-content-max);
+  margin-inline: auto;
 }
 
 .sarbu-gallery h3 .hint {
@@ -893,7 +898,8 @@
   display: flex;
   align-items: baseline;
   gap: 0.7rem;
-  margin-bottom: 0.9rem;
+  max-width: var(--sarbu-content-max);
+  margin: 0 auto 0.9rem;
   font-size: var(--fs-meta);
   letter-spacing: 0.22em;
   text-transform: uppercase;
@@ -908,7 +914,8 @@
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
   gap: 1.1rem;
-  margin: 0;
+  max-width: var(--sarbu-content-max);
+  margin: 0 auto;
   padding: 0;
   list-style: none;
 }
