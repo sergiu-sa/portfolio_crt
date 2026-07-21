@@ -73,6 +73,9 @@
   --border-accent: rgba(0, 255, 204, 0.35);
   --text-primary: #e8ecec;
 
+  /* Shared panel geometry — Projects (SARBU+), About (P.400), Contact (P.500) all cap at one width so the three frames read as one set. */
+  --panel-max-width: 1280px;
+
   /* Type scale */
   --fs-display: clamp(1.4rem, 3vw, 2rem);
   --fs-title: clamp(1.05rem, 2vw, 1.35rem);

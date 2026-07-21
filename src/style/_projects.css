@@ -34,8 +34,7 @@
   display: flex;
   flex-direction: column;
   width: calc(100% - 1.5rem);
-  max-width: 1200px;
-  max-height: calc(100vh - 9rem);
+  max-width: var(--panel-max-width);
   margin: 0.5rem auto;
   overflow: hidden;
   background: var(--surface-panel);
@@ -91,13 +90,13 @@
   color: rgba(0, 0, 0, 0.6);
 }
 
-/* ---- Scroll body ---- */
+/* ---- Body. Grows with its content so the whole panel scrolls with the page
+   (like About/Contact) instead of being an inner scroll box. ---- */
 .sarbu-body {
   position: relative;
   flex: 1;
   min-height: 0;
-  overflow-y: auto;
-  overflow-x: hidden;
+  overflow: visible;
 }
 
 /* ============================================
@@ -386,8 +385,11 @@
 
 .sarbu-catalogue {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
-  gap: 1.1rem;
+
+  /* 300px min → 3 poster-sized cards across on desktop (bump toward 240px for a
+     denser 4-up shelf). 1fr keeps them flush edge-to-edge. */
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: var(--spacing-md);
   padding: 1rem clamp(1rem, 3vw, 1.75rem) 2rem;
   margin: 0;
   list-style: none;
@@ -953,12 +955,11 @@
 @media (max-width: 600px) {
   .sarbu {
     width: calc(100% - 1rem);
-    max-height: calc(100vh - 8rem);
   }
 
   .sarbu-catalogue {
     grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
-    gap: 0.8rem;
+    gap: var(--spacing-sm);
   }
 
   .sarbu-ident {

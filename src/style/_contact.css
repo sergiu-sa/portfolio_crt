@@ -17,7 +17,7 @@
 
 .contact-page {
   width: 100%;
-  max-width: min(1100px, 100%);
+  max-width: min(var(--panel-max-width), 100%);
   display: grid;
   grid-template-rows: auto auto 1fr auto;
   background: rgba(5, 5, 15, 0.95);
