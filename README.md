@@ -4,6 +4,8 @@ This is my personal portfolio site built as part of the Noroff Front-End Develop
 
 Rather than a traditional layout, this portfolio uses a fullscreen "TV screen" background that mimics changing channels, static noise, scanlines, and flicker effects to create an immersive, nostalgic user experience.
 
+**Live site:** [portfoliosergiusarbu.netlify.app](https://portfoliosergiusarbu.netlify.app/)
+
 ---
 
 ## What Is CRT?
