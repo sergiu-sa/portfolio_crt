@@ -1,142 +1,244 @@
 /**
  * Portfolio project data.
  *
- * To add a project: append an entry to `projects` and drop images into
+ * Source of truth for the copy is `docs/PROJECTS.md` (gitignored).
+ * Update that first, then reflect it here.
+ *
+ * To add a project: append an entry and drop images into
  * `public/assets/projects/<slug>/`. Schema:
  *
- *   id           Slug (lowercase-kebab) — used as stable identifier.
- *   name         Display name (shown uppercased in the teletext UI).
- *   tags         Up to ~4 tech tags. Colors rotate: red → green → yellow → blue.
+ *   id           Slug (lowercase-kebab) — stable identifier, used in the
+ *                `#projects/<id>` deep link. Changing it breaks shared URLs.
+ *   name         Display name.
+ *   tags         Up to ~4 tech tags.
  *   year         YYYY.
  *   status       'LIVE' (deployed) or 'COMPLETE' (finished but not live).
+ *   cover        Grid thumbnail — small 16:9 still. Keep it light; the index
+ *                loads every cover at once.
  *   brief        One-sentence elevator pitch. Keep ≤ 140 chars.
- *   role         Short phrase: 'Solo build', 'Team of N', 'Exam project', etc.
+ *   role         Short phrase: 'Solo — Project Exam 2', 'Team — Agency 1'.
  *   highlights   2–4 scannable bullets. Each ≤ 80 chars.
- *   description  (legacy — no longer rendered, kept for reference.)
  *   github       Repo URL.
  *   live         Deployment URL (empty string if not live).
- *   images       Array of paths under `/assets/projects/<slug>/`. First entry
- *                is the preview; all are browsable in the lightbox.
+ *   images       Array of paths under `/assets/projects/<slug>/`, in display
+ *                order. images[0] is the detail-view hero; all are browsable
+ *                in the lightbox. Use `cover` — not images[0] — for the grid.
+ *                Still images only (webp/png/jpg/gif) — the lightbox renders
+ *                every entry into a single <img>, so a video path would show
+ *                in the detail gallery and then fail to load in the lightbox.
+ *
+ * Order below is the grid order: strongest work first, archive after.
  */
 
 export const projects = [
   {
+    id: 'nordic-art',
+    name: 'Nordic Art',
+    tags: ['JavaScript', 'API', 'Auth', 'Tested'],
+    year: '2026',
+    status: 'LIVE',
+    brief:
+      'An artworks archive on the Noroff API, styled as a printed catalogue. Browse the feed, open a work, log in to file your own.',
+    role: 'Solo — Exam Project 1',
+    highlights: [
+      'Vanilla JS, no framework and no build step — commits are what ships',
+      'Client-side search, medium filters, grid and index views, load-more',
+      'Ink-stain SVG filters over real text — the type stays selectable',
+      '313 unit tests, a Playwright smoke test, W3C-valid markup',
+    ],
+    github: 'https://github.com/sergiu-sa/nordic_art_exam_1',
+    live: 'https://nordicartarchive.netlify.app/',
+    cover: '/assets/projects/nordic_art/fig1.webp',
+    images: [
+      '/assets/projects/nordic_art/fig1.webp',
+      '/assets/projects/nordic_art/fig2.webp',
+      '/assets/projects/nordic_art/fig3.webp',
+      '/assets/projects/nordic_art/fig4.webp',
+      '/assets/projects/nordic_art/amend1.webp',
+      '/assets/projects/nordic_art/amend2.webp',
+    ],
+  },
+  {
     id: 'aucto',
     name: 'Aucto',
-    tags: ['TypeScript', 'Tailwind', 'API'],
-    year: '2025',
+    tags: ['TypeScript', 'Tailwind', 'API', 'Auth'],
+    year: '2026',
     status: 'LIVE',
-    brief: 'Live auction marketplace where you bid on items with in-app credits.',
-    role: 'Solo — Noroff Semester Project 2',
+    brief:
+      'A brutalist online auction platform. Browse live lots, place bids, list your own. The products lead, not the chrome.',
+    role: 'Solo — Semester Project 2',
     highlights: [
-      'Real-time bidding flow with optimistic UI updates',
-      'JWT auth + credit management via Noroff API v2',
-      'Brutalist visual system built from scratch',
+      'Eight pages, each its own Vite entry, no framework and no router',
+      'Single typed API client centralising auth and error handling',
+      'Bento grid and 3px borders — items carry the weight, not decoration',
+      'Built against real API data from day one, not tidy mockups',
     ],
-    description:
-      'Brutalist auction platform with real-time bidding, JWT auth, and credit management via Noroff API v2.',
     github: 'https://github.com/sergiu-sa/auction_house_sp2',
     live: 'https://auctohouse.netlify.app/',
+    cover: '/assets/projects/aucto/fig1.webp',
     images: [
-      '/assets/projects/aucto/aucto_intro.gif',
-      '/assets/projects/aucto/b_aucto_feed.jpg',
-      '/assets/projects/aucto/c_aucto.png',
-      '/assets/projects/aucto/d_aucto_profile.png',
-      '/assets/projects/aucto/e_aucto_catalog.jpg',
-      '/assets/projects/aucto/f_aucto_login.png',
-      '/assets/projects/aucto/g_aucto_register.png',
+      '/assets/projects/aucto/fig1.webp',
+      '/assets/projects/aucto/fig2.webp',
+      '/assets/projects/aucto/fig3.webp',
+      '/assets/projects/aucto/fig4.webp',
+      '/assets/projects/aucto/amend_1.webp',
+      '/assets/projects/aucto/amend_2.webp',
     ],
   },
   {
     id: 'linka',
     name: 'Linka',
-    tags: ['TypeScript', 'Three.js', 'API'],
+    tags: ['TypeScript', 'Tailwind', 'Three.js', 'API'],
     year: '2025',
     status: 'LIVE',
-    brief: 'Social platform with a Three.js intro scene and a real-time feed.',
-    role: 'Team build',
+    brief:
+      'A social feed on the Noroff API. Editorial single-column layout, a 3D star intro, reading-mode posts, dark and light themes.',
+    role: 'Solo rebuild — CSS Frameworks',
     highlights: [
-      'Three.js landing scene as the entry experience',
-      'Emoji reactions, threaded comments, live-search feed',
-      'Dark / light theming across every screen',
+      'Took over a group project and rebuilt the styling from scratch solo',
+      '3D star intro — drag it and it spins, click it and it breaks apart',
+      'Posts open in a reading-mode modal instead of expanding inline',
+      'One theme source of truth recolours the 3D mesh and background live',
     ],
-    description:
-      'Social media platform with 3D intro, emoji reactions, comments, and real-time search. Team-built with Three.js and Tailwind.',
     github: 'https://github.com/sergiu-sa/linka-social-media',
     live: 'https://linka-social.netlify.app/',
+    cover: '/assets/projects/linka/fig1.webp',
     images: [
-      '/assets/projects/linka/linka_intro_light.gif',
-      '/assets/projects/linka/linka_intro_dark.gif',
-      '/assets/projects/linka/linka_feed_light.png',
-      '/assets/projects/linka/linka_feed_dark.png',
-      '/assets/projects/linka/linka_profile_light.png',
-      '/assets/projects/linka/linka_profile_dark.png',
+      '/assets/projects/linka/fig1.webp',
+      '/assets/projects/linka/fig2.webp',
+      '/assets/projects/linka/fig3.webp',
+      '/assets/projects/linka/fig4.webp',
+      '/assets/projects/linka/amend2.webp',
+    ],
+  },
+  {
+    id: 'filmood',
+    name: 'Filmood',
+    tags: ['Next.js', 'Supabase', 'Realtime', 'TMDB'],
+    year: '2026',
+    status: 'LIVE',
+    brief:
+      'A film picker that starts from a mood, not a catalogue. Pick a feeling and get matching films, solo or as a group vote.',
+    role: 'Solo rebuild — Agency 2',
+    highlights: [
+      'Asks how you want to feel, then refines by runtime, language, genre',
+      'Group sessions: a six-character code, private picks merged to one deck',
+      'Live updates over Supabase Realtime with a polling fallback',
+      'Votes tallied into tiers so a group lands on one pick without arguing',
+    ],
+    github: 'https://github.com/sergiu-sa/filmood',
+    live: 'https://filmood-pi.vercel.app/',
+    cover: '/assets/projects/filmood/fig1.webp',
+    images: [
+      '/assets/projects/filmood/fig1.webp',
+      '/assets/projects/filmood/fig2.webp',
+      '/assets/projects/filmood/fig3.webp',
+      '/assets/projects/filmood/fig4.webp',
+      '/assets/projects/filmood/amend2.webp',
+    ],
+  },
+  {
+    id: 'holidaze',
+    name: 'Holidaze',
+    tags: ['TypeScript', 'React', 'Zod', 'API'],
+    year: '2026',
+    status: 'LIVE',
+    brief:
+      'An accommodation booking site on the Noroff API, styled as a printed travel magazine. Browse venues, book stays, list your own.',
+    role: 'Solo — Project Exam 2',
+    highlights: [
+      'Three audiences in one interface: guests, customers, venue managers',
+      'No state library — a small hook per feature over native fetch',
+      'Every API response validated with Zod, which also generates the types',
+      'WCAG 2.1 AA: focus rings, real buttons in calendars, native dialogs',
+    ],
+    github: 'https://github.com/sergiu-sa/holidaze_pe',
+    live: 'https://holidaze-black.vercel.app/',
+    cover: '/assets/projects/holidaze/fig1.webp',
+    images: [
+      '/assets/projects/holidaze/fig1.webp',
+      '/assets/projects/holidaze/fig2.webp',
+      '/assets/projects/holidaze/fig3.webp',
+      '/assets/projects/holidaze/fig4.webp',
+      '/assets/projects/holidaze/amend1.webp',
+      '/assets/projects/holidaze/amend2.webp',
     ],
   },
   {
     id: 'adventure-trails',
     name: 'Adventure Trails',
-    tags: ['HTML', 'CSS'],
-    year: '2024',
-    status: 'COMPLETE',
-    brief: 'Marketing site for guided hiking expeditions — pure HTML and CSS.',
-    role: 'Solo build',
+    tags: ['HTML', 'CSS', 'JavaScript', 'A11y'],
+    year: '2025',
+    status: 'LIVE',
+    brief:
+      'A site for a fictional extreme-hiking outfitter, hand-built in HTML, CSS and vanilla JavaScript. No framework, no build step.',
+    role: 'Solo — Semester Project 1',
     highlights: [
-      'Fully responsive across mobile / tablet / desktop',
-      'Accessible gallery + SEO metadata',
-      'Zero JavaScript — markup and styling only',
+      'Rebuilt for the resit: full redesign plus vanilla JS, no build step',
+      'Hike and gallery filters done purely in CSS via sibling selectors',
+      'Cartographic palette where every colour has exactly one job',
+      'Skip link, focus rings, ARIA roles, reduced-motion transitions',
     ],
-    description:
-      'Marketing site for guided hiking expeditions with responsive design, gallery, and SEO optimization. Pure HTML and CSS.',
     github: 'https://github.com/sergiu-sa/adventure_trails_hikes',
     live: 'https://adventuretrailshikes.netlify.app/',
+    cover: '/assets/projects/adventure_trails/FIG1_home.webp',
     images: [
-      '/assets/projects/adventure_trails/adventure_intro.gif',
-      '/assets/projects/adventure_trails/hike-min.png',
-      '/assets/projects/adventure_trails/home-min.png',
-      '/assets/projects/adventure_trails/about-min.png',
-    ],
-  },
-  {
-    id: 'square-eyes',
-    name: 'Square Eyes',
-    tags: ['HTML', 'CSS'],
-    year: '2024',
-    status: 'COMPLETE',
-    brief: 'Accessible film-streaming concept, built with clean HTML and CSS.',
-    role: 'Solo build',
-    highlights: [
-      'WCAG-conscious color + typography choices',
-      'Semantic markup, no frameworks',
-      'Mobile-first responsive layout',
-    ],
-    description: 'Accessible film streaming site built with clean HTML and CSS.',
-    github: 'https://github.com/sergiu-sa/pro-school-react.git',
-    live: 'https://square-eyes-sa.netlify.app/',
-    images: [
-      '/assets/projects/square_eyes/new_home02.jpg',
-      '/assets/projects/square_eyes/new_home01.jpg',
+      '/assets/projects/adventure_trails/FIG1_home.webp',
+      '/assets/projects/adventure_trails/FIG2_hikes.webp',
+      '/assets/projects/adventure_trails/FIG3_gallery.webp',
+      '/assets/projects/adventure_trails/fig4.webp',
     ],
   },
   {
     id: 'kid-bank',
     name: 'Kid Bank',
-    tags: ['JavaScript', 'API', 'CSS'],
-    year: '2024',
+    tags: ['JavaScript', 'Vite', 'API', 'Netlify'],
+    year: '2025',
     status: 'LIVE',
-    brief: 'Teen banking app with spending guardrails and barcode scanning.',
-    role: 'Solo build',
+    brief:
+      'A money app for teenagers. Track a budget, earn from chores, save toward goals, and scan barcodes that block age-restricted buys.',
+    role: 'Team — Agency 1',
     highlights: [
-      'Barcode scanning for product-level purchase rules',
-      'Parent-set spending categories and limits',
-      'Lightweight vanilla JS stack',
+      'My part: the barcode scanner, online shop, navigation and Vite setup',
+      'Scans products and blocks age-restricted buys via Open Food Facts',
+      'Netlify Functions proxy to get around the API CORS limits',
+      'Native BarcodeDetector, with a ZXing fallback for older browsers',
     ],
-    description: 'Banking app for teens with restricted purchases and barcode scanning.',
-    github: 'https://github.com/sergiu-sa/kid_bank_.git',
-    live: 'https://k1dbank.netlify.app',
+    github: 'https://github.com/sergiu-sa/kid_bank_',
+    live: 'https://k1dbank.netlify.app/',
+    cover: '/assets/projects/kid_bank/fig1.webp',
     images: [
-      '/assets/projects/kid_bank/kid_bank01.png',
-      '/assets/projects/kid_bank/kid_bank02.png',
+      '/assets/projects/kid_bank/fig1.webp',
+      '/assets/projects/kid_bank/fig2.webp',
+      '/assets/projects/kid_bank/fig3.webp',
+      '/assets/projects/kid_bank/fig4.webp',
+    ],
+  },
+  {
+    id: 'ecom-store',
+    name: 'eCom Store',
+    tags: ['Next.js', 'TypeScript', 'Tailwind', 'API'],
+    year: '2026',
+    status: 'LIVE',
+    brief:
+      'An online store on the Noroff API. Search products, add to cart, and run a full checkout. Built on Next.js and React.',
+    role: 'Solo — JavaScript Frameworks',
+    highlights: [
+      'Debounced live search, memoised, with skeletons and empty states',
+      'Cart in React context with a reducer, persisted to localStorage',
+      'Server-fetched pages handing interactive parts to client components',
+      'Checkout runs from shipping details through to confirmation',
+    ],
+    github: 'https://github.com/sergiu-sa/js_frameworks_ca_online_shop',
+    live: 'https://js-frameworks-ca-online-shop.vercel.app/',
+    cover: '/assets/projects/e-com_shop/fig1.webp',
+    images: [
+      '/assets/projects/e-com_shop/fig1.webp',
+      '/assets/projects/e-com_shop/fig2.webp',
+      '/assets/projects/e-com_shop/fig3.webp',
+      '/assets/projects/e-com_shop/fig4.webp',
+      '/assets/projects/e-com_shop/amend1.webp',
+      '/assets/projects/e-com_shop/amend2.webp',
     ],
   },
 ];
