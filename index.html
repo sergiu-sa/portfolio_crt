@@ -152,7 +152,7 @@
           <button type="button" class="broadcast-notice-close" id="broadcast-notice-close" aria-label="Dismiss notice">&times;</button>
         </div>
         <p class="broadcast-notice-body">
-          The projects and the concept are live and ready to explore. A couple of channels (About and Contact) are being redesigned.
+          The projects and the concept are live and ready to explore. Some parts of this portfolio are still being redesigned.
         </p>
         <a class="broadcast-notice-link" href="https://portfolio-sergiu-sa.netlify.app/" target="_blank" rel="noopener noreferrer">See my latest portfolio &rarr;</a>
       </aside>
@@ -253,109 +253,60 @@
         </section>
 
         <section id="about" class="channel-screen">
-          <article class="about-page" aria-labelledby="about-title">
-            <!-- Teletext header -->
-            <header class="about-header-bar">
-              <span class="about-service">PORTFOLIO</span>
-              <span class="about-page-num">P.400</span>
-            </header>
+          <div class="about-signoff">
+            <!-- Block 1: name lockup -->
+            <section class="about-block about-lockup" aria-labelledby="about-title">
+              <p class="about-kicker">About</p>
+              <h1 id="about-title" class="about-lockup-name">Sergiu Sarbu</h1>
+              <p class="about-lockup-role">Frontend developer</p>
+            </section>
 
-            <!-- Index subheader -->
-            <div class="about-subheader">
-              <span class="about-index">INDEX 400</span>
-              <span class="about-subheader-right">STATION ID &middot; PRESENTER BIO</span>
-            </div>
-
-            <div class="about-body">
-              <!-- Identity card -->
-              <section class="about-identity" aria-label="Station ID">
-                <div class="about-idcard" aria-hidden="true">
-                  <div class="about-idcard-inner">
-                    <span class="about-idcard-mono">SA</span>
-                    <span class="about-idcard-caption">CH 00</span>
-                  </div>
-                  <span class="about-idcard-stripe"></span>
-                </div>
-
-                <div class="about-identity-text">
-                  <h1 id="about-title" class="about-name">
-                    <span class="about-name-first">SERGIU</span>
-                    <span class="about-name-last">SARBU</span>
-                  </h1>
-                  <p class="about-tagline">FRONT-END DEVELOPER &middot; CREATIVE EXPLORER</p>
-                  <dl class="about-meta">
-                    <div class="about-meta-row">
-                      <dt>LOC</dt>
-                      <dd>OSLO, NORWAY</dd>
-                    </div>
-                    <div class="about-meta-row">
-                      <dt>TZ</dt>
-                      <dd>UTC+1</dd>
-                    </div>
-                  </dl>
-                  <div class="about-status">
-                    <span class="status-dot"></span>
-                    <span>AVAILABLE FOR WORK</span>
-                  </div>
-                </div>
-              </section>
-
-              <!-- Transcript / bio -->
-              <section class="about-section" aria-label="Presenter notes">
-                <h2 class="about-section-title">
-                  <span class="about-section-num">01</span>
-                  <span class="about-section-name">TRANSCRIPT</span>
-                  <span class="about-section-dash">&mdash;</span>
-                  <span class="about-section-sub">Presenter notes</span>
-                </h2>
-                <div id="typewriter-line" class="crt-text about-prompt" aria-hidden="true">&gt;</div>
-                <div id="about-text" class="about-transcript crt-text"></div>
-              </section>
-
-              <!-- On-air capabilities / skills -->
-              <section class="about-section" aria-label="On-air capabilities">
-                <h2 class="about-section-title">
-                  <span class="about-section-num">02</span>
-                  <span class="about-section-name">ON-AIR CAPABILITIES</span>
-                  <span class="about-section-dash">&mdash;</span>
-                  <span class="about-section-sub">Signal strength</span>
-                </h2>
-                <ul class="about-skills" id="about-skills">
-                  <!-- rendered from JS so levels live in one place -->
+            <!-- Block 2: bio -->
+            <section class="about-block about-bio" aria-labelledby="about-bio-title">
+              <h2 id="about-bio-title" class="about-block-label">Bio</h2>
+              <p>I'm a frontend developer, creative explorer, and occasional chaos mechanic wired for problem solving.</p>
+              <p>I care about the technology, what it does, and how it actually gets used. Function first: build it, then make it work. I'd rather take something that already exists and make it better than reinvent it for its own sake. Everything should earn its place and stay intuitive, for the most technical user and the least.</p>
+              <p>I just wrapped my frontend studies at Noroff, and I'm now exploring new stacks and new ways to build.</p>
+              <p>If you'd like to chat, reach me by email.</p>
+              <p>There's always something playing while I build. If you want a recommendation, here are my <button type="button" class="about-music-toggle" aria-expanded="false" aria-controls="about-music" data-text="Spotify playlists">Spotify playlists</button>.</p>
+              <div class="about-music" id="about-music" hidden>
+                <span class="about-music-label">4 playlists</span>
+                <ul class="about-music-list">
+                  <li><a class="about-music-link" href="https://open.spotify.com/playlist/6CdUox7vwY80zjWrTCS6Uc" target="_blank" rel="noopener noreferrer">Idiosincratyc</a></li>
+                  <li><a class="about-music-link" href="https://open.spotify.com/playlist/0NOELAfF2vbJbGVEJsCbCb" target="_blank" rel="noopener noreferrer">D4TA non grata</a></li>
+                  <li><a class="about-music-link" href="https://open.spotify.com/playlist/02XPuZ2pupsO3Rkww3OCJA" target="_blank" rel="noopener noreferrer">circus</a></li>
+                  <li><a class="about-music-link" href="https://open.spotify.com/playlist/0daViSkli1uTmMB3JKW36y" target="_blank" rel="noopener noreferrer">Les DJ</a></li>
                 </ul>
-              </section>
+              </div>
+            </section>
 
-              <!-- Stats strip -->
-              <section class="about-stats" aria-label="Broadcast stats">
-                <div class="about-stat">
-                  <span class="about-stat-label">TRANSMITTING SINCE</span>
-                  <span class="about-stat-value">2024</span>
-                </div>
-                <div class="about-stat">
-                  <span class="about-stat-label">PROJECTS ON AIR</span>
-                  <span class="about-stat-value" id="about-project-count">&mdash;</span>
-                </div>
-                <div class="about-stat">
-                  <span class="about-stat-label">SIGNAL</span>
-                  <span class="about-stat-value about-stat-live">
-                    <span class="about-stat-live-dot" aria-hidden="true"></span>LIVE
-                  </span>
-                </div>
-              </section>
-            </div>
+            <!-- Block 3: capabilities (rendered from skills.js) -->
+            <section class="about-block about-caps" aria-labelledby="about-caps-title">
+              <h2 id="about-caps-title" class="about-block-label">Capabilities</h2>
+              <div class="about-caps-groups" id="about-caps"><!-- rendered from skills.js --></div>
+            </section>
 
-            <!-- Fastext footer (mirrors Projects page grammar) -->
-            <footer class="about-footer-bar">
-              <button class="about-fastext about-fastext-red" type="button" data-section="projects">
-                <span class="about-fastext-arrow">&#9664;</span> PROJECTS
-              </button>
-              <button class="about-fastext about-fastext-green" type="button" data-section="contact">
-                CONTACT <span class="about-fastext-arrow">&#9654;</span>
-              </button>
-              <span class="about-fastext about-fastext-yellow about-fastext-static">P.400</span>
-              <span class="about-fastext about-fastext-blue about-fastext-static">STATION ID</span>
-            </footer>
-          </article>
+            <!-- Block 4: facts -->
+            <section class="about-block about-facts" aria-labelledby="about-facts-title">
+              <h2 id="about-facts-title" class="about-block-label">Details</h2>
+              <ul class="about-facts-list">
+                <li class="about-fact">Oslo, Norway</li>
+                <li class="about-fact">Working since 2024</li>
+                <li class="about-fact"><span id="about-project-count"></span> projects</li>
+                <li class="about-fact about-fact-status"><span class="about-status-dot" aria-hidden="true"></span>Available for work</li>
+              </ul>
+            </section>
+
+            <!-- Block 5: links -->
+            <section class="about-block about-links" aria-labelledby="about-links-title">
+              <h2 id="about-links-title" class="about-block-label">Elsewhere</h2>
+              <ul class="about-links-list">
+                <li><a class="about-link" href="mailto:sergiudsarbu@gmail.com">Email</a></li>
+                <li><a class="about-link" href="https://github.com/sergiu-sa" target="_blank" rel="noopener noreferrer">GitHub</a></li>
+                <li><button type="button" class="about-link about-link-route" data-section="contact">Contact <span aria-hidden="true">&#8594;</span></button></li>
+              </ul>
+            </section>
+          </div>
         </section>
 
         <section id="contact" class="channel-screen">
