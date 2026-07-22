@@ -1,10 +1,9 @@
 /**
- * Main Application Entry Point
+ *
  * CRT Portfolio - A nostalgic retro TV experience
  */
 
 // Module imports
-import { decryptedText, cleanupDecryptedText } from './js/decryptedText.js';
 import { projects } from './data/projects.js';
 import { skills } from './data/skills.js';
 import { initSoundSystem, isSoundEnabled, playNavigationClick, playStaticBurst, toggleSound, playCRTPowerOff, playCRTTurnOn } from './js/audio.js';
@@ -37,9 +36,6 @@ import { initRedesignNotice } from './js/notice.js';
 // DOM references
 const sections = document.querySelectorAll('.channel-screen');
 const navButtons = document.querySelectorAll('nav button');
-const typewriter = document.getElementById('typewriter-line');
-const typeText = '> Developer. Explorer. Problem-solver.';
-let typewriterIndex = 0;
 
 // Glitch transition state
 let initialLoadDone = false;
@@ -104,8 +100,8 @@ let tvPoweredOn = true;
 
 /**
  * Toggle CRT TV power with authentic shutdown/startup animation.
- * Media lifecycle is delegated to channels.js via `setTvPowered` +
- * `setChannel` — that way nothing starts (or stays playing) while off.
+ * Media lifecycle is delegated to channels.js via `setTvPowered` +`setChannel`;
+ * that way nothing starts (or stays playing) while off.
  */
 function toggleCRTPower() {
   const tvScreen = document.getElementById('tv-screen');
@@ -172,22 +168,6 @@ function cycleDim() {
 }
 
 // ============================================
-// TYPEWRITER EFFECT
-// ============================================
-
-/**
- * Animate typewriter text effect
- */
-function typeWriterEffect() {
-  if (!typewriter) return;
-  if (typewriterIndex < typeText.length) {
-    typewriter.textContent += typeText.charAt(typewriterIndex);
-    typewriterIndex++;
-    setTimeout(typeWriterEffect, 50);
-  }
-}
-
-// ============================================
 // SECTION NAVIGATION
 // ============================================
 
@@ -251,7 +231,6 @@ function switchToSection(section) {
 
   // Cleanup active modules
   cleanupProjects();
-  cleanupDecryptedText();
   cleanupContact();
 
   // Hide all sections
@@ -332,72 +311,114 @@ function routeFromHash() {
 }
 
 /**
- * Initialize the about section with animations.
- * Renders the skills meter, sets the project count, wires the
- * fastext footer to navigate to other sections, then kicks off
- * the existing decrypted-text bio animation.
+ * Capability groups for the About page;
+ * maps skills.js `tier` values to display group labels, in render order.
+ */
+const CAP_GROUPS = [
+  { tier: 'strong', label: 'Core' },
+  { tier: 'working', label: 'Working with' },
+  { tier: 'learning', label: 'Learning' },
+];
+
+let aboutRevealObserver = null;
+
+/**
+ * Initialize the About section:
+ * render capabilities from the single skills source, set the live project count, wire in-app nav links, and attach the scroll-driven reveal (progressive enhancement).
  */
 function initAboutSection() {
-  // Typewriter prompt above the transcript
-  if (typewriter) {
-    typewriter.textContent = '> ';
-    typewriterIndex = 0;
-    setTimeout(typeWriterEffect, 300);
-  }
-
-  // Stats: live project count reads from the single data file
   const countEl = document.getElementById('about-project-count');
   if (countEl) {
-    countEl.textContent = String(projects.length).padStart(2, '0');
+    countEl.textContent = String(projects.length);
   }
 
-  // Signal-strength skill meters
-  const skillsList = document.getElementById('about-skills');
-  if (skillsList) {
-    skillsList.innerHTML = skills
-      .map(
-        (s, i) => `
-        <li class="skill" data-tier="${s.tier}" style="--skill-level:${s.level}; --skill-delay:${(i * 0.08).toFixed(2)}s">
-          <span class="skill-name">${s.name}</span>
-          <span class="skill-bar" role="meter" aria-label="${s.name}" aria-valuemin="0" aria-valuemax="10" aria-valuenow="${s.level}">
-            <span class="skill-bar-fill"></span>
-          </span>
-          <span class="skill-tier">${s.tier.toUpperCase()}</span>
-        </li>
-      `
-      )
-      .join('');
-  }
+  renderCapabilities();
+  wireAboutNav();
+  wireAboutMusic();
+  initAboutReveal();
+}
 
-  // Fastext footer buttons navigate to named sections
-  document.querySelectorAll('#about .about-fastext[data-section]').forEach((btn) => {
-    if (btn.dataset.wired) return;
-    btn.dataset.wired = 'true';
-    btn.addEventListener('click', () => {
-      const target = btn.getAttribute('data-section');
+/** Render capabilities grouped by tier into #about-caps. */
+function renderCapabilities() {
+  const container = document.getElementById('about-caps');
+  if (!container) return;
+
+  container.innerHTML = CAP_GROUPS.map((group) => {
+    const items = skills.filter((s) => s.tier === group.tier);
+    if (!items.length) return '';
+    const list = items.map((s) => `<li class="about-caps-item">${s.name}</li>`).join('');
+    return `
+        <div class="about-caps-group">
+          <span class="about-caps-group-label">${group.label}</span>
+          <ul class="about-caps-items">${list}</ul>
+        </div>`;
+  }).join('');
+}
+
+/** Wire any in-panel [data-section] control (e.g. the Contact route) to the router. */
+function wireAboutNav() {
+  document.querySelectorAll('#about [data-section]').forEach((el) => {
+    if (el.dataset.wired) return;
+    el.dataset.wired = 'true';
+    el.addEventListener('click', () => {
+      const target = el.getAttribute('data-section');
       if (target) {
         playNavigationClick();
         showSection(target);
       }
     });
   });
+}
 
-  // Bio — kept verbatim; the decrypted-text animation is the signature move
-  const aboutText = document.getElementById('about-text');
-  if (aboutText) {
-    aboutText.textContent = '';
-    decryptedText({
-      elementId: 'about-text',
-      text: [
-        `I'm a front-end developer, creative explorer, and occasional chaos mechanic with a mind wired for problem-solving.`,
-        `My work usually begins with a feeling. Sometimes it's curiosity, other times it's tension or instinct. I build through trial and error, letting the process guide the result rather than forcing it into place.`,
-        `Creating something new, even if it's strange or unfinished, is where I feel most at home. If it feels honest or unexpectedly useful, I know I'm moving in the right direction.`,
-        `Lately I've been exploring how people interact with AI, how digital tools can support mental clarity, and how retro aesthetics can inspire modern expression. This portfolio is one of those experiments.`,
-      ],
-      speed: 15,
-      revealDirection: 'start',
-    });
+/** Toggle the Spotify playlists panel from its inline bio trigger. */
+function wireAboutMusic() {
+  const toggle = document.querySelector('#about .about-music-toggle');
+  const panel = document.getElementById('about-music');
+  if (!toggle || !panel || toggle.dataset.wired) return;
+  toggle.dataset.wired = 'true';
+  toggle.addEventListener('click', () => {
+    const open = toggle.getAttribute('aria-expanded') === 'true';
+    toggle.setAttribute('aria-expanded', String(!open));
+    panel.hidden = open;
+  });
+}
+
+/**
+ * Scroll-driven reveal.
+ * Progressive enhancement:
+ * only when motion is allowed do we add `.js-reveal` (which hides blocks) and reveal them as they enterview.
+ * Under prefers-reduced-motion we do nothing, so blocks stay visible.
+ */
+function initAboutReveal() {
+  const column = document.querySelector('#about .about-signoff');
+  if (!column) return;
+
+  if (aboutRevealObserver) {
+    aboutRevealObserver.disconnect();
+    aboutRevealObserver = null;
   }
+
+  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (reduce) {
+    column.classList.remove('js-reveal');
+    return;
+  }
+
+  column.classList.add('js-reveal');
+
+  aboutRevealObserver = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('is-visible');
+          aboutRevealObserver.unobserve(entry.target);
+        }
+      });
+    },
+    { threshold: 0.2, rootMargin: '0px 0px -10% 0px' }
+  );
+
+  column.querySelectorAll('.about-block').forEach((block) => aboutRevealObserver.observe(block));
 }
 
 // ============================================
@@ -480,8 +501,7 @@ function setupEventListeners() {
   }
 
   // Remote home button — return to the "start state": intro section + CH01.
-  // This also clears any immersive channel body class (news/commercial), so
-  // the intro headline is visible again.
+  // This also clears any immersive channel body class (news/commercial), so the intro headline is visible again.
   const remoteHome = document.getElementById('remote-home');
   if (remoteHome) {
     remoteHome.addEventListener('click', () => {

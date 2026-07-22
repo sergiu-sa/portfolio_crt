@@ -10,12 +10,12 @@
   overflow: hidden;
 }
 
-/* Dim the channel playing behind the panel. */
+/* Dim the channel playing behind the panel. Matches #about::before (0.5). */
 #projects::before {
   content: "";
   position: fixed;
   inset: 0;
-  background: rgba(0, 0, 0, 0.62);
+  background: rgba(0, 0, 0, 0.5);
   pointer-events: none;
   z-index: 0;
   opacity: 0;

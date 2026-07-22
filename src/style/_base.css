@@ -66,8 +66,7 @@ body {
 
 /* Typography */
 h1,
-h2,
-#typewriter-line {
+h2 {
   font-family: "Press Start 2P", monospace;
 }
 
@@ -103,20 +102,6 @@ h2 {
 }
 
 /* Text Effects */
-.revealed-char {
-  color: #fefefe;
-  text-shadow:
-    0 0 3px #fefefe,
-    0 0 5px #00ffcc;
-}
-
-.encrypted-char {
-  color: #fefefe;
-  text-shadow:
-    0 0 3px #fefefe,
-    0 0 5px #00ffcc;
-}
-
 .crt-text {
   color: #fefefe;
   text-shadow:

@@ -1,24 +1,21 @@
 /**
- * On-Air Capabilities for the About page.
- *
- * Schema:
- *   name   Display label (shown beside the signal bar).
- *   level  Signal strength 1–10 (drives bar fill width).
- *   tier   Visual tier: 'strong' (green), 'working' (yellow),
- *          'learning' (orange). Tune these honestly — they map
- *          directly to what a recruiter reads off the bars.
- *
- * Order is the order shown on screen. Earlier entries are
- * considered the strongest signals; put your most-used stack first.
+ * For the About page.
+
+ * Rendered by renderCapabilities() in main.js: grouped by tier in the order below.
+*  No numeric levels; the About page shows a clean grouped list, not signal-strength bars.
  */
 
 export const skills = [
-  { name: 'HTML5', level: 9, tier: 'strong' },
-  { name: 'CSS3', level: 9, tier: 'strong' },
-  { name: 'JavaScript', level: 8, tier: 'strong' },
-  { name: 'TypeScript', level: 7, tier: 'working' },
-  { name: 'Tailwind CSS', level: 7, tier: 'working' },
-  { name: 'Git', level: 8, tier: 'strong' },
-  { name: 'Figma', level: 6, tier: 'working' },
-  { name: 'Three.js', level: 5, tier: 'learning' },
+  { name: 'HTML5', tier: 'strong' },
+  { name: 'CSS3 / Sass', tier: 'strong' },
+  { name: 'JavaScript', tier: 'working' },
+  { name: 'Git & GitHub', tier: 'strong' },
+  { name: 'TypeScript', tier: 'working' },
+  { name: 'Tailwind CSS', tier: 'working' },
+  { name: 'Figma', tier: 'working' },
+  { name: 'REST APIs', tier: 'working' },
+  { name: 'AI integration', tier: 'working' },
+  { name: 'React', tier: 'learning' },
+  { name: 'Three.js', tier: 'learning' },
+  { name: 'Testing (Vitest / Playwright)', tier: 'learning' },
 ];
