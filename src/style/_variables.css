@@ -89,7 +89,10 @@
   --ember: #ff9d42;
   --ember-dim: rgba(255, 157, 66, 0.28);
   --chroma: #ff2e88;
-  --font-display: "Oswald", "Arial Narrow", "Helvetica Neue", Impact, sans-serif;
+
+  /* Display face — Press Start 2P, shared with About's name + labels so every
+     section reads as one identity. Pixel font: size down and add leading where used. */
+  --font-display: "Press Start 2P", monospace;
 
   /* Shell tint as an RGB triple so bars and scrims can vary alpha off one value. */
   --sarbu-shell: 6, 9, 11;

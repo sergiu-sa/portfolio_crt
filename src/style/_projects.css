@@ -63,11 +63,14 @@
 
 .sarbu-wordmark {
   font-family: var(--font-display);
-  font-weight: 700;
-  font-size: 1.15rem;
+  font-weight: 400;
+  font-size: 0.8rem;
+  line-height: 1;
   letter-spacing: 0.02em;
   text-transform: uppercase;
   color: #000;
+  min-width: 0;
+  overflow-wrap: anywhere;
 }
 
 .sarbu-plus {
@@ -242,7 +245,7 @@
 
 .sarbu-tagline {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-family: "IBM Plex Mono", monospace;
   font-size: clamp(0.85rem, 2vw, 1rem);
   color: var(--color-muted);
 }
@@ -476,7 +479,7 @@
 
 .sarbu-card-preview p {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-family: "IBM Plex Mono", monospace;
   font-size: var(--fs-meta);
   line-height: 1.5;
   color: var(--text-primary);
@@ -631,11 +634,13 @@
 .sarbu-detail-title {
   margin: 0.6rem 0 0;
   font-family: var(--font-display);
-  font-weight: 700;
-  font-size: clamp(2rem, 6vw, 3.75rem);
-  line-height: 0.95;
+  font-weight: 400;
+  font-size: clamp(1.4rem, 4.5vw, 2.6rem);
+  line-height: 1.2;
   text-transform: uppercase;
   color: var(--text-primary);
+  min-width: 0;
+  overflow-wrap: anywhere;
   text-shadow: -1.5px 0 var(--chroma), 1.5px 0 var(--accent-color), 0 0 30px rgba(0, 0, 0, 0.6);
 }
 
@@ -695,7 +700,7 @@
 
 .sarbu-lede {
   margin: 0 0 1.1rem;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-family: "IBM Plex Mono", monospace;
   font-size: 1.05rem;
   line-height: 1.6;
   color: var(--text-primary);
