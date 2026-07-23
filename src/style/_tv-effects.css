@@ -176,25 +176,6 @@
   pointer-events: none;
 }
 
-/* CRT Flicker */
-#crt-flicker {
-  position: fixed;
-  inset: 1.5rem;
-  z-index: 5;
-  background: repeating-linear-gradient(
-    0deg,
-    transparent,
-    transparent 1px,
-    rgba(255, 255, 255, 0.015) 2px,
-    transparent 3px
-  );
-  pointer-events: none;
-  mix-blend-mode: lighten;
-  opacity: 0.3;
-  animation: flickerOverlay 0.1s infinite;
-  border-radius: var(--crt-border-radius);
-}
-
 /* Channel Flicker */
 #channel-flicker {
   position: absolute;
@@ -205,6 +186,45 @@
   z-index: 999;
   opacity: 0;
   border-radius: var(--crt-border-radius);
+}
+
+/* ============================================
+   CRT SCREEN GLASS
+   The "under the tube" look layered over the whole screen region (channel +
+   panels + header), below the remote.
+   Absolute inside #ui-layer, so #ui-layer's overflow + radius clip it to the rounded tube.
+   Static — no motion — so it's cheap to leave on and reduced-motion-safe.
+   Toggled off with body.crt-off.
+   ============================================ */
+#crt-glass {
+  position: absolute;
+  inset: 0;
+  z-index: var(--z-crt-glass);
+  pointer-events: none;
+
+  /* Layered top→bottom: hairline scanlines, faint RGB shadow-mask, glass vignette. */
+  background-image:
+    repeating-linear-gradient(0deg, rgba(0, 0, 0, 0.11) 0 1px, transparent 1px 3px),
+    repeating-linear-gradient(
+      90deg,
+      rgba(255, 0, 0, 0.04) 0 1px,
+      rgba(0, 255, 0, 0.04) 1px 2px,
+      rgba(0, 0, 255, 0.04) 2px 3px
+    ),
+    radial-gradient(ellipse at center, transparent 58%, rgba(0, 0, 0, 0.34) 100%);
+}
+
+/* Convex-glass sheen — a soft highlight across the top-left fakes the tube curve. */
+#crt-glass::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(125deg, rgba(255, 255, 255, 0.04) 0%, transparent 34%);
+}
+
+body.crt-off #crt-glass {
+  display: none;
 }
 
 /* CRT Channel Switch Transition */
@@ -429,16 +449,6 @@
   }
   50% {
     opacity: 0.98;
-  }
-}
-
-@keyframes flickerOverlay {
-  0%,
-  100% {
-    opacity: 0.25;
-  }
-  50% {
-    opacity: 0.35;
   }
 }
 

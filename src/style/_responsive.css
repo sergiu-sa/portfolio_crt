@@ -997,7 +997,6 @@
   }
 
   /* Hide purely decorative CRT effect layers that may cause discomfort */
-  #crt-flicker,
   .vhs-noise,
   .vhs-tracking,
   .vhs-overlay::before {
