@@ -385,6 +385,15 @@ main::-webkit-scrollbar {
   color: #111;
 }
 
+/* CRT filter button — phosphor-cyan icon while the screen glass is on. */
+.bar-btn-crt[aria-pressed="true"] {
+  color: var(--accent-color);
+}
+
+.bar-btn-crt[aria-pressed="true"] svg {
+  filter: drop-shadow(0 0 3px var(--accent-color));
+}
+
 /* Sound button - green when ON */
 .bar-btn-sound {
   background: linear-gradient(

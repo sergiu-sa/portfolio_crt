@@ -49,6 +49,9 @@ let currentSection = null;
 const DIM_LEVELS = ['off', 'dim', 'blackout'];
 let dimLevel = localStorage.getItem('crtDimLevel') || 'off';
 
+// CRT screen-filter state — default on, remembered across visits.
+let crtFilterOn = localStorage.getItem('crtFilter') !== 'off';
+
 // ============================================
 // UI EFFECTS
 // ============================================
@@ -165,6 +168,25 @@ function cycleDim() {
   dimLevel = DIM_LEVELS[(idx + 1) % DIM_LEVELS.length];
   localStorage.setItem('crtDimLevel', dimLevel);
   applyDim();
+}
+
+/**
+ * Apply the CRT screen-filter preference: body.crt-off hides #crt-glass, and the
+ * remote button reflects the state via aria-pressed.
+ */
+function applyCrtFilter() {
+  document.body.classList.toggle('crt-off', !crtFilterOn);
+  const btn = document.getElementById('remote-crt');
+  if (btn) btn.setAttribute('aria-pressed', String(crtFilterOn));
+}
+
+/**
+ * Toggle the CRT screen filter and remember the choice.
+ */
+function toggleCrtFilter() {
+  crtFilterOn = !crtFilterOn;
+  localStorage.setItem('crtFilter', crtFilterOn ? 'on' : 'off');
+  applyCrtFilter();
 }
 
 // ============================================
@@ -589,6 +611,13 @@ function setupShortcutsModal() {
     if (e.key === 'd' || e.key === 'D') {
       e.preventDefault();
       cycleDim();
+      return;
+    }
+
+    // C - Toggle CRT screen filter
+    if (e.key === 'c' || e.key === 'C') {
+      e.preventDefault();
+      toggleCrtFilter();
       return;
     }
 

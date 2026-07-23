@@ -49,6 +49,9 @@
   /* Z-index scale */
   --z-base: 1;
   --z-header: 5;
+
+  /* CRT screen glass — above panels/header, below the remote (--z-ui). */
+  --z-crt-glass: 8;
   --z-ui: 10;
   --z-osd: 1000;
   --z-poweroff: 9999;
