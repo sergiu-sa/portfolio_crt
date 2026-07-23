@@ -522,6 +522,12 @@ function setupEventListeners() {
     remoteDim.addEventListener('click', cycleDim);
   }
 
+  // Remote CRT button - toggle the screen filter
+  const remoteCrt = document.getElementById('remote-crt');
+  if (remoteCrt) {
+    remoteCrt.addEventListener('click', toggleCrtFilter);
+  }
+
   // Keyboard shortcuts modal
   setupShortcutsModal();
 }
@@ -530,16 +536,8 @@ function setupEventListeners() {
  * Set up keyboard shortcuts modal and global keyboard shortcuts
  */
 function setupShortcutsModal() {
-  const keyboardHintBtn = document.getElementById('remote-keyboard-hint');
   const shortcutsModal = document.getElementById('shortcuts-modal');
   const fastextClose = document.querySelector('.fastext-btn[data-action="close"]');
-
-  // Open modal via ? button on remote
-  if (keyboardHintBtn && shortcutsModal) {
-    keyboardHintBtn.addEventListener('click', () => {
-      shortcutsModal.classList.add('active');
-    });
-  }
 
   // Close via fastext red button
   if (fastextClose && shortcutsModal) {
