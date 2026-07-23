@@ -1115,6 +1115,32 @@ the pixel face makes the tear read hard. data-text holds a duplicate of the name
     animation: none;
   }
 
+  /* Signal-lock loading: show the picture, no static or snap. */
+  .sarbu-card-media.is-tuning img,
+  .sarbu-gallery-hero.is-tuning img,
+  .sarbu-thumb.is-tuning img,
+  .sarbu-card-media.is-lock-in img,
+  .sarbu-gallery-hero.is-lock-in img,
+  .sarbu-thumb.is-lock-in img {
+    opacity: 1;
+    animation: none;
+  }
+
+  .sarbu-card-media.is-tuning::before,
+  .sarbu-gallery-hero.is-tuning::before,
+  .sarbu-thumb.is-tuning::before {
+    display: none;
+  }
+
+  /* Card-title chroma glitch off. */
+  .sarbu-card-name::before,
+  .sarbu-card-name::after,
+  .sarbu-card:hover .sarbu-card-name::before,
+  .sarbu-card:hover .sarbu-card-name::after {
+    animation: none;
+    opacity: 0;
+  }
+
   .sarbu.is-glitching .sarbu-glitch,
   .sarbu.is-glitching .sarbu-glitch::before,
   .sarbu.is-glitching .sarbu-body {

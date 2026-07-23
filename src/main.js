@@ -654,8 +654,9 @@ function init() {
   // Set up event listeners
   setupEventListeners();
 
-  // Apply saved dim preference
+  // Apply saved dim + CRT filter preferences
   applyDim();
+  applyCrtFilter();
 
   // Initialize date display
   updateDate();
