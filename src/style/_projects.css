@@ -507,14 +507,73 @@
 }
 
 .sarbu-card-name {
+  position: relative;
   font-family: var(--font-display);
-  font-weight: 600;
-  font-size: 1.25rem;
+  font-weight: 400;
+  font-size: 0.85rem;
   text-transform: uppercase;
   letter-spacing: 0.01em;
-  line-height: 1.05;
+  line-height: 1.45;
   min-width: 0;
   overflow-wrap: anywhere;
+}
+
+/* Chroma-split glitch on hover
+the title "loses sync" for a beat.
+the pixel face makes the tear read hard. data-text holds a duplicate of the name so the offset ghosts have something to render. */
+.sarbu-card-name::before,
+.sarbu-card-name::after {
+  content: attr(data-text);
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  pointer-events: none;
+  opacity: 0;
+}
+
+.sarbu-card:hover .sarbu-card-name::before,
+.sarbu-card:focus-visible .sarbu-card-name::before {
+  opacity: 0.9;
+  color: var(--accent-color);
+  animation: sarbu-name-top 0.5s steps(2, end) infinite;
+}
+
+.sarbu-card:hover .sarbu-card-name::after,
+.sarbu-card:focus-visible .sarbu-card-name::after {
+  opacity: 0.9;
+  color: var(--chroma);
+  animation: sarbu-name-bottom 0.5s steps(2, end) infinite;
+}
+
+@keyframes sarbu-name-top {
+  0% {
+    transform: translate(-2px, -1px);
+    clip-path: inset(0 0 55% 0);
+  }
+  50% {
+    transform: translate(2px, 0);
+    clip-path: inset(6% 0 50% 0);
+  }
+  100% {
+    transform: translate(-1px, 1px);
+    clip-path: inset(2% 0 58% 0);
+  }
+}
+
+@keyframes sarbu-name-bottom {
+  0% {
+    transform: translate(2px, 1px);
+    clip-path: inset(55% 0 0 0);
+  }
+  50% {
+    transform: translate(-2px, 0);
+    clip-path: inset(58% 0 3% 0);
+  }
+  100% {
+    transform: translate(1px, -1px);
+    clip-path: inset(50% 0 0 0);
+  }
 }
 
 .sarbu-card-meta {
@@ -888,6 +947,74 @@
   letter-spacing: 0.16em;
   color: var(--text-primary);
   text-shadow: 0 1px 4px #000;
+}
+
+/* ============================================
+   SIGNAL-LOCK LOADING
+   Content images tune in like a CRT locking a channel:
+   a rolling scanline + chroma haze sits over black while the file loads, then the picture snaps in.
+   Armed per image in projectsView.js (cached images skip it; reduced-motion off).
+   ============================================ */
+.sarbu-card-media.is-tuning img,
+.sarbu-gallery-hero.is-tuning img,
+.sarbu-thumb.is-tuning img {
+  opacity: 0;
+}
+
+.sarbu-card-media.is-tuning::before,
+.sarbu-gallery-hero.is-tuning::before,
+.sarbu-thumb.is-tuning::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+  background-image:
+    repeating-linear-gradient(0deg, transparent 0 2px, rgba(0, 0, 0, 0.55) 2px 3px),
+    linear-gradient(115deg, rgba(0, 255, 204, 0.18), rgba(255, 46, 136, 0.16));
+  animation: sarbu-tune 0.4s steps(4, end) infinite;
+}
+
+@keyframes sarbu-tune {
+  0% {
+    background-position: 0 0, 0 0;
+    opacity: 0.9;
+  }
+  50% {
+    background-position: 0 3px, 0 0;
+    opacity: 1;
+  }
+  100% {
+    background-position: 0 -2px, 0 0;
+    opacity: 0.82;
+  }
+}
+
+.sarbu-card-media.is-lock-in img,
+.sarbu-gallery-hero.is-lock-in img,
+.sarbu-thumb.is-lock-in img {
+  animation: sarbu-lock 0.5s ease-out;
+}
+
+@keyframes sarbu-lock {
+  0% {
+    opacity: 0;
+    transform: translateX(-3px);
+    filter: contrast(1.7) brightness(1.4) saturate(1.4);
+  }
+  30% {
+    opacity: 1;
+    transform: translateX(3px);
+    filter: contrast(1.25) brightness(1.15);
+  }
+  55% {
+    transform: translateX(-1px);
+  }
+  100% {
+    opacity: 1;
+    transform: none;
+    filter: none;
+  }
 }
 
 /* ---- More from the catalogue — a distinct band so it never reads as part
