@@ -49,6 +49,9 @@ let currentSection = null;
 const DIM_LEVELS = ['off', 'dim', 'blackout'];
 let dimLevel = localStorage.getItem('crtDimLevel') || 'off';
 
+// CRT screen-filter state — default on, remembered across visits.
+let crtFilterOn = localStorage.getItem('crtFilter') !== 'off';
+
 // ============================================
 // UI EFFECTS
 // ============================================
@@ -165,6 +168,25 @@ function cycleDim() {
   dimLevel = DIM_LEVELS[(idx + 1) % DIM_LEVELS.length];
   localStorage.setItem('crtDimLevel', dimLevel);
   applyDim();
+}
+
+/**
+ * Apply the CRT screen-filter preference: body.crt-off hides #crt-glass, and the
+ * remote button reflects the state via aria-pressed.
+ */
+function applyCrtFilter() {
+  document.body.classList.toggle('crt-off', !crtFilterOn);
+  const btn = document.getElementById('remote-crt');
+  if (btn) btn.setAttribute('aria-pressed', String(crtFilterOn));
+}
+
+/**
+ * Toggle the CRT screen filter and remember the choice.
+ */
+function toggleCrtFilter() {
+  crtFilterOn = !crtFilterOn;
+  localStorage.setItem('crtFilter', crtFilterOn ? 'on' : 'off');
+  applyCrtFilter();
 }
 
 // ============================================
@@ -522,6 +544,12 @@ function setupEventListeners() {
     remoteDim.addEventListener('click', cycleDim);
   }
 
+  // Remote CRT button - toggle the screen filter
+  const remoteCrt = document.getElementById('remote-crt');
+  if (remoteCrt) {
+    remoteCrt.addEventListener('click', toggleCrtFilter);
+  }
+
   // Keyboard shortcuts modal
   setupShortcutsModal();
 }
@@ -530,16 +558,8 @@ function setupEventListeners() {
  * Set up keyboard shortcuts modal and global keyboard shortcuts
  */
 function setupShortcutsModal() {
-  const keyboardHintBtn = document.getElementById('remote-keyboard-hint');
   const shortcutsModal = document.getElementById('shortcuts-modal');
   const fastextClose = document.querySelector('.fastext-btn[data-action="close"]');
-
-  // Open modal via ? button on remote
-  if (keyboardHintBtn && shortcutsModal) {
-    keyboardHintBtn.addEventListener('click', () => {
-      shortcutsModal.classList.add('active');
-    });
-  }
 
   // Close via fastext red button
   if (fastextClose && shortcutsModal) {
@@ -594,6 +614,13 @@ function setupShortcutsModal() {
       return;
     }
 
+    // C - Toggle CRT screen filter
+    if (e.key === 'c' || e.key === 'C') {
+      e.preventDefault();
+      toggleCrtFilter();
+      return;
+    }
+
     // P - Toggle TV power
     if (e.key === 'p' || e.key === 'P') {
       e.preventDefault();
@@ -627,8 +654,9 @@ function init() {
   // Set up event listeners
   setupEventListeners();
 
-  // Apply saved dim preference
+  // Apply saved dim + CRT filter preferences
   applyDim();
+  applyCrtFilter();
 
   // Initialize date display
   updateDate();

@@ -385,6 +385,15 @@ main::-webkit-scrollbar {
   color: #111;
 }
 
+/* CRT filter button — phosphor-cyan icon while the screen glass is on. */
+.bar-btn-crt[aria-pressed="true"] {
+  color: var(--accent-color);
+}
+
+.bar-btn-crt[aria-pressed="true"] svg {
+  filter: drop-shadow(0 0 3px var(--accent-color));
+}
+
 /* Sound button - green when ON */
 .bar-btn-sound {
   background: linear-gradient(
@@ -556,47 +565,6 @@ main::-webkit-scrollbar {
   color: #2a2a2a;
   letter-spacing: 0.08em;
   text-shadow: 0 1px 0 rgba(255, 255, 255, 0.25);
-}
-
-/* Help button */
-.remote-help {
-  position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 22px;
-  height: 22px;
-  background: linear-gradient(180deg, #555 0%, #333 100%);
-  border: 2px solid #222;
-  border-radius: 50%;
-  color: #ccc;
-  font-family: "IBM Plex Mono", monospace;
-  font-size: 0.75rem;
-  font-weight: bold;
-  cursor: pointer;
-  transition: all 0.12s ease;
-  box-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, 0.15),
-    0 2px 4px rgba(0, 0, 0, 0.4);
-}
-
-/* Expand touch target to meet 44×44px accessibility minimum */
-.remote-help::after {
-  content: "";
-  position: absolute;
-  inset: 50% auto auto 50%;
-  transform: translate(-50%, -50%);
-  width: var(--touch-target-min);
-  height: var(--touch-target-min);
-}
-
-.remote-help:hover {
-  background: linear-gradient(180deg, #666 0%, #444 100%);
-  color: #fff;
-}
-
-.remote-help:active {
-  transform: scale(0.95);
 }
 
 /* ============================================
@@ -1072,12 +1040,6 @@ body.commercial-active #main-content .channel-screen.active:not(#intro) {
     font-size: 0.35rem;
   }
 
-  .remote-help {
-    width: 24px;
-    height: 24px;
-    font-size: 0.7rem;
-  }
-
   nav button {
     font-size: 0.8rem;
     padding: 0.3rem 0.4rem;
@@ -1289,11 +1251,6 @@ body.commercial-active #main-content .channel-screen.active:not(#intro) {
   .brand-sub {
     display: none;
   }
-
-  .remote-help {
-    width: 26px;
-    height: 26px;
-  }
 }
 
 @media (max-width: 400px) {
@@ -1373,12 +1330,6 @@ body.commercial-active #main-content .channel-screen.active:not(#intro) {
   .brand-name {
     font-size: 0.5rem;
   }
-
-  .remote-help {
-    width: 22px;
-    height: 22px;
-    font-size: 0.6rem;
-  }
 }
 
 @media (max-height: 500px) and (orientation: landscape) {
@@ -1441,12 +1392,6 @@ body.commercial-active #main-content .channel-screen.active:not(#intro) {
 
   .brand-sub {
     display: none;
-  }
-
-  .remote-help {
-    width: 18px;
-    height: 18px;
-    font-size: 0.5rem;
   }
 
   .modal-teletext {

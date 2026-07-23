@@ -169,12 +169,6 @@
     font-size: 0.35rem;
   }
 
-  .remote-help {
-    width: 24px;
-    height: 24px;
-    font-size: 0.7rem;
-  }
-
   /* Header navigation */
   nav button {
     font-size: 0.8rem;
@@ -576,11 +570,6 @@
     display: none;
   }
 
-  .remote-help {
-    width: 26px;
-    height: 26px;
-  }
-
   /* VHS HUD — clear wrapped two-row header and larger mobile remote */
   .vhs-rec {
     top: 5.5rem;
@@ -722,12 +711,6 @@
     font-size: 0.5rem;
   }
 
-  .remote-help {
-    width: 22px;
-    height: 22px;
-    font-size: 0.6rem;
-  }
-
   /* Teletext very small */
   .teletext-container {
     width: calc(100% - 0.5rem);
@@ -839,12 +822,6 @@
 
   .brand-sub {
     display: none;
-  }
-
-  .remote-help {
-    width: 18px;
-    height: 18px;
-    font-size: 0.5rem;
   }
 
   /* About section landscape */
@@ -1020,7 +997,6 @@
   }
 
   /* Hide purely decorative CRT effect layers that may cause discomfort */
-  #crt-flicker,
   .vhs-noise,
   .vhs-tracking,
   .vhs-overlay::before {

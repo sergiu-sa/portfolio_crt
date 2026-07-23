@@ -39,7 +39,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 
     <!-- Google Fonts -->
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@300;400&family=Oswald:wght@500;600;700&family=Press+Start+2P&display=swap" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@300;400&family=Press+Start+2P&display=swap" />
 
     <link rel="stylesheet" href="/src/style/main.css" />
 
@@ -135,6 +135,9 @@
 
     <!-- UI Overlay -->
     <div id="ui-layer">
+      <!-- CRT screen glass: shadow-mask + scanlines + vignette over the whole
+           screen region. Sits below the remote; toggled by #remote-crt. -->
+      <div id="crt-glass" aria-hidden="true"></div>
       <header>
         <nav>
           <button data-section="projects">/PROJECTS</button>
@@ -509,6 +512,12 @@
             </button>
           </div>
           <div class="remote-bar-group">
+            <span class="bar-label">CRT</span>
+            <button id="remote-crt" class="bar-btn bar-btn-icon bar-btn-crt" aria-label="Toggle CRT screen filter" title="CRT Filter" aria-pressed="true">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><use href="/icons.svg#i-crt"></use></svg>
+            </button>
+          </div>
+          <div class="remote-bar-group">
             <span class="bar-label">POWER</span>
             <button id="remote-power" class="bar-btn bar-btn-icon bar-btn-power" aria-label="Toggle TV power" title="Power On/Off">
               <svg viewBox="0 0 24 24" aria-hidden="true"><use href="/icons.svg#i-power"></use></svg>
@@ -519,11 +528,8 @@
         <!-- Branding -->
         <div class="remote-brand">
           <span class="brand-name">PORTFOLIO</span>
-          <span class="brand-sub">SPACE COMMAND</span>
+          <span class="brand-sub">REMOTE CONTROL</span>
         </div>
-
-        <!-- Help button -->
-        <button id="remote-keyboard-hint" class="remote-help" aria-label="Keyboard shortcuts" title="Keyboard Shortcuts">?</button>
       </footer>
     </div>
     <script type="module" src="/src/main.js"></script>

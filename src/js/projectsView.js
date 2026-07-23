@@ -68,6 +68,30 @@ function signalLock(duration = 460) {
 }
 
 /**
+ * "Signal-lock" loading:
+ * content images tune in like a CRT locking onto a channel;
+ * scanline + chroma static (see _projects.css) resolves to a clean picture the moment the image loads.
+ * Cached images (already decoded) skip the effect so a re-render doesn't flash.
+ * No-op under reduced motion.
+ * @param {ParentNode} root
+ */
+function armSignalLock(root) {
+  if (prefersReducedMotion()) return;
+  const shots = root.querySelectorAll('.sarbu-card-media, .sarbu-gallery-hero, .sarbu-thumb');
+  shots.forEach((shot) => {
+    const img = shot.querySelector('img');
+    if (!img || (img.complete && img.naturalWidth > 0)) return;
+    shot.classList.add('is-tuning');
+    const reveal = (animate) => {
+      shot.classList.remove('is-tuning');
+      if (animate) shot.classList.add('is-lock-in');
+    };
+    img.addEventListener('load', () => reveal(true), { once: true });
+    img.addEventListener('error', () => reveal(false), { once: true });
+  });
+}
+
+/**
  * Announce a view change to screen readers.
  *
  * The region is cleared first: several screen readers drop an update whose text is identical to what is already there,
@@ -173,7 +197,7 @@ function catItem(project, index) {
         </div>
         <div class="sarbu-card-body">
           <span class="sarbu-card-index">${slot(index)}</span>
-          <span class="sarbu-card-name">${escapeHtml(project.name)}</span>
+          <span class="sarbu-card-name" data-text="${escapeHtml(project.name)}">${escapeHtml(project.name)}</span>
           <span class="sarbu-card-meta"><span class="sarbu-status ${project.status === 'LIVE' ? 'is-live' : ''}">${escapeHtml(project.status)}</span> &middot; ${escapeHtml(project.year)} &middot; ${escapeHtml(project.role || '')}</span>
           <span class="sarbu-card-stack">${escapeHtml((project.tags || []).join(' · '))}</span>
         </div>
@@ -246,6 +270,7 @@ function renderBrowse() {
   `;
 
   wireFilters(body);
+  armSignalLock(body);
   announce('Showing all projects');
 }
 
@@ -372,6 +397,7 @@ function renderDetail(projectId) {
     });
   });
 
+  armSignalLock(body);
   document.getElementById('project-detail-title')?.focus();
 
   announce(`Showing ${project.name}`);
