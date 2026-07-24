@@ -54,8 +54,11 @@ const COMMANDS = {
       ),
   },
   '/ping': {
-    response: '[SIGNAL] Contact signal sent successfully!',
-    kind: 'ok',
+    response: [
+      '[SIGNAL] Test tone sent into the void. Decorative only, no one receives it.',
+      '         To reach me for real, type /message.',
+    ].join('\n'),
+    kind: 'dim',
   },
   '/ping-all': {
     response: '[BROADCAST] Pinging all outbound lines...',

@@ -95,7 +95,7 @@
 .contact-testcard {
   position: relative;
   width: 100%;
-  min-height: clamp(360px, 48vh, 560px);
+  min-height: clamp(460px, 58vh, 600px);
   overflow: hidden;
   background: var(--surface-panel);
   border: 1px solid var(--frame-blue-strong);
@@ -233,9 +233,12 @@
   position: absolute;
   top: 50%;
   left: 50%;
-  width: clamp(200px, 26vw, 360px);
+
+  /* Bound by BOTH width and height (min) so the roundel never outgrows a short
+     card on a wide, low viewport (the cause of the cramped/top-heavy look). */
+  width: clamp(180px, min(24vw, 34vh), 300px);
   aspect-ratio: 1;
-  transform: translate(-50%, -54%);
+  transform: translate(-50%, -52%);
   border: 1px solid var(--frame-blue-strong);
   border-radius: 50%;
   box-shadow: inset 0 0 34px rgba(100, 150, 255, 0.12);
@@ -804,8 +807,19 @@
   gap: 0.55rem;
   padding: 0.9rem 1rem;
   background: rgba(0, 0, 0, 0.4);
+  border: 1px solid transparent;
   box-sizing: border-box;
   min-width: 0;
+  transition:
+    border-color var(--duration-fast) ease,
+    background var(--duration-fast) ease;
+}
+
+/* Focus: light up the whole command bar instead of the global cyan halo. This
+   is the visible focus indicator for both the input and the submit button. */
+.contact-console:focus-within {
+  border-color: var(--accent-color);
+  background: rgba(0, 10, 8, 0.55);
 }
 
 .contact-console .prompt {
@@ -837,6 +851,13 @@
   text-shadow: none;
 }
 
+/* Drop the global input focus halo — the command bar border shows focus. */
+.contact-console input[type="text"]:focus,
+.contact-console input[type="text"]:focus-visible {
+  outline: none;
+  box-shadow: none;
+}
+
 .console-submit-btn {
   background: none;
   border: 1px solid var(--border-accent);
@@ -861,6 +882,7 @@
   border-color: var(--accent-color);
   color: #fff;
   outline: none;
+  box-shadow: none;
 }
 
 .console-submit-btn svg {
