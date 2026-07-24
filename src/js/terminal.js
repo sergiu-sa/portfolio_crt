@@ -53,11 +53,6 @@ const COMMANDS = {
         'noopener,noreferrer'
       ),
   },
-  '/instagram': {
-    response: '[MEDIA] Opening Instagram...',
-    action: () =>
-      window.open('https://www.instagram.com/sergiu_sarbu_/', '_blank', 'noopener,noreferrer'),
-  },
   '/ping': {
     response: '[SIGNAL] Contact signal sent successfully!',
     kind: 'ok',
@@ -76,7 +71,6 @@ const COMMANDS = {
       '  /message     compose a message (in-console)',
       '  /github      open GitHub',
       '  /linkedin    open LinkedIn',
-      '  /instagram   open Instagram',
       '  /ping        send a contact signal',
       '  /ping-all    pulse every outbound line',
       '  /clear       clear the console',
@@ -359,17 +353,6 @@ export function initTerminal() {
       runCommand(cmd);
       contactInput.focus();
     });
-  });
-}
-
-/**
- * Stagger-reveal any terminal lines already in the DOM.
- * Kept for compatibility with main.js section-entry wiring.
- */
-export function triggerTerminalSequence() {
-  const lines = document.querySelectorAll('#contact .terminal-line');
-  lines.forEach((line, index) => {
-    setTimeout(() => line.classList.add('visible'), index * 120);
   });
 }
 

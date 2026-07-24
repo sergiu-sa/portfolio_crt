@@ -17,7 +17,7 @@ import {
   setTvPowered,
   getCurrentChannel,
 } from './js/channels.js';
-import { initTerminal, triggerTerminalSequence, startConsoleIntro } from './js/terminal.js';
+import { initTerminal, startConsoleIntro } from './js/terminal.js';
 import { initContact, cleanupContact } from './js/contact.js';
 import {
   initProjectsSection,
@@ -27,7 +27,6 @@ import {
 } from './js/projectsView.js';
 import { stopBreakout } from './js/breakout.js';
 import { stopTuner } from './js/tuner.js';
-import { initRedesignNotice } from './js/notice.js';
 
 // ============================================
 // GLOBAL STATE
@@ -275,7 +274,6 @@ function switchToSection(section) {
 
   if (section === 'contact') {
     initContact({ showOSD, showSection });
-    triggerTerminalSequence();
     startConsoleIntro();
   }
 
@@ -666,9 +664,6 @@ function init() {
   setChannel(1, { showOSD, triggerFlicker: triggerChannelFlicker });
   window.addEventListener('hashchange', routeFromHash);
   routeFromHash();
-
-  // First-visit "site mid-redesign" notice (temporary)
-  initRedesignNotice();
 }
 
 // Start application when DOM is ready
