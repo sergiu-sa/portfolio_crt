@@ -179,6 +179,31 @@ export function playChannelChange() {
 }
 
 /**
+ * Play a "signal lock" cue: a short static burst that resolves into a rising
+ * confirm tone — used when the Contact test card tunes in.
+ */
+export function playSignalLock() {
+  if (!soundEnabled) return;
+  playStaticBurst(0.26, 0.06);
+
+  const ctx = initAudioContext();
+  setTimeout(() => {
+    const osc = ctx.createOscillator();
+    const gain = ctx.createGain();
+    osc.type = 'sine';
+    osc.frequency.setValueAtTime(520, ctx.currentTime);
+    osc.frequency.exponentialRampToValueAtTime(880, ctx.currentTime + 0.12);
+    gain.gain.setValueAtTime(0.0001, ctx.currentTime);
+    gain.gain.linearRampToValueAtTime(0.05, ctx.currentTime + 0.02);
+    gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.18);
+    osc.connect(gain);
+    gain.connect(ctx.destination);
+    osc.start(ctx.currentTime);
+    osc.stop(ctx.currentTime + 0.18);
+  }, 170);
+}
+
+/**
  * Play teletext navigation beep
  */
 export function playTeletextBeep() {

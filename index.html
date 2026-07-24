@@ -147,19 +147,6 @@
         <span id="current-date" class="header-date"></span>
       </header>
 
-      <!-- First-visit notice: site mid-redesign (temporary — see src/js/notice.js) -->
-      <aside class="broadcast-notice" id="broadcast-notice" role="status" aria-live="polite" hidden>
-        <div class="broadcast-notice-head">
-          <span class="broadcast-notice-rec" aria-hidden="true"></span>
-          <span class="broadcast-notice-title">Retuning the signal</span>
-          <button type="button" class="broadcast-notice-close" id="broadcast-notice-close" aria-label="Dismiss notice">&times;</button>
-        </div>
-        <p class="broadcast-notice-body">
-          The projects and the concept are live and ready to explore. Some parts of this portfolio are still being redesigned.
-        </p>
-        <a class="broadcast-notice-link" href="https://portfolio-sergiu-sa.netlify.app/" target="_blank" rel="noopener noreferrer">See my latest portfolio &rarr;</a>
-      </aside>
-
       <!-- Keyboard shortcuts modal - Teletext style -->
       <div id="shortcuts-modal" class="modal" role="dialog" aria-modal="true" aria-labelledby="shortcuts-title">
         <div class="modal-teletext">
@@ -313,135 +300,123 @@
         </section>
 
         <section id="contact" class="channel-screen">
-          <article class="contact-page" aria-labelledby="contact-title">
-            <header class="contact-header-bar">
-              <span class="contact-service">CRT NETWORK</span>
-              <span class="contact-page-num">P.500</span>
-            </header>
+          <div class="contact-signal">
+            <!-- Block 1: STATION IDENT — the test card (centerpiece) -->
+            <section class="contact-block contact-ident" aria-labelledby="contact-title">
+              <div class="contact-testcard">
+                <div class="tc-bars" aria-hidden="true"></div>
+                <div class="tc-grid" aria-hidden="true"></div>
+                <div class="tc-tune" aria-hidden="true"></div>
 
-            <div class="contact-subheader">
-              <h1 id="contact-title" class="contact-index">
-                <span class="contact-signon-dot" aria-hidden="true"></span>
-                <span class="contact-signon-callsign">oltenkS</span>
-                <span class="contact-index-sep" aria-hidden="true">&middot;</span>
-                <span class="contact-index-status">OPEN LINE</span>
-              </h1>
-              <span class="contact-subheader-right">
-                <span>OSLO</span>
-                <span class="contact-clock-sep">&middot;</span>
-                <span id="contact-clock-time">--:--</span>
-                <span class="contact-clock-sep">&middot;</span>
-                <span>UTC+1</span>
-              </span>
-            </div>
+                <div class="tc-face">
+                  <div class="tc-center">
+                    <span class="tc-roundel" aria-hidden="true"></span>
+                    <h1 id="contact-title" class="tc-callsign" data-text="oltenkS">oltenkS</h1>
+                    <p class="tc-status">
+                      <span class="tc-status-dot" aria-hidden="true"></span>OPEN LINE
+                    </p>
+                  </div>
 
-            <div class="contact-body">
-              <!-- Email hero -->
-              <section class="contact-section" aria-label="Email">
-                <h2 class="contact-section-title">
-                  <span class="contact-section-num">01</span>
-                  <span class="contact-section-name">EMAIL</span>
-                </h2>
-                <div class="contact-primary">
-                  <span class="contact-primary-led" aria-hidden="true"></span>
-                  <a href="mailto:sergiudsarbu@gmail.com" class="contact-primary-address">
-                    sergiudsarbu@gmail.com
+                  <div class="tc-wedge" aria-hidden="true">
+                    <span></span><span></span><span></span><span></span>
+                    <span></span><span></span><span></span><span></span>
+                  </div>
+
+                  <div class="tc-readout">
+                    <span class="tc-loc">OSLO</span>
+                    <span class="tc-sep" aria-hidden="true">&middot;</span>
+                    <span id="contact-clock-time" class="tc-clock">--:--</span>
+                    <span class="tc-sep" aria-hidden="true">&middot;</span>
+                    <span class="tc-tz">UTC+1</span>
+                    <span class="tc-signal" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></span>
+                  </div>
+                </div>
+              </div>
+            </section>
+
+            <!-- Block 2: DIRECT LINE (email) -->
+            <section class="contact-block contact-direct" aria-labelledby="contact-direct-label">
+              <h2 id="contact-direct-label" class="contact-block-label">Direct line</h2>
+              <div class="contact-direct-row">
+                <span class="contact-direct-dot" aria-hidden="true"></span>
+                <a href="mailto:sergiudsarbu@gmail.com" class="contact-direct-address" data-text="sergiudsarbu@gmail.com">sergiudsarbu@gmail.com</a>
+                <button type="button" class="contact-copy-btn" id="contact-copy-mail" aria-label="Copy email address to clipboard">
+                  <span>COPY</span>
+                </button>
+              </div>
+            </section>
+
+            <!-- Block 3: OUTBOUND (links) -->
+            <section class="contact-block contact-outbound" aria-labelledby="contact-outbound-label">
+              <h2 id="contact-outbound-label" class="contact-block-label">Outbound</h2>
+              <ul class="contact-outbound-list">
+                <li>
+                  <a class="contact-out" href="https://www.linkedin.com/in/sergiu-sarbu-39154226a" target="_blank" rel="noopener noreferrer">
+                    <span class="contact-out-name">LinkedIn</span>
+                    <span class="contact-out-handle">sergiu-sarbu-39154226a</span>
+                    <span class="contact-out-arrow" aria-hidden="true">&#9654;</span>
                   </a>
-                  <div class="contact-primary-actions">
-                    <button type="button" class="contact-primary-btn" id="contact-copy-mail" aria-label="Copy email address to clipboard">
-                      <span>COPY</span>
-                    </button>
-                  </div>
+                </li>
+                <li>
+                  <a class="contact-out" href="https://github.com/sergiu-sa" target="_blank" rel="noopener noreferrer">
+                    <span class="contact-out-name">GitHub</span>
+                    <span class="contact-out-handle">sergiu-sa</span>
+                    <span class="contact-out-arrow" aria-hidden="true">&#9654;</span>
+                  </a>
+                </li>
+              </ul>
+            </section>
+
+            <!-- Block 4: OPEN LINE — the console (the /message wizard is the send path) -->
+            <section class="contact-block contact-open" aria-labelledby="contact-open-label">
+              <h2 id="contact-open-label" class="contact-block-label">Open line &mdash; send transmission</h2>
+              <div class="contact-console-frame">
+                <div class="console-head" aria-hidden="true">
+                  <span class="console-head-left">
+                    <span class="console-head-dot"></span>Transmit
+                  </span>
+                  <span class="console-signal"><i></i><i></i><i></i><i></i><i></i></span>
                 </div>
-              </section>
+                <div class="terminal-output" aria-live="polite" role="log"></div>
 
-              <!-- Links directory -->
-              <section class="contact-section" aria-label="Links">
-                <h2 class="contact-section-title">
-                  <span class="contact-section-num">02</span>
-                  <span class="contact-section-name">LINKS</span>
-                </h2>
-                <ul class="contact-directory">
-                  <li class="contact-line" data-color="blue">
-                    <span class="contact-line-led" aria-hidden="true"></span>
-                    <span class="contact-line-label">LINKEDIN</span>
-                    <a class="contact-line-handle" href="https://www.linkedin.com/in/sergiu-sarbu-39154226a" target="_blank" rel="noopener noreferrer">
-                      <span>sergiu-sarbu-39154226a</span>
-                      <span class="contact-line-arrow" aria-hidden="true">&#9654;</span>
-                    </a>
-                  </li>
-                  <li class="contact-line" data-color="green">
-                    <span class="contact-line-led" aria-hidden="true"></span>
-                    <span class="contact-line-label">GITHUB</span>
-                    <a class="contact-line-handle" href="https://github.com/sergiu-sa" target="_blank" rel="noopener noreferrer">
-                      <span>sergiu-sa</span>
-                      <span class="contact-line-arrow" aria-hidden="true">&#9654;</span>
-                    </a>
-                  </li>
-                  <li class="contact-line" data-color="red">
-                    <span class="contact-line-led" aria-hidden="true"></span>
-                    <span class="contact-line-label">INSTAGRAM</span>
-                    <a class="contact-line-handle" href="https://www.instagram.com/sergiu_sarbu_/" target="_blank" rel="noopener noreferrer">
-                      <span>@sergiu_sarbu_</span>
-                      <span class="contact-line-arrow" aria-hidden="true">&#9654;</span>
-                    </a>
-                  </li>
-                </ul>
-              </section>
-
-              <!-- Console (terminal) — /message wizard is the send path -->
-              <section class="contact-section" aria-label="Command console">
-                <h2 class="contact-section-title">
-                  <span class="contact-section-num">03</span>
-                  <span class="contact-section-name">CONSOLE</span>
-                </h2>
-
-                <div class="contact-console-frame">
-                  <div class="terminal-output" aria-live="polite" role="log"></div>
-
-                  <div class="contact-chips" role="toolbar" aria-label="Quick commands">
-                    <button type="button" class="contact-chip" data-cmd="/help">/help</button>
-                    <button type="button" class="contact-chip" data-cmd="/message">/message</button>
-                    <button type="button" class="contact-chip" data-cmd="/clear">/clear</button>
-                  </div>
-
-                  <div class="contact-console">
-                    <label for="contact-input" class="prompt" aria-hidden="true">&gt;</label>
-                    <input
-                      type="text"
-                      id="contact-input"
-                      class="crt-text"
-                      placeholder="Type /help"
-                      aria-label="Terminal command input"
-                      autocomplete="off"
-                      spellcheck="false"
-                    />
-                    <button
-                      type="button"
-                      id="console-submit"
-                      class="console-submit-btn"
-                      aria-label="Submit command"
-                      title="Submit command (Enter)"
-                    >
-                      <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><use href="/icons.svg#i-submit"></use></svg>
-                    </button>
-                  </div>
+                <div class="contact-chips" role="toolbar" aria-label="Quick commands">
+                  <button type="button" class="contact-chip" data-cmd="/help">/help</button>
+                  <button type="button" class="contact-chip" data-cmd="/message">/message</button>
+                  <button type="button" class="contact-chip" data-cmd="/clear">/clear</button>
                 </div>
-              </section>
-            </div>
 
-            <!-- Fastext footer -->
-            <footer class="contact-footer-bar">
-              <button class="contact-fastext contact-fastext-red" type="button" data-section="projects">
-                <span class="contact-fastext-arrow" aria-hidden="true">&#9664;</span> PROJECTS
+                <div class="contact-console">
+                  <label for="contact-input" class="prompt" aria-hidden="true">&gt;</label>
+                  <input
+                    type="text"
+                    id="contact-input"
+                    class="crt-text"
+                    placeholder="Type /help"
+                    aria-label="Terminal command input"
+                    autocomplete="off"
+                    spellcheck="false"
+                  />
+                  <button
+                    type="button"
+                    id="console-submit"
+                    class="console-submit-btn"
+                    aria-label="Submit command"
+                    title="Submit command (Enter)"
+                  >
+                    <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><use href="/icons.svg#i-submit"></use></svg>
+                  </button>
+                </div>
+              </div>
+            </section>
+
+            <!-- Closing nav — routes back into the broadcast (header nav also covers this) -->
+            <nav class="contact-nav" aria-label="Other sections">
+              <button type="button" class="contact-nav-link" data-section="projects">
+                <span aria-hidden="true">&#9664;</span> Projects
               </button>
-              <button class="contact-fastext contact-fastext-green" type="button" data-section="about">
-                ABOUT
-              </button>
-              <span class="contact-fastext contact-fastext-yellow contact-fastext-static">P.500</span>
-              <span class="contact-fastext contact-fastext-blue contact-fastext-static">CALLSIGN</span>
-            </footer>
-          </article>
+              <button type="button" class="contact-nav-link" data-section="about">About</button>
+            </nav>
+          </div>
         </section>
 
         <!-- Lightbox for enlarged images (modal overlay, shared by all sections) -->

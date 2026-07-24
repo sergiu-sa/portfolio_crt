@@ -28,7 +28,7 @@
   z-index: 1;
 
   /* Mirror the Projects/Contact panel geometry so the content spans the same 1280px (their panel border-box).
-    No horizontal padding here — the 1.5rem gutter comes from the calc width, exactly like .sarbu / .contact-page. */
+    No horizontal padding here — the 1.5rem gutter comes from the calc width, exactly like .sarbu / .contact-signal. */
   width: calc(100% - 1.5rem);
   max-width: var(--panel-max-width);
   margin: 0 auto;
@@ -39,7 +39,7 @@
   align-items: flex-start;
   text-align: left;
   gap: clamp(3rem, 8vh, 6rem);
-  font-family: "IBM Plex Mono", "Courier New", monospace;
+  font-family: var(--font-body);
   color: var(--text-primary);
 
   /* Legibility over a busy channel now that the scrim is light. Inherited by

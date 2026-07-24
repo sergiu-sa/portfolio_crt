@@ -1,9 +1,11 @@
 /**
- * Contact Module (P.500 — CALLSIGN)
- * Live Oslo clock, copy-to-clipboard for the primary line,
- * directory ping animation, Formspree message submission,
- * and fastext footer wiring.
+ * Contact Module (station ident)
+ * Live Oslo clock, copy-to-clipboard for the email line, outbound-line ping
+ * animation, the test-card signal-lock tune-in, scroll reveal, section-nav
+ * wiring, and Formspree message submission.
  */
+
+import { playSignalLock } from './audio.js';
 
 // ============================================
 
@@ -12,6 +14,7 @@ const FORMSPREE_ENDPOINT = 'https://formspree.io/f/xvzddenv';
 const PRIMARY_EMAIL = 'sergiudsarbu@gmail.com';
 
 let clockTimer = null;
+let revealObserver = null;
 
 function formatOsloTime(date) {
   return date.toLocaleTimeString('en-GB', {
@@ -67,8 +70,8 @@ function setupCopyEmail(showOSD) {
   });
 }
 
-function setupFastextFooter(showSection) {
-  document.querySelectorAll('#contact .contact-fastext[data-section]').forEach((btn) => {
+function setupSectionNav(showSection) {
+  document.querySelectorAll('#contact [data-section]').forEach((btn) => {
     if (btn.dataset.wired) return;
     btn.dataset.wired = 'true';
     btn.addEventListener('click', () => {
@@ -79,10 +82,67 @@ function setupFastextFooter(showSection) {
 }
 
 /**
- * Pulse every directory line — used by the /ping-all terminal command.
+ * Scroll-driven block reveal — mirrors the About section. Progressive
+ * enhancement: only when motion is allowed do we add `.js-reveal` (which hides
+ * blocks) and reveal them as they enter view. Under reduced motion, nothing
+ * happens and blocks stay visible.
+ */
+function initContactReveal() {
+  const column = document.querySelector('#contact .contact-signal');
+  if (!column) return;
+
+  if (revealObserver) {
+    revealObserver.disconnect();
+    revealObserver = null;
+  }
+
+  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (reduce) {
+    column.classList.remove('js-reveal');
+    return;
+  }
+
+  column.classList.add('js-reveal');
+
+  revealObserver = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('is-visible');
+          revealObserver.unobserve(entry.target);
+        }
+      });
+    },
+    { threshold: 0.2, rootMargin: '0px 0px -10% 0px' }
+  );
+
+  // Skip the hero/ident block — it stays visible immediately so the tune-in
+  // plays against a present card (CSS keeps it un-hidden under .js-reveal).
+  column
+    .querySelectorAll('.contact-block:not(.contact-ident)')
+    .forEach((block) => revealObserver.observe(block));
+}
+
+/**
+ * Tune the test card in on entry: a brief signal-lock glitch + sound, like the
+ * channel locking. The visual is skipped under reduced motion; the sound is
+ * gated by the global mute state inside playSignalLock.
+ */
+function playTuneIn() {
+  const card = document.querySelector('#contact .contact-testcard');
+  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (card && !reduce) {
+    card.classList.add('is-tuning');
+    setTimeout(() => card.classList.remove('is-tuning'), 520);
+  }
+  playSignalLock();
+}
+
+/**
+ * Pulse every outbound line — used by the /ping-all terminal command.
  */
 export function pingDirectoryLines() {
-  const lines = document.querySelectorAll('#contact .contact-line');
+  const lines = document.querySelectorAll('#contact .contact-out');
   lines.forEach((line, i) => {
     setTimeout(() => {
       line.classList.add('pinged');
@@ -141,15 +201,21 @@ export async function submitContactMessage({ email, subject, message }) {
 export function initContact(ctx = {}) {
   startClock();
   setupCopyEmail(ctx.showOSD);
-  setupFastextFooter(ctx.showSection);
+  setupSectionNav(ctx.showSection);
+  initContactReveal();
+  playTuneIn();
 }
 
 /**
- * Stop timers. Called on section exit.
+ * Stop timers and observers. Called on section exit.
  */
 export function cleanupContact() {
   if (clockTimer) {
     clearInterval(clockTimer);
     clockTimer = null;
+  }
+  if (revealObserver) {
+    revealObserver.disconnect();
+    revealObserver = null;
   }
 }
