@@ -70,17 +70,6 @@ function setupCopyEmail(showOSD) {
   });
 }
 
-function setupSectionNav(showSection) {
-  document.querySelectorAll('#contact [data-section]').forEach((btn) => {
-    if (btn.dataset.wired) return;
-    btn.dataset.wired = 'true';
-    btn.addEventListener('click', () => {
-      const target = btn.getAttribute('data-section');
-      if (target && typeof showSection === 'function') showSection(target);
-    });
-  });
-}
-
 /**
  * Scroll-driven block reveal — mirrors the About section. Progressive
  * enhancement: only when motion is allowed do we add `.js-reveal` (which hides
@@ -196,12 +185,16 @@ export async function submitContactMessage({ email, subject, message }) {
 
 /**
  * Initialize the P.500 CALLSIGN page. Called when #contact becomes active.
- * @param {{showOSD?:Function, showSection?:Function}} ctx
+ *
+ * The .contact-nav buttons are not wired here:
+ * they sit inside a <nav>, so main.js's global `nav button` handler already routes them (and plays the navigation click).
+ * Wiring them a second time here made every press fire two section transitions, and two overlapping static bursts with it.
+ *
+ * @param {{showOSD?:Function}} ctx
  */
 export function initContact(ctx = {}) {
   startClock();
   setupCopyEmail(ctx.showOSD);
-  setupSectionNav(ctx.showSection);
   initContactReveal();
   playTuneIn();
 }
