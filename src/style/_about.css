@@ -403,6 +403,40 @@
   border-bottom-color: var(--accent-color);
 }
 
+/* ---- Sign-off mark ----
+   The credits close on the hand-drawn nickname, set bottom-right the way you sign a document.
+   Projects hero: cyan means interactive everywhere else on this page and this mark is brand, not a link.
+   Recoloured through a CSS mask so the source SVG's dark fill is irrelevant. */
+.about-signature {
+  display: block;
+  width: min(260px, 62%);
+  margin-left: auto;
+  aspect-ratio: 720 / 322;
+  background: var(--ember);
+
+  /* Position is arbitrary: the box's aspect-ratio matches the viewBox, so `contain` fills it exactly.
+  Alignment is done by the transform below. */
+  -webkit-mask: url("/assets/scribble/signature.svg") center / contain no-repeat;
+  mask: url("/assets/scribble/signature.svg") center / contain no-repeat;
+  opacity: 0.9;
+
+  /* The artwork carries 12.8% empty margin inside its own viewBox on the right, so a box flush with the column leaves the ink visibly short of the edge.
+  Transform percentages resolve against the element's own width, which pulls the ink — not the box — onto the edge. */
+  transform: translateX(12.8%);
+}
+
+/* Wipes on left-to-right as the block reveals, so the mark lands on the crown last.
+Scoped to .js-reveal, which main.js only adds when motion is allowed;
+under reduced motion the signature is simply present, no override needed. */
+.about-signoff.js-reveal .about-signoff-mark .about-signature {
+  clip-path: inset(0 100% 0 0);
+  transition: clip-path 1.1s cubic-bezier(0.16, 1, 0.3, 1) 0.25s;
+}
+
+.about-signoff.js-reveal .about-signoff-mark.is-visible .about-signature {
+  clip-path: inset(0 0 0 0);
+}
+
 /* ---- Responsive ---- */
 @media (max-width: 600px) {
   .about-signoff {

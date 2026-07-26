@@ -204,6 +204,36 @@ export function playSignalLock() {
 }
 
 /**
+ * Play the SARBU+ station ident: three rising notes over a soft noise bed.
+ * The audio half of a channel ident — fires on Projects section entry only, never on in-panel navigation.
+ */
+export function playStationIdent() {
+  if (!soundEnabled) return;
+  playStaticBurst(0.18, 0.04);
+
+  const ctx = initAudioContext();
+  const notes = [523.25, 659.25, 783.99]; // C5 · E5 · G5
+
+  notes.forEach((freq, i) => {
+    const at = ctx.currentTime + 0.12 + i * 0.11;
+    const osc = ctx.createOscillator();
+    const gain = ctx.createGain();
+
+    osc.type = 'triangle';
+    osc.frequency.setValueAtTime(freq, at);
+
+    gain.gain.setValueAtTime(0.0001, at);
+    gain.gain.linearRampToValueAtTime(0.05, at + 0.015);
+    gain.gain.exponentialRampToValueAtTime(0.001, at + 0.2);
+
+    osc.connect(gain);
+    gain.connect(ctx.destination);
+    osc.start(at);
+    osc.stop(at + 0.2);
+  });
+}
+
+/**
  * Play teletext navigation beep
  */
 export function playTeletextBeep() {

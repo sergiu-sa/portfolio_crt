@@ -13,6 +13,7 @@
 
 import { projects } from '../data/projects.js';
 import { initLightbox, openLightbox, isLightboxOpen } from './lightbox.js';
+import { playChannelChange, playStationIdent } from './audio.js';
 
 let showOSD = null;
 let sectionController = null;
@@ -21,6 +22,16 @@ let lastFocusedCardId = null;
 let pendingAnnouncement = null;
 let entering = false;
 let glitchTimer = null;
+
+/** Hover is transient, a remote tune is committed — see the design doc. */
+const TUNE_DWELL_MS = 120;
+const TUNE_RETURN_MS = 600;
+
+let tunedIndex = null; // null = at rest on the featured title
+let heroFrozen = false; // focus inside the hero pins the current view
+let dwellTimer = null;
+let returnTimer = null;
+let heroRetuneTimer = null;
 
 export function setProjectsCallbacks(callbacks) {
   showOSD = callbacks.showOSD;
@@ -182,9 +193,17 @@ function filterChipsMarkup() {
 /** One catalogue tile (also reused in the detail "more from the catalogue" row). */
 function catItem(project, index) {
   const thumb = thumbFor(project);
-  const media = thumb
-    ? `<img src="${escapeHtml(thumb)}" alt="${escapeHtml(`${project.name} — cover`)}" width="800" height="450" loading="lazy" decoding="async">`
-    : '';
+  // Anything not on air transmits a test card rather than a screenshot.
+  const offAir = project.status !== 'LIVE';
+  const media = offAir
+    ? `<span class="sarbu-offair">
+         <span class="sarbu-offair-bars" aria-hidden="true"></span>
+         <span class="sarbu-offair-grid" aria-hidden="true"></span>
+         <span class="sarbu-offair-label">Transmission pending</span>
+       </span>`
+    : thumb
+      ? `<img src="${escapeHtml(thumb)}" alt="${escapeHtml(`${project.name} — cover`)}" width="800" height="450" loading="lazy" decoding="async">`
+      : '';
   return `
     <li class="sarbu-cat-item" data-year="${escapeHtml(project.year)}" data-stack="${stackFamily(project)}">
       <a class="sarbu-card" href="#projects/${escapeHtml(project.id)}" data-id="${escapeHtml(project.id)}">
@@ -233,35 +252,201 @@ function wireFilters(body) {
   });
 }
 
-/** Render the browse state (channel ident + catalogue) into #projects-body. */
+/** Total title count, zero-padded — the denominator in the hero slug. */
+const TOTAL_SLOTS = String(projects.length).padStart(2, '0');
+
+/** Every project index, in running order. */
+function allIndices() {
+  return projects.map((_, i) => i);
+}
+
+/**
+ * Indices of catalogue items currently visible, in running order.
+ * Falls back to every project before the catalogue has rendered.
+ * The DOM is the source of truth so the filter chips do not need to be reimplemented here.
+ */
+function visibleIndices() {
+  const items = document.querySelectorAll('.sarbu-catalogue > .sarbu-cat-item');
+  const out = [];
+  items.forEach((item, i) => {
+    if (!item.hidden) out.push(i);
+  });
+  return out.length ? out : allIndices();
+}
+
+/** The three titles that follow `index` in running order, wrapping past the end. */
+function upNextFor(index) {
+  const visible = visibleIndices();
+  const at = visible.indexOf(index);
+  if (at === -1) return visible.slice(0, 3);
+  return [...visible.slice(at + 1), ...visible.slice(0, at)].slice(0, 3);
+}
+
+/**
+ * The "Visit live" / "View code" pair.
+ * Shared by the browse hero and the title page so the two can never drift in wording, target or rel attributes.
+ */
+function projectActions(project) {
+  return `
+    ${project.live ? `<a class="sarbu-btn sarbu-btn-play" href="${escapeHtml(project.live)}" target="_blank" rel="noopener noreferrer">&#9654; Visit live</a>` : ''}
+    ${project.github ? `<a class="sarbu-btn sarbu-btn-ghost" href="${escapeHtml(project.github)}" target="_blank" rel="noopener noreferrer">&#65291; View code</a>` : ''}
+  `;
+}
+
+/** Inner content of the hero for one project. `mode` is 'featured' or 'preview'. */
+function heroMarkup(index, mode) {
+  const project = projects[index];
+  const next = upNextFor(index);
+  const label = mode === 'preview' ? 'Previewing' : 'Now showing';
+
+  const nextRows = next
+    .map(
+      (i) =>
+        `<span class="sarbu-next-row"><b>${slot(i)}</b> ${escapeHtml(projects[i].name)}</span>`
+    )
+    .join('');
+
+  // Separators are explicit rather than a flex gap: the meta groups read as one run-on line without them, and the tag list already uses "·" internally.
+  const meta = [
+    `<span>${escapeHtml(project.year)}</span>`,
+    `<span class="sarbu-status ${project.status === 'LIVE' ? 'is-live' : ''}">${escapeHtml(project.status)}</span>`,
+    project.role ? `<span>${escapeHtml(project.role)}</span>` : '',
+    (project.tags || []).length ? `<span>${escapeHtml(project.tags.join(' · '))}</span>` : '',
+  ]
+    .filter(Boolean)
+    .join('<span class="sarbu-hero-sep" aria-hidden="true">&middot;</span>');
+
+  return `
+    <div class="sarbu-hero-main">
+      <p class="sarbu-slug">
+        <span class="sarbu-slug-bug">SARBU+</span>
+        ${label}
+        <span class="sarbu-slug-n">${slot(index)} / ${TOTAL_SLOTS}</span>
+      </p>
+      <h2 class="sarbu-hero-title">${escapeHtml(project.name)}</h2>
+      <p class="sarbu-hero-meta">${meta}</p>
+      <span class="sarbu-hero-cta">${projectActions(project)}</span>
+    </div>
+    ${nextRows ? `<div class="sarbu-hero-next"><span class="sarbu-next-h">Up next</span>${nextRows}</div>` : ''}
+  `;
+}
+
+/** Which project the hero rests on — the tuned one, else the featured title. */
+function heroIndex() {
+  return tunedIndex ?? 0;
+}
+
+/** Slug wording for the hero's resting state. */
+function heroMode() {
+  return tunedIndex === null ? 'featured' : 'preview';
+}
+
+/**
+ * Point the hero at a project.
+ * `mode` is 'featured' (at rest) or 'preview' (hover / focus / tune).
+ * A no-op when nothing would change, so sweeping across one card does not rebuild.
+ */
+function setHero(index, mode) {
+  const hero = document.querySelector('.sarbu-hero');
+  const inner = hero?.querySelector('.sarbu-hero-inner');
+  const bg = hero?.querySelector('.sarbu-hero-bg');
+  if (!hero || !inner || !bg) return;
+
+  if (hero.dataset.index === String(index) && hero.dataset.mode === mode) return;
+  hero.dataset.index = String(index);
+  hero.dataset.mode = mode;
+
+  bg.style.backgroundImage = `url('${thumbFor(projects[index])}')`;
+  inner.innerHTML = heroMarkup(index, mode);
+
+  if (prefersReducedMotion()) return;
+  hero.classList.remove('is-retune');
+  void hero.offsetWidth;
+  hero.classList.add('is-retune');
+  clearTimeout(heroRetuneTimer);
+  heroRetuneTimer = setTimeout(() => hero.classList.remove('is-retune'), 280);
+}
+
+/**
+ * Hover and keyboard focus drive the hero;
+ * both are transient and fall back to the featured title.
+ * A remote tune (tunedIndex) is sticky and is not cleared here.
+ * Focus landing inside the hero freezes it, so the CTA a keyboard user is reaching for cannot change target underneath them.
+ */
+function wireHeroTuning(body) {
+  const cards = body.querySelectorAll('.sarbu-catalogue .sarbu-card');
+  const hero = body.querySelector('.sarbu-hero');
+
+  const preview = (index) => {
+    if (heroFrozen) return;
+    clearTimeout(returnTimer);
+    clearTimeout(dwellTimer);
+    dwellTimer = setTimeout(() => setHero(index, 'preview'), TUNE_DWELL_MS);
+  };
+
+  const release = (delay) => {
+    if (heroFrozen) return;
+    clearTimeout(dwellTimer);
+    clearTimeout(returnTimer);
+    returnTimer = setTimeout(() => setHero(heroIndex(), heroMode()), delay);
+  };
+
+  cards.forEach((card) => {
+    const index = projects.findIndex((p) => p.id === card.dataset.id);
+    if (index === -1) return;
+
+    card.addEventListener('pointerenter', (e) => {
+      if (e.pointerType !== 'mouse') return;
+      preview(index);
+    });
+    card.addEventListener('pointerleave', (e) => {
+      if (e.pointerType !== 'mouse') return;
+      release(TUNE_RETURN_MS);
+    });
+    card.addEventListener('focus', () => preview(index));
+    card.addEventListener('blur', () => release(0));
+  });
+
+  if (hero) {
+    hero.addEventListener('focusin', () => {
+      heroFrozen = true;
+      clearTimeout(returnTimer);
+      clearTimeout(dwellTimer);
+    });
+    hero.addEventListener('focusout', (e) => {
+      if (hero.contains(e.relatedTarget)) return;
+      heroFrozen = false;
+      release(0);
+    });
+  }
+}
+
+/** Render the browse state (preview-monitor hero + catalogue) into #projects-body. */
 function renderBrowse() {
   const body = document.getElementById('projects-body');
   const meta = document.getElementById('projects-head-meta');
   if (!body) return;
 
-  const total = String(projects.length).padStart(2, '0');
-  if (meta) meta.textContent = `${total} TITLES`;
+  stopTimecode();
 
-  const wall = projects
-    .map((p) => `<img src="${escapeHtml(thumbFor(p))}" alt="" decoding="async">`)
-    .join('');
+  if (meta) meta.textContent = `${TOTAL_SLOTS} TITLES`;
+
+  // A tune survives a trip into a title page and back, so the hero is rebuilt
+  // from the tuning state rather than always resetting to the featured title.
+  const index = heroIndex();
+  const mode = heroMode();
 
   body.className = 'sarbu-body is-browse';
   body.innerHTML = `
-    <section class="sarbu-ident" aria-label="SARBU+ — the complete works">
-      <div class="sarbu-wall" aria-hidden="true">${wall}</div>
-      <div class="sarbu-ident-scrim" aria-hidden="true"></div>
-      <div class="sarbu-ident-inner">
-        <p class="sarbu-kicker">SARBU+ &middot; Now streaming</p>
-        <span class="sarbu-sig" role="img" aria-label="Sergiu Sarbu"></span>
-        <p class="sarbu-role-line">Front-end developer &middot; Oslo</p>
-        <p class="sarbu-tagline"><b>In code we trust.</b> Everything else, we inspect.</p>
-      </div>
+    <section class="sarbu-hero" aria-label="Featured project" data-index="${index}" data-mode="${mode}">
+      <div class="sarbu-hero-bg" style="background-image:url('${escapeHtml(thumbFor(projects[index]))}')" aria-hidden="true"></div>
+      <div class="sarbu-hero-scrim" aria-hidden="true"></div>
+      <div class="sarbu-hero-inner">${heroMarkup(index, mode)}</div>
     </section>
 
     <div class="sarbu-filter">
       <span class="sarbu-filter-label">Showing</span>
-      <span class="sarbu-filter-count" id="sarbu-filter-count">${total} TITLES</span>
+      <span class="sarbu-filter-count" id="sarbu-filter-count">${TOTAL_SLOTS} TITLES</span>
       <div class="sarbu-chips" role="group" aria-label="Filter projects">${filterChipsMarkup()}</div>
     </div>
 
@@ -270,8 +455,78 @@ function renderBrowse() {
   `;
 
   wireFilters(body);
+  wireHeroTuning(body);
   armSignalLock(body);
   announce('Showing all projects');
+}
+
+let timecodeRaf = null;
+let timecodeElapsed = 0;
+let timecodeLastFrame = 0;
+let timecodeLast = '';
+
+/* Any gap longer than this between frames is a stall, not playback;
+the tab was hidden (rAF stops entirely), the machine slept, or the CRT was powered off. */
+const TIMECODE_STALL_MS = 250;
+
+/** Format elapsed milliseconds as HH:MM:SS:FF at 25fps (PAL). */
+function formatTimecode(ms) {
+  const total = Math.max(0, Math.floor(ms));
+  const frames = Math.floor((total % 1000) / 40);
+  const seconds = Math.floor(total / 1000) % 60;
+  const minutes = Math.floor(total / 60000) % 60;
+  const hours = Math.floor(total / 3600000);
+  return [hours, minutes, seconds, frames].map((n) => String(n).padStart(2, '0')).join(':');
+}
+
+/**
+ * Run the title-page timecode. Halts when the section is torn down or the TV is off;
+ * a detail view left behind a powered-off CRT must not keep ticking.
+ */
+function startTimecode() {
+  stopTimecode();
+  const el = document.getElementById('sarbu-timecode');
+  if (!el) return;
+
+  if (prefersReducedMotion()) {
+    el.textContent = formatTimecode(0);
+    return;
+  }
+
+  timecodeElapsed = 0;
+  timecodeLastFrame = performance.now();
+  timecodeLast = '';
+
+  const tick = () => {
+    const now = performance.now();
+    const delta = now - timecodeLastFrame;
+    timecodeLastFrame = now;
+
+    // The tape only advances while it is actually playing.
+    // A powered-off CRT or a hidden section holds it; so does any frame gap long enough to be a stall rather than playback.
+    const playing =
+      !document.body.classList.contains('tv-powered-off') &&
+      isSectionVisible() &&
+      delta <= TIMECODE_STALL_MS;
+
+    if (playing) {
+      timecodeElapsed += delta;
+      const next = formatTimecode(timecodeElapsed);
+      if (next !== timecodeLast) {
+        timecodeLast = next;
+        el.textContent = next;
+      }
+    }
+    timecodeRaf = requestAnimationFrame(tick);
+  };
+  timecodeRaf = requestAnimationFrame(tick);
+}
+
+function stopTimecode() {
+  if (timecodeRaf !== null) {
+    cancelAnimationFrame(timecodeRaf);
+    timecodeRaf = null;
+  }
 }
 
 /**
@@ -294,7 +549,9 @@ function renderDetail(projectId) {
   const project = projects[index];
   const images = project.images || [];
   const hero = images[0] || project.cover || '';
-  if (meta) meta.textContent = `${slot(index)} / ${project.name}`;
+  if (meta) {
+    meta.innerHTML = `${slot(index)} / ${escapeHtml(project.name)} <span class="sarbu-timecode" id="sarbu-timecode">00:00:00:00</span>`;
+  }
 
   const related = [];
   for (let k = 1; k <= 4 && k < projects.length; k += 1) {
@@ -319,10 +576,7 @@ function renderDetail(projectId) {
           <span class="sarbu-status ${project.status === 'LIVE' ? 'is-live' : ''}">${escapeHtml(project.status)}</span>
           <span class="sarbu-genres">${escapeHtml((project.tags || []).join(' · '))}</span>
         </div>
-        <div class="sarbu-detail-actions">
-          ${project.live ? `<a class="sarbu-btn sarbu-btn-play" href="${escapeHtml(project.live)}" target="_blank" rel="noopener noreferrer">&#9654; Visit live</a>` : ''}
-          ${project.github ? `<a class="sarbu-btn sarbu-btn-ghost" href="${escapeHtml(project.github)}" target="_blank" rel="noopener noreferrer">&#65291; View code</a>` : ''}
-        </div>
+        <div class="sarbu-detail-actions">${projectActions(project)}</div>
       </div>
     </section>
 
@@ -402,6 +656,7 @@ function renderDetail(projectId) {
 
   announce(`Showing ${project.name}`);
   if (showOSD) showOSD(`${slot(index)} ${(project.name || '').toUpperCase()}`);
+  startTimecode();
 }
 
 /**
@@ -486,7 +741,17 @@ export function initProjectsSection(projectId = currentProjectId) {
       // Overlays own the keys while they are up — Escape must close them, not route.
       if (isLightboxOpen()) return;
       if (document.getElementById('shortcuts-modal')?.classList.contains('active')) return;
-      if (!currentProjectId) return;
+      // On browse the arrows tune the hero; on a detail page they surf projects.
+      if (!currentProjectId) {
+        if (e.key === 'ArrowLeft') {
+          e.preventDefault();
+          tuneProjectsHero(-1);
+        } else if (e.key === 'ArrowRight') {
+          e.preventDefault();
+          tuneProjectsHero(1);
+        }
+        return;
+      }
 
       const index = projects.findIndex((p) => p.id === currentProjectId);
       if (index === -1) return;
@@ -505,12 +770,43 @@ export function initProjectsSection(projectId = currentProjectId) {
     { signal: sectionController.signal }
   );
 
+  // Section entry only — showProjectView handles in-panel moves and stays silent.
+  if (!prefersReducedMotion()) playStationIdent();
+
   // `entering` suppresses the signal-lock glitch on section entry;
   //  the global CRT channel-switch already plays there; the glitch is for in-panel moves.
   entering = true;
   showProjectView(projectId);
   entering = false;
   focusCurrentView();
+}
+
+/**
+ * Step the hero by `delta` through the visible titles, wrapping.
+ * Keyboard only (ArrowLeft / ArrowRight).
+ * @param {number} delta -1 or 1
+ * @returns {boolean} true when handled
+ */
+function tuneProjectsHero(delta) {
+  if (!isSectionVisible()) return false;
+
+  const visible = visibleIndices();
+  if (!visible.length) return false;
+
+  const at = visible.indexOf(heroIndex());
+  const from = at === -1 ? 0 : at;
+  const to = visible[((from + delta) % visible.length + visible.length) % visible.length];
+
+  tunedIndex = to;
+  heroFrozen = false;
+  clearTimeout(dwellTimer);
+  clearTimeout(returnTimer);
+  setHero(to, 'preview');
+  playChannelChange();
+
+  if (showOSD) showOSD(`${slot(to)} ${(projects[to].name || '').toUpperCase()}`);
+  announce(`Previewing ${projects[to].name}`);
+  return true;
 }
 
 export function cleanupProjects() {
@@ -523,4 +819,11 @@ export function cleanupProjects() {
   // from another section — otherwise navigating in from ABOUT would drop focus
   // mid-grid on whatever card was last opened.
   lastFocusedCardId = null;
+
+  clearTimeout(dwellTimer);
+  clearTimeout(returnTimer);
+  clearTimeout(heroRetuneTimer);
+  stopTimecode();
+  tunedIndex = null;
+  heroFrozen = false;
 }

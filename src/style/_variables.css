@@ -71,6 +71,7 @@
   /* Spacing */
   --spacing-sm: 1rem;
   --spacing-md: 1.5rem;
+  --spacing-lg: 2.25rem;
 
   /* Touch targets (minimum 44px for accessibility) */
   --touch-target-min: 44px;
@@ -117,4 +118,31 @@
   /* Shell tint as an RGB triple so bars and scrims can vary alpha off one value. */
   --sarbu-shell: 6, 9, 11;
   --sarbu-ink: #04110d;
+
+  /* One measure for every full-bleed "screen" in the site:
+  the Projects browse preview monitor, the Projects title-page hero, and the Contact test card. */
+  --hero-min-height: clamp(460px, 58vh, 600px);
+
+  /* Test-card fills — shared by the Contact station ident and the Projects off-air card so the two can never drift apart. */
+  --testcard-bars: linear-gradient(
+    90deg,
+    rgba(0, 255, 204, 0.22) 0 14.28%,
+    rgba(255, 157, 66, 0.2) 14.28% 28.56%,
+    rgba(232, 236, 236, 0.16) 28.56% 42.84%,
+    rgba(0, 255, 204, 0.16) 42.84% 57.12%,
+    rgba(255, 46, 136, 0.14) 57.12% 71.4%,
+    rgba(255, 157, 66, 0.16) 71.4% 85.68%,
+    rgba(0, 20, 60, 0.32) 85.68% 100%
+  );
+  --testcard-grid:
+    repeating-linear-gradient(
+      0deg,
+      transparent 0 calc(12.5% - 1px),
+      rgba(100, 150, 255, 0.1) calc(12.5% - 1px) 12.5%
+    ),
+    repeating-linear-gradient(
+      90deg,
+      transparent 0 calc(7.14% - 1px),
+      rgba(100, 150, 255, 0.1) calc(7.14% - 1px) 7.14%
+    );
 }
