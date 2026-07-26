@@ -2,7 +2,8 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- viewport-fit=cover is what makes env(safe-area-inset-*) report non-zero, so the fixed remote can clear the home bar. -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
     <meta
       name="description"
       content="Sergiu Sarbu — Front-End Developer portfolio presented as an interactive retro CRT TV. Built with vanilla JavaScript, Vite, Web Audio, and Canvas."
@@ -22,16 +23,16 @@
     <meta property="og:description" content="Front-End Developer portfolio built as a retro CRT TV experience." />
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://portfoliosergiusarbu.netlify.app/" />
-    <meta property="og:image" content="https://portfoliosergiusarbu.netlify.app/assets/og-preview.png" />
-    <meta property="og:image:width" content="2404" />
-    <meta property="og:image:height" content="1364" />
+    <meta property="og:image" content="https://portfoliosergiusarbu.netlify.app/assets/og-preview.jpg" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
     <meta property="og:image:alt" content="Sergiu Sarbu — Front-End Developer portfolio, retro CRT TV theme with vintage remote control." />
 
     <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content="Sergiu Sarbu | Portfolio" />
     <meta name="twitter:description" content="Front-End Developer portfolio built as a retro CRT TV experience." />
-    <meta name="twitter:image" content="https://portfoliosergiusarbu.netlify.app/assets/og-preview.png" />
+    <meta name="twitter:image" content="https://portfoliosergiusarbu.netlify.app/assets/og-preview.jpg" />
     <meta name="twitter:image:alt" content="Sergiu Sarbu — Front-End Developer portfolio, retro CRT TV theme with vintage remote control." />
 
     <!-- Preconnect to external resources for faster loading -->
@@ -50,7 +51,7 @@
         "@type": "Person",
         "name": "Sergiu Sarbu",
         "url": "https://portfoliosergiusarbu.netlify.app/",
-        "image": "https://portfoliosergiusarbu.netlify.app/assets/og-preview.png",
+        "image": "https://portfoliosergiusarbu.netlify.app/assets/og-preview.jpg",
         "jobTitle": "Front-End Developer",
         "description": "Front-end developer and creative explorer building interactive, design-driven web experiences.",
         "knowsAbout": ["HTML", "CSS", "JavaScript", "TypeScript", "Tailwind CSS", "Three.js", "REST APIs", "Vite", "Web Audio API", "Canvas"],
