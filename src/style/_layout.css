@@ -1,7 +1,14 @@
 /* UI Layer + Header Nav */
 #ui-layer {
   position: fixed;
-  inset: 1.5rem;
+
+  /* TV bezel, scaled to the viewport.
+  The shorthand is the fallback; each sidethen also clears its safe-area inset, since viewport-fit=cover lets the layout reach under a notch. */
+  inset: var(--tube-inset);
+  top: max(var(--tube-inset), env(safe-area-inset-top, 0px));
+  right: max(var(--tube-inset), env(safe-area-inset-right, 0px));
+  bottom: max(var(--tube-inset), env(safe-area-inset-bottom, 0px));
+  left: max(var(--tube-inset), env(safe-area-inset-left, 0px));
   z-index: var(--z-ui);
   display: flex;
   flex-direction: column;
@@ -68,7 +75,11 @@ main {
   -ms-overflow-style: none;
   scrollbar-width: none;
   padding-top: 5rem;
-  padding-bottom: 7rem;
+
+  /* Scroll clear of the fixed remote. Plain value first as the fallback;
+  a UA that can't parse env() drops the whole declaration. */
+  padding-bottom: var(--remote-clearance);
+  padding-bottom: calc(var(--remote-clearance) + env(safe-area-inset-bottom, 0px));
 }
 
 main::-webkit-scrollbar {
@@ -79,6 +90,9 @@ main::-webkit-scrollbar {
 .channel-screen {
   padding: 0;
   width: 100%;
+
+  /* #intro adds its own padding; keep it inside the 100% or it overflows the tube. */
+  box-sizing: border-box;
   height: auto;
   z-index: var(--z-base);
   overflow-x: hidden;
@@ -200,7 +214,7 @@ main::-webkit-scrollbar {
   padding: 0.7rem 1.75rem 0.6rem;
   z-index: var(--z-ui);
   position: fixed;
-  bottom: 1.5rem;
+  bottom: calc(1.5rem + env(safe-area-inset-bottom, 0px));
   left: 50%;
   transform: translateX(-50%);
   background: linear-gradient(
@@ -358,13 +372,15 @@ main::-webkit-scrollbar {
     0 1px 2px rgba(0, 0, 0, 0.2);
 }
 
-/* Expand touch target to meet 44×44px accessibility minimum */
+/* Expand the touch target: full 44px tall, and as wide as the button pitch (button + one gap) — the widest it can go without overlapping its neighbour.
+The +4px adds back .bar-btn's 2px borders, which a percentage width on an absolutely positioned pseudo excludes (it resolves against the padding box).
+Seven 44px-wide targets can't fit one phone row, so width tops out at the pitch: 28.8px at 320px. WCAG 2.5.8 (24x24) passes, 2.5.5 (44x44) doesn't. */
 .bar-btn::after {
   content: "";
   position: absolute;
   inset: 50% auto auto 50%;
   transform: translate(-50%, -50%);
-  width: var(--touch-target-min);
+  width: calc(100% + 4px + var(--remote-btn-gap));
   height: var(--touch-target-min);
 }
 
@@ -992,52 +1008,73 @@ body.commercial-active #main-content .channel-screen.active:not(#intro) {
   }
 }
 
+/* Below 700px the remote scales fluidly instead of stepping per breakpoint.
+   Geometry tokens live in _variables.css, floored to fit a 320px viewport. */
 @media (max-width: 700px) {
+  /* Measured: the remote occupies 76px from the bottom edge here. */
+  :root {
+    --remote-clearance: 5rem;
+  }
+
   .remote-control {
-    gap: 0.75rem;
-    padding: 0.5rem 1rem 0.4rem;
-    bottom: 1rem;
+    gap: var(--remote-zone-gap);
+    padding: 0.5rem var(--remote-pad-x) 0.4rem;
+    bottom: calc(clamp(0.5rem, 2vw, 1rem) + env(safe-area-inset-bottom, 0px));
+
+    /* The wood grips sit outside the box, so max-width has to budget for them too. border-box or padding and borders add back on top. */
+    box-sizing: border-box;
+    max-width: calc(100vw - 2 * var(--remote-grip-w) - 2 * var(--remote-edge-gap));
   }
 
   .remote-control::before,
   .remote-control::after {
-    width: 22px;
+    width: var(--remote-grip-w);
+  }
+
+  /* Let the button zones shrink if that max-width binds. .remote-display is excluded — its min-width below is a legibility floor for the readout. */
+  .remote-buttons,
+  .remote-bar-group {
+    min-width: 0;
   }
 
   .remote-display {
-    padding: 0.3rem 0.4rem;
-    min-width: 44px;
+    padding: clamp(0.2rem, 0.8vw, 0.3rem) clamp(0.3rem, 1vw, 0.4rem);
+    gap: clamp(0.15rem, 0.6vw, 0.3rem);
+    min-width: clamp(32px, 10vw, 44px);
   }
 
   .display-label {
-    font-size: 0.5rem;
+    font-size: clamp(0.4rem, 1.1vw, 0.5rem);
   }
 
   .display-number {
-    font-size: 0.75rem;
+    font-size: clamp(0.6rem, 1.7vw, 0.75rem);
+  }
+
+  .remote-buttons {
+    gap: var(--remote-btn-gap);
   }
 
   .bar-btn {
-    width: 32px;
-    height: 44px;
-    min-height: var(--touch-target-min);
+    width: var(--remote-btn-w);
+    height: var(--remote-btn-h);
   }
 
   .bar-btn-icon svg {
-    width: 22px;
-    height: 22px;
+    width: clamp(16px, 5vw, 24px);
+    height: clamp(16px, 5vw, 24px);
   }
 
   .bar-label {
-    font-size: 0.55rem;
+    font-size: clamp(0.4rem, 1.3vw, 0.55rem);
   }
 
   .brand-name {
-    font-size: 0.6rem;
+    font-size: clamp(0.5rem, 1.5vw, 0.6rem);
   }
 
   .brand-sub {
-    font-size: 0.35rem;
+    display: none;
   }
 
   nav button {
@@ -1046,6 +1083,13 @@ body.commercial-active #main-content .channel-screen.active:not(#intro) {
   }
 
   .header-date {
+    display: none;
+  }
+}
+
+/* Drop the decorative brand plate — its ~68px is what gives the button row room on phones. */
+@media (max-width: 470px) {
+  .remote-brand {
     display: none;
   }
 }
@@ -1200,57 +1244,6 @@ body.commercial-active #main-content .channel-screen.active:not(#intro) {
   #intro h2 {
     font-size: clamp(0.8rem, 3.5vw, 1.1rem);
   }
-
-  .remote-control {
-    gap: 0.6rem;
-    padding: 0.45rem 0.75rem 0.35rem;
-  }
-
-  .remote-control::before,
-  .remote-control::after {
-    width: 18px;
-  }
-
-  .remote-display {
-    padding: 0.25rem 0.35rem;
-    min-width: 40px;
-    gap: 0.2rem;
-  }
-
-  .display-label {
-    font-size: 0.45rem;
-  }
-
-  .display-number {
-    font-size: 0.7rem;
-  }
-
-  .remote-buttons {
-    gap: 0.4rem;
-  }
-
-  .bar-btn {
-    width: 34px;
-    height: 46px;
-  }
-
-  .bar-btn-icon svg {
-    width: 24px;
-    height: 24px;
-  }
-
-  .bar-label {
-    font-size: 0.5rem;
-  }
-
-  .brand-name {
-    font-size: 0.55rem;
-    letter-spacing: 0.1em;
-  }
-
-  .brand-sub {
-    display: none;
-  }
 }
 
 @media (max-width: 400px) {
@@ -1283,56 +1276,14 @@ body.commercial-active #main-content .channel-screen.active:not(#intro) {
   #intro h2 {
     font-size: clamp(0.65rem, 4vw, 0.9rem);
   }
-
-  .remote-control {
-    gap: 0.4rem;
-    padding: 0.4rem 0.5rem 0.3rem;
-    bottom: 0.5rem;
-  }
-
-  .remote-control::before,
-  .remote-control::after {
-    display: none;
-  }
-
-  .remote-display {
-    padding: 0.2rem 0.3rem;
-    min-width: 36px;
-    gap: 0.15rem;
-  }
-
-  .display-label {
-    font-size: 0.4rem;
-  }
-
-  .display-number {
-    font-size: 0.6rem;
-  }
-
-  .remote-buttons {
-    gap: 0.3rem;
-  }
-
-  .bar-btn {
-    width: 30px;
-    height: 40px;
-  }
-
-  .bar-btn-icon svg {
-    width: 20px;
-    height: 20px;
-  }
-
-  .bar-label {
-    font-size: 0.45rem;
-  }
-
-  .brand-name {
-    font-size: 0.5rem;
-  }
 }
 
 @media (max-height: 500px) and (orientation: landscape) {
+  /* Measured: 60px here. Vertical room is scarce in landscape, so don't reserve more than the remote uses. */
+  :root {
+    --remote-clearance: 4rem;
+  }
+
   #intro {
     margin-top: 5vh;
     padding-top: 0;
@@ -1348,7 +1299,7 @@ body.commercial-active #main-content .channel-screen.active:not(#intro) {
   }
 
   .remote-control {
-    bottom: 0.25rem;
+    bottom: calc(0.25rem + env(safe-area-inset-bottom, 0px));
     padding: 0.3rem 0.6rem 0.25rem;
     gap: 0.5rem;
   }

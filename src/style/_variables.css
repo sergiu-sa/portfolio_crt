@@ -9,9 +9,11 @@
   --accent-alpha-30: rgba(0, 255, 204, 0.3);
   --accent-alpha-40: rgba(0, 255, 204, 0.4);
 
-  /* CRT effects */
-  --crt-glow: 0 0 2px #fefefe, 0 0 4px #00ffcc;
-  --crt-border-radius: 2rem;
+  /* Tube corner rounding — scales with the bezel so a flat 2rem doesn't eat the corners of a phone screen. */
+  --crt-border-radius: clamp(0.75rem, 4vw, 2rem);
+
+  /* Bezel thickness around the tube (#ui-layer's inset). A fixed 1.5rem spent 48px of a 360px phone on chrome. */
+  --tube-inset: clamp(0.5rem, 3vw, 1.5rem);
 
   /* TV bezel */
   --tv-bezel-color: #1a1a1a;
@@ -26,9 +28,6 @@
   /* Text shadows */
   --text-glow: 0 0 2px var(--accent-color-light), 0 0 4px var(--accent-color);
   --text-glow-nav: 0 0 1px var(--color-nav-glow), 0 0 2px var(--color-nav-glow-mid), 0 0 3px var(--color-nav-glow-dark);
-
-  /* Transitions */
-  --transition-smooth: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 
   /* Animation durations */
   --duration-xfast: 0.1s;
@@ -46,6 +45,19 @@
   --remote-border-radius: 6px;
   --remote-display-radius: 3px;
 
+  /* Fluid remote geometry, applied below 700px in _layout.css. Floors are the narrowest size that still fits the widest labels ("SOUND" / "POWER");
+  button height may drop under 44px because .bar-btn::after keeps the hit area at --touch-target-min. */
+  --remote-btn-w: clamp(24px, 6.5vw, 34px);
+  --remote-btn-h: clamp(38px, 9vw, 46px);
+  --remote-btn-gap: clamp(0.3rem, 1.2vw, 0.5rem);
+  --remote-zone-gap: clamp(0.4rem, 2vw, 0.75rem);
+  --remote-pad-x: clamp(0.5rem, 2vw, 1rem);
+  --remote-grip-w: clamp(10px, 4vw, 22px);
+  --remote-edge-gap: clamp(0.25rem, 2vw, 1rem);
+
+  /* Vertical room `main` reserves so content scrolls clear of the fixed remote. */
+  --remote-clearance: 7rem;
+
   /* Z-index scale */
   --z-base: 1;
   --z-header: 5;
@@ -54,15 +66,11 @@
   --z-crt-glass: 8;
   --z-ui: 10;
   --z-osd: 1000;
-  --z-poweroff: 9999;
   --z-modal: 10000;
 
   /* Spacing */
-  --spacing-xs: 0.5rem;
   --spacing-sm: 1rem;
   --spacing-md: 1.5rem;
-  --spacing-lg: 2rem;
-  --spacing-xl: 3rem;
 
   /* Touch targets (minimum 44px for accessibility) */
   --touch-target-min: 44px;
@@ -93,17 +101,13 @@
   --font-mono: "IBM Plex Mono", monospace;
 
   /* Type scale */
-  --fs-display: clamp(1.4rem, 3vw, 2rem);
-  --fs-title: clamp(1.05rem, 2vw, 1.35rem);
   --fs-body: 0.9rem;
   --fs-meta: 0.75rem;
   --fs-micro: 0.68rem;
-  --tracking-wide: 0.08em;
 
   /* SARBU+ streaming layer (Projects). Phosphor = --accent-color (cool, "new");
      ember = warm amber ("old" CRT); chroma = the glitch bleed. */
   --ember: #ff9d42;
-  --ember-dim: rgba(255, 157, 66, 0.28);
   --chroma: #ff2e88;
 
   /* Display face — Press Start 2P, shared with About's name + labels so every
