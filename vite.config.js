@@ -18,11 +18,6 @@ export default defineConfig({
     // Rollup options for chunk splitting
     rollupOptions: {
       output: {
-        // Manual chunk splitting for better caching
-        manualChunks: {
-          // Vendor chunk for any future npm dependencies
-          // vendor: [],
-        },
         // Asset file naming
         assetFileNames: (assetInfo) => {
           const extType = assetInfo.name.split('.').pop();
@@ -60,14 +55,5 @@ export default defineConfig({
   // CSS processing
   css: {
     devSourcemap: true,
-  },
-
-  // Resolve aliases (optional, for cleaner imports)
-  resolve: {
-    alias: {
-      '@': '/src',
-      '@styles': '/src/style',
-      '@js': '/src/js',
-    },
   },
 });

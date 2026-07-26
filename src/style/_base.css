@@ -40,11 +40,10 @@
   outline-offset: 2px;
 }
 
+/* Glow on top of the shared focus outline above. */
 button:focus-visible,
 a:focus-visible,
 input:focus-visible {
-  outline: 2px solid var(--accent-color);
-  outline-offset: 2px;
   box-shadow: 0 0 10px var(--accent-color);
 }
 
@@ -87,48 +86,12 @@ h2 {
   text-shadow: var(--text-glow);
 }
 
-/* Utility Classes */
-.fade-in {
-  opacity: 0;
-  transform: translateY(30px) scale(0.98);
-  transition:
-    opacity 0.6s ease-out,
-    transform 0.6s ease-out;
-}
-
-.fade-in.visible {
-  opacity: 1;
-  transform: translateY(0) scale(1);
-}
-
 /* Text Effects */
 .crt-text {
   color: #fefefe;
   text-shadow:
     0 0 3px #fefefe,
     0 0 5px #00ffcc;
-}
-
-/* Icons */
-.icon {
-  width: 1rem;
-  height: 1rem;
-  fill: #0ff;
-  margin-right: 0.75rem;
-  vertical-align: middle;
-  transform: translateY(-1px);
-  opacity: 0.85;
-  transition: opacity 0.2s;
-}
-
-/* Highlight */
-.highlight {
-  color: var(--accent-color);
-  font-weight: 500;
-  text-shadow: 0 0 5px var(--accent-color);
-  padding: 0.2rem 0.4rem;
-  background: rgba(0, 255, 255, 0.15);
-  border-radius: 4px;
 }
 
 /* ============================================
@@ -327,11 +290,6 @@ body.tv-powered-off .remote-control {
     transition-duration: 0.01ms !important;
   }
 
-  .fade-in {
-    opacity: 1;
-    transform: none;
-  }
-
   .lightbox {
     transition: none;
   }
@@ -346,11 +304,6 @@ body.tv-powered-off .remote-control {
 
   .channel-screen {
     transition: none;
-  }
-
-  .status-dot {
-    animation: none;
-    opacity: 1;
   }
 
   /* Hide purely decorative CRT effect layers that may cause discomfort */
