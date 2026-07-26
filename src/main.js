@@ -6,7 +6,18 @@
 // Module imports
 import { projects } from './data/projects.js';
 import { skills } from './data/skills.js';
-import { initSoundSystem, isSoundEnabled, playNavigationClick, playStaticBurst, toggleSound, playCRTPowerOff, playCRTTurnOn } from './js/audio.js';
+import {
+  initSoundSystem,
+  isSoundEnabled,
+  playNavigationClick,
+  playStaticBurst,
+  toggleSound,
+  playCRTPowerOff,
+  playCRTTurnOn,
+  playToggleOn,
+  playToggleOff,
+  playDimStep,
+} from './js/audio.js';
 import {
   initChannelSystem,
   setChannel,
@@ -164,9 +175,11 @@ function applyDim() {
  */
 function cycleDim() {
   const idx = DIM_LEVELS.indexOf(dimLevel);
-  dimLevel = DIM_LEVELS[(idx + 1) % DIM_LEVELS.length];
+  const nextIdx = (idx + 1) % DIM_LEVELS.length;
+  dimLevel = DIM_LEVELS[nextIdx];
   localStorage.setItem('crtDimLevel', dimLevel);
   applyDim();
+  playDimStep(nextIdx, DIM_LEVELS.length);
 }
 
 /**
@@ -186,6 +199,8 @@ function toggleCrtFilter() {
   crtFilterOn = !crtFilterOn;
   localStorage.setItem('crtFilter', crtFilterOn ? 'on' : 'off');
   applyCrtFilter();
+  if (crtFilterOn) playToggleOn();
+  else playToggleOff();
 }
 
 // ============================================
@@ -273,7 +288,7 @@ function switchToSection(section) {
   }
 
   if (section === 'contact') {
-    initContact({ showOSD, showSection });
+    initContact({ showOSD });
     startConsoleIntro();
   }
 
@@ -442,25 +457,6 @@ function initAboutReveal() {
 }
 
 // ============================================
-// FADE-IN OBSERVER
-// ============================================
-
-const fadeInObserver = new IntersectionObserver(
-  (entries) => {
-    entries.forEach((entry) => {
-      if (entry.isIntersecting) {
-        entry.target.classList.add('visible');
-        fadeInObserver.unobserve(entry.target);
-      }
-    });
-  },
-  { threshold: 0.1 }
-);
-
-// Observe all fade-in elements
-document.querySelectorAll('.fade-in').forEach((el) => fadeInObserver.observe(el));
-
-// ============================================
 // DATE DISPLAY
 // ============================================
 
@@ -525,6 +521,9 @@ function setupEventListeners() {
   const remoteHome = document.getElementById('remote-home');
   if (remoteHome) {
     remoteHome.addEventListener('click', () => {
+      // HOME navigates as well as retunes, so lead with the nav click —
+      // otherwise it sounds identical to CH+/CH−.
+      playNavigationClick();
       window.location.hash = '#intro';
       setChannel(1, { showOSD, triggerFlicker: triggerChannelFlicker });
     });
@@ -579,6 +578,10 @@ function setupShortcutsModal() {
   document.addEventListener('keydown', (e) => {
     // Don't trigger shortcuts when typing in input fields
     if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
+
+    // Ignore OS auto-repeat — every shortcut here is a discrete toggle or step,
+    // so holding a key would stack blips and localStorage writes at ~30Hz.
+    if (e.repeat) return;
 
     const isModalOpen = shortcutsModal?.classList.contains('active');
 
