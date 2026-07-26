@@ -9,6 +9,7 @@ import {
   playTeletextBeep,
   playVictory,
 } from './audio.js';
+import { setFittedFont } from './canvasText.js';
 
 // ============================================
 // CONSTANTS
@@ -58,7 +59,7 @@ let signalStrength = 0;
 let nearestStationIdx = -1;
 let lockTimer = 0;
 let lockTarget = -1;
-let found = [false, false, false, false];
+let found = STATIONS.map(() => false);
 let allFound = false;
 let showInstructions = true;
 let instructionOpacity = 1;
@@ -163,7 +164,7 @@ function drawColorBars(c, w, h) {
 
   // Station ID text
   c.fillStyle = 'rgba(255, 255, 255, 0.7)';
-  c.font = `${Math.max(12, h * 0.025)}px "Press Start 2P", monospace`;
+  setFittedFont(c, 'SMPTE COLOR BARS', w, h, 0.025, { min: 10 });
   c.textAlign = 'center';
   c.fillText('SMPTE COLOR BARS', w / 2, h * 0.9);
 }
@@ -223,17 +224,18 @@ function drawTestCard(c, w, h) {
 
   // Center text
   c.fillStyle = '#e0e0e0';
-  c.font = `bold ${Math.max(14, h * 0.04)}px "Press Start 2P", monospace`;
+  setFittedFont(c, 'PM5544', w, h, 0.04, { min: 12, weight: 'bold' });
   c.textAlign = 'center';
   c.textBaseline = 'middle';
   c.fillText('PM5544', cx, cy + r * 0.15);
 
   // Top text
-  c.font = `${Math.max(10, h * 0.02)}px "Press Start 2P", monospace`;
+  setFittedFont(c, 'TEST CARD', w, h, 0.02, { min: 9 });
   c.fillText('TEST CARD', cx, h * 0.08);
 
   // Frequency text
   c.fillStyle = 'rgba(255, 255, 255, 0.5)';
+  setFittedFont(c, '625 LINES  50Hz', w, h, 0.02, { min: 9 });
   c.fillText('625 LINES  50Hz', cx, h * 0.92);
 }
 
@@ -256,9 +258,9 @@ function drawStandby(c, w, h) {
   c.lineWidth = 1;
   c.strokeRect(pad + 8, pad + 8, w - pad * 2 - 16, h - pad * 2 - 16);
 
-  // Main text
+  // Main text — sized on the longer line so both share one scale.
   c.fillStyle = '#e0e0e0';
-  c.font = `${Math.max(16, h * 0.06)}px "Press Start 2P", monospace`;
+  setFittedFont(c, 'STAND BY', w, h, 0.06, { min: 14 });
   c.textAlign = 'center';
   c.textBaseline = 'middle';
   c.fillText('PLEASE', w / 2, h * 0.4);
@@ -266,7 +268,7 @@ function drawStandby(c, w, h) {
 
   // Badge
   c.fillStyle = 'rgba(255, 255, 255, 0.78)';
-  c.font = `${Math.max(8, h * 0.018)}px "Press Start 2P", monospace`;
+  setFittedFont(c, 'PORTFOLIO TV', w, h, 0.018);
   c.fillText('PORTFOLIO TV', w / 2, h * 0.72);
 
   // Horizontal line divider
@@ -284,7 +286,7 @@ function drawOffAir(c, w, h) {
 
   // Main text
   c.fillStyle = '#e0e0e0';
-  c.font = `${Math.max(20, h * 0.08)}px "Press Start 2P", monospace`;
+  setFittedFont(c, 'OFF AIR', w, h, 0.08, { min: 16 });
   c.textAlign = 'center';
   c.textBaseline = 'middle';
   c.fillText('OFF AIR', w / 2, h * 0.35);
@@ -294,13 +296,13 @@ function drawOffAir(c, w, h) {
   const timeStr = [now.getHours(), now.getMinutes(), now.getSeconds()]
     .map((v) => String(v).padStart(2, '0'))
     .join(':');
-  c.font = `${Math.max(14, h * 0.05)}px "Press Start 2P", monospace`;
+  setFittedFont(c, timeStr, w, h, 0.05, { min: 12 });
   c.fillStyle = '#00ffcc';
   c.fillText(timeStr, w / 2, h * 0.55);
 
   // Channel ID
   c.fillStyle = 'rgba(255, 255, 255, 0.72)';
-  c.font = `${Math.max(8, h * 0.018)}px "Press Start 2P", monospace`;
+  setFittedFont(c, 'CH 07  PORTFOLIO TV', w, h, 0.018);
   c.fillText('CH 07  PORTFOLIO TV', w / 2, h * 0.75);
 
   // Blinking dot
@@ -388,7 +390,7 @@ function stopAudio() {
       toneGain.disconnect();
       toneGain = null;
     }
-  } catch (e) {
+  } catch {
     // Nodes may already be disconnected
   }
   audioStarted = false;
@@ -586,7 +588,7 @@ function drawNoSignal(w, h) {
   drawNoise(w, h);
 
   ctx.fillStyle = COLORS.text;
-  ctx.font = `${Math.max(16, h * 0.05)}px "Press Start 2P", monospace`;
+  setFittedFont(ctx, 'NO SIGNAL', w, h, 0.05, { min: 14 });
   ctx.textAlign = 'center';
   ctx.textBaseline = 'middle';
   ctx.shadowColor = 'rgba(0, 0, 0, 0.9)';
@@ -724,13 +726,14 @@ function drawFreqBar(w, h) {
 
   // Discovery counter
   const foundCount = found.filter(Boolean).length;
+  const counterText = `${foundCount}/${STATIONS.length} FOUND`;
   ctx.fillStyle = COLORS.textDim;
-  ctx.font = `${Math.max(8, h * 0.014)}px "Press Start 2P", monospace`;
+  setFittedFont(ctx, counterText, w, h, 0.014, { maxWidthFraction: 0.5 });
   ctx.textAlign = 'right';
   ctx.textBaseline = 'top';
   ctx.shadowColor = 'rgba(0, 0, 0, 0.9)';
   ctx.shadowBlur = 6;
-  ctx.fillText(`${foundCount}/${STATIONS.length} FOUND`, barX + barW, barY + barH + 10);
+  ctx.fillText(counterText, barX + barW, barY + barH + 10);
   ctx.shadowBlur = 0;
 }
 
@@ -745,16 +748,19 @@ function drawInstructions(w, h) {
   ctx.shadowBlur = 8;
 
   ctx.fillStyle = COLORS.text;
-  ctx.font = `${Math.max(12, h * 0.028)}px "Press Start 2P", monospace`;
+  setFittedFont(ctx, text, w, h, 0.028, { min: 10 });
   ctx.textAlign = 'center';
   ctx.textBaseline = 'middle';
   ctx.fillText(text, w / 2, h / 2);
 
+  // Fitted separately — the two hints differ in length, so one shared fit would clip the longer.
   const hintText = isTouchDevice ? 'FIND HIDDEN STATIONS' : 'ARROW KEYS FOR FINE TUNING';
+  const exitText = 'HOME or CH+/- TO EXIT';
   ctx.fillStyle = COLORS.textDim;
-  ctx.font = `${Math.max(8, h * 0.016)}px "Press Start 2P", monospace`;
+  setFittedFont(ctx, hintText, w, h, 0.016);
   ctx.fillText(hintText, w / 2, h / 2 + h * 0.06);
-  ctx.fillText('HOME or CH+/- TO EXIT', w / 2, h * 0.75);
+  setFittedFont(ctx, exitText, w, h, 0.016);
+  ctx.fillText(exitText, w / 2, h * 0.75);
 
   ctx.shadowBlur = 0;
   ctx.globalAlpha = 1;
@@ -823,15 +829,19 @@ export function startTuner() {
   canvas = document.getElementById('tuner-canvas');
   if (!canvas) return;
 
-  // Load discovery state
+  // Load discovery state. Length must match STATIONS — a stale entry saved with
+  // a different station count would leave `found` short of what the draw code indexes.
   try {
     const saved = JSON.parse(sessionStorage.getItem('tunerFound'));
-    if (Array.isArray(saved) && saved.length === 4) {
+    if (Array.isArray(saved) && saved.length === STATIONS.length) {
       found = saved;
       allFound = found.every(Boolean);
+    } else {
+      found = STATIONS.map(() => false);
+      allFound = false;
     }
-  } catch (e) {
-    found = [false, false, false, false];
+  } catch {
+    found = STATIONS.map(() => false);
     allFound = false;
   }
 
