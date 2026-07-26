@@ -366,11 +366,6 @@
   font-weight: 700;
 }
 
-.sarbu-chip:focus-visible {
-  outline: 2px solid var(--accent-color);
-  outline-offset: 2px;
-}
-
 /* ---- Catalogue grid ---- */
 .sarbu-cat-head {
   display: flex;

@@ -11,6 +11,7 @@ import {
   playNavigationClick,
   playStaticBurst,
 } from './audio.js';
+import { setFittedFont } from './canvasText.js';
 
 // ============================================
 // CONSTANTS
@@ -468,17 +469,22 @@ function drawBall(w, h) {
 }
 
 function drawHUD(w, h) {
-  const fontSize = Math.max(12, h * 0.025);
-  ctx.font = `${fontSize}px "Press Start 2P", monospace`;
   ctx.fillStyle = COLORS.text;
 
+  // Score and lives share one line from opposite edges, so cap each to its own half.
+  const half = { min: 10, maxWidthFraction: 0.42 };
+
   // Score (left)
+  const scoreText = `SCORE ${score}`;
+  setFittedFont(ctx, scoreText, w, h, 0.025, half);
   ctx.textAlign = 'left';
-  ctx.fillText(`SCORE ${score}`, w * 0.04, h * 0.06);
+  ctx.fillText(scoreText, w * 0.04, h * 0.06);
 
   // Lives (right)
+  const livesText = `LIVES ${lives}`;
+  setFittedFont(ctx, livesText, w, h, 0.025, half);
   ctx.textAlign = 'right';
-  ctx.fillText(`LIVES ${lives}`, w * 0.96, h * 0.06);
+  ctx.fillText(livesText, w * 0.96, h * 0.06);
 }
 
 function drawScanlines(w, h) {
@@ -489,8 +495,7 @@ function drawScanlines(w, h) {
 }
 
 function drawCenteredText(w, h, text, sizeRatio, yOffset = 0) {
-  const fontSize = Math.max(10, h * sizeRatio);
-  ctx.font = `${fontSize}px "Press Start 2P", monospace`;
+  setFittedFont(ctx, text, w, h, sizeRatio, { min: 10 });
   ctx.fillStyle = COLORS.text;
   ctx.textAlign = 'center';
   ctx.textBaseline = 'middle';
@@ -498,8 +503,7 @@ function drawCenteredText(w, h, text, sizeRatio, yOffset = 0) {
 }
 
 function drawHintText(w, h, text, sizeRatio, yPos) {
-  const fontSize = Math.max(8, h * sizeRatio);
-  ctx.font = `${fontSize}px "Press Start 2P", monospace`;
+  setFittedFont(ctx, text, w, h, sizeRatio);
   ctx.fillStyle = COLORS.textDim;
   ctx.textAlign = 'center';
   ctx.textBaseline = 'middle';

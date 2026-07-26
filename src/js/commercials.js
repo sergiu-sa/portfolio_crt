@@ -52,7 +52,7 @@ function render(index) {
       <div class="commercial-content">
         <div class="commercial-tags">${tagsHtml}</div>
         <h2 class="commercial-title">${escapeHtml(project.name.toUpperCase())}</h2>
-        <p class="commercial-desc">${escapeHtml(project.description)}</p>
+        <p class="commercial-desc">${escapeHtml(project.brief || '')}</p>
         <div class="commercial-action">
           <span class="commercial-action-arrow" aria-hidden="true">&rarr;</span>
           <span class="commercial-action-text">VISIT</span>

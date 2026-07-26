@@ -249,6 +249,67 @@ export function playNavigationClick() {
 }
 
 /**
+ * Short pitched blip — the shared shape behind the remote's toggle cues.
+ * @param {number} from - starting frequency in Hz
+ * @param {number} to - ending frequency in Hz
+ * @param {object} [options]
+ * @param {number} [options.volume=0.06] - peak gain
+ * @param {number} [options.duration=0.09] - length in seconds
+ * @param {OscillatorType} [options.type='triangle'] - oscillator waveform
+ */
+function playBlip(from, to, options = {}) {
+  if (!soundEnabled) return;
+  const { volume = 0.06, duration = 0.09, type = 'triangle' } = options;
+  const ctx = initAudioContext();
+  const osc = ctx.createOscillator();
+  const gain = ctx.createGain();
+
+  osc.type = type;
+  osc.frequency.setValueAtTime(from, ctx.currentTime);
+  osc.frequency.exponentialRampToValueAtTime(to, ctx.currentTime + duration);
+
+  gain.gain.setValueAtTime(0.0001, ctx.currentTime);
+  gain.gain.linearRampToValueAtTime(volume, ctx.currentTime + 0.015);
+  gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + duration);
+
+  osc.connect(gain);
+  gain.connect(ctx.destination);
+
+  osc.start(ctx.currentTime);
+  osc.stop(ctx.currentTime + duration);
+}
+
+/**
+ * Rising blip — a setting turned on. Pitch direction is what tells on from off
+ * without the user looking at the remote.
+ */
+export function playToggleOn() {
+  playBlip(440, 840);
+}
+
+/**
+ * Falling blip — a setting turned off.
+ */
+export function playToggleOff() {
+  playBlip(840, 440);
+}
+
+/**
+ * Dim-level cue. DIM cycles states rather than toggling, so pitch tracks
+ * brightness: bright is high, blacked out is low.
+ * @param {number} index - current level index (0 = brightest)
+ * @param {number} total - number of levels in the cycle
+ */
+export function playDimStep(index, total) {
+  const HIGH = 860;
+  const LOW = 430;
+  const span = Math.max(1, total - 1);
+  const target = HIGH - (HIGH - LOW) * (Math.min(index, span) / span);
+  // Land on the target from just above it, so every step shares one shape.
+  playBlip(target * 1.18, target);
+}
+
+/**
  * Play mechanical keyboard typing sound (throttled)
  */
 export function playTypingSound() {
@@ -299,12 +360,18 @@ export function playTypingSound() {
  * @param {Object|null} ytPlayer - YouTube player instance for mute sync
  */
 export function toggleSound(ytPlayer = null) {
+  // Cue the mute before flipping the flag — every primitive early-returns on
+  // !soundEnabled, so a cue played afterwards would be silent.
+  if (soundEnabled) {
+    playToggleOff();
+  }
+
   soundEnabled = !soundEnabled;
   localStorage.setItem('crtSoundEnabled', soundEnabled);
   updateSoundButton();
 
   if (soundEnabled) {
-    playStaticBurst(0.1, 0.08);
+    playToggleOn();
   }
 
   // Sync YouTube player mute state
@@ -328,12 +395,12 @@ function updateSoundButton() {
   const soundOff = btn.querySelector('.sound-off');
 
   if (soundEnabled) {
-    btn.classList.remove('muted', 'sound-disabled');
+    btn.classList.remove('sound-disabled');
     btn.title = 'Mute CRT Sounds';
     if (soundOn) soundOn.style.display = 'block';
     if (soundOff) soundOff.style.display = 'none';
   } else {
-    btn.classList.add('muted', 'sound-disabled');
+    btn.classList.add('sound-disabled');
     btn.title = 'Unmute CRT Sounds';
     if (soundOn) soundOn.style.display = 'none';
     if (soundOff) soundOff.style.display = 'block';
