@@ -82,8 +82,15 @@
   color: #000;
   background: rgba(0, 0, 0, 0.07);
   border: 1px solid rgba(0, 0, 0, 0.35);
-  border-radius: 999px;
   padding: 0.2rem 0.7rem;
+}
+
+/* Title pages run a tape timecode alongside the slot in the service bar. */
+.sarbu-timecode {
+  margin-left: 0.7rem;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.12em;
+  color: rgba(0, 0, 0, 0.45);
 }
 
 .sarbu-meta {
@@ -94,8 +101,7 @@
   color: rgba(0, 0, 0, 0.6);
 }
 
-/* ---- Body. Grows with its content so the whole panel scrolls with the page
-   (like About/Contact) instead of being an inner scroll box. ---- */
+/* ---- Body. Grows with its content so the whole panel scrolls with the page instead of being an inner scroll box. ---- */
 .sarbu-body {
   position: relative;
   flex: 1;
@@ -158,99 +164,206 @@
 }
 
 /* ============================================
-   BROWSE — channel ident
+   BROWSE — preview monitor
+   The hero shows whichever title the visitor is pointing at, focused on, or tuned to with the remote.
+   At rest it holds projects[0].
    ============================================ */
-.sarbu-ident {
+
+/* Shares --hero-min-height with .sarbu-detail-hero and the Contact test card, so every full-bleed screen in the site opens at the same size.
+Flex here is load-bearing: the hero has no definite height, so a percentage height on the inner would not resolve and the lockup would sit at the top. */
+.sarbu-hero {
   position: relative;
-  min-height: 42vh;
-  display: grid;
-  place-items: center;
-  text-align: center;
-  padding: clamp(1.5rem, 4vw, 2.75rem);
+  display: flex;
+  min-height: var(--hero-min-height);
   overflow: hidden;
 }
 
-.sarbu-wall {
+.sarbu-hero-bg {
   position: absolute;
   inset: 0;
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  grid-auto-rows: 1fr;
-  gap: 6px;
-  opacity: 0.7;
-
-  /* One muted amber monochrome — a bank of old amber-phosphor monitors. */
-  filter: grayscale(1) sepia(1) hue-rotate(-8deg) saturate(1.15) brightness(0.5) contrast(1.03);
+  background-size: cover;
+  background-position: center;
+  filter: saturate(0.78) brightness(0.74);
 }
 
-.sarbu-wall img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  display: block;
-}
-
-.sarbu-wall::after {
-  content: "";
+.sarbu-hero-scrim {
   position: absolute;
   inset: 0;
-  background: repeating-linear-gradient(0deg, transparent 0 2px, rgba(0, 0, 0, 0.32) 3px, transparent 4px);
+  background:
+    linear-gradient(90deg, rgba(var(--sarbu-shell), 0.96) 0%, rgba(var(--sarbu-shell), 0.85) 34%, rgba(var(--sarbu-shell), 0.14) 72%, rgba(var(--sarbu-shell), 0.5) 100%),
+    linear-gradient(0deg, rgba(var(--sarbu-shell), 0.9) 0%, transparent 45%);
 }
 
-.sarbu-ident-scrim {
-  position: absolute;
-  inset: 0;
-  background: radial-gradient(ellipse 60% 62% at 50% 48%, rgba(var(--sarbu-shell), 0.72) 0%, rgba(var(--sarbu-shell), 0.42) 48%, rgba(var(--sarbu-shell), 0.1) 100%);
-}
-
-.sarbu-ident-inner {
+/* Flex rather than grid: the up-next column is taller than the left stack, and a spanned grid area fights `align-content: end` and overflows the picture. */
+.sarbu-hero-inner {
   position: relative;
   z-index: 3;
-  max-width: 680px;
+  flex: 1;
+  min-width: 0;
   display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 1.15rem;
+  align-items: flex-end;
+  gap: 1.4rem;
+  padding: 0 clamp(1rem, 3vw, 1.75rem) clamp(1rem, 3vw, 1.5rem);
 }
 
-.sarbu-kicker {
+.sarbu-hero-main {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.sarbu-slug {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
   margin: 0;
   font-size: var(--fs-micro);
-  letter-spacing: 0.36em;
+  letter-spacing: 0.26em;
   text-transform: uppercase;
   color: var(--ember);
 }
 
-/* Signature recoloured via mask so the source SVG's dark fill doesn't matter. */
-.sarbu-sig {
-  display: block;
-  width: min(420px, 76%);
-  aspect-ratio: 720 / 322;
+.sarbu-slug-bug {
+  font-family: var(--font-display);
+  font-size: 0.5rem;
+  letter-spacing: 0.02em;
+  color: var(--sarbu-ink);
   background: var(--accent-color);
-  -webkit-mask: url("/assets/scribble/signature.svg") center / contain no-repeat;
-  mask: url("/assets/scribble/signature.svg") center / contain no-repeat;
-  filter: drop-shadow(0 1px 10px rgba(0, 0, 0, 0.6));
+  padding: 0.28rem 0.45rem;
+  border-radius: 3px;
 }
 
-.sarbu-role-line {
+.sarbu-slug-n {
+  color: var(--color-dim);
+  letter-spacing: 0.16em;
+}
+
+.sarbu-hero-title {
   margin: 0;
-  font-family: "IBM Plex Mono", monospace;
-  font-size: var(--fs-micro);
-  letter-spacing: 0.24em;
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: clamp(0.95rem, 2.6vw, 1.5rem);
+  line-height: 1.3;
   text-transform: uppercase;
+  color: var(--text-primary);
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+.sarbu-hero-meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.35rem 0.5rem;
+  margin: 0;
+  font-size: var(--fs-meta);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--color-muted);
+  min-width: 0;
+}
+
+.sarbu-hero-sep {
   color: var(--color-dim);
 }
 
-.sarbu-tagline {
-  margin: 0;
-  font-family: "IBM Plex Mono", monospace;
-  font-size: clamp(0.85rem, 2vw, 1rem);
-  color: var(--color-muted);
+.sarbu-hero-cta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+  margin-top: 0.25rem;
 }
 
-.sarbu-tagline b {
-  color: var(--text-primary);
-  font-weight: 600;
+.sarbu-hero-next {
+  flex: 0 0 190px;
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+  padding-left: 0.85rem;
+  border-left: 1px solid var(--border-accent);
+  background: linear-gradient(90deg, var(--accent-alpha-08), transparent);
+  min-width: 0;
+}
+
+.sarbu-next-h {
+  font-size: var(--fs-micro);
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: var(--accent-color);
+}
+
+.sarbu-next-row {
+  font-size: var(--fs-meta);
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--color-muted);
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+.sarbu-next-row b {
+  color: var(--color-dim);
+  font-weight: 400;
+}
+
+/* Channel bug — the station watermark burnt into the corner of the picture. */
+.sarbu-bug {
+  position: absolute;
+  top: calc(2.5rem + 0.9rem);
+  right: clamp(1rem, 3vw, 1.75rem);
+  z-index: 5;
+  pointer-events: none;
+  font-family: var(--font-display);
+  font-size: 0.6rem;
+  letter-spacing: 0.02em;
+  color: rgba(232, 236, 236, 0.42);
+  text-shadow: 0 1px 6px rgba(0, 0, 0, 0.9);
+}
+
+.sarbu-bug i {
+  font-style: normal;
+  color: var(--border-accent);
+}
+
+/* Local retune flicker. Deliberately not the panel-wide signalLock()
+that jitters the whole frame and is far too heavy to fire on hover. */
+.sarbu-hero.is-retune .sarbu-hero-inner {
+  animation: sarbu-retune 0.26s steps(3);
+}
+
+.sarbu-hero.is-retune .sarbu-hero-bg {
+  animation: sarbu-retune-bg 0.26s ease-out;
+}
+
+@keyframes sarbu-retune {
+  0% {
+    opacity: 0.3;
+    transform: translateX(-2px);
+  }
+
+  50% {
+    opacity: 0.85;
+    transform: translateX(1px);
+  }
+
+  100% {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes sarbu-retune-bg {
+  0% {
+    opacity: 0.35;
+    filter: saturate(0) brightness(1.3) contrast(1.4);
+  }
+
+  100% {
+    opacity: 1;
+    filter: saturate(0.78) brightness(0.74);
+  }
 }
 
 /* ---- Buttons ---- */
@@ -265,7 +378,6 @@
   text-transform: uppercase;
   text-decoration: none;
   border: 1px solid transparent;
-  border-radius: 5px;
   cursor: pointer;
   transition:
     transform var(--duration-fast) ease,
@@ -345,7 +457,6 @@
   color: var(--color-muted);
   background: transparent;
   border: 1px solid var(--border-subtle);
-  border-radius: 999px;
   padding: 0.28rem 0.7rem;
   cursor: pointer;
   transition:
@@ -371,7 +482,7 @@
   display: flex;
   align-items: baseline;
   gap: 0.7rem;
-  padding: 1.5rem clamp(1rem, 3vw, 1.75rem) 0;
+  padding: 2.5rem clamp(1rem, 3vw, 1.75rem) 0;
   font-size: var(--fs-meta);
   letter-spacing: 0.22em;
   text-transform: uppercase;
@@ -388,7 +499,7 @@
   /* 300px min → 3 poster-sized cards across on desktop (bump toward 240px for a
      denser 4-up shelf). 1fr keeps them flush edge-to-edge. */
   grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-  gap: var(--spacing-md);
+  gap: var(--spacing-lg);
   padding: 1rem clamp(1rem, 3vw, 1.75rem) 2rem;
   margin: 0;
   list-style: none;
@@ -407,7 +518,6 @@
   color: var(--text-primary);
   background: var(--surface-raised);
   border: 1px solid var(--border-subtle);
-  border-radius: 8px;
   overflow: hidden;
   transition:
     transform var(--duration-fast) ease,
@@ -451,6 +561,46 @@
   pointer-events: none;
   background: repeating-linear-gradient(0deg, transparent 0 2px, rgba(0, 0, 0, 0.12) 3px, transparent 4px);
   opacity: 0.3;
+}
+
+/* Non-LIVE projects transmit a test card instead of a screenshot.
+Fills come from the shared tokens the Contact station ident uses. */
+.sarbu-offair {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  background: var(--surface-panel);
+}
+
+.sarbu-offair-bars,
+.sarbu-offair-grid {
+  position: absolute;
+  inset: 0;
+}
+
+.sarbu-offair-bars {
+  background: var(--testcard-bars);
+}
+
+.sarbu-offair-grid {
+  background-image: var(--testcard-grid);
+}
+
+.sarbu-offair-label {
+  position: relative;
+  z-index: 2;
+  padding: 0 0.75rem;
+  font-family: var(--font-display);
+  font-size: 0.5rem;
+  letter-spacing: 0.06em;
+  line-height: 1.6;
+  text-align: center;
+  text-transform: uppercase;
+  color: var(--text-primary);
+  text-shadow: 0 1px 8px rgba(0, 0, 0, 0.9);
+  min-width: 0;
+  overflow-wrap: anywhere;
 }
 
 .sarbu-card-preview {
@@ -631,7 +781,6 @@ the pixel face makes the tear read hard. data-text holds a duplicate of the name
   color: var(--accent-color);
   background: var(--accent-alpha-08);
   border: 1px solid var(--border-accent);
-  border-radius: 6px;
 }
 
 .sarbu-back-btn:hover,
@@ -654,7 +803,7 @@ the pixel face makes the tear read hard. data-text holds a duplicate of the name
 
 .sarbu-detail-hero {
   position: relative;
-  min-height: 40vh;
+  min-height: var(--hero-min-height);
   display: flex;
   align-items: flex-end;
   padding: clamp(1.25rem, 4vw, 2.75rem);
@@ -681,6 +830,15 @@ the pixel face makes the tear read hard. data-text holds a duplicate of the name
   position: relative;
   z-index: 2;
   max-width: 640px;
+}
+
+/* Role line above the detail title. Was shared with the old browse ident; now the detail hero is its only consumer, so it lives here. */
+.sarbu-kicker {
+  margin: 0;
+  font-size: var(--fs-micro);
+  letter-spacing: 0.36em;
+  text-transform: uppercase;
+  color: var(--ember);
 }
 
 .sarbu-detail-title {
@@ -841,7 +999,6 @@ the pixel face makes the tear read hard. data-text holds a duplicate of the name
   cursor: zoom-in;
   background: #000;
   border: 1px solid var(--border-subtle);
-  border-radius: 8px;
   transition: border-color var(--duration-fast) ease;
 }
 
@@ -908,7 +1065,6 @@ the pixel face makes the tear read hard. data-text holds a duplicate of the name
   cursor: zoom-in;
   background: #000;
   border: 1px solid var(--border-subtle);
-  border-radius: 6px;
   transition: transform var(--duration-fast) ease, border-color var(--duration-fast) ease;
 }
 
@@ -1025,6 +1181,7 @@ the pixel face makes the tear read hard. data-text holds a duplicate of the name
   gap: 0.7rem;
   max-width: var(--sarbu-content-max);
   margin: 0 auto 0.9rem;
+  padding-top: 2.5rem;
   font-size: var(--fs-meta);
   letter-spacing: 0.22em;
   text-transform: uppercase;
@@ -1094,8 +1251,8 @@ the pixel face makes the tear read hard. data-text holds a duplicate of the name
     gap: var(--spacing-sm);
   }
 
-  .sarbu-ident {
-    min-height: 38vh;
+  .sarbu-hero-next {
+    display: none;
   }
 }
 
@@ -1142,6 +1299,11 @@ the pixel face makes the tear read hard. data-text holds a duplicate of the name
 
   .sarbu-glitch {
     display: none;
+  }
+
+  .sarbu-hero.is-retune .sarbu-hero-inner,
+  .sarbu-hero.is-retune .sarbu-hero-bg {
+    animation: none;
   }
 
   .sarbu-card,
