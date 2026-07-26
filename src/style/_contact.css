@@ -95,7 +95,7 @@
 .contact-testcard {
   position: relative;
   width: 100%;
-  min-height: clamp(460px, 58vh, 600px);
+  min-height: var(--hero-min-height);
   overflow: hidden;
   background: var(--surface-panel);
   border: 1px solid var(--frame-blue-strong);
@@ -108,16 +108,7 @@
   position: absolute;
   inset: 0;
   z-index: 0;
-  background: linear-gradient(
-    90deg,
-    rgba(0, 255, 204, 0.22) 0 14.28%,
-    rgba(255, 157, 66, 0.2) 14.28% 28.56%,
-    rgba(232, 236, 236, 0.16) 28.56% 42.84%,
-    rgba(0, 255, 204, 0.16) 42.84% 57.12%,
-    rgba(255, 46, 136, 0.14) 57.12% 71.4%,
-    rgba(255, 157, 66, 0.16) 71.4% 85.68%,
-    rgba(0, 20, 60, 0.32) 85.68% 100%
-  );
+  background: var(--testcard-bars);
 }
 
 /* Convergence grid — faint blue crosshatch, the classic geometry-check pattern. */
@@ -125,17 +116,7 @@
   position: absolute;
   inset: 0;
   z-index: 0;
-  background-image:
-    repeating-linear-gradient(
-      0deg,
-      transparent 0 calc(12.5% - 1px),
-      rgba(100, 150, 255, 0.1) calc(12.5% - 1px) 12.5%
-    ),
-    repeating-linear-gradient(
-      90deg,
-      transparent 0 calc(7.14% - 1px),
-      rgba(100, 150, 255, 0.1) calc(7.14% - 1px) 7.14%
-    );
+  background-image: var(--testcard-grid);
 }
 
 /* Centre scrim so the roundel + callsign stay legible over the bars. */
